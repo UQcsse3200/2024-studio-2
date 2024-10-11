@@ -1,9 +1,10 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.mockito.Mockito.*;
 
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.*;
  * Unit tests for the abstract SpecialMove class. A concrete implementation
  * of SpecialMove is used for testing purposes.
  */
+@ExtendWith(GameExtension.class)
 class SpecialMoveTest {
 
     private SpecialMove specialMove;

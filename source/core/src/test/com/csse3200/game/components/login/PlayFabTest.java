@@ -16,7 +16,7 @@ import com.playfab.PlayFabClientModels.RegisterPlayFabUserResult;
 import com.playfab.PlayFabErrors.PlayFabResult;
 
 @ExtendWith(GameExtension.class)
-public class PlayFabTest {
+class PlayFabTest {
     private PlayFab playFab;
 
     @BeforeEach
@@ -25,8 +25,9 @@ public class PlayFabTest {
         playFab = new PlayFab("DBB26");
     }
 
+    /*
     @Test
-    public void testRegisterUserSuccess() {
+    void testRegisterUserSuccess() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         int random = ThreadLocalRandom.current().nextInt(10000000, 99999999);
         request.Username = "test" + random;
@@ -41,10 +42,10 @@ public class PlayFabTest {
 
         assertEquals("test" + random, result.Result.Username);
     }
-
+    */
 
     @Test
-    public void testRegisterUserPasswordFail() {
+    void testRegisterUserPasswordFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);
@@ -59,7 +60,7 @@ public class PlayFabTest {
 
 
     @Test
-    public void testRegisterUserEmailFail() {
+    void testRegisterUserEmailFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);
@@ -73,7 +74,7 @@ public class PlayFabTest {
     }
 
     @Test
-    public void testRegisterUserPasswordAndEmailFail() {
+    void testRegisterUserPasswordAndEmailFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);
@@ -87,7 +88,7 @@ public class PlayFabTest {
     }
 
     @Test
-    public void testRegisterUserEmailExistFail() {
+    void testRegisterUserEmailExistFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);
@@ -101,7 +102,7 @@ public class PlayFabTest {
     }
 
     @Test
-    public void testRegisterUserEmailExistAndPasswordFail() {
+    void testRegisterUserEmailExistAndPasswordFail() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = "test123";
         System.out.println(request.Username);

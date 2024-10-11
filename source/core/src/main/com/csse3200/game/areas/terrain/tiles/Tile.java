@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class Tile {
     // data for wave function collapse
-    private TextureRegion texture;
-    private List<String> edgeTiles;
-    private String name;
-    private String centre;
+    private final TextureRegion texture;
+    private final List<String> edgeTiles;
+    private final String name;
+    private final String centre;
 
     // all possible tiles
     private BitSet up = new BitSet();
@@ -23,7 +23,7 @@ public class Tile {
     private BitSet down = new BitSet();
     private BitSet left = new BitSet();
 
-    public boolean collapsed = false;
+    private boolean isCollapsed = false;
 
     public Tile(String name, TextureRegion texture, List<String> edgeTiles, String centre) {
         this.name = name;
@@ -139,4 +139,7 @@ public class Tile {
     public void setPossibleLeft(BitSet left) {
             this.left = left;
         }
+
+    public boolean isCollapsed() {return isCollapsed;}
+    public void setIsCollapsed(boolean isCollapsed) {this.isCollapsed = isCollapsed;}
 }

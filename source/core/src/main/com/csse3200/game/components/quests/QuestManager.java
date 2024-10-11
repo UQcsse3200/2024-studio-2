@@ -1,17 +1,14 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.minigames.MiniGameMedals;
 import com.csse3200.game.minigames.MiniGameNames;
-import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.Achievements;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
-import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -19,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-
-import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
 
 
 /**
@@ -208,7 +203,7 @@ public class QuestManager extends Component {
                 && quest.isActive();
     }
 
-    public ArrayList<Quest> getActiveQuests() {
+    public List<Quest> getActiveQuests() {
         ArrayList<Quest> newList = new ArrayList<>();
         for(Quest quest : quests.values()) {
             if(quest.isActive() || quest.isQuestCompleted()) {

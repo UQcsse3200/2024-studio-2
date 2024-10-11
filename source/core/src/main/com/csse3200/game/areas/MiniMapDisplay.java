@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.ui.UIComponent;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +16,32 @@ public class MiniMapDisplay extends UIComponent {
 
     private Entity player;
     private List<Entity> enemies;
+    private List<Entity> bosses;
+    private List<Entity> friendlyNPCs;
+    private List<Entity> minigameNPCs;
     private Texture miniMapBackground;
-    private Image blueDotPointImage;
+    private Image greenDotPointImage;
     private List<Image> redDotPointImages;
-    private final GameArea gameArea;
-    private static final int SCALE_FACTOR = 50;
-    private static final float MINI_MAP_X = 15;  // Minimap's X position on the screen
-    private static final float MINI_MAP_Y = 15;  // Minimap's Y position on the screen
-    private static final int MINI_MAP_SIZE = 300;  // Size of the minimap
+    private List<Image> blueDotPointImages;
+    private List<Image> largeRedPointImages;
+    private List<Image> purplePointImages;
+    private GameArea gameArea;
+    private int scaleFactor = 50;
+    private float miniMapX = 15;  // Minimap's X position on the screen
+    private float miniMapY = 15;  // Minimap's Y position on the screen
+    private int miniMapDiameter = 300;  // Size of the minimap
+    float centerX = miniMapX + miniMapDiameter / 2f;
+    float centerY = miniMapY + miniMapDiameter / 2f;
+    float minimapRadius = miniMapDiameter / 2f;
+    int frameCount;
 
+    public MiniMapDisplay() {
+        player = new Entity();
+        enemies = new ArrayList<>();
+        bosses = new ArrayList<>();
+        friendlyNPCs = new ArrayList<>();
+        minigameNPCs = new ArrayList<>();
+    }
     public MiniMapDisplay(GameArea gameArea) {
         this.gameArea = gameArea;
     }
@@ -33,92 +51,186 @@ public class MiniMapDisplay extends UIComponent {
         super.create();
         player = gameArea.getPlayer();
         enemies = gameArea.getEnemies();
-        addActors();
+        bosses = gameArea.getBosses();
+        friendlyNPCs = gameArea.getFriendlyNPCs();
+        minigameNPCs = gameArea.getMinigameNPCs();
+        redDotPointImages = new ArrayList<>();
+        blueDotPointImages = new ArrayList<>();
+        largeRedPointImages = new ArrayList<>();
+        purplePointImages = new ArrayList<>();
+        initializeMiniMap();
     }
 
-    private void addActors() {
-        initializeImages();
-        stage.addActor(blueDotPointImage);
-        for (Image redDot : redDotPointImages) {
-            stage.addActor(redDot);
-        }
-    }
-
-    private void initializeImages() {
-        Pixmap pixmap = new Pixmap(MINI_MAP_SIZE, MINI_MAP_SIZE, Pixmap.Format.RGBA8888);
-        pixmap.setColor(1, 1, 1, 1);
-        pixmap.fillCircle(MINI_MAP_SIZE / 2, MINI_MAP_SIZE / 2, MINI_MAP_SIZE / 2);
-        // Convert the Pixmap to a texture
+    private void initializeMiniMap() {
+        centerX = miniMapX + miniMapDiameter / 2f;
+        centerY = miniMapY + miniMapDiameter / 2f;
+        minimapRadius = miniMapDiameter / 2f;
         miniMapBackground = new Texture("images/minimap/minimap_background_land.png");
 
-        // Dispose the Pixmap after creating the texture (no longer needed)
-        pixmap.dispose();
-        blueDotPointImage = new Image(new Texture("images/minimap/blueDotPoint.png"));
-        blueDotPointImage.setSize(15, 15);
-        redDotPointImages = new ArrayList<>();
+        initializeAllImages();
+    }
+
+    public void initializeAllImages() {
+        initializeGreenDotImages();
         initializeRedDotImages();
+        initializeBlueDotImages();
+        initializeLargeRedPointImages();
+        initializePurplePointImages();
+    }
+
+    // Initialize green dots to match the number of player
+    public void initializeGreenDotImages() {
+        greenDotPointImage = new Image(new Texture("images/minimap/greenDotPoint.png"));
+        greenDotPointImage.setSize(15, 15);
+        stage.addActor(greenDotPointImage);
     }
 
     // Initialize red dots to match the number of enemies
-    private void initializeRedDotImages() {
-        redDotPointImages.clear();
-        for (Entity enemy : enemies) {
+    public void initializeRedDotImages() {
+        for (int i = 0; i < enemies.size(); i++) {
             Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
             redDotImage.setSize(10, 10);
             redDotPointImages.add(redDotImage);
             stage.addActor(redDotImage);  // Add the red dot actor to the stage
         }
     }
+    /**
+     * Initializes blue dot points for the friendly NPCs.
+     */
+    public void initializeBlueDotImages() {
+        for (int i = 0; i < friendlyNPCs.size(); i++) {
+            Image blueDotImage = new Image(new Texture("images/minimap/blueDotPoint.png"));
+            blueDotImage.setSize(10, 10);
+            blueDotPointImages.add(blueDotImage);
+            stage.addActor(blueDotImage);  // Add the red dot actor to the stage
+        }
+    }
 
-    private Vector2 transferToMiniMapPos(Entity entity) {
+    /**
+     * Initializes large red dot points for the friendly NPCs.
+     */
+    public void initializeLargeRedPointImages() {
+        for (int i = 0; i < bosses.size(); i++) {
+            Image largeRedDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
+            largeRedDotImage.setSize(30, 30);
+            largeRedPointImages.add(largeRedDotImage);
+            stage.addActor(largeRedDotImage);  // Add the red dot actor to the stage
+        }
+    }
+
+    /**
+     * Initializes purple dot points for the minigame NPCs.
+     */
+    public void initializePurplePointImages() {
+        for (int i = 0; i < minigameNPCs.size(); i++) {
+            Image purpleDotImage = new Image(new Texture("images/minimap/purpleDotPoint.png"));
+            purpleDotImage.setSize(10, 10);
+            purplePointImages.add(purpleDotImage);
+            stage.addActor(purpleDotImage);  // Add the red dot actor to the stage
+        }
+    }
+
+    /**
+     * Transfers the world position of an entity to the corresponding minimap position.
+     *
+     * @param entity the entity to transfer.
+     * @return the position of the entity on the minimap.
+     */
+    public Vector2 transferToMiniMapPos(Entity entity) {
         Vector2 playerPos = player.getPosition();
         Vector2 entityPos = entity.getPosition();
 
         Vector2 entityMiniMapPos = new Vector2(
-                (entityPos.x - playerPos.x) / SCALE_FACTOR * MINI_MAP_SIZE,
-                (entityPos.y - playerPos.y) / SCALE_FACTOR * MINI_MAP_SIZE
+                (entityPos.x - playerPos.x) / scaleFactor * miniMapDiameter,
+                (entityPos.y - playerPos.y) / scaleFactor * miniMapDiameter
         );
-        entityMiniMapPos.add(MINI_MAP_X + (float) MINI_MAP_SIZE / 2,
-                MINI_MAP_Y + (float) MINI_MAP_SIZE / 2);
+        entityMiniMapPos.add(miniMapX + miniMapDiameter / 2f, miniMapY + miniMapDiameter / 2f);
 
         return entityMiniMapPos;
     }
 
-    @Override
-    public void update() {
-        float centerX = MINI_MAP_X + (float) MINI_MAP_SIZE / 2;
-        float centerY = MINI_MAP_Y + (float) MINI_MAP_SIZE / 2;
-        float minimapRadius = (float) MINI_MAP_SIZE / 2;
-
-        // Synchronize the number of red dot images with the number of enemies
-        if (redDotPointImages.size() != enemies.size()) {
-            initializeRedDotImages();
+    /**
+     * Updates the positions of the dot points (entities) on the minimap.
+     *
+     * @param pointImages the list of dot images (e.g., enemies, NPCs, or bosses).
+     * @param entities    the list of corresponding entities.
+     */
+    private void updatePoints(List<Image> pointImages, List<Entity> entities) {
+        if (pointImages.size() != entities.size()) {
+            if (pointImages.equals(redDotPointImages)) {
+                initializeRedDotImages();
+            } else if (pointImages.equals(blueDotPointImages)) {
+                initializeBlueDotImages();
+            } else if (pointImages.equals(largeRedPointImages)) {
+                initializeLargeRedPointImages();
+            } else if (pointImages.equals(purplePointImages)) {
+                initializePurplePointImages();
+            }
         }
 
-        // Update blue point position (player on the minimap)
-        Vector2 playerMiniMapPos = transferToMiniMapPos(player);
-        blueDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
-
-        // Update red points position (enemies on the minimap)
-        for (int i = 0; i < enemies.size(); i++) {
-            Entity enemy = enemies.get(i);
+        for (int i = 0; i < entities.size(); i++) {
+            Entity enemy = entities.get(i);
             Vector2 enemyMiniMapPos = transferToMiniMapPos(enemy);
 
             float distanceFromCenter = Vector2.dst(centerX, centerY, enemyMiniMapPos.x, enemyMiniMapPos.y);
             if (distanceFromCenter <= minimapRadius) {
-                redDotPointImages.get(i).setVisible(true);
-                redDotPointImages.get(i).setPosition(enemyMiniMapPos.x, enemyMiniMapPos.y);
+                pointImages.get(i).setVisible(true);
+                pointImages.get(i).setPosition(enemyMiniMapPos.x, enemyMiniMapPos.y);
             } else {
-                redDotPointImages.get(i).setVisible(false);
+                pointImages.get(i).setVisible(false);
             }
         }
     }
 
+    public void updateAllPoints() {
+        updatePoints(redDotPointImages, enemies);
+        updatePoints(blueDotPointImages, friendlyNPCs);
+        updatePoints(largeRedPointImages, bosses);
+        updatePoints(purplePointImages, minigameNPCs);
+    }
+    /**
+     * Updates the minimap, adjusting the player and entity positions each frame.
+     */
+    @Override
+    public void update() {
+        // Update blue point position (player on the minimap)
+        Vector2 playerMiniMapPos = transferToMiniMapPos(player);
+        greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
+        frameCount++;
+        if (frameCount % 30 == 0) {
+            updateAllPoints();
+        }
+    }
+
+    /**
+     * Draws the minimap background on the screen.
+     *
+     * @param batch the sprite batch used for drawing the minimap.
+     */
     @Override
     protected void draw(SpriteBatch batch) {
-        SpriteBatch newBatch = new SpriteBatch();
-        newBatch.begin();
-        newBatch.draw(miniMapBackground, MINI_MAP_X, MINI_MAP_Y, MINI_MAP_SIZE, MINI_MAP_SIZE);
-        newBatch.end();
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(miniMapBackground, miniMapX, miniMapY, miniMapDiameter, miniMapDiameter);
+        batchDupe.end();
     }
+
+
+
+    public Entity getPlayer() {
+        return player;
+    }
+
+    public float getMiniMapDiameter() {
+        return miniMapDiameter;
+    }
+    public void setMiniMapPosition(float posX, float posY) {
+        this.miniMapX = posX;
+        this.miniMapY = posY;
+    }
+    public void setMiniMapDiameter(int size) {
+        this.miniMapDiameter = size;
+    }
+
+
 }

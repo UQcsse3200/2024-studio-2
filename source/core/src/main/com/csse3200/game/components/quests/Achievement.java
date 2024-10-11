@@ -2,7 +2,6 @@ package com.csse3200.game.components.quests;
 
 
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * Represents an achievement.

@@ -1,29 +1,19 @@
 package com.csse3200.game.areas.terrain;
 import java.util.*;
 
-import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
-import com.csse3200.game.areas.terrain.tiles.ForestTileConfig.TileConfig;
+import com.csse3200.game.areas.terrain.enums.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
-import com.csse3200.game.areas.FogGameAreaConfigs.FogMapTiles;
-import com.csse3200.game.areas.FogGameAreaConfigs.FogTileConfig;
-import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
-import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
-import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.rendering.RenderComponent;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -50,8 +40,6 @@ public class TerrainComponent extends RenderComponent {
   private Set<GridPoint2> oldChunks = new HashSet<>();
   private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private TerrainResource terrainResource;
-
-  private int unlockedArea = 1;
 
   private TiledMapRenderer renderer;
 
@@ -150,7 +138,6 @@ public class TerrainComponent extends RenderComponent {
         activeChunks.add(pos);
       }
     }
-    //fillChunk(chunkPos);
 
     updateChunkStatus();
   }
@@ -236,11 +223,5 @@ public class TerrainComponent extends RenderComponent {
   {
 
       return null;
-  }
-
-  public enum TerrainOrientation {
-    ORTHOGONAL,
-    ISOMETRIC,
-    HEXAGONAL
   }
 }

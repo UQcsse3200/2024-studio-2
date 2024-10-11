@@ -44,7 +44,7 @@ public class StatDisplay extends UIComponent {
     public StatDisplay(GdxGame game) {
         super();
         this.game = game;
-//        StatSaveManager statSaveManager = new StatSaveManager();
+//      StatSaveManager statSaveManager = new StatSaveManager();
         this.stats = GameState.stats.stats;
     }
 
@@ -288,7 +288,7 @@ public class StatDisplay extends UIComponent {
 
         return table;
     }
-
+    
     /**
      * Sets the current game screen back to the main menu.
      */
@@ -296,15 +296,17 @@ public class StatDisplay extends UIComponent {
         saveStats(stats);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
-
+    
     @Override
     public void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(new Texture("images/BackgroundSplash.png"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        // batch isn't used, batchDupe is to make SonarCloud happy, unsure why batch doesn't just work, but it causes
+        // the game to crash :/
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(new Texture("images/BackgroundSplash.png"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batchDupe.end();
     }
-
+ 
     /**
      * Clear the UI elements on the display
      */

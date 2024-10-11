@@ -2,14 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
-import com.csse3200.game.overlays.QuestOverlay;
-
-import com.csse3200.game.overlays.PlayerStatsOverlay;
-
-import com.csse3200.game.overlays.SettingsOverlay;
-
+import com.csse3200.game.overlays.*;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

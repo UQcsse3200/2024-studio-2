@@ -3,8 +3,6 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ProjectileAttackComponent;
 import com.csse3200.game.components.npc.*;
 import com.csse3200.game.components.tasks.HiveTask;

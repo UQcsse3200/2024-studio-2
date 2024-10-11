@@ -2,12 +2,15 @@ package com.csse3200.game.minigames.birdieDash.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.minigames.birdieDash.entities.Bird;
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.lang.reflect.Field;
 
+@ExtendWith(GameExtension.class)
 class BirdTest {
     private Bird bird;
     // Method Set Up to initialise the Bird instance
