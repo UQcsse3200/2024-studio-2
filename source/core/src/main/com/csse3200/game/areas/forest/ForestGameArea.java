@@ -115,7 +115,7 @@ public class ForestGameArea extends GameArea {
         spawnTrees();
         spawnClouds();
         spawnSeaweed();
-        spawnStarfish();
+        spawnStarfish(2);
 
         // spawn area barriers
         spawnWorldBarrier();
@@ -335,9 +335,9 @@ public class ForestGameArea extends GameArea {
     }
 
     //Spawn Starfish Obstacle
-    private void spawnStarfish() {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    private void spawnStarfish(int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < ForestSpawnConfig.NUM_STARFISH; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -546,6 +546,7 @@ public class ForestGameArea extends GameArea {
         generator = () -> ProjectileFactory.createHive(player);
         spawnHive(generator, 5, 0.1, 1);
     }
+
 
     /**
      * Spawns the friendly NPCs onto the map
