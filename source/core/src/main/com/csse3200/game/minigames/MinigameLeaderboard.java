@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.components.login.PlayFab;
 import com.csse3200.game.services.NotifManager;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.lwjgl.Sys;
 import org.slf4j.Logger;
@@ -35,11 +36,10 @@ public class MinigameLeaderboard extends UIComponent {
     private ArrayList<Label> usernames;
     private ArrayList<Label> highscores;
     private Button closeButton;
-    private Button refreshButton;
+    private CustomButton refreshButton;
     private Texture backgroundTexture;
     private Texture closeButtonTexture;
     private PlayFab playFab;
-
     /**
      * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
      * and prepares the display for user interaction.
@@ -49,6 +49,20 @@ public class MinigameLeaderboard extends UIComponent {
         playFab = new PlayFab("DBB26");
     }
 
+    /**
+     * Constructs and returns the layout table containing all UI components, including input fields,
+     * buttons, and dynamic mode switching for login and registration.
+     *
+     * @return Table containing the login or registration form.
+     */
+    public Table makeLeaderboardTable() {// Create table for layout
+        loadTextures();
+        initializeTable();
+        addButtons();
+        refreshLeaderboard();
+
+        return table;
+    }
 
 
     /**
@@ -72,20 +86,6 @@ public class MinigameLeaderboard extends UIComponent {
         title = new Label("Leaderboard", skin, "title-white");
         usernames = new ArrayList<>();
         highscores = new ArrayList<>();
-    }
-    /**
-     * Constructs and returns the layout table containing all UI components, including input fields,
-     * buttons, and dynamic mode switching for login and registration.
-     *
-     * @return Table containing the login or registration form.
-     */
-    public Table makeLeaderboardTable() {// Create table for layout
-        loadTextures();
-        initializeTable();
-        addButtons();
-        refreshLeaderboard();
-
-        return table;
     }
 
     public void refreshLeaderboard() {
@@ -128,15 +128,8 @@ public class MinigameLeaderboard extends UIComponent {
             }
         });
 
-        refreshButton = new Button(skin);
-        refreshButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                PlayFab.getLeaderboard();
-                updateLeaderboard();
-                updateUI();
-            }
-        });
+        refreshButton = new CustomButton("Refresh", skin);
+        refreshButton.addClickListener(this::refreshLeaderboard);
     }
 
     /**

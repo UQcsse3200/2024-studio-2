@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
+import com.csse3200.game.components.login.PlayFab;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -151,6 +152,7 @@ public class SnakeScreen extends PausableScreen {
         snakeGame.snakeMove(delta);
         if (snakeGame.getIsGameOver()) {
             GameState.minigame.addHighScore("snake", snakeGame.getScore());
+            PlayFab.submitScore(snakeGame.getScore());
             logger.info("{}", GameState.minigame.getHighScore("snake"));
             dispose();
             game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE, oldScreen, oldScreenServices));
