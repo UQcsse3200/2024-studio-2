@@ -1,10 +1,11 @@
-package com.csse3200.game.areas;
+package com.csse3200.game.areas.MiniMap;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.ui.UIComponent;
 import org.lwjgl.Sys;
@@ -198,7 +199,7 @@ public class MiniMapDisplay extends UIComponent {
         Vector2 playerMiniMapPos = transferToMiniMapPos(player);
         greenDotPointImage.setPosition(playerMiniMapPos.x, playerMiniMapPos.y);
         frameCount++;
-        if (frameCount % 30 == 0) {
+        if (frameCount % 15 == 0) {
             updateAllPoints();
         }
     }
