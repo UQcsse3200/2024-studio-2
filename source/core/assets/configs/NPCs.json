@@ -50,7 +50,7 @@
   },
   "snake": {
     "baseHint": [
-      ["HHIISSSSSSS, I am the mighty Snake of the Jungle!"]
+      ["HHIISSSSSSS", "I am the Sally the Snake", "The might snake of the Jungle!"]
     ],
     "spritePath": "images/friendly_npcs/snake.atlas",
     "animationSpeed": 0.2,

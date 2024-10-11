@@ -52,10 +52,7 @@ public class CombatAreaConfig {
             "images/bigsawfish_idle.png",
             "images/bee.png",
             "images/eel.png",
-            "images/eel1.png",
-            "images/enemy-bear.png",
             "images/pigeon.png",
-            "images/pigeon2.png",
             "images/monkey.png",
             "images/macaw.png",
             "images/bigsawfish.png",
@@ -70,7 +67,8 @@ public class CombatAreaConfig {
             "images/flipped_fireball.png",
             "images/enemy-chicken.png",
             "images/frog.png",
-            "images/bear.png"
+            "images/bear.png",
+            "images/enemy-bear.png"
     };
 
     static final String[] forestTextureAtlases = {
@@ -83,7 +81,9 @@ public class CombatAreaConfig {
             "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
             "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/enemy-bear.atlas", "images/bee.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas", "images/friendly-pigeon.atlas",
-            "images/friendly-eel.atlas", "images/friendly-macaw.atlas"
+            "images/friendly-eel.atlas", "images/friendly-macaw.atlas",
+            "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/bee.atlas",
+            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas", "images/enemy-bear.atlas"
     };
 
     static final String[] questSounds = {"sounds/QuestComplete.wav"};
