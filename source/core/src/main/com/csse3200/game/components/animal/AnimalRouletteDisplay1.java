@@ -22,11 +22,13 @@ public abstract class AnimalRouletteDisplay1 {
         this.stage = stage;
         this.skin = skin;
 
-        // Replaced CustomButtons in place of TextButtons
-        this.selectButton = new CustomButton("Ready?", skin);
-        this.backButton = new CustomButton("Go Back", skin);
+        // Create left and right arrow buttons with smaller sizes and adjusted padding
         this.leftButton = new CustomButton("<", skin);
         this.rightButton = new CustomButton(">", skin);
+
+        // Set the size for the select and back buttons as well
+        this.selectButton = new CustomButton("Ready?", skin);
+        this.backButton = new CustomButton("Go Back", skin);
 
         initializeDisplay();
     }
@@ -34,23 +36,30 @@ public abstract class AnimalRouletteDisplay1 {
     protected abstract String getBackgroundImagePath();
 
     private void initializeDisplay() {
+        // Set the background image
         BackgroundImage backgroundImage = new BackgroundImage(getBackgroundImagePath());
         stage.addActor(backgroundImage);
 
+        // Create main layout table
         Table mainTable = new Table();
         mainTable.setFillParent(true);
         stage.addActor(mainTable);
 
+        // Load animal images
         String[] animalImagePaths = getAnimalImagePaths();
         animalImage = new Image(new Texture(animalImagePaths[0]));
 
+
         Table animalTable = new Table();
-        animalTable.add(leftButton).padRight(20);
+
+        // Set smaller size for the arrow buttons to make them look appropriate
+        animalTable.add(leftButton).size(50, 50).padRight(20);
         animalTable.add(animalImage).size(300, 300);
-        animalTable.add(rightButton).padLeft(20);
+        animalTable.add(rightButton).size(50, 50).padLeft(20);
 
         mainTable.add(animalTable).expand().center();
         mainTable.row();
+
 
         Table buttonTable = new Table();
         buttonTable.add(selectButton).width(200).height(50).padRight(20);
@@ -58,23 +67,25 @@ public abstract class AnimalRouletteDisplay1 {
 
         mainTable.add(buttonTable).padBottom(50);
 
-        // Adding click listeners for the buttons using their addClickListener method
+        // Adding click listeners for the buttons
         leftButton.addClickListener(() -> updateAnimalImage(animalImagePaths[0]));
         rightButton.addClickListener(() -> updateAnimalImage(animalImagePaths[1]));
     }
 
     public void updateAnimalImage(String imagePath) {
+        // Update the displayed animal image
         animalImage.setDrawable(new Image(new Texture(imagePath)).getDrawable());
     }
 
     protected void initializeAnimalImagesAndButtons() {
+        // Initialize animal images and corresponding buttons
         String[] imagePaths = getAnimalImagePaths();
         animalImages = new Image[imagePaths.length];
-        animalButtons = new CustomButton[imagePaths.length];  // Use CustomButton
+        animalButtons = new CustomButton[imagePaths.length];  // Use CustomButton for animal buttons
 
         for (int i = 0; i < imagePaths.length; i++) {
             animalImages[i] = new Image(new Texture(imagePaths[i]));
-            animalButtons[i] = new CustomButton(getAnimalType(i), getSkin());  // Create CustomButton
+            animalButtons[i] = new CustomButton(getAnimalType(i), getSkin());  // Create CustomButton for each animal
 
             // Optionally add click listeners to animalButtons
             final int index = i;
@@ -83,6 +94,7 @@ public abstract class AnimalRouletteDisplay1 {
     }
 
     public String[] getAnimalImagePaths() {
+        // Animal image paths
         return new String[] {
                 "images/dog.png",
                 "images/croc.png",
@@ -91,6 +103,7 @@ public abstract class AnimalRouletteDisplay1 {
     }
 
     public String getAnimalDescription(int index) {
+        // Animal descriptions
         String[] descriptions = {
                 "The dog is a loyal and brave companion, known for its agility and combat prowess.",
                 "The crocodile is a powerful reptile with incredible strength and tough scales.",
@@ -100,10 +113,12 @@ public abstract class AnimalRouletteDisplay1 {
     }
 
     public String getAnimalType(int index) {
+        // Animal types
         String[] types = {"Dog", "Croc", "Bird"};
         return types[index];
     }
 
+    // Getters for the components
     public Image getAnimalImage() {
         return animalImage;
     }
