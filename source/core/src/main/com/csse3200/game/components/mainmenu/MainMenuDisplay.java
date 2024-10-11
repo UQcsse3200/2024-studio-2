@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenu;
+import com.csse3200.game.minigames.MinigameLeaderboard;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.ui.CustomButton;
@@ -44,9 +45,12 @@ public class MainMenuDisplay extends UIComponent {
     private Table table;
     private Table menuButtonTable;
     private Table userTable;
+    private Table trophyTable;
     private Table loginRegisterTable;
+    private Table leaderboardTable;
     private SettingsMenu settingsMenu;
     private LoginRegisterDisplay loginRegisterDisplay;
+    private MinigameLeaderboard minigameLeaderboard;
     private Texture mainTitle;
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
@@ -115,7 +119,6 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Background texture loaded");
         this.setupCustomCursor();
         this.addDog();
-        addActors();
         chatbotService = new ChatbotService();
         this.setupPredefinedQuestions();
         this.addMonkey();
@@ -125,9 +128,126 @@ public class MainMenuDisplay extends UIComponent {
         this.addOwlToMenu(); // Add owl to the menu
         this.addBird();
         this.addTitle();
+        addActors();
 
         timer = 0f;
     }
+    /**
+     * Load the textures for the mute and unmute button states.
+     */
+    private void loadTextures() {
+        settingBackground = new Texture("images/SettingBackground.png");
+        lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");
+        mainTitle = new Texture("images/SplashScreen/MainTitle.png");
+        userTableBackground = new Texture("images/UserTable.png");
+        muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
+        unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
+        dog2Texture = new Texture("images/dog2.png");
+        crocTexture = new Texture("images/croc.png");
+        toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
+        cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
+        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
+        Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
+        owlImage = new Image(owlTexture); // Create owl image actor
+    }
+
+
+    /**
+     * Applies user settings to the game.
+     */
+    private void applyUserSettings() {
+        UserSettings.Settings settings = UserSettings.get(); // Retrieve current settings
+        UserSettings.applySettings(settings); // Apply settings to the game
+    }
+
+    /**
+     * Adds all UI elements (buttons, labels, etc.) to the main menu.
+     */
+    private void addActors() {
+        initializeTables();
+        initializeMenuButtons();
+        stage.addActor(NotifManager.addNotificationTable());
+
+        addTopLeftToggle();
+        addTopRightButtons();
+        addSettingMenu();
+        addUserTable();
+        addTrophyTable();
+        addLoginRegisterTable();
+        addLeaderboardTable();
+    }
+    /**
+     * Initialize all tables in the main menu
+     */
+    private void initializeTables() {
+        table = new Table();
+        menuButtonTable = new Table();
+        userTable = new Table();
+        trophyTable = new Table();
+        loginRegisterTable = new Table();
+        leaderboardTable = new Table();
+    }
+
+    /**
+     * Initialize menu buttons in the main menu
+     */
+    private void initializeMenuButtons() {
+        // Clear previous button settings to avoid duplicates
+        if (menuButtonTable != null) {
+            menuButtonTable.clear();
+        } else {
+            menuButtonTable = new Table();
+        }
+
+        // Set Z index to ensure it is drawn above other components
+        menuButtonTable.setZIndex(10);
+        // Create all main menu buttons
+        startBtn = createMenuButton("Start", () -> {
+            logger.info("Start button clicked");
+            entity.getEvents().trigger("start");
+        });
+
+        loadBtn = createMenuButton("Load", () -> {
+            logger.info("Load button clicked");
+            entity.getEvents().trigger("load");
+        });
+
+        minigamesBtn = createMenuButton("Minigame", () -> {
+            logger.info("Minigames button clicked");
+            entity.getEvents().trigger("SnakeGame");
+        });
+
+
+        settingsBtn = createMenuButton("Settings", () -> {
+            logger.info("Settings button clicked");
+            settingsMenu.showSettingsMenu();
+        });
+
+
+        achievementsBtn = createMenuButton("Achievements", () -> {
+            logger.info("Achievements button clicked");
+            entity.getEvents().trigger("achievements");
+        });
+
+        entity.getEvents().addListener("help", this::showHelpWindow);
+        helpBtn = createMenuButton("Help", () -> {
+            logger.info("Help button clicked");
+            setMenuUntouchable();
+            entity.getEvents().trigger("help");
+        });
+
+        entity.getEvents().addListener("exitConfirmation", this::handleExitConfirmation);  // Call the exit handler
+        exitBtn = createMenuButton("Exit", () -> {
+            logger.info("Exit button clicked");
+            entity.getEvents().trigger("exitConfirmation");
+        });
+        updateMenuButtonLayout();
+
+        stage.addActor(menuButtonTable);
+    }
+
 
     private void addMonkey() {
         monkeyAniImage = new Image();
@@ -361,27 +481,6 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
-    /**
-     * Load the textures for the mute and unmute button states.
-     */
-    private void loadTextures() {
-        settingBackground = new Texture("images/SettingBackground.png");
-        lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");
-        mainTitle = new Texture("images/SplashScreen/MainTitle.png");
-        userTableBackground = new Texture("images/UserTable.png");
-        muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
-        unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
-        dog2Texture = new Texture("images/dog2.png");
-        crocTexture = new Texture("images/croc.png");
-        toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
-        cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
-        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
-        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
-        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
-        Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
-        owlImage = new Image(owlTexture); // Create owl image actor
-    }
-
     // Add owl facts
     private void setupOwlFacts() {
         owlFacts = new String[]{
@@ -427,99 +526,6 @@ public class MainMenuDisplay extends UIComponent {
                 ));
             }
         });
-    }
-
-
-    /**
-     * Applies user settings to the game.
-     */
-    private void applyUserSettings() {
-        UserSettings.Settings settings = UserSettings.get(); // Retrieve current settings
-        UserSettings.applySettings(settings); // Apply settings to the game
-    }
-
-    /**
-     * Adds all UI elements (buttons, labels, etc.) to the main menu.
-     */
-    private void addActors() {
-        initializeTables();
-        initializeMenuButtons();
-        stage.addActor(NotifManager.addNotificationTable());
-
-
-        addTopLeftToggle();
-        addTopRightButtons();
-        addSettingMenu();
-        addUserTable();
-        addLoginRegisterTable();
-    }
-
-    /**
-     * Initialize all tables in the main menu
-     */
-    private void initializeTables() {
-        table = new Table();
-        menuButtonTable = new Table();
-        userTable = new Table();
-        loginRegisterTable = new Table();
-    }
-
-    /**
-     * Initialize menu buttons in the main menu
-     */
-    private void initializeMenuButtons() {
-        // Clear previous button settings to avoid duplicates
-        if (menuButtonTable != null) {
-            menuButtonTable.clear();
-        } else {
-            menuButtonTable = new Table();
-        }
-
-        // Set Z index to ensure it is drawn above other components
-        menuButtonTable.setZIndex(10);
-        // Create all main menu buttons
-        startBtn = createMenuButton("Start", () -> {
-            logger.info("Start button clicked");
-            entity.getEvents().trigger("start");
-        });
-
-        loadBtn = createMenuButton("Load", () -> {
-            logger.info("Load button clicked");
-            entity.getEvents().trigger("load");
-        });
-
-        minigamesBtn = createMenuButton("Minigame", () -> {
-            logger.info("Minigames button clicked");
-            entity.getEvents().trigger("SnakeGame");
-        });
-
-
-        settingsBtn = createMenuButton("Settings", () -> {
-            logger.info("Settings button clicked");
-            settingsMenu.showSettingsMenu();
-        });
-
-
-        achievementsBtn = createMenuButton("Achievements", () -> {
-            logger.info("Achievements button clicked");
-            entity.getEvents().trigger("achievements");
-        });
-
-        entity.getEvents().addListener("help", this::showHelpWindow);
-        helpBtn = createMenuButton("Help", () -> {
-            logger.info("Help button clicked");
-            setMenuUntouchable();
-            entity.getEvents().trigger("help");
-        });
-
-        entity.getEvents().addListener("exitConfirmation", this::handleExitConfirmation);  // Call the exit handler
-        exitBtn = createMenuButton("Exit", () -> {
-            logger.info("Exit button clicked");
-            entity.getEvents().trigger("exitConfirmation");
-        });
-        updateMenuButtonLayout();
-
-        stage.addActor(menuButtonTable);
     }
 
     /**
@@ -667,13 +673,8 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     private void addUserTable() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
         userTable.setSize(175, 175);
-
         userTable.setVisible(true);
-
         userTable.setPosition(185, Gdx.graphics.getHeight() - 30);
         Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
         userTable.add(profileBtn).size(110, 110).top().padTop(30).expandY();
@@ -684,7 +685,6 @@ public class MainMenuDisplay extends UIComponent {
                 loginRegisterTable.setVisible(true);
             }
         });
-
         stage.addActor(userTable);
     }
 
@@ -707,6 +707,40 @@ public class MainMenuDisplay extends UIComponent {
         );
 
         stage.addActor(loginRegisterTable);
+    }
+
+    private void addTrophyTable() {
+        trophyTable.setSize(175, 175);
+        trophyTable.setVisible(true);
+        trophyTable.setPosition(10, Gdx.graphics.getHeight() - 350);
+        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
+        trophyTable.add(trophyBtn).size(110, 110).top().padTop(30).expandY();
+
+        trophyBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                leaderboardTable.setVisible(true);
+            }
+        });
+        stage.addActor(trophyTable);
+    }
+
+    private void addLeaderboardTable() {
+        minigameLeaderboard = new MinigameLeaderboard();
+        leaderboardTable = minigameLeaderboard.makeLeaderboardTable();
+        leaderboardTable.setVisible(false);
+        leaderboardTable.setSize(663, 405);
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Center the menu on the screen
+        leaderboardTable.setPosition(
+                (screenWidth - leaderboardTable.getWidth()) / 2,
+                (screenHeight - leaderboardTable.getHeight()) / 2
+        );
+
+        stage.addActor(leaderboardTable);
     }
 
     /**
