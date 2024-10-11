@@ -5,6 +5,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.ui.dialoguebox.DialogueBox;
@@ -30,6 +31,7 @@ public class ServiceLocator {
   private static ResourceService resourceService;
   private static DialogueBoxService dialogueBoxService;
   private static LightingService lightingService;
+  private static ParticleService particleService;
   // static field for GameArea
   private static GameArea gameArea;
   private static GdxGame game;
@@ -79,6 +81,10 @@ public class ServiceLocator {
 
   public static LightingService getLightingService() {
     return lightingService;
+  }
+
+  public static ParticleService getParticleService() {
+    return particleService;
   }
 
   // Getter for GameArea
@@ -133,11 +139,17 @@ public class ServiceLocator {
     lightingService = source;
   }
 
+  public static void registerParticleService(ParticleService source) {
+    logger.debug("Registering particle service {}", source);
+    particleService = source;
+  }
+
   public static void clear() {
     entityService = null;
     renderService = null;
     physicsService = null;
     lightingService = null;
+    particleService = null;
     timeSource = null;
     inputService = null;
     resourceService = null;

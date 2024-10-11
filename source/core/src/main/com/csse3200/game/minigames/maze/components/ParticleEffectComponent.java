@@ -3,6 +3,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -14,18 +15,9 @@ public class ParticleEffectComponent extends RenderComponent {
     protected final ParticleEffect effect;
     public static final int PARTICLE_LAYER = 1;
 
-    public ParticleEffectComponent(String effectPath) {
-        this(ServiceLocator.getResourceService().getAsset(effectPath, ParticleEffect.class));
-    }
-
-    public ParticleEffectComponent(ParticleEffectPool pool) {
-        this(pool.obtain());
-    }
-
-    public ParticleEffectComponent(ParticleEffect effect) {
+    public ParticleEffectComponent(ParticleService.ParticleType type) {
         super();
-        effect.scaleEffect(0.02f); // reasonable scale from exporting defaults from libgdx particle editor
-        this.effect = effect;
+        this.effect = ServiceLocator.getParticleService().makeEffect(type);
     }
 
     /**

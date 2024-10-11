@@ -121,9 +121,16 @@ public class ForestGameArea extends GameArea {
 
       playMusic();
       player.getEvents().addListener("setPosition", this::handleNewChunks);
+<<<<<<< Updated upstream:source/core/src/main/com/csse3200/game/areas/forest/ForestGameArea.java
       player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
       player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
       player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
+=======
+	  //player.getEvents().addListener("defeatedEnemy", this::spawnConvertedNPCs);
+    player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
+    player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
+    player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
+>>>>>>> Stashed changes:source/core/src/main/com/csse3200/game/areas/ForestGameArea.java
       kangarooBossSpawned = false;
       waterBossSpawned = false;
       airBossSpawned = false;

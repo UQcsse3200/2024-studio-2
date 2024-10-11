@@ -21,6 +21,7 @@ import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.minigames.maze.components.MazePlayerScoreDisplay;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.Renderer;
@@ -106,6 +107,8 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.getRenderService().register(lightingEngine);
 
         ServiceLocator.registerLightingService(new LightingService(lightingEngine));
+
+        ServiceLocator.registerParticleService(new ParticleService());
 
         // Make stage to load elements on to
         this.stage = ServiceLocator.getRenderService().getStage();

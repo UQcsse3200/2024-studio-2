@@ -9,11 +9,13 @@ import com.csse3200.game.minigames.maze.entities.MazePlayer;
 import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.AudioManager;
+import com.csse3200.game.services.ServiceLocator;
 
 /**
  * When this entity touches a valid enemy's hitbox, deal damage to them and apply a knockback.
@@ -83,6 +85,8 @@ public class MazeTouchAttackComponent extends Component {
                 stunDuration = 1;
             } else if (targetEntity instanceof ElectricEel) {
                 stunDuration = 2.8f;
+            } else {
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, meEntity.getCenterPosition().x, meEntity.getCenterPosition().y);
             }
             targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
             AudioManager.playSound("sounds/minigames/maze-hit.mp3");

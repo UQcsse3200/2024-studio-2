@@ -16,6 +16,7 @@ import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -64,7 +65,7 @@ public class MazePlayer extends Entity {
                 .addComponent(new MazeEntityAnimationController())
                 .addComponent(new MazeGameManagerComponent())
                 .addComponent(new MazeDifficultyIncrease(gameArea))
-                .addComponent(new ParticleEffectComponent("images/minigames/trail.p"));
+                .addComponent(new ParticleEffectComponent(ParticleService.ParticleType.BUBBLES));
 
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);
