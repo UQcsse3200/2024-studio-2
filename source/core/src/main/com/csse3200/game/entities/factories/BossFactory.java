@@ -7,9 +7,7 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.combat.move.*;
-import com.csse3200.game.components.npc.AirBossAnimationController;
-import com.csse3200.game.components.npc.KangaBossAnimationController;
-import com.csse3200.game.components.npc.WaterBossAnimationController;
+import com.csse3200.game.components.npc.BossAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -56,7 +54,7 @@ public class BossFactory {
 
         kangarooBoss
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new KangaBossAnimationController());
+                .addComponent(new BossAnimationController());
 
         kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         kangarooBoss.scaleHeight(4.0f);
@@ -77,7 +75,7 @@ public class BossFactory {
 
         waterBoss
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new WaterBossAnimationController());
+                .addComponent(new BossAnimationController());
 
         waterBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         waterBoss.scaleHeight(5.0f);
@@ -97,7 +95,7 @@ public class BossFactory {
         
         airBoss
                 .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new AirBossAnimationController());
+                .addComponent(new BossAnimationController());
 
         airBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         airBoss.scaleHeight(6.0f);
