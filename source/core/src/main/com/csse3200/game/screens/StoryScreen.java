@@ -41,7 +41,9 @@ public class StoryScreen extends ScreenAdapter {
             "images/Story/CrocStory7.png"
     };
     private static final String[] BIRD_STORY_PATHS = {
-            "images/bird.png", "images/bird.png",
+            "images/Story/BirdStory1.png", "images/Story/BirdStory2.png",
+            "images/Story/BirdStory3.png", "images/Story/BirdStory4.png",
+            "images/Story/BirdStory5.png"
     };
 
 

@@ -81,7 +81,6 @@ public class MainMenuDisplay extends UIComponent {
     private CustomButton achievementsBtn;
     private CustomButton helpBtn;
     private CustomButton exitBtn;
-    private Label versionLabel;
     private final float windowButtonWidth = 200;
     private final float windowButtonHeight = 45;
     private final float windowButtonSpacing = 15;
@@ -402,13 +401,15 @@ public class MainMenuDisplay extends UIComponent {
 
     private void addOwlToMenu() {
         // Set owl initial position
-        owlImage.setPosition(Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
-        owlImage.setSize(150, 200);
+        // Resize owl with screen
+        owlImage.setPosition(Gdx.graphics.getWidth() * 0.87f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
+        owlImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 6f);
+
         stage.addActor(owlImage);
 
         // Create label for displaying facts
         factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
-        factLabel.setPosition(1400, 130); // Position it near the owl
+        factLabel.setPosition(owlImage.getX() * 0.8f, owlImage.getY()); // Position it near the owl
         factLabel.setFontScale(1f);
         stage.addActor(factLabel);
 
@@ -900,15 +901,19 @@ public class MainMenuDisplay extends UIComponent {
 
             TextureRegionDrawable drawableMonkey = new TextureRegionDrawable(monkeyTextures.get(monkeyCurrentFrame));
             monkeyCurrentFrame++;
-            if (monkeyCurrentFrame >= 5) {
+            if (monkeyCurrentFrame >= 6) {
                 monkeyCurrentFrame = 0;
             }
             monkeyAniImage.setDrawable(drawableMonkey);
         }
 
         // Resize owl with screen
-        owlImage.setPosition(Gdx.graphics.getWidth() * 0.85f, Gdx.graphics.getHeight() * 0.55f);
-        owlImage.setSize(Gdx.graphics.getWidth() / 5.5f, Gdx.graphics.getHeight() / 4f);
+        owlImage.setPosition(Gdx.graphics.getWidth() * 0.885f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
+        owlImage.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6f);
+
+        // Resize label with owl
+        factLabel.setPosition(owlImage.getX() * 0.8f, owlImage.getY()); // Position it near the owl
+        factLabel.setFontScale(Gdx.graphics.getHeight() / 1000f);
 
         // update bird, monkey and dog animations
         this.updateBirdFly();
