@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -18,8 +19,8 @@ import java.util.List;
  */
 public class PlayFab {
     private static final Logger logger = LoggerFactory.getLogger(PlayFab.class);
-    private static String[] usernames;
-    private static String[] highscores;
+    private static ArrayList<String> usernames;
+    private static ArrayList<String> highscores;
     public static boolean isLogin = false;
 
     /**
@@ -30,8 +31,8 @@ public class PlayFab {
     public PlayFab(String titleId) {
         PlayFabSettings.TitleId = titleId; // Set your PlayFab Title ID here
 
-        usernames = new String[10];
-        highscores = new String[10];
+        usernames = new ArrayList<>();
+        highscores = new ArrayList<>();
     }
 
     /**
@@ -89,26 +90,29 @@ public class PlayFab {
         }
     }
 
-    public static void getLeaderboard(){
+    public static void getLeaderboard(String gameName){
         GetLeaderboardRequest request = new GetLeaderboardRequest();
-        request.StatisticName = "MinigameHighScore";
+        request.StatisticName = gameName;
         request.MaxResultsCount = 10;
         PlayFabResult<GetLeaderboardResult> result = PlayFabClientAPI.GetLeaderboard(request);
+        // Clean the arrays before updating them
+        usernames.clear();
+        highscores.clear();
 
         if (result.Result != null) {
             // Update UI with leaderboard data
             List<PlayerLeaderboardEntry> leaderboard = result.Result.Leaderboard;
             for (int i = 0; i < leaderboard.size(); i++) {
-                usernames[i] = leaderboard.get(i).DisplayName;
-                highscores[i] = String.valueOf(leaderboard.get(i).StatValue);
-                System.out.println(usernames[i]);
+                usernames.add(leaderboard.get(i).DisplayName);
+                highscores.add(String.valueOf(leaderboard.get(i).StatValue));
+                System.out.println("User " + i + ": " + usernames.get(i) + " - " + highscores.get(i));
             }
         } else {
             logger.error("Failed to retrieve leaderboard: " + result.Error.errorMessage);
         }
     }
 
-    public static void submitScore(int score) {
+    public static void submitScore(String gameName, int score) {
         if (!isLogin) {
             logger.info("You need to login to put your score to the leaderboard.");
             return;
@@ -116,7 +120,7 @@ public class PlayFab {
         UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest();
 
         StatisticUpdate statUpdate = new StatisticUpdate();
-        statUpdate.StatisticName = "MinigameHighScore";
+        statUpdate.StatisticName = gameName;
         statUpdate.Value = score;
 
         ArrayList<StatisticUpdate> statisticUpdates = new ArrayList<>();
@@ -133,11 +137,11 @@ public class PlayFab {
         }
     }
 
-    public String[] getUsernames() {
+    public ArrayList<String> getUsernames() {
         return usernames;
     }
 
-    public String[] getHighscores() {
+    public ArrayList<String> getHighscores() {
         return highscores;
     }
 

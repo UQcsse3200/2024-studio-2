@@ -711,7 +711,7 @@ public class MainMenuDisplay extends UIComponent {
         minigameLeaderboard = new MinigameLeaderboard();
         leaderboardTable = minigameLeaderboard.makeLeaderboardTable();
         leaderboardTable.setVisible(false);
-        leaderboardTable.setSize(663, 405);
+        leaderboardTable.setSize(525, 675);
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();

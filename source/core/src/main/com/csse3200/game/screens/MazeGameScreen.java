@@ -186,7 +186,7 @@ public class MazeGameScreen extends PausableScreen {
     private void endGame(int score) {
         this.EndScore = score;
         GameState.minigame.addHighScore("maze", score);
-        PlayFab.submitScore(score);
+        PlayFab.submitScore("Fish", score);
         logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
     }
 

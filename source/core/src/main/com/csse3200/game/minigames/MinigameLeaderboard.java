@@ -29,11 +29,12 @@ public class MinigameLeaderboard extends UIComponent {
     private Table table;
     private Table topTable;
     private Table contentTable;
+    private Table buttonRow;
     private Label title;
     private Label warningLabel;
 
-    String[] playerNames;
-    String[] playerScores;
+    private ArrayList<String> playerNames;
+    private ArrayList<String> playerScores;
 
     private ArrayList<Label> usernames;
     private ArrayList<Label> highscores;
@@ -42,6 +43,12 @@ public class MinigameLeaderboard extends UIComponent {
     private Texture backgroundTexture;
     private Texture closeButtonTexture;
     private PlayFab playFab;
+    private ArrayList<String> gameName;
+
+    private CustomButton snakeButton;
+    private CustomButton birdButton;
+    private CustomButton fishButton;
+    private int currentIdx;
     /**
      * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
      * and prepares the display for user interaction.
@@ -49,6 +56,11 @@ public class MinigameLeaderboard extends UIComponent {
     public MinigameLeaderboard() {
         super();
         playFab = new PlayFab("DBB26");
+        gameName = new ArrayList<>();
+        gameName.add("Snake");
+        gameName.add("Bird");
+        gameName.add("Fish");
+        currentIdx = 0;
     }
 
     /**
@@ -71,7 +83,7 @@ public class MinigameLeaderboard extends UIComponent {
      * Loads the necessary textures for the UI components.
      */
     private void loadTextures() {
-        backgroundTexture = new Texture("images/SettingBackground.png");
+        backgroundTexture = new Texture("images/backgrounds/LeaderboardBackground.png");
         closeButtonTexture = new Texture("images/CloseButton.png");
     }
 
@@ -83,8 +95,9 @@ public class MinigameLeaderboard extends UIComponent {
         table = new Table();
         topTable = new Table();
         contentTable = new Table();
+        buttonRow = new Table();
         table.setBackground(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
-        table.setSize(663, 405);
+        table.setSize(300, 450);
         title = new Label("Leaderboard", skin, "title-white");
         warningLabel = new Label("You need to login to see the leaderboard", skin, "large-white");
         warningLabel.setWrap(true);
@@ -94,11 +107,10 @@ public class MinigameLeaderboard extends UIComponent {
     }
 
     public void refreshLeaderboard() {
-        PlayFab.submitScore(0);
-        PlayFab.getLeaderboard();
+        PlayFab.submitScore(gameName.get(currentIdx), 0);
+        PlayFab.getLeaderboard(gameName.get(currentIdx));
         updateLeaderboard();
         updateUI();
-
     }
     private void updateLeaderboard() {
         playerNames = playFab.getUsernames();
@@ -107,16 +119,15 @@ public class MinigameLeaderboard extends UIComponent {
         highscores.clear();
 
 
-        for (int i = 0; i < playerNames.length; i++) {
-            Label newPlayerName = new Label(playerNames[i], skin, "default");
+        for (int i = 0; i < playerNames.size(); i++) {
+            Label newPlayerName = new Label(playerNames.get(i), skin, "default");
             usernames.add(newPlayerName);
         }
 
-        for (int i = 0; i < playerScores.length; i++) {
-            Label newPlayerScore= new Label(playerScores[i], skin, "default");
+        for (int i = 0; i < playerScores.size(); i++) {
+            Label newPlayerScore= new Label(playerScores.get(i), skin, "default");
             highscores.add(newPlayerScore);
         }
-        System.out.println(playerNames[0]);
     }
 
     /**
@@ -135,6 +146,23 @@ public class MinigameLeaderboard extends UIComponent {
 
         refreshButton = new CustomButton("Refresh", skin);
         refreshButton.addClickListener(this::refreshLeaderboard);
+
+        snakeButton = new CustomButton("Snake", skin);
+        snakeButton.addClickListener(() -> moveToLeaderboard("Snake"));
+
+        birdButton = new CustomButton("Bird", skin);
+        birdButton.addClickListener(() -> moveToLeaderboard("Bird"));
+
+        fishButton = new CustomButton("Fish", skin);
+        fishButton.addClickListener(() -> moveToLeaderboard("Fish"));
+    }
+
+    private void moveToLeaderboard(String name) {
+        PlayFab.getLeaderboard(name);
+        PlayFab.submitScore(gameName.get(currentIdx), 0);
+        currentIdx = gameName.indexOf(name);
+        updateLeaderboard();
+        updateUI();
     }
 
     /**
@@ -152,8 +180,8 @@ public class MinigameLeaderboard extends UIComponent {
 
         if (PlayFab.isLogin) {
             // Add table headers for username and score
-            contentTable.add(new Label("Username", skin, "large-white")).padRight(30f).expandX().left();
-            contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).expandX().right();
+            contentTable.add(new Label("Username", skin, "large-white")).padRight(30f).left();
+            contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).right();
 
             contentTable.row();
             for (int i = 0; i < usernames.size(); i++) {
@@ -162,20 +190,25 @@ public class MinigameLeaderboard extends UIComponent {
                 contentTable.row();
             }
 
+            buttonRow.add(snakeButton).size(150, 50).padRight(10);  // Add snake button
+            buttonRow.add(birdButton).size(150, 50).padRight(10);   // Add bird button
+            buttonRow.add(fishButton).size(150, 50);                // Add fish button
 
-            table.add(topTable).expandX().fillX().padTop(20);
+            table.add(topTable).expandX().fillX().padTop(-10);
             table.row();
-            table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(20);
+            table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(-100);
             table.row();
-            table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50f);
+            table.add(buttonRow).expandX().bottom().padBottom(20); // Add buttons row
+            table.row();
+            table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(20);
         } else {
-            contentTable.add(warningLabel).expandX().width(500);
+            contentTable.add(warningLabel).expandX().width(450);
 
-            table.add(topTable).expandX().fillX().padTop(5);
+            table.add(topTable).expandX().fillX().padTop(-5);
             table.row();
             table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(20);
             table.row();
-            table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50f);
+            table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50);
         }
     }
     @Override
