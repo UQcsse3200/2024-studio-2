@@ -81,9 +81,7 @@ public class CombatAreaConfig {
             "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
             "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/enemy-bear.atlas", "images/bee.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas", "images/friendly-pigeon.atlas",
-            "images/friendly-eel.atlas", "images/friendly-macaw.atlas",
-            "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/bee.atlas",
-            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas", "images/enemy-bear.atlas"
+            "images/friendly-eel.atlas", "images/friendly-macaw.atlas"
     };
 
     static final String[] questSounds = {"sounds/QuestComplete.wav"};
