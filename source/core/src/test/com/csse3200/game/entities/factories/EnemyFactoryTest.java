@@ -3,10 +3,7 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.npc.BearAnimationController;
-import com.csse3200.game.components.npc.ChickenAnimationController;
-import com.csse3200.game.components.npc.FrogAnimationController;
-import com.csse3200.game.components.npc.MonkeyAnimationController;
+import com.csse3200.game.components.npc.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
@@ -339,5 +336,102 @@ class EnemyFactoryTest {
                 "bear should have float animation.");
         assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
                 "bear should have spawn animation.");
+    }
+    
+    /**
+     * Tests that the Eel has correct animations.
+     */
+    @Test
+    void TestEelAnimation() {
+        //test that the animation controller is there
+        assertNotNull(eel.getComponent(EelAnimationController.class));
+        
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_down") ,
+                "eel should have swim_down animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_down_right") ,
+                "eel should have swim)down_right animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_right") ,
+                "eel should have swim_right animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_up_right") ,
+                "eel should have swim_up_right animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_up") ,
+                "eel should have swim_up animation.");
+    }
+    
+    /**
+     * Tests that the Eel has correct animations.
+     */
+    @Test
+    void TestJoeyAnimation() {
+        //test that the animation controller is there
+        assertNotNull(joey.getComponent(JoeyAnimationController.class));
+        
+        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "joey should have chase animation.");
+        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("wander") ,
+                "joey should have wander animation.");
+        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
+                "joey should have spawn animation.");
+    }
+    
+    /**
+     * Tests that the bee has correct animations.
+     */
+    @Test
+    void TestBeeAnimation() {
+        //test that the animation controller is there
+        assertNotNull(bee.getComponent(BeeAnimationController.class));
+        
+        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "bee should have chase animation.");
+        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "bee should have float animation.");
+        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("alert") ,
+                "bee should have alert animation.");
+    }
+    
+    /**
+     * Tests that the octopus has correct animations.
+     */
+    @Test
+    void TestOctopusAnimation() {
+        //test that the animation controller is there
+        assertNotNull(octopus.getComponent(OctopusAnimationController.class));
+        
+        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("chase"),
+                "octopus should have chase animation.");
+        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
+                "octopus should have float animation.");
+    }
+    /**
+     * Tests that the macaw has correct animations.
+     */
+    @Test
+    void TestMacawAnimation() {
+        //test that the animation controller is there
+        assertNotNull(macaw.getComponent(MacawAnimationController.class));
+        
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("chase"),
+                "macaw should have chase animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("walk"),
+                "macaw should have float animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("spawn"),
+                "macaw should have float animation.");
+    }
+    
+    /**
+     * Tests that the bigSawFish has correct animations.
+     */
+    @Test
+    void TestBigSawFishAnimation() {
+        //test that the animation controller is there
+        assertNotNull(bigSawFish.getComponent(BigsawfishAnimationController.class));
+        
+        assertTrue(bigSawFish.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "bigSawFish should have chase animation.");
+        assertTrue(bigSawFish.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "bigSawFish should have float animation.");
+        assertTrue(bigSawFish.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
+                "bigSawFish should have spawn animation.");
     }
 }
