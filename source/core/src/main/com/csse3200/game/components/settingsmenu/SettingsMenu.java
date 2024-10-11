@@ -21,8 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SettingsMenu extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
-
     private Window settingsWindow;
     private TextField fpsText;
     private CheckBox fullScreenCheck;
@@ -179,8 +177,8 @@ public class SettingsMenu extends UIComponent {
         Table bottomTable = new Table();
 
         CustomButton applyButton = new CustomButton("Apply", skin);
-        applyButton.setButtonSize(Math.min(1000f, Gdx.graphics.getWidth() - 100) * 0.25f, 50f);  // Set button to 20% width, 50px height
-        bottomTable.add(applyButton).right().size(Math.min(1000f, Gdx.graphics.getWidth() - 100) * 0.25f, 50f).pad(10f);  // Position at the bottom right
+        applyButton.setButtonSize(Math.min(1000f, Gdx.graphics.getWidth() - 100f) * 0.25f, 50f);  // Set button to 20% width, 50px height
+        bottomTable.add(applyButton).right().size(Math.min(1000f, Gdx.graphics.getWidth() - 100f) * 0.25f, 50f).pad(10f);  // Position at the bottom right
 
         // Apply button listener
         applyButton.addListener(new ChangeListener() {

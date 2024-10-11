@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class Tile {
     // data for wave function collapse
-    private TextureRegion texture;
-    private List<String> edgeTiles;
-    private String name;
-    private String centre;
+    private final TextureRegion texture;
+    private final List<String> edgeTiles;
+    private final String name;
+    private final String centre;
 
     // all possible tiles
     private BitSet up = new BitSet();
