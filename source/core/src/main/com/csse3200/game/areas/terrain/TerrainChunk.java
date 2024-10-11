@@ -51,14 +51,14 @@ public class TerrainChunk {
     int cPosX = chunkPos.x * CHUNK_SIZE;
     int cPosY = chunkPos.y * CHUNK_SIZE;
 
-    // if chunk is in another area, then terrainResource load assest for that area
-    // INFO: The Map is equally divied into three areaas. Each area is 16x10 tiles wide.
+    // if chunk is in another area, then terrainResource load asset for that area
+    // INFO: The Map is equally divided into three areas. Each area is 16x10 tiles wide.
     inArea = checkAreaType(position);
     switch (inArea) {
-      case MapType.FOREST -> totalTiles = terrainResource.getForestSize();
-      case MapType.WATER -> totalTiles = terrainResource.getWaterSize();
-      case MapType.FOG -> totalTiles = terrainResource.getFogSize();
-      default -> totalTiles = terrainResource.getAirSize();
+      case MapType.FOREST -> totalTiles = terrainResource.getTileSize(TileLocation.FOREST);
+      case MapType.WATER -> totalTiles = terrainResource.getTileSize(TileLocation.WATER);
+      case MapType.FOG -> totalTiles = terrainResource.getTileSize(TileLocation.FOG);
+      default -> totalTiles = terrainResource.getTileSize(TileLocation.AIR);
     }
 
     for (int i = 0; i < 256; ++i) {

@@ -93,22 +93,6 @@ public class TerrainResource {
         this.setPossibleTiles();
     }
 
-    public int getForestSize() {
-        return forestSize;
-    }
-
-    public int getWaterSize() {
-        return waterSize;
-    }
-
-    public int getAirSize() {
-        return airSize;
-    }
-
-    public int getFogSize() {
-        return fogSize;
-    }
-
     public List<Tile> getMapTiles(MapHandler.MapType mapType) {
         return switch (mapType) {
             case FOREST -> forestTiles;
