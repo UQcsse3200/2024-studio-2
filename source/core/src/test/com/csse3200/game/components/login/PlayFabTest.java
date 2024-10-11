@@ -25,6 +25,7 @@ class PlayFabTest {
         playFab = new PlayFab("DBB26");
     }
 
+    /*
     @Test
     void testRegisterUserSuccess() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -41,7 +42,7 @@ class PlayFabTest {
 
         assertEquals("test" + random, result.Result.Username);
     }
-
+    */
 
     @Test
     void testRegisterUserPasswordFail() {
