@@ -26,7 +26,7 @@ public class HelpWindow {
     private final Drawable settingDrawable;
     private final float windowWidth;
     private final float windowHeight;
-    private final Table helpWindow;
+    private final Table helpWindowTable;
 
     private int currentSlide;
     private Table slideTable;
@@ -39,12 +39,12 @@ public class HelpWindow {
         this.settingDrawable = settingDrawable;
 
         // Set the window size based on the screen size
-        this.windowWidth = Math.min(1000f, Gdx.graphics.getWidth() - 100);
-        this.windowHeight = Math.min(600f, Gdx.graphics.getHeight() - 100);
-        this.currentSlide = 0;
+        windowWidth = Math.min(1000f, Gdx.graphics.getWidth() - 100f);
+        windowHeight = Math.min(600f, Gdx.graphics.getHeight() - 100f);
+        currentSlide = 0;
 
         // Initialize the help window and slides
-        this.helpWindow = createHelpWindow();
+        helpWindowTable = createHelpWindow();
         initializeSlides();
     }
 
@@ -173,14 +173,14 @@ public class HelpWindow {
      */
     public void show() {
         updateSlide(); // Set the first slide as visible
-        helpWindow.setPosition(
-                (stage.getWidth() - helpWindow.getWidth()) / 2,
-                (stage.getHeight() - helpWindow.getHeight()) / 2
+        helpWindowTable.setPosition(
+                (stage.getWidth() - helpWindowTable.getWidth()) / 2,
+                (stage.getHeight() - helpWindowTable.getHeight()) / 2
         );
-        stage.setKeyboardFocus(helpWindow);
+        stage.setKeyboardFocus(helpWindowTable);
 
         // Add an InputListener to handle keyboard input (LEFT/RIGHT keys for slide navigation)
-        helpWindow.addListener(new InputListener() {
+        helpWindowTable.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
@@ -189,7 +189,7 @@ public class HelpWindow {
                             slideInstances[currentSlide].setVisible(false);
                             currentSlide--;
                             updateSlide();
-                            logger.info("Slide changed to: " + (currentSlide + 1) + " (via LEFT key)");
+                            logger.info("Slide changed to: {}", (currentSlide + 1) + " (via LEFT key)");
                         }
                         return true;
                     case Input.Keys.RIGHT:
@@ -197,7 +197,7 @@ public class HelpWindow {
                             slideInstances[currentSlide].setVisible(false);
                             currentSlide++;
                             updateSlide();
-                            logger.info("Slide changed to: " + (currentSlide + 1) + " (via RIGHT key)");
+                            logger.info("Slide changed to: {}", (currentSlide + 1) + " (via RIGHT key)");
                         }
                         return true;
                     default:
@@ -206,7 +206,7 @@ public class HelpWindow {
             }
         });
 
-        stage.addActor(helpWindow);
+        stage.addActor(helpWindowTable);
     }
 
     /**
