@@ -27,6 +27,8 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class GdxGame extends Game {
     private static final Logger logger = LoggerFactory.getLogger(GdxGame.class);
+    
+    private boolean enemyWasBeaten = false;
 
     @Override
     public void create() {
@@ -139,8 +141,9 @@ public class GdxGame extends Game {
 
     public void returnFromCombat (Screen screen, ServiceContainer container, Entity enemy) {
         setOldScreen(screen, container);
-        if (CombatActions.enemyBeat) {
+        if (enemyWasBeaten) {
             ((MainGameScreen) screen).getGameArea().spawnConvertedNPCs(enemy);
+            enemyWasBeaten = false;
         }
         List<Entity> enemies = ((MainGameScreen) screen).getGameArea().getEnemies();
         for (Entity e : enemies) {
@@ -214,5 +217,9 @@ public class GdxGame extends Game {
      */
     public void exit() {
         app.exit();
+    }
+    
+    public void setEnemyWasBeaten(boolean value) {
+        this.enemyWasBeaten = value;
     }
 }

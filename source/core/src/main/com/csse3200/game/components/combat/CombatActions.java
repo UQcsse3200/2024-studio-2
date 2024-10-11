@@ -18,7 +18,6 @@ import java.util.Objects;
  * events is triggered.
  */
 public class CombatActions extends Component {
-  public static boolean enemyBeat = false;
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
   private GdxGame game;
   private final CombatManager manager;
@@ -60,7 +59,7 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Entity enemy) {
     logger.debug("Returning to main game screen after combat win.");
-    enemyBeat = true;
+    game.setEnemyWasBeaten(true);
     // Reset player's stamina.
     manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
