@@ -365,8 +365,6 @@ public class EnemyFactory {
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
 
         joey
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, false, 1))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new JoeyAnimationController());
 
