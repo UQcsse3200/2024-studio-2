@@ -83,7 +83,7 @@ public class BirdieDashScreen extends PausableScreen {
         ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/bird-bg.mp3"});
         ServiceLocator.getResourceService().loadAll();
 
-        setupExitButton();
+        //setupExitButton();
         createUI();
 
         AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
@@ -146,7 +146,7 @@ public class BirdieDashScreen extends PausableScreen {
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
-        setupExitButton();
+        //setupExitButton();
         scoreBoard.resize();
     }
 

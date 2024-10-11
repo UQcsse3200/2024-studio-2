@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.minigames.MiniGameConstants;
 
 import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
@@ -48,7 +47,7 @@ public class ScoreBoard {
             this.scale = 1;
             this.highscore = GameState.minigame.getHighScore("snake");
         } else if (gameName == BIRD) {
-            this.scale = 1;
+            this.scale = 0.6;
             this.highscore =  GameState.minigame.getHighScore("bird");
         } else { // MAZE
             this.scale = 1;
@@ -129,14 +128,20 @@ public class ScoreBoard {
         // Scale the table's size and position based on screen dimensions
         table.setSize((float) (screenWidth * 0.3f * scale), ((float) (screenHeight * 0.2f * scale)));
         //table.setPosition(0, screenHeight - table.getHeight() - 15); // top right of screen
-        table.setPosition(screenWidth - table.getWidth() + 40,
-                screenHeight - table.getHeight() - 4);
+        if (gameName == BIRD) {
+            table.setPosition(screenWidth - table.getWidth() + 5, //45
+                    screenHeight - table.getHeight() - 5); //-4
+        }
+        if (gameName ==  SNAKE) {
+            table.setPosition(screenWidth - table.getWidth() + 45, //45
+                    screenHeight - table.getHeight() - 5); //-4
+        }
 
         // Adjust padding and font sizes within the table for the scaling factor
-        scoreLabel.setFontScale(1.6f * scaleFactor);
-        highscoreLabel.setFontScale(1.6f * scaleFactor);
+        scoreLabel.setFontScale(2f * scaleFactor);
+        highscoreLabel.setFontScale(2f * scaleFactor);
         table.clear();
-        table.add(scoreLabel).center().padTop(60 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
+        table.add(scoreLabel).center().padTop(58 * scaleFactor).padBottom(9 * scaleFactor).expandX().fillX().padLeft(109 * scaleFactor);
         table.row();
         table.add(highscoreLabel).center().padTop(20 * scaleFactor).padBottom(10 * scaleFactor).expandX().fillX().padLeft(120 * scaleFactor);
         table.row();

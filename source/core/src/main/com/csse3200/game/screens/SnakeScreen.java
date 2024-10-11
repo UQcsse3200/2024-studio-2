@@ -100,7 +100,7 @@ public class SnakeScreen extends PausableScreen {
         ServiceLocator.getResourceService().loadAll();
         AudioManager.playMusic("sounds/minigames/snake-bg.mp3", true);
 
-        setupExitButton();
+        //setupExitButton();
         createUI();
     }
 
@@ -170,7 +170,7 @@ public class SnakeScreen extends PausableScreen {
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
-        setupExitButton();
+        //setupExitButton();
         snakeRenderer.resize(width, height);
     }
 
