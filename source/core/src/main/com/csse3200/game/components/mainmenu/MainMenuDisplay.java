@@ -73,7 +73,7 @@ public class MainMenuDisplay extends UIComponent {
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
-
+    private boolean dogDirection = true;
     private Cursor customCursor;
     private CustomButton startBtn;
     private CustomButton loadBtn;
@@ -952,7 +952,6 @@ public class MainMenuDisplay extends UIComponent {
 
         // flip dog if out of screen
         float dogX = dogAniImage.getX();
-        boolean dogDirection = false;
         if (dogX < -200 && dogDirection) {
             dogDirection = false;
             dogAniImage.setScale(1, 1);
