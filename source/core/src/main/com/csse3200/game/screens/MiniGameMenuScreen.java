@@ -24,7 +24,7 @@ public class MiniGameMenuScreen implements Screen {
     private Skin skin;
     private SpriteBatch batch;
     private float scale;
-    private SnakePopup helpWindow;
+
 
     private Texture backgroundTexture;
 
@@ -52,8 +52,10 @@ public class MiniGameMenuScreen implements Screen {
         setupMinigameUI("Snake", "images/minigames/snakeicon.png", 0.2f, 1, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                helpWindow = new SnakePopup("images/minigames/BirdieDashPopUp.png");
-                helpWindow.show();
+
+                game.enterSnakeScreen();
+            // helpWindow = new SnakePopup("images/minigames/BirdieDashPopUp.png");
+               // helpWindow.show();
             }
         });
 
@@ -169,9 +171,7 @@ public class MiniGameMenuScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
             game.setScreen(new MainMenuScreen(game));
         }
-        if (helpWindow != null) {
-            helpWindow.render();
-        }
+
     }
 
     /**
@@ -217,9 +217,7 @@ public class MiniGameMenuScreen implements Screen {
      *  Disposes of stage, skin, textures and batch
      */
     @Override
-    public void dispose() { if (helpWindow != null) {
-        helpWindow.dispose();
-    }
+    public void dispose() {
         stage.dispose();
         skin.dispose();
         backgroundTexture.dispose();
