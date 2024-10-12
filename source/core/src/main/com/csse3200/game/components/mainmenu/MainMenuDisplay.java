@@ -549,21 +549,62 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(loginRegisterTable);
     }
-
     private void addTrophyTable() {
-        trophyTable.setSize(175, 175);
+        // Clear existing content to prevent duplication and allow resizing
+        trophyTable.clear();
         trophyTable.setVisible(true);
-        trophyTable.setPosition(10, Gdx.graphics.getHeight() - 350);
-        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
-        trophyTable.add(trophyBtn).size(110, 110).top().padTop(30).expandY();
 
+        // Get current screen dimensions
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Determine the size and position based on the screen dimensions
+        float tableSize = screenWidth * 0.08f;
+        float positionX = 10f;
+        float positionY = screenHeight - tableSize - 150f;
+
+        // Set the size and position of the trophyTable
+        trophyTable.setSize(tableSize, tableSize);
+        trophyTable.setPosition(positionX, positionY);
+
+        // Create the trophy button with the appropriate size
+        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
+        trophyTable.add(trophyBtn).size(tableSize * 0.8f, tableSize * 0.8f).top().padTop(30).expandY();
+
+        // Add the listener to the trophy button
         trophyBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 leaderboardTable.setVisible(true);
             }
         });
-        stage.addActor(trophyTable);
+
+        // Add the trophyTable to the stage if it's not already added
+        if (!stage.getActors().contains(trophyTable, true)) {
+            stage.addActor(trophyTable);
+        }
+    }
+    /**
+     * Update the size and position of the leaderboard table based on screen size and fullscreen mode.
+     */
+    public void updateLeaderboardTable() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Adjust size percentages based on fullscreen or windowed mode
+        float widthPercentage = Gdx.graphics.isFullscreen() ? 0.5f : 0.6f;
+        float heightPercentage = Gdx.graphics.isFullscreen() ? 0.7f : 0.8f;
+
+        float newWidth = screenWidth * widthPercentage;
+        float newHeight = screenHeight * heightPercentage;
+
+        leaderboardTable.setSize(newWidth, newHeight);
+
+        // Center the leaderboard table on the screen
+        leaderboardTable.setPosition(
+                (screenWidth - newWidth) / 2,
+                (screenHeight - newHeight) / 2
+        );
     }
 
     private void addLeaderboardTable() {
@@ -656,12 +697,16 @@ public class MainMenuDisplay extends UIComponent {
                     settings.fullscreen = false;
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
+                    updateLeaderboardTable();
+                    addTrophyTable();
                 } else {
                     // Fullscreen mode
                     UserSettings.Settings settings = UserSettings.get();
                     settings.fullscreen = true;
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
+                    updateLeaderboardTable();
+                    addTrophyTable();
                 }
                 logger.info("Fullscreen toggled: {}", !isFullscreen);
             }
