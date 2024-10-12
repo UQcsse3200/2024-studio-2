@@ -137,7 +137,7 @@ public class MainMenuDisplay extends UIComponent {
         crocTexture = new Texture("images/croc.png");
         toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
         cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
-        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashEmptyNight.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
         Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
@@ -329,6 +329,7 @@ public class MainMenuDisplay extends UIComponent {
      * Opens the chatbot dialog in the center of the screen.
      */
     private void openChatbotDialog() {
+        int chatWidth = 600;
         chatbotDialog = new Dialog("", skin) {
             @Override
             protected void result(Object object) {
@@ -367,7 +368,7 @@ public class MainMenuDisplay extends UIComponent {
         userInputField.setAlignment(Align.center);
 
         // Submit button
-        TextButton sendButton = new TextButton("Send", skin);
+        CustomButton sendButton = new CustomButton("Send", skin);
         sendButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -382,7 +383,7 @@ public class MainMenuDisplay extends UIComponent {
         chatbotResponseLabel.setWidth(500);
 
         // Close button
-        TextButton closeButton = new TextButton("Close", skin);
+        CustomButton closeButton = new CustomButton("Close", skin);
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -394,10 +395,10 @@ public class MainMenuDisplay extends UIComponent {
         Table contentTable = new Table();
         contentTable.add(titleLabel).padTop(20).center().row(); // Add title at the top
         contentTable.add(questionTable).expandX().fillX().pad(20).row(); // Add question buttons
-        contentTable.add(userInputField).width(600).pad(10).row(); // Add input field
-        contentTable.add(sendButton).pad(10).row(); // Add send button
-        contentTable.add(chatbotResponseLabel).width(600).pad(10).row(); // Add response label
-        contentTable.add(closeButton).pad(10).row(); // Add close button
+        contentTable.add(userInputField).width(chatWidth).pad(10).row(); // Add input field
+        contentTable.add(sendButton).pad(10).width(180f).height(45f).row(); //.row(); // Add send button
+        contentTable.add(chatbotResponseLabel).width(chatWidth).pad(10).row(); // Add response label
+        contentTable.add(closeButton).pad(10).width(180f).height(45f).row(); // .row(); // Add close button
 
         chatbotDialog.getContentTable().add(contentTable).expandX().fillX(); // Add all elements to the dialog's content table
 
@@ -643,7 +644,7 @@ public class MainMenuDisplay extends UIComponent {
      * Applies Day Mode by changing the background texture to the default day version.
      */
     private void applyDayMode() {
-        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");  // Set the day mode background.
+        lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");  // Set the day mode background.
     }
 
     private void updateMuteButtonIcon() {
@@ -695,7 +696,7 @@ public class MainMenuDisplay extends UIComponent {
         trophyTable.setSize(175, 175);
         trophyTable.setVisible(true);
         trophyTable.setPosition(10, Gdx.graphics.getHeight() - 350);
-        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
+        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
         trophyTable.add(trophyBtn).size(110, 110).top().padTop(30).expandY();
 
         trophyBtn.addListener(new ChangeListener() {
