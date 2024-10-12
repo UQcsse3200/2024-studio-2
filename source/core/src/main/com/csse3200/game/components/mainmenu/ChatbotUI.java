@@ -143,6 +143,8 @@ public class ChatbotUI {
         contentTable.add(closeButton).pad(10).width(180f).height(45f).row();
 
         chatbotDialog.getContentTable().add(contentTable).expandX().fillX();
+
+        chatbotDialog.setModal(false); // Disable modal behavior to allow interaction with other UI elements
     }
 
     private void centerDialogOnScreen() {
@@ -159,6 +161,17 @@ public class ChatbotUI {
         predefinedQuestions.add("What's the objective?");
         predefinedQuestions.add("How can I save my game?");
         predefinedQuestions.add("Hello");
+    }
+
+    public void updateChatbotDialogPosition() {
+        if (chatbotDialog != null) {
+            float screenWidth = Gdx.graphics.getWidth();
+            float screenHeight = Gdx.graphics.getHeight();
+            chatbotDialog.setPosition(
+                    (screenWidth - chatbotDialog.getWidth()) / 2,
+                    (screenHeight - chatbotDialog.getHeight()) / 2
+            );
+        }
     }
 
     /**
