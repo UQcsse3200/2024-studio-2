@@ -68,6 +68,7 @@ public class ForestGameArea extends GameArea {
     private final Map<Integer, Entity> dynamicItems = new HashMap<>();
     private int totalForestItems = 0;
     private int totalOceanItems = 0;
+    private int totalAirItems = 0;
     private Entity player;
 
     private final GdxGame game;
@@ -127,7 +128,7 @@ public class ForestGameArea extends GameArea {
         spawnEnemies();
 
         // items
-        handleItems("Water");
+        handleItems("Water", "Air");
 
         //Friendlies
         spawnFriendlyNPCs();
@@ -244,17 +245,20 @@ public class ForestGameArea extends GameArea {
     private void handleNewChunks(Vector2 playerPos) {
         if (TerrainLoader.movedChunk(playerPos)) {
             logger.debug("Player position is: ({}, {})", playerPos.x, playerPos.y);
-            handleItems("Water");
+            handleItems("Water", "Air");
         }
     }
 
-    private void handleItems(String area) {
+    private void handleItems(String ocean, String air) {
         // Spawn items on new chunks
         for (GridPoint2 pos : terrain.getNewChunks()) {
-            spawnForestItems(TerrainLoader.chunktoWorldPos(pos));
-            //if (terrain.getMap().getLayers().get(area).isVisible()){
-                spawnOceanItems(TerrainLoader.chunktoWorldPos(pos));
-            //}
+            spawnForestItems();
+            if (terrain.getMap().getLayers().get(ocean).isVisible()){
+                spawnOceanItems();
+            }
+            if (terrain.getMap().getLayers().get(air).isVisible()){
+                spawnAirItems();
+            }
         }
 
 
@@ -446,11 +450,71 @@ public class ForestGameArea extends GameArea {
                 entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
     }
 
-    private void spawnOceanItems(GridPoint2 pos) {
+    /**
+     * Spawns the air items on the map. Each item will have different spawning rate depending on
+     * how useful their effects are.
+     */
+    private void spawnAirItems() {
+        Supplier<Entity> generator;
+        // Health Potions
+        if (random.nextFloat() <= 0.40) { // Spawn rate is 40%
+            generator = () -> ItemFactory.createHealthPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_HEALTH_POTIONS, 3);
+        }
+
+        // Defense Potions
+        if (random.nextFloat() <= 0.15) {
+            generator = () -> ItemFactory.createDefensePotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 3);
+        }
+
+        // Attack Potions
+        if (random.nextFloat() <= 0.15) {
+            generator = () -> ItemFactory.createAttackPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_ATTACK_POTIONS, 3);
+        }
+
+        // Speed Potions
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createSpeedPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_SPEED_POTIONS, 3);
+        }
+
+        // Apples
+        if (random.nextFloat() <= 0.50) {
+            generator = () -> ItemFactory.createApple(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_APPLES, 3);
+        }
+
+        // Cloud Cookies
+        if (random.nextFloat() <= 0.50) {
+            generator = () -> ItemFactory.createCloudCookie(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CLOUD_COOKIES, 3);
+        }
+
+        // Cloud Cupcake
+        if (random.nextFloat() <= 0.35) {
+            generator = () -> ItemFactory.createCloudCupcakes(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CLOUD_CUPCAKES, 3);
+        }
+
+        // Cotton Cloud
+        if (random.nextFloat() <= 0.25) {
+            generator = () -> ItemFactory.createCottonCLoud(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_COTTON_CLOUD, 3);
+        }
+    }
+
+
+    /**
+     * Spawns the ocean items on the map. Each item will have different spawning rate depending on
+     * how useful their effects are.
+     */
+    private void spawnOceanItems() {
         Supplier<Entity> generator;
 
         // Health Potions
-        if (random.nextFloat() <= 0.40) {
+        if (random.nextFloat() <= 0.40) { // Spawn rate is 40%
             generator = () -> ItemFactory.createHealthPotion(player);
             spawnFixedItems(generator, ForestSpawnConfig.NUM_HEALTH_POTIONS, 2);
         }
@@ -492,7 +556,7 @@ public class ForestGameArea extends GameArea {
         }
     }
 
-    private void spawnForestItems(GridPoint2 pos) {
+    private void spawnForestItems() {
         Supplier<Entity> generator;
 
     // Health Potions
@@ -710,8 +774,7 @@ public class ForestGameArea extends GameArea {
                 dynamicItems.put(totalForestItems, item);
                 totalForestItems++;
             }
-        }
-        else if (zone == 2 && totalForestItems < 50) {
+        } else if (zone == 2 && totalForestItems < 50) {
             int oceamItemsToSpawn = Math.min(numItems, 50 - totalForestItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
@@ -722,6 +785,18 @@ public class ForestGameArea extends GameArea {
                 spawnEntityAt(item, randomPos, true, false);
                 dynamicItems.put(totalOceanItems, item);
                 totalOceanItems++;
+            }
+        } else if (zone == 3 && totalAirItems < 50) {
+            int airItemsToSpawn = Math.min(numItems, 50 - totalAirItems);
+            GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+            GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
+
+            for (int i = 0; i < airItemsToSpawn; i++) {
+                GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+                Entity item = creator.get();
+                spawnEntityAt(item, randomPos, true, false);
+                dynamicItems.put(totalAirItems, item);
+                totalAirItems++;
             }
         }
     }
