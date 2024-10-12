@@ -168,7 +168,7 @@ public class CombatButtonDisplay extends UIComponent {
             // Brings up the combat hint when the user hovers over attack button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Lower enemy HP but drains stamina!");
+                setTextForCombatHint("Lower enemy HP but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the attack button
@@ -191,7 +191,7 @@ public class CombatButtonDisplay extends UIComponent {
             // Brings up the combat hint when the user hovers over guard button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Reduces damage of the next attack but drains stamina!");
+                setTextForCombatHint("Reduces damage of the next attack but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the guard button
@@ -213,7 +213,7 @@ public class CombatButtonDisplay extends UIComponent {
         sleepButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Recover health and stamina but potentially take more damage!");
+                setTextForCombatHint("Recover health and hunger but potentially take more damage!");
                 return true;
             }
 
@@ -235,7 +235,7 @@ public class CombatButtonDisplay extends UIComponent {
         itemsButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Access items to either buff yourself or debuff the enemy");
+                setTextForCombatHint("Access items to either buff yourself or de-buff the enemy");
                 return true;
             }
 
