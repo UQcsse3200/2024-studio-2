@@ -51,19 +51,22 @@ public class ChatbotUI {
             logger.info("Creating chatbot dialog.");
             createChatbotDialog();
         }
-        chatbotDialog.show(stage, Actions.sequence(Actions.alpha(1f)));
+
+        chatbotDialog.clearActions();
+        chatbotDialog.setVisible(true);
+        chatbotDialog.pack();
         centerDialogOnScreen();
+        if (!stage.getActors().contains(chatbotDialog, true)) {
+            stage.addActor(chatbotDialog);
+        }
         isChatbotDialogVisible = true;
     }
 
-    /**
-     * Closes the chatbot dialog.
-     */
     public void closeChatbotDialog() {
         if (chatbotDialog != null && isChatbotDialogVisible) {
             logger.info("Closing chatbot dialog.");
-            chatbotDialog.hide();
-            isChatbotDialogVisible = false;
+            chatbotDialog.setVisible(false); // Instantly hide the dialog
+            isChatbotDialogVisible = false;  // Update the visibility flag
         }
     }
 
