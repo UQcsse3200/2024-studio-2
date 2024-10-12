@@ -298,11 +298,11 @@ public class EnemyFactory {
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation("swim_down", 0.25f, Animation.PlayMode.LOOP);
-        animator.addAnimation("swim_down_right", 0.25f, Animation.PlayMode.LOOP);
-        animator.addAnimation("swim_right", 0.25f, Animation.PlayMode.LOOP);
-        animator.addAnimation("swim_up_right", 0.25f, Animation.PlayMode.LOOP);
-        animator.addAnimation("swim_up", 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNDOWN, 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNUP, 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHTDOWN, 0.25f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHTUP, 0.25f, Animation.PlayMode.LOOP);
 
         eel
                 .addComponent(animator)
@@ -327,19 +327,19 @@ public class EnemyFactory {
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation("run_down", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("run_up", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("run_left", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("run_right", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("run_left_down", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("run_right_down", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("run_left_up", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("run_right_up", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("wait", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNDOWN, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNUP, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNLEFT, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNLEFTDOWN, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHTDOWN, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNLEFTUP, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHTUP, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.1f, Animation.PlayMode.LOOP);
 
         monkey
                 .addComponent(animator)
-                .addComponent(new MonkeyAnimationController());
+                .addComponent(new EnemyAnimationController());
 
         monkey.getComponent(AnimationRenderComponent.class).scaleEntity();
 
