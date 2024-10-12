@@ -3,7 +3,9 @@ package com.csse3200.game.components.stats;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,12 +82,14 @@ public class StatManager extends Component {
                 logger.info("stat not found in stats");
             }
         }
-        saveStats(stats);
+//        saveStats(stats);
+        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
     }
 
     @Override
     public void dispose() {
-        saveStats(stats);
+//        saveStats(stats);
+        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         super.dispose();
     }
 }

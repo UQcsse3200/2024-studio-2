@@ -1,5 +1,6 @@
 package com.csse3200.game.components.stats;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -293,7 +296,8 @@ public class StatDisplay extends UIComponent {
      * Sets the current game screen back to the main menu.
      */
     void exitMenu() {
-        saveStats(stats);
+//        saveStats(stats);
+        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
     
@@ -312,7 +316,8 @@ public class StatDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        saveStats(stats);
+//        saveStats(stats);
+        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(StatTextures);
         super.dispose();

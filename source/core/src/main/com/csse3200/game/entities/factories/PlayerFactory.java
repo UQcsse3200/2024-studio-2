@@ -85,7 +85,6 @@ public class PlayerFactory {
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup())
-
                 .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
