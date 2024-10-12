@@ -15,9 +15,9 @@ public class StoryDialogueData {
                 {"Spike was always a good boy and loved his family."},
                 {"He used to love to play fetch and loved balls"},
                 {"But in an instant, everything changed."},
-                {"At first, Spike couldn’t comprehend what had happened."},
+                {"At first, Spike could not comprehend what had happened."},
                 {"He travelled all over the world, looking for his family"},
-                {"As he grew wiser and stronger, he realised, the world had changed."}
+                {"As he grew stronger, he realised, the world had changed."}
         });
 
         // Croc's Story: 7 dialogue screens
@@ -25,7 +25,7 @@ public class StoryDialogueData {
                 {"In the Water Kingdom, a lonely crocodile named Crunch lived."},
                 {"He was a nice croc, always looking out for others"},
                 {"One day, he met Shellby the Turtle. Shellby was a braveheart."},
-                {"They became close friends. "},
+                {"They became close friends."},
                 {"One day, Shellby was attacked by a piranha"},
                 {"Crunch was angry. He wanted revenge."},
                 {"Crunch was ready to give it his all."}
@@ -35,9 +35,9 @@ public class StoryDialogueData {
         dialogues.put("bird", new String[][]{
                 {"In the sky, Sparky the sparrow lived. He idolized his brother."},
                 {"Hawky helped everyone, and he liked collecting shiny coins."}, // links to flappy bird game lol
-                {"All the ladies loved Hawky. They couldnt get enough of him."},
+                {"All the ladies loved Hawky. They could not get enough of him."},
                 {"Hawky protected the realm from dark evil creatures"},
-                {"Sparky saw this and was inspired... He was gonna hunt down evil. "}
+                {"Sparky saw this and was inspired..."}
         });
     }
 

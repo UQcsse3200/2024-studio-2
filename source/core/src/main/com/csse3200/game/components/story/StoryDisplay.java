@@ -21,6 +21,7 @@ import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.ui.CustomButton;
 
 /**
  * A UI component for displaying the story screen. Contains all 6 background images for the StoryScreen.
@@ -106,23 +107,15 @@ public class StoryDisplay extends UIComponent {
         table.row();
 
         // Initialises buttons
-        TextButton nextBtn = new TextButton("Next", skin);
-        TextButton backBtn = new TextButton("Back", skin);
-        TextButton skipBtn = new TextButton(">>", skin);
-
-
-        // Adds UI component (hover over buttons)
-        addButtonElevationEffect(nextBtn);
-        addButtonElevationEffect(backBtn);
-        addButtonElevationEffect(skipBtn);
+        CustomButton nextBtn = new CustomButton("Next", skin);
+        CustomButton backBtn = new CustomButton("Back", skin);
+        CustomButton skipBtn = new CustomButton(">>", skin);
+        skipBtn.setButtonSize(40, 40);
 
         // Added handles for when clicked
-        nextBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Next button clicked");
-                entity.getEvents().trigger("nextDisplay");
-            }
+        nextBtn.addClickListener(() -> {
+            System.out.println("Next button clicked!");
+            entity.getEvents().trigger("nextDisplay");
         });
 
         if (screenNum != 0) {
@@ -160,13 +153,12 @@ public class StoryDisplay extends UIComponent {
         topRightTable.top().right();
         topRightTable.setFillParent(true);
         topRightTable.add(skipBtn).size(40, 40).padTop(10).padRight(10);
+        topRightTable.add(skipBtn).size(40, 40).padTop(10).padRight(10);
 
         stage.addActor(topRightTable);
         stage.addActor(table);
         stage.addActor(bottomLeftTable);
         stage.addActor(bottomRightTable);
-
-
     }
 
     /**
