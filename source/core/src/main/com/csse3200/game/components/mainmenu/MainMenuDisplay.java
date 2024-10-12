@@ -209,6 +209,7 @@ public class MainMenuDisplay extends UIComponent {
             logger.info("Minigames button clicked");
             entity.getEvents().trigger("SnakeGame");
         });
+        minigamesBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
 
 
         settingsBtn = createMenuButton("Settings", () -> {

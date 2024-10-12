@@ -110,7 +110,12 @@ public class StoryDisplay extends UIComponent {
         CustomButton nextBtn = new CustomButton("Next", skin);
         CustomButton backBtn = new CustomButton("Back", skin);
         CustomButton skipBtn = new CustomButton(">>", skin);
-        skipBtn.setButtonSize(40, 40);
+
+        nextBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
+        backBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
+
+        skipBtn.setButtonSize(80, 40);
+        skipBtn.setButtonStyle(CustomButton.Style.SMALL, skin);
 
         // Added handles for when clicked
         nextBtn.addClickListener(() -> {
@@ -152,8 +157,7 @@ public class StoryDisplay extends UIComponent {
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
-        topRightTable.add(skipBtn).size(40, 40).padTop(10).padRight(10);
-        topRightTable.add(skipBtn).size(40, 40).padTop(10).padRight(10);
+        topRightTable.add(skipBtn).size(80, 40).padTop(10).padRight(10);
 
         stage.addActor(topRightTable);
         stage.addActor(table);
