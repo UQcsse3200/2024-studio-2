@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.birdieDash.controller;
+package com.csse3200.game.minigames.birdiedash.controller;
 
 import com.badlogic.gdx.Input.Keys;
 import com.csse3200.game.input.InputComponent;

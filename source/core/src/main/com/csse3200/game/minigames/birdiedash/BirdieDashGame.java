@@ -1,9 +1,9 @@
-package com.csse3200.game.minigames.birdieDash;
+package com.csse3200.game.minigames.birdiedash;
 
 import com.csse3200.game.minigames.MinigameRenderer;
-import com.csse3200.game.minigames.birdieDash.collision.CollisionHandler;
-import com.csse3200.game.minigames.birdieDash.entities.*;
-import com.csse3200.game.minigames.birdieDash.rendering.*;
+import com.csse3200.game.minigames.birdiedash.collision.CollisionHandler;
+import com.csse3200.game.minigames.birdiedash.entities.*;
+import com.csse3200.game.minigames.birdiedash.rendering.*;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 

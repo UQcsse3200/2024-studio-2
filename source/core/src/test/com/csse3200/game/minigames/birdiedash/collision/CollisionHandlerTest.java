@@ -1,11 +1,10 @@
-package com.csse3200.game.minigames.birdieDash.entities.collision;
+package com.csse3200.game.minigames.birdiedash.collision;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.csse3200.game.minigames.birdieDash.collision.CollisionHandler;
-import com.csse3200.game.minigames.birdieDash.entities.Bird;
-import com.csse3200.game.minigames.birdieDash.entities.Coin;
-import com.csse3200.game.minigames.birdieDash.entities.Pipe;
-import com.csse3200.game.minigames.birdieDash.entities.Spike;
+import com.csse3200.game.minigames.birdiedash.entities.Bird;
+import com.csse3200.game.minigames.birdiedash.entities.Coin;
+import com.csse3200.game.minigames.birdiedash.entities.Pipe;
+import com.csse3200.game.minigames.birdiedash.entities.Spike;
 import org.junit.Before;
 import org.junit.Test;
 

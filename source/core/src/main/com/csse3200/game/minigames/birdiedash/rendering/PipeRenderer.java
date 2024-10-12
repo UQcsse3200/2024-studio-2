@@ -1,9 +1,9 @@
-package com.csse3200.game.minigames.birdieDash.rendering;
+package com.csse3200.game.minigames.birdiedash.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.minigames.MinigameRenderable;
 import com.csse3200.game.minigames.MinigameRenderer;
-import com.csse3200.game.minigames.birdieDash.entities.Pipe;
+import com.csse3200.game.minigames.birdiedash.entities.Pipe;
 import com.csse3200.game.minigames.snake.AssetPaths;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;

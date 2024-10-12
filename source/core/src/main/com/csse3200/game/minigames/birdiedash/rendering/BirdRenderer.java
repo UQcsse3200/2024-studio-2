@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.birdieDash.rendering;
+package com.csse3200.game.minigames.birdiedash.rendering;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.minigames.MinigameRenderable;
 import com.csse3200.game.minigames.MinigameRenderer;
-import com.csse3200.game.minigames.birdieDash.entities.Bird;
+import com.csse3200.game.minigames.birdiedash.entities.Bird;
 
 /**
  * Class for rendering the bird with animation in the birdie dash mini-game.

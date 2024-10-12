@@ -1,9 +1,9 @@
-package com.csse3200.game.minigames.birdieDash.collision;
+package com.csse3200.game.minigames.birdiedash.collision;
 
-import com.csse3200.game.minigames.birdieDash.entities.Bird;
-import com.csse3200.game.minigames.birdieDash.entities.Coin;
-import com.csse3200.game.minigames.birdieDash.entities.Pipe;
-import com.csse3200.game.minigames.birdieDash.entities.Spike;
+import com.csse3200.game.minigames.birdiedash.entities.Bird;
+import com.csse3200.game.minigames.birdiedash.entities.Coin;
+import com.csse3200.game.minigames.birdiedash.entities.Pipe;
+import com.csse3200.game.minigames.birdiedash.entities.Spike;
 import com.csse3200.game.services.AudioManager;
 
 import java.util.List;

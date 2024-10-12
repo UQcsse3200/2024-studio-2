@@ -12,8 +12,8 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.minigames.birdieDash.BirdieDashGame;
-import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputComponent;
+import com.csse3200.game.minigames.birdiedash.BirdieDashGame;
+import com.csse3200.game.minigames.birdiedash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.overlays.Overlay;
@@ -37,7 +37,6 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
 import static com.csse3200.game.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.minigames.MiniGameNames.MAZE;
 
 /**
  * Class for Birdie Dash Game Screen

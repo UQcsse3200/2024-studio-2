@@ -1,8 +1,7 @@
-package com.csse3200.game.minigames.birdieDash.entities;
+package com.csse3200.game.minigames.birdiedash.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
-import com.csse3200.game.minigames.birdieDash.entities.Pipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames.birdieDash.entities;
+package com.csse3200.game.minigames.birdiedash.entities;
 
 public class Background {
     private final float start_speed;
