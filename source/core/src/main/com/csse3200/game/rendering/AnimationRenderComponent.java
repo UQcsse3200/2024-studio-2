@@ -56,6 +56,16 @@ public class AnimationRenderComponent extends RenderComponent {
     }
     
     /**
+     * Only used for testing, DO NOT USE
+     */
+    public AnimationRenderComponent() {
+        //only used for testing to create mock object
+        atlas = null;
+        timeSource = null;
+        animations = null;
+    }
+    
+    /**
      * Register an animation from the texture atlas. Will play once when called with startAnimation()
      * @param name Name of the animation. Must match the name of this animation inside the texture
      *             atlas.
