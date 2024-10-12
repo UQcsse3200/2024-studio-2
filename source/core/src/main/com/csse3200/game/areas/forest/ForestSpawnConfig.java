@@ -17,6 +17,11 @@ public class ForestSpawnConfig {
     public static final int NUM_DEFENSE_POTIONS = 1;
     public static final int NUM_ATTACK_POTIONS = 1;
     public static final int NUM_SPEED_POTIONS = 1;
+    public static final int NUM_FRIED_FISH = 1;
+    public static final int NUM_SHRIMP = 1;
+    public static final int NUM_CLOUD_CUPCAKES = 1;
+    public static final int NUM_CLOUD_COOKIES = 1;
+    public static final int NUM_COTTON_CLOUD = 1;
 
     // Enemies
     public static final int NUM_CHICKENS = 4;
