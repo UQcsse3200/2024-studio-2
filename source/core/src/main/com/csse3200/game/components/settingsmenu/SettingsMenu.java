@@ -61,7 +61,7 @@ public class SettingsMenu extends UIComponent {
         // Add the "Settings" heading at the top
         Label titleLabel = new Label("Settings", skin, "title");
         Table titleTable = new Table();
-        titleTable.add(titleLabel).center().padTop(50f).expandX();  // Center the title and add padding
+        titleTable.add(titleLabel).center().padTop(30f).expandX();  // Center the title and add padding
         settingsWindow.add(titleTable).expandX().top().row();  // Add the title table
         settingsWindow.row();
 
