@@ -109,11 +109,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#moveName" class="member-name-link">moveName</a></code></div>
+<div class="col-first even-row-color"><code>protected int</code></div>
+<div class="col-second even-row-color"><code><a href="#hungerCost" class="member-name-link">hungerCost</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected int</code></div>
-<div class="col-second odd-row-color"><code><a href="#staminaCost" class="member-name-link">staminaCost</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#moveName" class="member-name-link">moveName</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
@@ -129,9 +129,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int)" class="member-name-link">CombatMove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;moveName,
- int&nbsp;staminaCost)</code></div>
+ int&nbsp;hungerCost)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructor to initialize the move name and stamina cost.</div>
+<div class="block">Constructor to initialize the move name and hunger cost.</div>
 </div>
 </div>
 </section>
@@ -175,15 +175,15 @@ loadScripts(document, 'script');</script>
 <div class="block">Executes the move with both the attacker's and the target's combat stats,
  accounting for whether the target is guarded and the number of hits landed in a multi-hit attack.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMoveName()" class="member-name-link">getMoveName</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHungerCost()" class="member-name-link">getHungerCost</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the name of the move.</div>
+<div class="block">Gets the hunger cost required to perform the move.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStaminaCost()" class="member-name-link">getStaminaCost</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMoveName()" class="member-name-link">getMoveName</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the stamina cost required to perform the move.</div>
+<div class="block">Gets the name of the move.</div>
 </div>
 </div>
 </div>
@@ -209,9 +209,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="staminaCost">
-<h3>staminaCost</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">staminaCost</span></div>
+<section class="detail" id="hungerCost">
+<h3>hungerCost</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hungerCost</span></div>
 </section>
 </li>
 </ul>
@@ -226,12 +226,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(java.lang.String,int)">
 <h3>CombatMove</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">CombatMove</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;moveName,
- int&nbsp;staminaCost)</span></div>
-<div class="block">Constructor to initialize the move name and stamina cost.</div>
+ int&nbsp;hungerCost)</span></div>
+<div class="block">Constructor to initialize the move name and hunger cost.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>moveName</code> - the name of the move.</dd>
-<dd><code>staminaCost</code> - the amount of stamina required to execute the move.</dd>
+<dd><code>hungerCost</code> - the amount of hunger required to execute the move.</dd>
 </dl>
 </section>
 </li>
@@ -313,13 +313,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getStaminaCost()">
-<h3>getStaminaCost</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getStaminaCost</span>()</div>
-<div class="block">Gets the stamina cost required to perform the move.</div>
+<section class="detail" id="getHungerCost()">
+<h3>getHungerCost</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getHungerCost</span>()</div>
+<div class="block">Gets the hunger cost required to perform the move.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the stamina cost.</dd>
+<dd>the hunger cost.</dd>
 </dl>
 </section>
 </li>

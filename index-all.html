@@ -278,10 +278,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Adds a specified amount to the entity's speed.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#addStamina(int)" class="member-name-link">addStamina(int)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
-<dd>
-<div class="block">Adds a specified amount to the entity's stamina.</div>
-</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html#addStatus(java.lang.String)" class="member-name-link">addStatus(String)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html" title="class in com.csse3200.game.minigames.maze.components">StatusEffectComponent</a></dt>
 <dd>
 <div class="block">Permanently applies a status to the entity (until removed).</div>
@@ -1230,7 +1226,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/CombatMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">CombatMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></dt>
 <dd>
-<div class="block">Constructor to initialize the move name and stamina cost.</div>
+<div class="block">Constructor to initialize the move name and hunger cost.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/CombatMoveComponent.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">CombatMoveComponent</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
 <dd>
@@ -1254,7 +1250,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Component used to store information related to combat such as health, attack, etc.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#%3Cinit%3E(int,int,int,int,int,int,int,boolean,boolean,int)" class="member-name-link">CombatStatsComponent(int, int, int, int, int, int, int, boolean, boolean, int)</a> - Constructor for class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
+<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#%3Cinit%3E(int,int,int,int,int,int,boolean,boolean,int)" class="member-name-link">CombatStatsComponent(int, int, int, int, int, int, boolean, boolean, int)</a> - Constructor for class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
 <dd>
 <div class="block">Constructor for CombatStatsComponent, initializing all combat-related attributes for an entity.</div>
 </dd>
@@ -2893,15 +2889,15 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/GuardMove.html#execute(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">execute(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/GuardMove.html" title="class in com.csse3200.game.components.combat.move">GuardMove</a></dt>
 <dd>
-<div class="block">Executes the guard move, consuming stamina.</div>
+<div class="block">Executes the guard move, consuming hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/ItemMove.html#execute(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">execute(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/ItemMove.html" title="class in com.csse3200.game.components.combat.move">ItemMove</a></dt>
 <dd>
-<div class="block">Executes the items move, increasing stamina.</div>
+<div class="block">Executes the items move, increasing hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SleepMove.html#execute(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">execute(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SleepMove.html" title="class in com.csse3200.game.components.combat.move">SleepMove</a></dt>
 <dd>
-<div class="block">Executes the sleep move, restoring 25% of the user's maximum stamina and 10% of their maximum health.</div>
+<div class="block">Executes the sleep move, restoring 25% of the user's maximum hunger and 10% of their maximum health.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialMove.html#execute(com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">execute(CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialMove.html" title="class in com.csse3200.game.components.combat.move">SpecialMove</a></dt>
 <dd>
@@ -2918,11 +2914,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/GuardMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/GuardMove.html" title="class in com.csse3200.game.components.combat.move">GuardMove</a></dt>
 <dd>
-<div class="block">Executes the guard move, which simply consumes stamina.</div>
+<div class="block">Executes the guard move, which simply consumes hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/ItemMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/ItemMove.html" title="class in com.csse3200.game.components.combat.move">ItemMove</a></dt>
 <dd>
-<div class="block">Executes the item move, which simply consumes stamina.</div>
+<div class="block">Executes the item move, which simply consumes hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SleepMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SleepMove.html" title="class in com.csse3200.game.components.combat.move">SleepMove</a></dt>
 <dd>
@@ -2944,11 +2940,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/GuardMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent,boolean)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent, boolean)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/GuardMove.html" title="class in com.csse3200.game.components.combat.move">GuardMove</a></dt>
 <dd>
-<div class="block">Executes the guard move, consuming stamina.</div>
+<div class="block">Executes the guard move, consuming hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/ItemMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent,boolean)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent, boolean)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/ItemMove.html" title="class in com.csse3200.game.components.combat.move">ItemMove</a></dt>
 <dd>
-<div class="block">Executes the item move, either consuming or increasing stamina.</div>
+<div class="block">Executes the item move, either consuming or increasing hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SleepMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent,boolean)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent, boolean)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SleepMove.html" title="class in com.csse3200.game.components.combat.move">SleepMove</a></dt>
 <dd>
@@ -2970,11 +2966,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/GuardMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent,boolean,int)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent, boolean, int)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/GuardMove.html" title="class in com.csse3200.game.components.combat.move">GuardMove</a></dt>
 <dd>
-<div class="block">Executes the guard move, consuming stamina.</div>
+<div class="block">Executes the guard move, consuming hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/ItemMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent,boolean,int)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent, boolean, int)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/ItemMove.html" title="class in com.csse3200.game.components.combat.move">ItemMove</a></dt>
 <dd>
-<div class="block">Executes the item move, consuming stamina.</div>
+<div class="block">Executes the item move, consuming hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SleepMove.html#execute(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent,boolean,int)" class="member-name-link">execute(CombatStatsComponent, CombatStatsComponent, boolean, int)</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SleepMove.html" title="class in com.csse3200.game.components.combat.move">SleepMove</a></dt>
 <dd>
@@ -3820,6 +3816,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Retrieves the current hunger level of the entity.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/move/CombatMove.html#getHungerCost()" class="member-name-link">getHungerCost()</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></dt>
+<dd>
+<div class="block">Gets the hunger cost required to perform the move.</div>
+</dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainTile.html#getId()" class="member-name-link">getId()</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainTile.html" title="class in com.csse3200.game.areas.terrain">TerrainTile</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/ComponentType.html#getId()" class="member-name-link">getId()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/ComponentType.html" title="class in com.csse3200.game.components">ComponentType</a></dt>
@@ -4010,10 +4010,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/physics/components/PhysicsMovementComponent.html#getMaxSpeed()" class="member-name-link">getMaxSpeed()</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/PhysicsMovementComponent.html" title="class in com.csse3200.game.physics.components">PhysicsMovementComponent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#getMaxStamina()" class="member-name-link">getMaxStamina()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
-<dd>
-<div class="block">Returns the entity's maximum stamina.</div>
-</dd>
 <dt><a href="com/csse3200/game/minigames/maze/Maze.html#getMazeAdjacent(int,int)" class="member-name-link">getMazeAdjacent(int, int)</a> - Method in class com.csse3200.game.minigames.maze.<a href="com/csse3200/game/minigames/maze/Maze.html" title="class in com.csse3200.game.minigames.maze">Maze</a></dt>
 <dd>
 <div class="block">Method to get the grid cells adjacent to a specific cell (taking into account maze walls)</div>
@@ -4461,22 +4457,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/rendering/RenderService.html#getStage()" class="member-name-link">getStage()</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/RenderService.html" title="class in com.csse3200.game.rendering">RenderService</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#getStamina()" class="member-name-link">getStamina()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
-<dd>
-<div class="block">Returns the entity's stamina.</div>
-</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseEnemyEntityConfig.html#getStamina()" class="member-name-link">getStamina()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseEnemyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEnemyEntityConfig</a></dt>
-<dd>
-<div class="block">Returns the stamina value for this entity.</div>
-</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#getStamina()" class="member-name-link">getStamina()</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>
-<div class="block">Retrieves the stamina attribute of the entity.</div>
-</dd>
-<dt><a href="com/csse3200/game/components/combat/move/CombatMove.html#getStaminaCost()" class="member-name-link">getStaminaCost()</a> - Method in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></dt>
-<dd>
-<div class="block">Gets the stamina cost required to perform the move.</div>
-</dd>
 <dt><a href="com/csse3200/game/components/stats/Stat.html#getStatDescription()" class="member-name-link">getStatDescription()</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/Stat.html" title="class in com.csse3200.game.components.stats">Stat</a></dt>
 <dd>
 <div class="block">Getter for the description</div>
@@ -4765,7 +4745,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/GuardMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">GuardMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/GuardMove.html" title="class in com.csse3200.game.components.combat.move">GuardMove</a></dt>
 <dd>
-<div class="block">Constructor to initialize the GuardMove with its name and stamina cost.</div>
+<div class="block">Constructor to initialize the GuardMove with its name and hunger cost.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:H">H</h2>
@@ -4808,7 +4788,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatManager.html#handleStatusEffects()" class="member-name-link">handleStatusEffects()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
 <dd>
-<div class="block">Process Special Move status effects on the Player by reducing Player health and/or stamina.</div>
+<div class="block">Process Special Move status effects on the Player by reducing Player health and/or hunger.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/ItemProximityTask.html#handleTargetMovedAway()" class="member-name-link">handleTargetMovedAway()</a> - Method in class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/ItemProximityTask.html" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a></dt>
 <dd>&nbsp;</dd>
@@ -4979,6 +4959,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a new HiveTask for the specified target entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseEntityConfig.html#hunger" class="member-name-link">hunger</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/move/CombatMove.html#hungerCost" class="member-name-link">hungerCost</a> - Variable in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/player/PlayerStatsDisplay.html#hungerImage" class="member-name-link">hungerImage</a> - Variable in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></dt>
 <dd>&nbsp;</dd>
@@ -5302,11 +5284,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/combat/move/ItemMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">ItemMove</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
 <dd>
 <div class="block">The ItemMove class represents a increase stat move where the entity takes a moment to increase or restore one of
- their stats (health, stamina, defense, strength)</div>
+ their stats (health, hunger, defense, strength)</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/ItemMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">ItemMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/ItemMove.html" title="class in com.csse3200.game.components.combat.move">ItemMove</a></dt>
 <dd>
-<div class="block">Constructor to initialize the ItemMove with its name and stamina cost.</div>
+<div class="block">Constructor to initialize the ItemMove with its name and hunger cost.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/ItemProximityTask.html" class="type-name-link" title="class in com.csse3200.game.components.tasks">ItemProximityTask</a> - Class in <a href="com/csse3200/game/components/tasks/package-summary.html">com.csse3200.game.components.tasks</a></dt>
 <dd>
@@ -7933,18 +7915,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/UIComponent.html#setStage(com.badlogic.gdx.scenes.scene2d.Stage)" class="member-name-link">setStage(Stage)</a> - Method in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/CombatStatsComponent.html#setStamina(int)" class="member-name-link">setStamina(int)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
-<dd>
-<div class="block">Sets the entity's stamina.</div>
-</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseEnemyEntityConfig.html#setStamina(int)" class="member-name-link">setStamina(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseEnemyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEnemyEntityConfig</a></dt>
-<dd>
-<div class="block">Sets the stamina value for this entity.</div>
-</dd>
-<dt><a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html#setStamina(int)" class="member-name-link">setStamina(int)</a> - Method in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseFriendlyEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseFriendlyEntityConfig</a></dt>
-<dd>
-<div class="block">Sets the stamina attribute of the entity.</div>
-</dd>
 <dt><a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html#setStatusExpiry(java.lang.String,float)" class="member-name-link">setStatusExpiry(String, float)</a> - Method in class com.csse3200.game.minigames.maze.components.<a href="com/csse3200/game/minigames/maze/components/StatusEffectComponent.html" title="class in com.csse3200.game.minigames.maze.components">StatusEffectComponent</a></dt>
 <dd>
 <div class="block">Sets the time before a status expires.</div>
@@ -8082,11 +8052,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/combat/move/SleepMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SleepMove</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
 <dd>
 <div class="block">The SleepMove class represents a defensive move where the entity takes a rest, restoring a percentage of
- both stamina and health.</div>
+ both hunger and health.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SleepMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">SleepMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SleepMove.html" title="class in com.csse3200.game.components.combat.move">SleepMove</a></dt>
 <dd>
-<div class="block">Constructor to initialize the SleepMove with its name and stamina cost.</div>
+<div class="block">Constructor to initialize the SleepMove with its name and hunger cost.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/mainmenu/Slides.html" class="type-name-link" title="class in com.csse3200.game.components.mainmenu">Slides</a> - Class in <a href="com/csse3200/game/components/mainmenu/package-summary.html">com.csse3200.game.components.mainmenu</a></dt>
 <dd>&nbsp;</dd>
@@ -8285,7 +8255,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialAirMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">SpecialAirMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialAirMove.html" title="class in com.csse3200.game.components.combat.move">SpecialAirMove</a></dt>
 <dd>
-<div class="block">Constructs the SpecialAirMove with the given move name and stamina cost.</div>
+<div class="block">Constructs the SpecialAirMove with the given move name and hunger cost.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/Entity.html#specialDispose()" class="member-name-link">specialDispose()</a> - Method in class com.csse3200.game.entities.<a href="com/csse3200/game/entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></dt>
 <dd>
@@ -8298,7 +8268,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">SpecialKangaMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialKangaMove.html" title="class in com.csse3200.game.components.combat.move">SpecialKangaMove</a></dt>
 <dd>
-<div class="block">Constructs the SpecialKangaMove with the given move name and stamina cost.</div>
+<div class="block">Constructs the SpecialKangaMove with the given move name and hunger cost.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">SpecialMove</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
 <dd>
@@ -8306,7 +8276,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">SpecialMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialMove.html" title="class in com.csse3200.game.components.combat.move">SpecialMove</a></dt>
 <dd>
-<div class="block">Constructs a SpecialMove with the specified name and stamina cost.</div>
+<div class="block">Constructs a SpecialMove with the specified name and hunger cost.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/SpecialWanderTask.html" class="type-name-link" title="class in com.csse3200.game.components.tasks">SpecialWanderTask</a> - Class in <a href="com/csse3200/game/components/tasks/package-summary.html">com.csse3200.game.components.tasks</a></dt>
 <dd>
@@ -8321,7 +8291,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">SpecialWaterMove(String, int)</a> - Constructor for class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/SpecialWaterMove.html" title="class in com.csse3200.game.components.combat.move">SpecialWaterMove</a></dt>
 <dd>
-<div class="block">Constructs the SpecialWaterMove with the given move name and stamina cost.</div>
+<div class="block">Constructs the SpecialWaterMove with the given move name and hunger cost.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/BaseEntityConfig.html#speed" class="member-name-link">speed</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/BaseEntityConfig.html" title="class in com.csse3200.game.entities.configs">BaseEntityConfig</a></dt>
 <dd>&nbsp;</dd>
@@ -8356,8 +8326,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/screens/AnimalRouletteScreen1.html#stage" class="member-name-link">stage</a> - Variable in class com.csse3200.game.screens.<a href="com/csse3200/game/screens/AnimalRouletteScreen1.html" title="class in com.csse3200.game.screens">AnimalRouletteScreen1</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ui/UIComponent.html#stage" class="member-name-link">stage</a> - Variable in class com.csse3200.game.ui.<a href="com/csse3200/game/ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/combat/move/CombatMove.html#staminaCost" class="member-name-link">staminaCost</a> - Variable in class com.csse3200.game.components.combat.move.<a href="com/csse3200/game/components/combat/move/CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/ai/tasks/DefaultTask.html#start()" class="member-name-link">start()</a> - Method in class com.csse3200.game.ai.tasks.<a href="com/csse3200/game/ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a></dt>
 <dd>&nbsp;</dd>

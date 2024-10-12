@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">AttackMove</span>
 <span class="extends-implements">extends <a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></span></div>
 <div class="block">Represents an attack move in combat. This class handles the execution of the attack and the
- damage calculation based on various factors such as stamina, status effects, and the target's defense.</div>
+ damage calculation based on various factors such as hunger, status effects, and the target's defense.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -104,7 +104,7 @@ loadScripts(document, 'script');</script>
 <h2>Field Summary</h2>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.csse3200.game.components.combat.move.CombatMove">Fields inherited from class&nbsp;com.csse3200.game.components.combat.move.<a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></h3>
-<code><a href="CombatMove.html#moveName">moveName</a>, <a href="CombatMove.html#staminaCost">staminaCost</a></code></div>
+<code><a href="CombatMove.html#hungerCost">hungerCost</a>, <a href="CombatMove.html#moveName">moveName</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -116,7 +116,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int)" class="member-name-link">AttackMove</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;moveName,
- int&nbsp;staminaCost)</code></div>
+ int&nbsp;hungerCost)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructor for the AttackMove.</div>
 </div>
@@ -167,7 +167,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.components.combat.move.CombatMove">Methods inherited from class&nbsp;com.csse3200.game.components.combat.move.<a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></h3>
-<code><a href="CombatMove.html#getMoveName()">getMoveName</a>, <a href="CombatMove.html#getStaminaCost()">getStaminaCost</a></code></div>
+<code><a href="CombatMove.html#getHungerCost()">getHungerCost</a>, <a href="CombatMove.html#getMoveName()">getMoveName</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -186,12 +186,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(java.lang.String,int)">
 <h3>AttackMove</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AttackMove</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;moveName,
- int&nbsp;staminaCost)</span></div>
+ int&nbsp;hungerCost)</span></div>
 <div class="block">Constructor for the AttackMove.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>moveName</code> - the name of the move.</dd>
-<dd><code>staminaCost</code> - the amount of stamina required to perform the move.</dd>
+<dd><code>hungerCost</code> - the amount of hunger required to perform the move.</dd>
 </dl>
 </section>
 </li>
