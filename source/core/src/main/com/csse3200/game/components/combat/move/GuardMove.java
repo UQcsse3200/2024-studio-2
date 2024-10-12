@@ -6,41 +6,41 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The GuardMove class represents a move where the attacker guards, reducing damage from incoming attacks.
- * The move uses stamina and does not inflict damage but is used to mitigate damage from opponents.
+ * The move uses hunger and does not inflict damage but is used to mitigate damage from opponents.
  */
 public class GuardMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(GuardMove.class);
 
     /**
-     * Constructor to initialize the GuardMove with its name and stamina cost.
+     * Constructor to initialize the GuardMove with its name and hunger cost.
      *
      * @param moveName   the name of the guard move.
-     * @param staminaCost the stamina cost required to execute the guard move.
+     * @param hungerCost the hunger cost required to execute the guard move.
      */
-    public GuardMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public GuardMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**
-     * Executes the guard move, consuming stamina. This variant is used when there is no target, such as a defensive maneuver.
+     * Executes the guard move, consuming hunger. This variant is used when there is no target, such as a defensive maneuver.
      *
      * @param attackerStats the combat stats of the entity performing the guard move.
      */
     @Override
     public void execute(CombatStatsComponent attackerStats) {
         if (attackerStats != null) {
-            logger.info("{} guard using {} stamina.",
+            logger.info("{} guard using {} hunger.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
-                    this.getStaminaCost());
+                    this.getHungerCost());
 
-            attackerStats.addStamina(-(this.getStaminaCost()));
+            attackerStats.addHunger(-(this.getHungerCost()));
         } else {
             logger.error("Entity does not have CombatStatsComponent.");
         }
     }
 
     /**
-     * Executes the guard move, which simply consumes stamina. The target is ignored in this case.
+     * Executes the guard move, which simply consumes hunger. The target is ignored in this case.
      *
      * @param attackerStats the combat stats of the entity performing the move.
      * @param targetStats   the combat stats of the target (ignored for guard moves).
@@ -51,7 +51,7 @@ public class GuardMove extends CombatMove {
     }
 
     /**
-     * Executes the guard move, consuming stamina. The target's guarding status is ignored in this context.
+     * Executes the guard move, consuming hunger. The target's guarding status is ignored in this context.
      *
      * @param attackerStats   the combat stats of the entity performing the move.
      * @param targetStats     the combat stats of the target (ignored for guard moves).
@@ -63,7 +63,7 @@ public class GuardMove extends CombatMove {
     }
 
     /**
-     * Executes the guard move, consuming stamina. The number of hits landed is ignored for guard moves.
+     * Executes the guard move, consuming hunger. The number of hits landed is ignored for guard moves.
      *
      * @param attackerStats   the combat stats of the entity performing the move.
      * @param targetStats     the combat stats of the target (ignored for guard moves).

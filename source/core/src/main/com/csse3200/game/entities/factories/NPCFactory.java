@@ -64,7 +64,7 @@ public class NPCFactory {
     InputComponent inputComponent =
             ServiceLocator.getInputService().getInputFactory().createForDialogue();
 
-    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, 100, false, false, 1))
+    npc.addComponent(new CombatStatsComponent(config.getHealth(), config.getBaseAttack(), 0, 0, 0, 0, false, false, 1))
             .addComponent(animator)
             .addComponent(new FriendlyNPCAnimationController())
             .addComponent(inputComponent)

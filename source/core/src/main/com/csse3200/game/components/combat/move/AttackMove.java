@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Represents an attack move in combat. This class handles the execution of the attack and the
- * damage calculation based on various factors such as stamina, status effects, and the target's defense.
+ * damage calculation based on various factors such as hunger, status effects, and the target's defense.
  */
 public class AttackMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(AttackMove.class);
@@ -15,10 +15,10 @@ public class AttackMove extends CombatMove {
      * Constructor for the AttackMove.
      *
      * @param moveName    the name of the move.
-     * @param staminaCost the amount of stamina required to perform the move.
+     * @param hungerCost the amount of hunger required to perform the move.
      */
-    public AttackMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public AttackMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**
@@ -75,7 +75,7 @@ public class AttackMove extends CombatMove {
                         attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                         damage);
                 targetStats.setHealth(targetStats.getHealth() - damage);
-                attackerStats.addStamina(-(this.getStaminaCost()));
+                attackerStats.addHunger(-(this.getHungerCost()));
             } else {
                 logger.error("Either attacker or target does not have CombatStatsComponent.");
             }
@@ -98,7 +98,7 @@ public class AttackMove extends CombatMove {
         int damage;
 
         double m1 = calculateStatusMultiplier(targetStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED));
-        double m2 = calculateStaminaMultiplier(attackerStats.getStamina());
+        double m2 = calculateHungerMultiplier(attackerStats.getHunger());
         double m3 = calculateGuardMultiplier(targetIsGuarded,
                 targetStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING));
         double m4 = calculateMultiHitMultiplier(hitNumber);
@@ -126,16 +126,16 @@ public class AttackMove extends CombatMove {
     }
 
     /**
-     * Calculates the stamina multiplier based on the user's current stamina.
+     * Calculates the hunger multiplier based on the user's current hunger.
      *
-     * @param userStamina current stamina level (0 - 100).
-     * @return stamina multiplier.
+     * @param userHunger current hunger level (0 - 100).
+     * @return hunger multiplier.
      */
-    private double calculateStaminaMultiplier(int userStamina) {
-        if (userStamina >= 50) {
+    private double calculateHungerMultiplier(int userHunger) {
+        if (userHunger >= 50) {
             return 1;
         } else {
-            return Math.exp(((double) userStamina / 50) - 1);
+            return Math.exp(((double) userHunger / 50) - 1);
         }
     }
 

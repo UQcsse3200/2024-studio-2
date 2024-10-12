@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenu;
 import com.csse3200.game.minigames.MinigameLeaderboard;
@@ -30,8 +29,6 @@ import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.MathUtils;
-
-import java.util.ArrayList;
 
 /**
  * A UI component for displaying the Main menu.
@@ -64,7 +61,7 @@ public class MainMenuDisplay extends UIComponent {
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
-
+    private boolean dogDirection = true;
     private Cursor customCursor;
     private CustomButton startBtn;
     private CustomButton loadBtn;
@@ -73,22 +70,21 @@ public class MainMenuDisplay extends UIComponent {
     private CustomButton achievementsBtn;
     private CustomButton helpBtn;
     private CustomButton exitBtn;
+    private Image birdAniImage;
+    private Image monkeyAniImage;
+    private Image dogAniImage;
     private static final float WINDOWBUTTONWIDTH = 200;
     private static final float WINDOWBUTTONHEIGHT = 45;
     private static final float WINDOWBUTTONSPACING = 15;
     private static final float FULLSCREENBUTTONWIDTH = 300;
     private static final float FULLSCREENBUTTONHEIGHT = 60;
     private static final float FULLSCREENBUTTONSPACING = 20;
-    private Image birdAniImage;
-    private Image monkeyAniImage;
-    private Image dogAniImage;
     private Image owlAniImage;
     private Array<TextureRegion> birdTextures;
     private Array<TextureRegion> monkeyTextures;
     private Array<TextureRegion> dogTextures;
     private Array<TextureRegion> owlTextures;
     private boolean birdDirection = true;
-    private boolean dogDirection = true;
     int birdCurrentFrame = 0;
     int monkeyCurrentFrame = 0;
     int dogCurrentFrame = 0;
@@ -96,6 +92,7 @@ public class MainMenuDisplay extends UIComponent {
     private float timer;
     private float owlTimer;
     private Image titleAniImage;
+
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -203,14 +200,12 @@ public class MainMenuDisplay extends UIComponent {
             logger.info("Minigames button clicked");
             entity.getEvents().trigger("SnakeGame");
         });
-        minigamesBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
-
+        //minigamesBtn.setButtonStyle(CustomButton.Style.NORMAL, skin);
 
         settingsBtn = createMenuButton("Settings", () -> {
             logger.info("Settings button clicked");
             settingsMenu.showSettingsMenu();
         });
-
 
         achievementsBtn = createMenuButton("Achievements", () -> {
             logger.info("Achievements button clicked");
@@ -710,9 +705,6 @@ public class MainMenuDisplay extends UIComponent {
 
     /**
      * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
-     */
-    /**
-     * Handles displaying the exit confirmation dialog when the exit button is clicked.
      */
     private void handleExitConfirmation() {
         Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(settingBackground));
