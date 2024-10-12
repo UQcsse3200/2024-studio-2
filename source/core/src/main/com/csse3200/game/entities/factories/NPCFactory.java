@@ -90,7 +90,7 @@ public class NPCFactory {
    * @param itemGenerator - creates the item to drop
    * @param player - the player to drop the item next to.
    */
-  private static void handleDropItem(Supplier<AbstractItem> itemGenerator, Entity player) {
+  public static void handleDropItem(Supplier<AbstractItem> itemGenerator, Entity player) {
     Entity itemEntity = ItemFactory.createItem(player, itemGenerator.get());
     itemEntity.setScale(new Vector2(0.4f, 0.4f));
     int radius = 2; // Spawn the item within this radius of the player

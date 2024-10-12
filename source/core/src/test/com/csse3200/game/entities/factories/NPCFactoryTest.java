@@ -5,12 +5,17 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
+import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
@@ -38,6 +43,7 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,7 +76,8 @@ class NPCFactoryTest {
             "images/monkey.png",
             "images/friendly_npcs/friendly-npcs.png",
             "images/final_boss_kangaroo.png",
-            "images/bear2.png"
+            "images/bear2.png",
+            "images/foodtextures/Milk.png"
     };
 
     private static String[] atlas = {
@@ -96,8 +103,8 @@ class NPCFactoryTest {
         ServiceLocator.registerTimeSource(gameTime);
 
         // Register services
-        ServiceLocator.registerPhysicsService(new PhysicsService());
-
+        PhysicsService physicsService = new PhysicsService();
+        ServiceLocator.registerPhysicsService(physicsService);
         ResourceService resourceService = new ResourceService();
         ServiceLocator.registerResourceService(resourceService);
         RenderService renderService = mock(RenderService.class);
@@ -125,7 +132,7 @@ class NPCFactoryTest {
         ServiceLocator.registerDialogueBoxService(entityChatService);
 
         // Create NPCs
-        Entity player = new Entity();
+        player = new Entity();
         List<Entity> enemies = new ArrayList<>();
         cow = NPCFactory.createCow(player, enemies);
         lion = NPCFactory.createLion(player, enemies);
@@ -168,6 +175,20 @@ class NPCFactoryTest {
             verify(resourceService, atLeastOnce()).getAsset(soundPath, Sound.class);
         }
     }
+
+    @Test
+    void testHandleDropItem() {
+        Supplier<AbstractItem> itemGenerator = mock(Supplier.class);
+        when(itemGenerator.get()).thenReturn(new Foods.Milk(1));
+        Entity player = mock(Entity.class);
+        when(player.getEvents()).thenReturn(new EventHandler());
+        System.out.println(player);
+        NPCFactory.handleDropItem(itemGenerator, player);
+        verify(ItemFactory.createItem(player, itemGenerator.get()), times(1));
+    }
+
+
+
 
     /**
      * Tests the initialization of a friendly bear by checking its creation, name, type,

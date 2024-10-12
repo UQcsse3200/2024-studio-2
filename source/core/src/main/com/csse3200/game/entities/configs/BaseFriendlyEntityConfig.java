@@ -103,6 +103,12 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
         return baseHint;
     }
 
+    public Map<Integer, String[]> getHints() { return hints; }
+
+    public void setHints(Map<Integer, String[]> newHints) {
+        hints = newHints;
+    }
+
     /**
      * Restarts the current hint by resetting the current hint and line indices.
      */
@@ -230,6 +236,15 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     }
 
     /**
+     * Sets the item drop probability of an entity.
+     *
+     * @return void.
+     */
+    public void setItemProbability(float newProbability) {
+        itemProbability = newProbability;
+    }
+
+    /**
      * Determines if the entity is a boss.
      *
      * @return {@code true} if the entity is a boss, {@code false} otherwise.
@@ -237,6 +252,16 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public Boolean isBoss() {
         return isBoss;
     }
+
+
+    /**
+     * Sets an entity to be identified as a boss.
+     *
+     */
+    public void setIsBoss(Boolean isBossStatus) {
+        isBoss = isBossStatus;
+    }
+
 
     /**
      * Retrieves the stamina attribute of the entity.
