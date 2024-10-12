@@ -41,30 +41,30 @@ class QuickTimeEventTest {
     @Mock SpriteBatch spriteBatch;
     @Spy QuickTimeEventDisplay display;
 
-    @BeforeEach
-    void beforeEach() {
-        // set up stage mock
-        stage = new Stage(viewport, spriteBatch);
-
-        // register services
-        ServiceLocator.registerTimeSource(gameTime);
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerEntityService(new EntityService());
-        RenderService renderer = new RenderService();
-        renderer.setStage(stage);
-        ServiceLocator.registerRenderService(renderer);
-
-        // create ui
-        ui = new Entity();
-        display = Mockito.spy(new QuickTimeEventDisplay());
-        actions = new QuickTimeEventActions(game);
-        InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForCombat();
-        ui.addComponent(display).addComponent(actions).addComponent(inputComponent);
-        ServiceLocator.getEntityService().register(ui);
-
-    }
+//    @BeforeEach
+//    void beforeEach() {
+//        // set up stage mock
+//        stage = new Stage(viewport, spriteBatch);
+//
+//        // register services
+//        ServiceLocator.registerTimeSource(gameTime);
+//        ServiceLocator.registerResourceService(new ResourceService());
+//        ServiceLocator.registerInputService(new InputService());
+//        ServiceLocator.registerEntityService(new EntityService());
+//        RenderService renderer = new RenderService();
+//        renderer.setStage(stage);
+//        ServiceLocator.registerRenderService(renderer);
+//
+//        // create ui
+//        ui = new Entity();
+//        display = Mockito.spy(new QuickTimeEventDisplay());
+//        actions = new QuickTimeEventActions(game);
+//        InputComponent inputComponent =
+//                ServiceLocator.getInputService().getInputFactory().createForCombat();
+//        ui.addComponent(display).addComponent(actions).addComponent(inputComponent);
+//        ServiceLocator.getEntityService().register(ui);
+//
+//    }
 
     /**
      * This test is used to determine if the exit button
