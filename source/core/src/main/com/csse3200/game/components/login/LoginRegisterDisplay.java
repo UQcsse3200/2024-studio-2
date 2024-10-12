@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.services.NotifManager;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +34,8 @@ public class LoginRegisterDisplay extends UIComponent {
     private TextField usernameField;
     private TextField passwordField;
     private TextField emailField;
-    private TextButton submitButton;
-    private TextButton switchButton;
+    private CustomButton submitButton;
+    private CustomButton switchButton;
     private Button closeButton;
     private boolean isLoginMode = true;
     private Texture backgroundTexture;
@@ -103,18 +104,16 @@ public class LoginRegisterDisplay extends UIComponent {
      */
     private void addButtons() {
         closeButton = new Button(new TextureRegionDrawable(new TextureRegion(closeButtonTexture)));
-        submitButton = new TextButton("Submit", skin);
-        switchButton = new TextButton("Switch to Register", skin);
 
-        switchButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
+        submitButton = new CustomButton("Submit", skin);
+        switchButton = new CustomButton("Switch to Register", skin);
+
+        switchButton.addClickListener(() -> {
                 logger.info("Switch button clicked");
                 isLoginMode = !isLoginMode;
                 topTable.clear();
                 contentTable.clear();
                 updateUI();
-            }
         });
 
         closeButton.addListener(new ChangeListener() {
@@ -164,12 +163,9 @@ public class LoginRegisterDisplay extends UIComponent {
             contentTable.add(new Label("Email:", skin)).padRight(10);
             contentTable.add(emailField).width(200).padBottom(10);
             contentTable.row();
-            submitButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent changeEvent, Actor actor) {
-                    PlayFab.Response response = playFab.registerUser(usernameField.getText(), emailField.getText(), passwordField.getText());
-                    NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
-                }
+            submitButton.addClickListener(() -> {
+                PlayFab.Response response = playFab.registerUser(usernameField.getText(), emailField.getText(), passwordField.getText());
+                NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
             });
         }
 
@@ -179,17 +175,17 @@ public class LoginRegisterDisplay extends UIComponent {
         contentTable.row();
 
         // Add submit and switch buttons
-        contentTable.add(submitButton).colspan(2).padBottom(10);
+        contentTable.add(submitButton).size(150, 50).colspan(2).padTop(10);
         contentTable.row();
-        contentTable.add(switchButton).colspan(2);
+        contentTable.add(switchButton).size(300, 50).colspan(2).padTop(10);
 
         // Update switch button text
-        switchButton.setText(isLoginMode ? "Switch to Register" : "Switch to Login");
+        switchButton.setLabelText(isLoginMode ? "Switch to Register" : "Switch to Login");
 
 
         table.add(topTable).expandX().fillX(); // Top-right table
         table.row().padTop(30f);
-        table.add(contentTable).expandX().expandY().padLeft(50);
+        table.add(contentTable).expandX().expandY().padLeft(20);
         table.row().padTop(30f);
     }
     @Override
