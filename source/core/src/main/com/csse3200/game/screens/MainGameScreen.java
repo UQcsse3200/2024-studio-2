@@ -27,10 +27,7 @@ import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.DialogueBoxService;
-import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.*;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
@@ -106,6 +103,9 @@ public class MainGameScreen extends PausableScreen {
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
 
+      // Register InGameTime
+      ServiceLocator.registerInGameTime(new InGameTime());
+
     // register the EntityChatService
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -121,6 +121,9 @@ public class MainGameScreen extends PausableScreen {
     ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
     dayNightCycle = new DayNightCycle(lightingEngine.getRayHandler());
+
+    // Register the DayNightCycle instance
+    ServiceLocator.registerDayNightCycle(dayNightCycle);
 
     loadAssets();
     this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);
@@ -174,7 +177,9 @@ public class MainGameScreen extends PausableScreen {
   @Override
   public void pause() {
       isPaused = true;
+      System.out.println("paused");
       gameArea.pauseMusic();
+      ServiceLocator.getInGameTime().pause(); // Pause the in-game time
       logger.info("Game paused");
   }
   
@@ -190,6 +195,7 @@ public class MainGameScreen extends PausableScreen {
       if (!resting) {
           gameArea.playMusic();
       }
+      ServiceLocator.getInGameTime().resume(); // Resume the in-game time
       logger.info("Game resumed");
   }
   

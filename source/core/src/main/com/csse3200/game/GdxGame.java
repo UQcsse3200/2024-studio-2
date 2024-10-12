@@ -90,6 +90,8 @@ public class GdxGame extends Game {
         ServiceLocator.registerRenderService(container.getRenderService());
         ServiceLocator.registerDialogueBoxService(container.getDialogueBoxService());
         ServiceLocator.registerLightingService(container.getLightingService());
+        ServiceLocator.registerInGameTime(container.getInGameTime());
+        ServiceLocator.registerDayNightCycle(container.getDayNightCycle());
         screen.resume();
     }
 
