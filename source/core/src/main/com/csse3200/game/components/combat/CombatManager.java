@@ -1,5 +1,6 @@
 package com.csse3200.game.components.combat;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -18,8 +19,11 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.overlays.*;
+import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.screens.CombatScreen;
+import com.csse3200.game.screens.QuickTimeEventScreen;
 import com.csse3200.game.services.DialogueBoxService;
+import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +62,9 @@ public class CombatManager extends Component {
     private AbstractItem playerItem;
     private int playerItemIndex;
     private ItemUsageContext playerItemContext;
+  //  private final PhysicsEngine physicsEngine;
+    private final Screen oldScreen;
+    private final ServiceContainer oldScreenServices;
 
     private int statusEffectDuration;
     private boolean moveChangedByConfusion;
@@ -72,10 +79,13 @@ public class CombatManager extends Component {
      * @param player the player entity involved in combat.
      * @param enemy the enemy entity involved in combat.
      */
-    public CombatManager(Entity player, Entity enemy, GdxGame game) {
+    public CombatManager(Entity player, Entity enemy, GdxGame game,Screen screen, ServiceContainer container ) {
+
         this.player = player;
         this.enemy = enemy;
         this.game = game;
+        this.oldScreen = screen;
+        this.oldScreenServices = container;
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
@@ -471,12 +481,8 @@ public class CombatManager extends Component {
 
     private int getPlayerMultiHitsLanded() {
         int score=0;
-        //game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
-        //game.
-        CombatScreen combatScreen = (CombatScreen) game.getScreen();
-        combatScreen.addOverlay(Overlay.OverlayType.QUICK_TIME_EVENT_OVERLAY);
-        //trigger overlay to happen in the container to be created
-        //this.addOverlay(Overlay.OverlayType.QUICK_TIME_EVENT_OVERLAY);
+        game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
+        game.setScreen(new QuickTimeEventScreen(game, oldScreen, oldScreenServices, player, enemy));
         return score;
     }
 

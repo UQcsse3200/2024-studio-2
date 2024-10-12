@@ -41,7 +41,7 @@ import java.util.Map;
  *
  * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
  */
-public class CombatScreen extends PausableScreen{
+public class CombatScreen extends ScreenAdapter{
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] combatTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
@@ -51,6 +51,7 @@ public class CombatScreen extends PausableScreen{
           "images/statuses/poisoned_stat.png", "images/statuses/shocked_stat.png"
 
   };
+  private final GdxGame game;
   private boolean isPaused = false;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
@@ -72,22 +73,20 @@ public class CombatScreen extends PausableScreen{
   protected boolean resting = false;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-    super(game);
+    this.game = game;
     this.oldScreen = screen;
     this.oldScreenServices = container;
     this.player = player;
     this.enemy = enemy;
 
     this.playerCombatStats = player.getComponent(CombatStatsComponent.class);
-    //this.playerCombatStats = ServiceLocator.getGameArea().getPlayer().getComponent(CombatStatsComponent.class);
-            this.enemyCombatStats = enemy.getComponent(CombatStatsComponent.class);
+    this.enemyCombatStats = enemy.getComponent(CombatStatsComponent.class);
 
     logger.debug("Initialising combat screen services");
      ServiceLocator.registerTimeSource(new GameTime());
    PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
     physicsEngine = physicsService.getPhysics();
-   // physicsEngine = ServiceLocator.getPhysicsService().getPhysics();
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
@@ -108,27 +107,6 @@ public class CombatScreen extends PausableScreen{
 
     createUI();
   }
-
-  /**
-   * Adds an overlay to the screen.
-   * @param overlayType The type of overlay to add.
-   */
-  public void addOverlay(Overlay.OverlayType overlayType){
-    logger.debug("Attempting to Add {} Overlay", overlayType);
-    if (activeOverlayTypes.get(overlayType) == null){
-      return;
-    }
-    if (enabledOverlays.isEmpty()) {
-      this.rest();
-    }
-    else {
-      enabledOverlays.getFirst().rest();
-    }
-    enabledOverlays.addFirst(new QuickTimeEventsOverlay(this, game));
-    logger.info("Added {} Overlay", overlayType);
-    activeOverlayTypes.put(overlayType,true);
-  }
-
   /**
    * Puts the screen into a resting state, pausing music and resting all entities.
    */
@@ -176,11 +154,6 @@ public class CombatScreen extends PausableScreen{
 
     renderer.dispose();
     unloadAssets();
-
-//    ServiceLocator.getEntityService().dispose();
-//    ServiceLocator.getRenderService().dispose();
-//    ServiceLocator.getResourceService().dispose();
-//    ServiceLocator.clear();
   }
 
   private void loadAssets() {
@@ -207,7 +180,7 @@ public class CombatScreen extends PausableScreen{
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
-    CombatManager manager = new CombatManager(player, enemy, game);
+    CombatManager manager = new CombatManager(player, enemy, game, oldScreen, oldScreenServices);
     Inventory playerInv = player.getComponent(InventoryComponent.class).getInventory();
     int numCols = player.getComponent(PlayerInventoryDisplay.class).getNumCols();
 

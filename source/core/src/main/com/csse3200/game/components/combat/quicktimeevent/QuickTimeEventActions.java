@@ -1,8 +1,12 @@
 package com.csse3200.game.components.combat.quicktimeevent;
 
+import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +18,19 @@ public class QuickTimeEventActions extends Component {
     private int count = 0;
     private static final int MAX_COUNT = 3;
     private long lastUpdate;
+    private final Screen oldScreen;
+    private final ServiceContainer oldScreenServices;
+    private final Entity player;
+    private final Entity enemy;
 
-    public QuickTimeEventActions(GdxGame game) {
+
+    public QuickTimeEventActions(GdxGame game,Screen oldScreen, ServiceContainer oldScreenServices, Entity player, Entity enemy) {
         this.game = game;
+        this.oldScreenServices = oldScreenServices;
+        this.oldScreen = oldScreen;
+        this.player = player;
+        this.enemy = enemy;
+
     }
 
     @Override
@@ -53,9 +67,10 @@ public class QuickTimeEventActions extends Component {
     /**
      * Exits to the main menu
      */
-    private void onExit() {
+    private void onExit(Screen screen, ServiceContainer container) {
         logger.info("Exit QuickTimeEvent screen");
-        game.setScreen(GdxGame.ScreenType.COMBAT);
+       // game.setScreen(GdxGame.ScreenType.COMBAT);
+        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy));
     }
 
     /**
