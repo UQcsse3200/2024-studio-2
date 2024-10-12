@@ -27,10 +27,12 @@ public abstract class SpecialMove extends CombatMove {
      * a default error message if invoked with insufficient parameters.
      *
      * @param attackerStats the combat stats of the attacker.
+     * @return
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public String execute(CombatStatsComponent attackerStats) {
         logger.error("Special move needs more arguments.");
+        return null;
     }
 
     /**
@@ -42,8 +44,8 @@ public abstract class SpecialMove extends CombatMove {
      * @param targetStats   the combat stats of the target.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats, targetStats, false);
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -55,9 +57,9 @@ public abstract class SpecialMove extends CombatMove {
      * @param numHitsLanded   the number of hits landed (not used in this implementation).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats, targetStats, false);
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -69,7 +71,7 @@ public abstract class SpecialMove extends CombatMove {
      * @param targetIsGuarded whether the target is guarded.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
         if (attackerStats != null && targetStats != null) {
             logger.info("{} used a special move.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY");
@@ -86,6 +88,7 @@ public abstract class SpecialMove extends CombatMove {
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }
+        return "Special";
     }
 
     /**

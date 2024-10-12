@@ -387,6 +387,10 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
+
+        List<String> moveTextList = new ArrayList<>();
+        moveTextList.add("1");
+
         switch (playerAction) {
             case ATTACK -> {
                 combatAnimationDisplay.initiateAnimation(Action.ATTACK);
@@ -419,12 +423,12 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
-                        playerMove.executeMove(playerAction);
+                        moveTextList.add(playerMove.executeMove(playerAction));
                         enemyMove.executeMove(enemyAction, playerStats, true);
                     }
                     case GUARD, SLEEP -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
+                        moveTextList.add(playerMove.executeMove(playerAction));
+                        moveTextList.add(enemyMove.executeMove(enemyAction));
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -433,15 +437,15 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
-                        playerMove.executeMove(playerAction);
+                        moveTextList.add(playerMove.executeMove(playerAction));
                         enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
                     }
                     case GUARD, SLEEP -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
+                        moveTextList.add(playerMove.executeMove(playerAction));
+                        moveTextList.add(enemyMove.executeMove(enemyAction));
                     }
                     case SPECIAL -> {
-                        playerMove.executeMove(playerAction);
+                        moveTextList.add(playerMove.executeMove(playerAction));
                         enemyMove.executeMove(enemyAction, playerStats, false);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
@@ -456,10 +460,20 @@ public class CombatManager extends Component {
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
         }
 
-        logger.info("(AFTER) PLAYER: health {}, hunger {}", playerStats.getHealth(), playerStats.getHunger());
-        logger.info("(AFTER) ENEMY: health {}, hunger {}", enemyStats.getHealth(), enemyStats.getHunger());
-        displayCombatResults();
-        initStatsCopies();
+        logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
+        logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+
+        displayDialogueOutcome(moveTextList);
+    }
+
+    private void displayDialogueOutcome(List<String> moveTextList) {
+        // Convert the ArrayList to a 2D array for updateText
+        String[][] moveText = new String[1][moveTextList.size()];
+        moveText[0] = moveTextList.toArray(new String[0]);
+        ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
+
+        // Hide the combat move buttons.
+        entity.getEvents().trigger("displayCombatResults");
     }
 
     /**

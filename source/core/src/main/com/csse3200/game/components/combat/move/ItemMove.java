@@ -27,7 +27,7 @@ public class ItemMove extends CombatMove {
      * @param attackerStats the combat stats of the entity performing the item move.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public String execute(CombatStatsComponent attackerStats) {
         if (attackerStats != null) {
             logger.info("{} item increasing {} hunger.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
@@ -37,6 +37,7 @@ public class ItemMove extends CombatMove {
         } else {
             logger.error("Entity does not have CombatStatsComponent.");
         }
+        return "Item";
     }
 
     /**
@@ -46,8 +47,8 @@ public class ItemMove extends CombatMove {
      * @param targetStats   the combat stats of the target (ignored for item moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats);
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats);
     }
 
     /**
@@ -59,8 +60,8 @@ public class ItemMove extends CombatMove {
      * @param targetIsGuarded whether the target is guarding (ignored for item moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats);
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats);
     }
 
     /**
@@ -72,8 +73,8 @@ public class ItemMove extends CombatMove {
      * @param numHitsLanded   the number of hits landed (ignored for guard moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats);
+        return execute(attackerStats);
     }
 }

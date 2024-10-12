@@ -28,8 +28,9 @@ public class AttackMove extends CombatMove {
      * @param attackerStats combat stats of the attacker.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public String execute(CombatStatsComponent attackerStats) {
         logger.error("Attack move needs more arguments.");
+        return null;
     }
 
     /**
@@ -39,8 +40,8 @@ public class AttackMove extends CombatMove {
      * @param targetStats   combat stats of the target.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats, targetStats, false);
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -52,8 +53,8 @@ public class AttackMove extends CombatMove {
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats, targetStats, targetIsGuarded, 1);
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats, targetStats, targetIsGuarded, 1);
     }
 
     /**
@@ -66,7 +67,7 @@ public class AttackMove extends CombatMove {
      * @param numHitsLanded   the number of hits that successfully land during a multi-hit attack.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
         for (int hitNumber = 0; hitNumber < numHitsLanded; hitNumber++) {
             if (attackerStats != null && targetStats != null) {
@@ -80,6 +81,7 @@ public class AttackMove extends CombatMove {
                 logger.error("Either attacker or target does not have CombatStatsComponent.");
             }
         }
+        return "Attack";
     }
 
     /**

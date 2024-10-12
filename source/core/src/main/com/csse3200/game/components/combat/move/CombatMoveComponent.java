@@ -27,11 +27,26 @@ public class CombatMoveComponent extends Component {
      *
      * @param action the action that specifies which move to execute.
      */
-    public void executeMove(CombatManager.Action action) {
+    public String executeMove(CombatManager.Action action) {
         CombatMove move = getMoveAction(action);
-        if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class));
+
+        // Get the name of the entity.
+        String name;
+        if (entity.isPlayer()) {
+            name = "You";
+        } else {
+            name = entity.getEnemyType().name();
         }
+
+        // Execute the move and get the description of the outcome.
+        String moveOutcome;
+        if (move != null) {
+            moveOutcome = move.execute(entity.getComponent(CombatStatsComponent.class));
+        } else {
+            moveOutcome = "No move found.";
+        }
+
+        return String.format("%s %s", name, moveOutcome);
     }
 
     /**

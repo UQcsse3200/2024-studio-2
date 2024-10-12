@@ -28,7 +28,7 @@ public class SleepMove extends CombatMove {
      * @param attackerStats the combat stats of the entity performing the sleep move.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public String execute(CombatStatsComponent attackerStats) {
         if (attackerStats != null) {
             attackerStats.addHunger((int) (0.25 * attackerStats.getMaxHunger()));
             if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
@@ -41,6 +41,7 @@ public class SleepMove extends CombatMove {
         } else {
             logger.error("Entity does not have CombatStatsComponent");
         }
+        return "Sleep";
     }
 
     /**
@@ -50,8 +51,8 @@ public class SleepMove extends CombatMove {
      * @param targetStats   the combat stats of the target (ignored for sleep moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats);
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats);
     }
 
     /**
@@ -62,8 +63,8 @@ public class SleepMove extends CombatMove {
      * @param targetIsGuarded whether the target is guarding (ignored for sleep moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats);
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats);
     }
 
     /**
@@ -75,8 +76,8 @@ public class SleepMove extends CombatMove {
      * @param numHitsLanded   the number of hits landed (ignored for sleep moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public String execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats);
+        return execute(attackerStats);
     }
 }
