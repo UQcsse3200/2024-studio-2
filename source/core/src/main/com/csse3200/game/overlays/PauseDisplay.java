@@ -1,5 +1,6 @@
 package com.csse3200.game.overlays;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
     private Table rootTable;
-    private static final String BUTTONTEXTURE = "images/PauseOverlay/Button.png";
+    private static final String BUTTONTEXTURE = "images/PauseOverlay/Button2.png";
     private PausableScreen screen;
     private GdxGame game;
 
@@ -45,6 +46,7 @@ public class PauseDisplay extends UIComponent {
     private void addActors() {
         // Title label
         Label title = new Label("Attack On Animals", skin, "title");
+        title.setColor(Color.RED);
         Image titleBackGround = new Image(ServiceLocator.getResourceService().getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
         // Create tables
         Table menuBtns = makeMenuBtns();

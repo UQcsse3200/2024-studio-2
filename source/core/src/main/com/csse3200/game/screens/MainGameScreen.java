@@ -55,7 +55,7 @@ public class MainGameScreen extends PausableScreen {
    */
   private static final String[] mainGameTextures = {"images/health_bar_x1.png",
           GameState.player.selectedAnimalPath, "images/player_icon_forest.png", "images/vignette.png",
-          "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button.png"};
+          "images/xp_bar.png", "images/hunger_bar.png", "images/QuestsOverlay/Quest_SBG.png", "images/PauseOverlay/TitleBG.png", "images/PauseOverlay/Button2.png"};
 
   /**
    * Initial position of the camera in game.
