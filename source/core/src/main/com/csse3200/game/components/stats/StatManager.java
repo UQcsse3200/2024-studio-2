@@ -10,8 +10,6 @@ import com.csse3200.game.inventory.items.AbstractItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.csse3200.game.components.stats.StatSaveManager.saveStats;
-
 /**
  * Class to store Stats and listen for events to update them.
  */

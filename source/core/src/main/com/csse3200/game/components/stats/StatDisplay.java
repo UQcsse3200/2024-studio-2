@@ -23,8 +23,6 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.csse3200.game.components.stats.StatSaveManager.saveStats;
-
 /**
  * Display detailed stats after defeating the final boss of the game.
  */
