@@ -397,24 +397,24 @@ public class CombatManager extends Component {
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
-                            playerMove.executeMove(playerAction, enemyStats);
-                            enemyMove.executeMove(enemyAction, playerStats);
+                            addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats));
+                            addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats));
                         } else {
-                            enemyMove.executeMove(enemyAction, playerStats);
-                            playerMove.executeMove(playerAction, enemyStats);
+                            addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats));
+                            addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats));
                         }
                     }
                     case GUARD -> {
-                        enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, true);
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats, true));
                     }
                     case SLEEP -> {
-                        enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded()));
                     }
                     case SPECIAL -> {
-                        enemyMove.executeMove(enemyAction, playerStats, false);
-                        playerMove.executeMove(playerAction, enemyStats);
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats));
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -424,7 +424,7 @@ public class CombatManager extends Component {
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
                         addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        enemyMove.executeMove(enemyAction, playerStats, true);
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, true));
                     }
                     case GUARD, SLEEP -> {
                         addStringsToList(moveTextList, playerMove.executeMove(playerAction));
@@ -438,7 +438,7 @@ public class CombatManager extends Component {
                 switch(enemyAction) {
                     case ATTACK -> {
                         addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded()));
                     }
                     case GUARD, SLEEP -> {
                         addStringsToList(moveTextList, playerMove.executeMove(playerAction));
@@ -446,7 +446,7 @@ public class CombatManager extends Component {
                     }
                     case SPECIAL -> {
                         addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        enemyMove.executeMove(enemyAction, playerStats, false);
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false));
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }

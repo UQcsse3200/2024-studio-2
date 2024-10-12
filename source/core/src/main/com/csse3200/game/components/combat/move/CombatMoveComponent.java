@@ -21,17 +21,12 @@ public class CombatMoveComponent extends Component {
      */
     public CombatMoveComponent(List<CombatMove> moveSet) {
         this.moveSet = moveSet;
+        // Issues with CombatMoveComponent not being associated with an entity on initialisation.
+        // This seemed to fix it.
         this.name = "Uninitialised";
     }
 
-    /**
-     * Executes a move based on the provided action. Uses the entity's own stats as the attacker.
-     *
-     * @param action the action that specifies which move to execute.
-     */
-    public String[] executeMove(CombatManager.Action action) {
-        CombatMove move = getMoveAction(action);
-
+    private String[] getMoveContextStrings(CombatMove move, String statChanges) {
         // Get the name of the entity.
         if (name == "Uninitialised") {
             if (entity.isPlayer()) {
@@ -45,7 +40,7 @@ public class CombatMoveComponent extends Component {
         // Execute the move and get the stat changes.
         String moveOutcome;
         if (move != null) {
-            moveOutcome = String.format("%s %s", name, move.execute(entity.getComponent(CombatStatsComponent.class)));
+            moveOutcome = String.format("%s %s", name, statChanges);
         } else {
             moveOutcome = "No move found.";
         }
@@ -54,16 +49,36 @@ public class CombatMoveComponent extends Component {
     }
 
     /**
+     * Executes a move based on the provided action. Uses the entity's own stats as the attacker.
+     *
+     * @param action the action that specifies which move to execute.
+     */
+    public String[] executeMove(CombatManager.Action action) {
+        CombatMove move = getMoveAction(action);
+        String statChanges;
+        if (move != null) {
+            statChanges = move.execute(entity.getComponent(CombatStatsComponent.class));
+        } else {
+            statChanges = "No move found.";
+        }
+        return getMoveContextStrings(move, statChanges);
+    }
+
+    /**
      * Executes a move based on the provided action and target. Uses the entity's own stats as the attacker.
      *
      * @param action the action that specifies which move to execute.
      * @param target the target's combat stats component.
      */
-    public void executeMove(CombatManager.Action action, CombatStatsComponent target) {
+    public String[] executeMove(CombatManager.Action action, CombatStatsComponent target) {
         CombatMove move = getMoveAction(action);
+        String statChanges;
         if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class), target); // entity is the attacker
+            statChanges = move.execute(entity.getComponent(CombatStatsComponent.class), target); // entity is the attacker
+        } else {
+            statChanges = "No move found.";
         }
+        return getMoveContextStrings(move, statChanges);
     }
 
     /**
@@ -74,11 +89,15 @@ public class CombatMoveComponent extends Component {
      * @param target         the target's combat stats component.
      * @param targetIsGuarded whether the target is guarding, reducing the effectiveness of the attack.
      */
-    public void executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded) {
+    public String[] executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded) {
         CombatMove move = getMoveAction(action);
+        String statChanges;
         if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded); // entity is the attacker
+            statChanges = move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded); // entity is the attacker
+        } else {
+            statChanges = "No move found.";
         }
+        return getMoveContextStrings(move, statChanges);
     }
 
     /**
@@ -90,12 +109,16 @@ public class CombatMoveComponent extends Component {
      * @param targetIsGuarded whether the target is guarding.
      * @param numHitsLanded  the number of hits landed in a multi-hit move.
      */
-    public void executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded,
+    public String[] executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded,
                             int numHitsLanded) {
         CombatMove move = getMoveAction(action);
+        String statChanges;
         if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded, numHitsLanded); // entity is the attacker
+            statChanges = move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded, numHitsLanded); // entity is the attacker
+        } else {
+            statChanges = "No move found.";
         }
+        return getMoveContextStrings(move, statChanges);
     }
 
     /**
