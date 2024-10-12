@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
 import com.csse3200.game.minigames.birdieDash.BirdieDashGame;
 import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputComponent;
@@ -124,8 +126,8 @@ public class BirdieDashScreen extends PausableScreen {
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
-                logger.info("Highscore is {}", GameState.minigame.getHighScore(MAZE));
             }
+            SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         }
     }
 
