@@ -46,7 +46,6 @@ public class MainMenuDisplay extends UIComponent {
     private Table loginRegisterTable;
     private Table leaderboardTable;
     private SettingsMenu settingsMenu;
-    private LoginRegisterDisplay loginRegisterDisplay;
     private MinigameLeaderboard minigameLeaderboard;
     private Texture mainTitle;
     private Texture lightBackgroundTexture;
@@ -64,7 +63,6 @@ public class MainMenuDisplay extends UIComponent {
     private java.util.List<String> predefinedQuestions;
     private ChatbotService chatbotService;
     private boolean isChatbotDialogVisible = false;
-    private Image owlImage;
     private Sound owlSound;
     private Label factLabel;
     private String[] owlFacts;
@@ -89,15 +87,19 @@ public class MainMenuDisplay extends UIComponent {
     private Image birdAniImage;
     private Image monkeyAniImage;
     private Image dogAniImage;
+    private Image owlAniImage;
     private Array<TextureRegion> birdTextures;
     private Array<TextureRegion> monkeyTextures;
     private Array<TextureRegion> dogTextures;
+    private Array<TextureRegion> owlTextures;
     private boolean birdDirection = true;
     private boolean dogDirection = true;
     int birdCurrentFrame = 0;
     int monkeyCurrentFrame = 0;
     int dogCurrentFrame = 0;
+    int owlCurrentFrame = 0;
     private float timer;
+    private float owlTimer;
     private Image titleAniImage;
 
     /**
@@ -117,12 +119,13 @@ public class MainMenuDisplay extends UIComponent {
         this.addChatbotIcon();
         this.applyUserSettings();
         this.setupOwlFacts();
-        this.addOwlToMenu(); // Add owl to the menu
         this.addBird();
+        this.addOwlToMenu(); // Add owl to the menu
         this.addTitle();
         addActors();
 
         timer = 0f;
+        owlTimer = 0f;
     }
     /**
      * Load the textures for the mute and unmute button states.
@@ -140,8 +143,6 @@ public class MainMenuDisplay extends UIComponent {
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashEmptyNight.png"); // Night background
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
-        Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
-        owlImage = new Image(owlTexture); // Create owl image actor
     }
 
 
@@ -238,6 +239,20 @@ public class MainMenuDisplay extends UIComponent {
         updateMenuButtonLayout();
 
         stage.addActor(menuButtonTable);
+    }
+
+    private void addOwl() {
+        owlAniImage = new Image();
+        TextureAtlas owlAtlas = new TextureAtlas("spriteSheets/owl.atlas");
+        owlTextures = new Array<>(3);
+        for (int frameOwl = 1; frameOwl <= 3; frameOwl++) {
+            owlTextures.add(owlAtlas.findRegion("owl" + frameOwl));
+        }
+        TextureRegionDrawable drawableOwl = new TextureRegionDrawable(owlTextures.get(0));
+        owlAniImage.setDrawable(drawableOwl);
+        owlAniImage.setPosition(Gdx.graphics.getWidth() * 0.87f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
+        owlAniImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 6f);
+        stage.addActor(owlAniImage);
     }
 
 
@@ -353,14 +368,14 @@ public class MainMenuDisplay extends UIComponent {
         // Predefined questions
         Table questionTable = new Table();
         for (String question : predefinedQuestions) {
-            TextButton questionButton = new TextButton(question, skin);
+            CustomButton questionButton = new CustomButton(question, skin);
             questionButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     processChatInput(question);
                 }
             });
-            questionTable.add(questionButton).pad(5).expandX().fillX().row(); // Add each question button with padding and fill
+            questionTable.add(questionButton).pad(3).width(chatWidth).height(45f).row();; // Add each question button with padding and fill
         }
 
         // User input field
@@ -395,7 +410,7 @@ public class MainMenuDisplay extends UIComponent {
         // Layout the dialog
         Table contentTable = new Table();
         contentTable.add(titleLabel).padTop(20).center().row(); // Add title at the top
-        contentTable.add(questionTable).expandX().fillX().pad(20).row(); // Add question buttons
+        contentTable.add(questionTable).expandX().fillX().padTop(30f).row(); // Add question buttons
         contentTable.add(userInputField).width(chatWidth).pad(10).row(); // Add input field
         contentTable.add(sendButton).pad(10).width(180f).height(45f).row(); //.row(); // Add send button
         contentTable.add(chatbotResponseLabel).width(chatWidth).pad(10).row(); // Add response label
@@ -489,21 +504,17 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     private void addOwlToMenu() {
-        // Set owl initial position
-        // Resize owl with screen
-        owlImage.setPosition(Gdx.graphics.getWidth() * 0.87f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
-        owlImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 6f);
-
-        stage.addActor(owlImage);
+        // Add owl
+        this.addOwl();
 
         // Create label for displaying facts
         factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
-        factLabel.setPosition(owlImage.getX() * 0.8f, owlImage.getY()); // Position it near the owl
+        factLabel.setPosition(owlAniImage.getX() * 0.8f, owlAniImage.getY()); // Position it near the owl
         factLabel.setFontScale(1f);
         stage.addActor(factLabel);
 
         // Add click listener for the owl
-        owlImage.addListener(new ClickListener() {
+        owlAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 owlSound.play(); // Play owl sound
@@ -899,6 +910,7 @@ public class MainMenuDisplay extends UIComponent {
     @Override
     public void update() {
         timer += Gdx.graphics.getDeltaTime();
+        owlTimer += Gdx.graphics.getDeltaTime();
         if (timer >= 0.25) {
             timer = 0;
             TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(birdCurrentFrame));
@@ -922,13 +934,23 @@ public class MainMenuDisplay extends UIComponent {
             }
             monkeyAniImage.setDrawable(drawableMonkey);
         }
+        if (owlTimer >= 0.5f) {
+            owlTimer = 0f;
+
+            TextureRegionDrawable drawableOwl = new TextureRegionDrawable(owlTextures.get(owlCurrentFrame));
+            owlCurrentFrame++;
+            if (owlCurrentFrame >= 3) {
+                owlCurrentFrame = 0;
+            }
+            owlAniImage.setDrawable(drawableOwl);
+        }
 
         // Resize owl with screen
-        owlImage.setPosition(Gdx.graphics.getWidth() * 0.885f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
-        owlImage.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6f);
+        owlAniImage.setPosition(Gdx.graphics.getWidth() * 0.885f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
+        owlAniImage.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6f);
 
         // Resize label with owl
-        factLabel.setPosition(owlImage.getX() * 0.8f, owlImage.getY()); // Position it near the owl
+        factLabel.setPosition(owlAniImage.getX() * 0.8f, owlAniImage.getY()); // Position it near the owl
         factLabel.setFontScale(Gdx.graphics.getHeight() / 1000f);
 
         // update bird, monkey and dog animations
