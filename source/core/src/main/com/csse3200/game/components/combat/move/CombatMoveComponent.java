@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class CombatMoveComponent extends Component {
     private final List<CombatMove> moveSet;  // The list of available combat moves for the entity.
+    private String name; // The name of the entity.
 
     /**
      * Constructor to initialize the combat move component with a set of moves.
@@ -20,6 +21,7 @@ public class CombatMoveComponent extends Component {
      */
     public CombatMoveComponent(List<CombatMove> moveSet) {
         this.moveSet = moveSet;
+        this.name = "Uninitialised";
     }
 
     /**
@@ -27,26 +29,28 @@ public class CombatMoveComponent extends Component {
      *
      * @param action the action that specifies which move to execute.
      */
-    public String executeMove(CombatManager.Action action) {
+    public String[] executeMove(CombatManager.Action action) {
         CombatMove move = getMoveAction(action);
 
         // Get the name of the entity.
-        String name;
-        if (entity.isPlayer()) {
-            name = "You";
-        } else {
-            name = entity.getEnemyType().name();
+        if (name == "Uninitialised") {
+            if (entity.isPlayer()) {
+                name = "You";
+            } else {
+                name = entity.getEnemyType().name();
+            }
         }
+        String moveDescription = String.format("%s decided to %s.", name, move.getMoveName());
 
-        // Execute the move and get the description of the outcome.
+        // Execute the move and get the stat changes.
         String moveOutcome;
         if (move != null) {
-            moveOutcome = move.execute(entity.getComponent(CombatStatsComponent.class));
+            moveOutcome = String.format("%s %s", name, move.execute(entity.getComponent(CombatStatsComponent.class)));
         } else {
             moveOutcome = "No move found.";
         }
 
-        return String.format("%s %s", name, moveOutcome);
+        return new String[]{moveDescription, moveOutcome};
     }
 
     /**

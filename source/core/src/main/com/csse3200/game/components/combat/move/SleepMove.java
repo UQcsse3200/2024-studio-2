@@ -41,7 +41,7 @@ public class SleepMove extends CombatMove {
         } else {
             logger.error("Entity does not have CombatStatsComponent");
         }
-        return "Sleep";
+        return String.format("lost %d hunger.", this.staminaCost);
     }
 
     /**

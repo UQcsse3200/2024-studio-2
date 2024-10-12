@@ -388,8 +388,7 @@ public class CombatManager extends Component {
             return;
         }
 
-        List<String> moveTextList = new ArrayList<>();
-        moveTextList.add("1");
+        List<String[]> moveTextList = new ArrayList<>();
 
         switch (playerAction) {
             case ATTACK -> {
@@ -466,10 +465,14 @@ public class CombatManager extends Component {
         displayDialogueOutcome(moveTextList);
     }
 
-    private void displayDialogueOutcome(List<String> moveTextList) {
+    private void displayDialogueOutcome(List<String[]> moveTextList) {
         // Convert the ArrayList to a 2D array for updateText
-        String[][] moveText = new String[1][moveTextList.size()];
-        moveText[0] = moveTextList.toArray(new String[0]);
+        //String[][] moveText = new String[1][moveTextList.size()];
+        //moveText[0] = moveTextList.toArray(new String[0]);
+        String[][] moveText = new String[moveTextList.size()][];
+        for (int i = 0; i < moveTextList.size(); i++) {
+            moveText[i] = moveTextList.get(i);
+        }
         ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
 
         // Hide the combat move buttons.

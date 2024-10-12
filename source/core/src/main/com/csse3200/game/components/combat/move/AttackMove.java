@@ -81,7 +81,7 @@ public class AttackMove extends CombatMove {
                 logger.error("Either attacker or target does not have CombatStatsComponent.");
             }
         }
-        return "Attack";
+        return String.format("lost %d hunger.", this.staminaCost);
     }
 
     /**

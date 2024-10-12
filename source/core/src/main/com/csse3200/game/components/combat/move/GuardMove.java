@@ -37,7 +37,7 @@ public class GuardMove extends CombatMove {
         } else {
             logger.error("Entity does not have CombatStatsComponent.");
         }
-        return String.format("decided to %s.", this.moveName, this.staminaCost);
+        return String.format("lost %d hunger.", this.staminaCost);
     }
 
     /**
