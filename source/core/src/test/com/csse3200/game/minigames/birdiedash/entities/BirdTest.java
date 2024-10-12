@@ -2,29 +2,22 @@ package com.csse3200.game.minigames.birdiedash.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
-import java.lang.reflect.Field;
 
+@ExtendWith(GameExtension.class)
 class BirdTest {
     private Bird bird;
+    private final float BIRD_HEIGHT = 45f;
     // Method Set Up to initialise the Bird instance
     @BeforeEach
     void setUp() {
         bird = new Bird(100, 300); // This is the initial bird's position
     }
 
-    // Used helper method to get private field value using reflection
-    private float getPrivateField(String fieldName) {
-        try {
-            Field field = Bird.class.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field.getFloat(null); // Use 'null' for static fields
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     // Testing to verify the Bird's initial position when it is created.
     @Test
@@ -38,20 +31,16 @@ class BirdTest {
     @Test
     void testFlap() {
         bird.flap();
-        Vector2 velocity = bird.getPosition();
         assertEquals(300, bird.getPosition().y, "Y velocity after flap should be 300");
     }
 
     // Testing the bird's movement with gravity.
     @Test
     void testUpdateWithGravity() {
-        float flapStrength = getPrivateField("FLAP_STRENGTH");
-        float gravity = getPrivateField("GRAVITY");
 
         bird.flap(); // Simulate a flap
         bird.update(1.0f, 1); // Update with gravity
 
-        float expectedY = 300 + flapStrength + gravity;
         assertTrue(bird.getPosition().y < 300, "Bird's Y position should decrease due to gravity");
     }
 
@@ -90,5 +79,59 @@ class BirdTest {
 
         // Checking that the expected and actual bounding boxes are equal
         assertEquals(expectedBoundingBox, actualBoundingBox, "Bounding box should update correctly with bird's position.");
+    }
+
+    @Test
+    void testGoBelowScreen() {
+        bird.setPosition(500,-10);
+        bird.update(1.0f, 1.0f);
+        assertEquals(0, bird.getPosition().y);
+    }
+
+    @Test
+    void testGoAboveScreen() {
+        bird.setPosition(500,1210);
+        bird.update(0.0001f, 1.0f);
+        assertEquals(1155, bird.getPosition().y);
+    }
+
+    @Test
+    void testBirdTopofPipePosition() {
+        bird.setPosition(300,300);
+        bird.setCollidingTopPipe(300);
+        assertEquals(301, bird.getPosition().y);
+    }
+
+    @Test
+    void testBirdTopofPipeVelocity() {
+        bird.setPosition(300,300);
+        bird.setCollidingTopPipe(300);
+        bird.update(1, 1);
+        assertEquals(0, bird.getVelocity().y);
+    }
+
+    @Test
+    void testTouchingFloor() {
+        bird.setPosition(300, 0);
+        assertTrue(bird.touchingFloor());
+    }
+
+    @Test
+    void testBirdHeight() {
+        assertEquals(bird.getBirdHeight(), BIRD_HEIGHT);
+    }
+
+    @Test
+    void testCollidingBottomPipe() {
+        bird.setPosition(100,100);
+        bird.setCollidingBottomPipe(100);
+        assertEquals(100-BIRD_HEIGHT-1, bird.getPosition().y);
+    }
+
+    @Test
+    void testUnsetCollidingTopPipe() {
+        bird.setCollidingTopPipe(0);
+        bird.unsetCollidingTopPipe();
+        assertFalse(bird.isCollideTopOfPipe());
     }
 }

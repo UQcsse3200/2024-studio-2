@@ -181,4 +181,19 @@ public class Bird {
         position.set(x, y);
         updateBoundingBox();
     }
+
+    /**
+     * For testing
+     */
+    public void setVelocity(float x, float y) {
+        velocity.set(x, y);
+    }
+
+    /**
+     * For Testing
+     * @return The velocity vector
+     */
+    public Vector2 getVelocity() {
+        return velocity;
+    }
 }
