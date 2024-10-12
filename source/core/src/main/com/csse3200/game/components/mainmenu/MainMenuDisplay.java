@@ -266,6 +266,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Chatbot", "Monkey icon clicked!"); // Log to verify the click
+                clickSound.play(); // Play the click sound
                 if (chatbotUI.isChatbotDialogVisible()) {
                     chatbotUI.closeChatbotDialog(); // Close the chatbot if it's visible
                 } else {
@@ -276,7 +277,6 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(monkeyAniImage);
     }
-
 
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
