@@ -122,15 +122,18 @@ public class PlayerStatsDisplay extends UIComponent {
 
         // Health text
         int health = entity.getComponent(CombatStatsComponent.class).getHealth();
-        CharSequence healthText = String.format("HP: %d", health);
+        int maxHealth = entity.getComponent(CombatStatsComponent.class).getMaxHealth();
+        CharSequence healthText = String.format("HP: %d/%d", health, maxHealth);
         healthLabel = new Label(healthText, skin, "large");
         // Hunger text
         int hunger = entity.getComponent(CombatStatsComponent.class).getHunger();
-        CharSequence hungerText = String.format("HGR: %d", hunger);
+        int maxHunger = entity.getComponent(CombatStatsComponent.class).getMaxHunger();
+        CharSequence hungerText = String.format("HGR: %d/%d", hunger, maxHunger);
         hungerLabel = new Label(hungerText, skin, "large");
         // Experience text
         int experience = entity.getComponent(CombatStatsComponent.class).getExperience();
-        CharSequence experienceText = String.format("EXP: %d", experience);
+        int maxExperience = entity.getComponent(CombatStatsComponent.class).getMaxExperience();
+        CharSequence experienceText = String.format("EXP: %d", experience, maxExperience);
         experienceLabel = new Label(experienceText, skin, "large");
 
         initBarAnimations();
@@ -258,7 +261,7 @@ public class PlayerStatsDisplay extends UIComponent {
      * @param health the current health stat value of the player
      */
     public void updatePlayerHealthUI(int health, int maxHealth, boolean isPlayer) {
-        CharSequence text = String.format("HP: %d", health);
+        CharSequence text = String.format("HP: %d/%d", health, maxHealth);
         logger.debug("Made it to this updateHealth function");
         logger.debug("{}", health);
         healthLabel.setText(text);
@@ -280,7 +283,7 @@ public class PlayerStatsDisplay extends UIComponent {
      * @param hunger The current hunger stat value of the player
      */
     public void updatePlayerHungerUI(int hunger) {
-        CharSequence text = String.format("HGR: %d", hunger);
+        CharSequence text = String.format("HGR: %d/%d", hunger, maxHunger);
         logger.debug("Made it to this updateHunger function");
         logger.debug("{}", hunger);
         hungerLabel.setText(text);
@@ -301,7 +304,8 @@ public class PlayerStatsDisplay extends UIComponent {
      * @param experience The current experience stat value of the player
      */
     public void updatePlayerExperienceUI(int experience, CombatStatsComponent combatStats) {
-        CharSequence text = String.format("EXP: %d", experience);
+
+        CharSequence text = String.format("EXP: %d/%d", experience, combatStats.getMaxExperience());
         experienceLabel.setText(text);
         logger.debug("Made it to this updatePlayerExperienceUI function");
         logger.debug("{}", experience);
