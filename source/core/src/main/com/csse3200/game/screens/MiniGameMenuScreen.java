@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 
+import javax.swing.*;
+
 /**
  * CLass for the MiniGame Menu Screen
  */
@@ -25,6 +27,7 @@ public class MiniGameMenuScreen implements Screen {
     private final GdxGame game;
     private Skin skin;
     private SpriteBatch batch;
+    private SnakePopup PopupWindow;
     private float scale;
 
     // Image textures
@@ -127,24 +130,25 @@ public class MiniGameMenuScreen implements Screen {
         snakeImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                snakeImage.setColor(Color.GREEN);
-                game.enterSnakeScreen();
+                PopupWindow = new SnakePopup(game, "images/minigames/snakepopup.jpg", "Snake");
+                PopupWindow.show();
+
             }
         });
 
         skyImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                skyImage.setColor(Color.GREEN);
-                game.enterBirdieDashScreen();
+                PopupWindow = new SnakePopup(game, "images/minigames/birdiepopup.jpg", "Birdie");
+                PopupWindow.show();
             }
         });
 
         waterImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                waterImage.setColor(Color.GREEN);
-                game.enterMazeGameScreen();
+                PopupWindow = new SnakePopup(game, "images/minigames/mazepopup.jpg", "Maze");
+                PopupWindow.show();
             }
         });
 
@@ -196,6 +200,10 @@ public class MiniGameMenuScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
             game.setScreen(new MainMenuScreen(game));
         }
+        if (PopupWindow != null) {
+            PopupWindow.render();
+        }
+
     }
 
     /**
@@ -240,6 +248,9 @@ public class MiniGameMenuScreen implements Screen {
      */
     @Override
     public void dispose() {
+        if (PopupWindow != null) {
+            PopupWindow.dispose();
+        }
         stage.dispose();
         skin.dispose();
         snakeTexture.dispose();
