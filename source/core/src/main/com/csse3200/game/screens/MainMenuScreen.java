@@ -42,7 +42,6 @@ public class MainMenuScreen extends ResizableScreen {
     //mainMenuDisplay.updateSettingMenu();
     mainMenuDisplay.updateLoginRegisterTable();
     mainMenuDisplay.updateMenuButtonLayout();
-    mainMenuDisplay.updateChatbotDialogPosition();
   }
 
   @Override

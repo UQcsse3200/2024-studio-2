@@ -57,12 +57,7 @@ public class MainMenuDisplay extends UIComponent {
     private Texture dog2Texture;
     private Texture crocTexture;
     private Texture cursorTexture;
-    private Dialog chatbotDialog;
-    private TextField userInputField;
-    private Label chatbotResponseLabel;
-    private java.util.List<String> predefinedQuestions;
-    private ChatbotService chatbotService;
-    private boolean isChatbotDialogVisible = false;
+    private ChatbotUI chatbotUI;
     private Sound owlSound;
     private Label factLabel;
     private String[] owlFacts;
@@ -113,10 +108,8 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Background texture loaded");
         this.setupCustomCursor();
         this.addDog();
-        chatbotService = new ChatbotService();
-        this.setupPredefinedQuestions();
         this.addMonkey();
-        this.addChatbotIcon();
+        chatbotUI = new ChatbotUI(stage, skin);
         this.applyUserSettings();
         this.setupOwlFacts();
         this.addBird();
@@ -267,8 +260,23 @@ public class MainMenuDisplay extends UIComponent {
         monkeyAniImage.setDrawable(drawableMonkey);
         monkeyAniImage.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 4.8f);
         monkeyAniImage.setPosition(Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 6.8f);
+
+        // Add the click listener to open/close the chatbot
+        monkeyAniImage.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Chatbot", "Monkey icon clicked!"); // Log to verify the click
+                if (chatbotUI.isChatbotDialogVisible()) {
+                    chatbotUI.closeChatbotDialog(); // Close the chatbot if it's visible
+                } else {
+                    chatbotUI.openChatbotDialog(); // Open the chatbot if it's not visible
+                }
+            }
+        });
+
         stage.addActor(monkeyAniImage);
     }
+
 
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
@@ -311,152 +319,6 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Adds a chatbot icon to the UI, positioned in the bottom-right corner of the screen.
-     * The icon allows the user to open and close a chatbot dialog.
-     */
-    private void addChatbotIcon() {
-        // Create a table to hold the chatbot icon and position it in the bottom-right corner.
-        Table chatbotIconTable = new Table();
-        chatbotIconTable.setBounds(monkeyAniImage.getX(),monkeyAniImage.getY(), monkeyAniImage.getWidth(), monkeyAniImage.getHeight());
-
-        // Load the chatbot icon image and set its initial size.
-        ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
-        chatbotIcon.setSize(monkeyAniImage.getWidth(), monkeyAniImage.getHeight());
-
-        // Add a listener to the chatbot icon for click events
-        chatbotIcon.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Toggle the chatbot dialog's visibility when the icon is clicked.
-                if (isChatbotDialogVisible) {
-                    closeChatbotDialog();  // Close the chatbot dialog if it is currently visible.
-                } else {
-                    openChatbotDialog();   // Open the chatbot dialog if it is currently hidden.
-                }
-            }
-        });
-
-        // Add the chatbot icon to the table and the table to the stage.
-        chatbotIconTable.add(chatbotIcon);
-        stage.addActor(chatbotIconTable);
-    }
-
-    /**
-     * Opens the chatbot dialog in the center of the screen.
-     */
-    private void openChatbotDialog() {
-        int chatWidth = 600;
-        chatbotDialog = new Dialog("", skin) {
-            @Override
-            protected void result(Object object) {
-                logger.info("Chatbot dialog closed.");
-            }
-        };
-
-        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100f); // Dynamically set width
-        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100f); // Dynamically set height
-        chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT); // Set size
-
-        // Background for the chatbot window
-        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingBackground.png")));
-        chatbotDialog.setBackground(backgroundDrawable);
-
-        // Title
-        Label titleLabel = new Label("Chatbot", skin, "title-white");
-        titleLabel.setAlignment(Align.center);
-
-        // Predefined questions
-        Table questionTable = new Table();
-        for (String question : predefinedQuestions) {
-            CustomButton questionButton = new CustomButton(question, skin);
-            questionButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    processChatInput(question);
-                }
-            });
-            questionTable.add(questionButton).pad(3).width(chatWidth).height(45f).row();; // Add each question button with padding and fill
-        }
-
-        // User input field
-        userInputField = new TextField("", skin);
-        userInputField.setMessageText("Type your question...");
-        userInputField.setAlignment(Align.center);
-
-        // Submit button
-        CustomButton sendButton = new CustomButton("Send", skin);
-        sendButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                processChatInput(userInputField.getText());
-            }
-        });
-
-        // Response label
-        chatbotResponseLabel = new Label("", skin);
-        chatbotResponseLabel.setWrap(true);
-        chatbotResponseLabel.setAlignment(Align.center);
-        chatbotResponseLabel.setWidth(500);
-
-        // Close button
-        CustomButton closeButton = new CustomButton("Close", skin);
-        closeButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                chatbotDialog.hide(Actions.sequence(Actions.alpha(0f), Actions.run(() -> isChatbotDialogVisible = false))); // Close without fade effect
-            }
-        });
-
-        // Layout the dialog
-        Table contentTable = new Table();
-        contentTable.add(titleLabel).padTop(20).center().row(); // Add title at the top
-        contentTable.add(questionTable).expandX().fillX().padTop(30f).row(); // Add question buttons
-        contentTable.add(userInputField).width(chatWidth).pad(10).row(); // Add input field
-        contentTable.add(sendButton).pad(10).width(180f).height(45f).row(); //.row(); // Add send button
-        contentTable.add(chatbotResponseLabel).width(chatWidth).pad(10).row(); // Add response label
-        contentTable.add(closeButton).pad(10).width(180f).height(45f).row(); // .row(); // Add close button
-
-        chatbotDialog.getContentTable().add(contentTable).expandX().fillX(); // Add all elements to the dialog's content table
-
-        // Show the dialog without fade-in effect
-        chatbotDialog.show(stage, Actions.sequence(Actions.alpha(1f))); // Ensure full opacity without any fade effect
-
-        // Center the dialog on screen after showing it
-        centerDialogOnScreen();
-    }
-
-    private void centerDialogOnScreen() {
-        chatbotDialog.setPosition(
-                (Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
-                (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2
-        );
-    }
-
-    private void setupPredefinedQuestions() {
-        predefinedQuestions = new ArrayList<>();
-        predefinedQuestions.add("How do I move?");
-        predefinedQuestions.add("How do I attack?");
-        predefinedQuestions.add("What's the objective?");
-        predefinedQuestions.add("How can I save my game?");
-        predefinedQuestions.add("Hello");
-    }
-
-    private void processChatInput(String userInput) {
-        String chatbotResponse = chatbotService.getResponse(userInput);
-        chatbotResponseLabel.setText(chatbotResponse);
-    }
-
-    /**
-     * Closes the chatbot dialog.
-     */
-    private void closeChatbotDialog() {
-        if (chatbotDialog != null && isChatbotDialogVisible) {
-            chatbotDialog.hide();
-            isChatbotDialogVisible = false;
-        }
-    }
-
-    /**
      * Sets up the custom cursor.
      */
     private void setupCustomCursor() {
@@ -472,17 +334,6 @@ public class MainMenuDisplay extends UIComponent {
             logger.info("Custom cursor set successfully.");
         } catch (Exception e) {
             logger.error("Failed to set custom cursor", e);
-        }
-    }
-
-    public void updateChatbotDialogPosition() {
-        if (chatbotDialog != null) {
-            float screenWidth = Gdx.graphics.getWidth();
-            float screenHeight = Gdx.graphics.getHeight();
-            chatbotDialog.setPosition(
-                    (screenWidth - chatbotDialog.getWidth()) / 2,
-                    (screenHeight - chatbotDialog.getHeight()) / 2
-            );
         }
     }
 
