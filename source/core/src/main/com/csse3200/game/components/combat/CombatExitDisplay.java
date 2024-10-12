@@ -16,7 +16,7 @@ import com.csse3200.game.ui.UIComponent;
 public class CombatExitDisplay extends UIComponent {
   private static final float Z_INDEX = 2f;
   private Table table;
-  private Entity enemy;
+  private final Entity enemy;
 
   public CombatExitDisplay(Entity enemy) {
     this.enemy = enemy;

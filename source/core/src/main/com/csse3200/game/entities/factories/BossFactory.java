@@ -55,7 +55,7 @@ public class BossFactory {
         Entity kangarooBoss = createBossNPC(target, Entity.EnemyType.KANGAROO, config);
 
         kangarooBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
                 .addComponent(new KangaBossAnimationController());
 
         kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -76,7 +76,7 @@ public class BossFactory {
         
 
         waterBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
                 .addComponent(new WaterBossAnimationController());
 
         waterBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -96,7 +96,7 @@ public class BossFactory {
         Entity airBoss = createBossNPC(target, Entity.EnemyType.AIR_BOSS, config);
         
         airBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
                 .addComponent(new AirBossAnimationController());
 
         airBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -161,7 +161,7 @@ public class BossFactory {
 
         kangarooBoss
                 .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1));
 
         kangarooBoss.scaleHeight(120.0f);
 
@@ -179,7 +179,7 @@ public class BossFactory {
         waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
         waterBoss
                 .addComponent(new TextureRenderComponent("images/water_boss_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1));
         waterBoss.scaleHeight(120.0f);
         return waterBoss;
     }
@@ -195,7 +195,7 @@ public class BossFactory {
         airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
         airBoss
                 .addComponent(new TextureRenderComponent("images/air_boss_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1));
         airBoss.scaleHeight(120.0f);
         return airBoss;
     }

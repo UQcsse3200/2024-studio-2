@@ -27,7 +27,7 @@ class SpecialKangaMoveTest {
      */
     @BeforeEach
     void setUp() {
-        // Create an instance of SpecialKangaMove with a mock move name and stamina cost.
+        // Create an instance of SpecialKangaMove with a mock move name and hunger cost.
         specialKangaMove = new SpecialKangaMove("Kanga Rage", 20);
 
         // Mock the target and attacker stats (CombatStatsComponent).
