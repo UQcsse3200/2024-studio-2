@@ -860,6 +860,10 @@ public class MainMenuDisplay extends UIComponent {
         dogAniImage.setPosition(dogX, Gdx.graphics.getHeight() / 6.8f);
     }
 
+    public ChatbotUI getChatbotUI() {
+        return chatbotUI;
+    }
+
     @Override
     public void draw(SpriteBatch batch) {
         SpriteBatch batchDupe = new SpriteBatch();

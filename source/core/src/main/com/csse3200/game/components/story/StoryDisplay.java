@@ -114,9 +114,6 @@ public class StoryDisplay extends UIComponent {
         nextBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
         backBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
 
-        skipBtn.setButtonSize(80, 40);
-        skipBtn.setButtonStyle(CustomButton.Style.SMALL, skin);
-
         // Added handles for when clicked
         nextBtn.addClickListener(() -> {
             System.out.println("Next button clicked!");

@@ -145,8 +145,8 @@ public class CustomButton extends Stack{
 
     /**
      * Update the button style
-     * @param style
-     * @param skin
+     * @param style The style of the button.
+     * @param skin The skin for styling the label.
      */
     public void setButtonStyle(Style style, Skin skin) {
         Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
