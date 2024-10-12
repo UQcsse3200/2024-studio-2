@@ -136,4 +136,13 @@ public class Pipe{
         this.topPipe.setPosition(topPosition.x - width/2, topPosition.y);
         this.topPipe.setSize(width, getHeightTop());
     }
+
+    /**
+     * Method for testing
+     */
+    public void setPosition(float x) {
+        this.bottomPosition.set(x, 0);
+        this.topPosition.set(x, height + PIPE_GAP);
+        setRectangles();
+    }
 }

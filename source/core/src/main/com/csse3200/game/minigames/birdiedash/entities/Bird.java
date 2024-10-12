@@ -85,6 +85,13 @@ public class Bird {
     }
 
     /**
+     * Used for testing
+     */
+    public boolean isCollideTopOfPipe() {
+        return collideTopOfPipe;
+    }
+
+    /**
      * Method to unset the bird is colliding with a pipe
      */
     public void unsetCollidingTopPipe() {
@@ -105,6 +112,13 @@ public class Bird {
      */
     public void setCollidingPipe() {
         collidingPipe = true;
+    }
+
+    /**
+     * For testing
+     */
+    public boolean isCollidingPipe() {
+        return collidingPipe;
     }
 
     /**
@@ -158,5 +172,13 @@ public class Bird {
      */
     public Boolean touchingFloor () {
         return position.y <= 0;
+    }
+
+    /**
+     * Used for testing
+     */
+    public void setPosition(float x, float y) {
+        position.set(x, y);
+        updateBoundingBox();
     }
 }

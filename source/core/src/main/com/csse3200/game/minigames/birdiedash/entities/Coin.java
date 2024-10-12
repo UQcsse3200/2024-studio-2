@@ -98,4 +98,12 @@ public class Coin {
     public Rectangle getBoundary() {
         return boundary;
     }
+
+    /**
+     * Used for testing
+     */
+    public void setPosition(float x, float y) {
+        position.set(x, y);
+        setBoundary();
+    }
 }

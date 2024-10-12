@@ -1,19 +1,22 @@
 package com.csse3200.game.minigames.birdiedash.collision;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.birdiedash.entities.Bird;
 import com.csse3200.game.minigames.birdiedash.entities.Coin;
 import com.csse3200.game.minigames.birdiedash.entities.Pipe;
 import com.csse3200.game.minigames.birdiedash.entities.Spike;
+import com.csse3200.game.services.AudioManager;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(GameExtension.class)
 public class CollisionHandlerTest {
 
     private CollisionHandler collisionHandler;
@@ -24,59 +27,62 @@ public class CollisionHandlerTest {
 
     @Before
     public void setup() {
-        bird = mock(Bird.class);
-        Rectangle birdBoundingBox = mock(Rectangle.class);
-        when(bird.getBoundingBox()).thenReturn(birdBoundingBox);
-
-        Pipe pipe1 = mock(Pipe.class);
-        Pipe pipe2 = mock(Pipe.class);
-        pipes = Arrays.asList(pipe1, pipe2);
-
-        Coin coin1 = mock(Coin.class);
-        Coin coin2 = mock(Coin.class);
-        coins = Arrays.asList(coin1, coin2);
-
-        spike = mock(Spike.class);
-        Rectangle spikeBoundingBox = mock(Rectangle.class);
-        when(spike.getSpikeBoundary()).thenReturn(spikeBoundingBox);
-
-        // Mock pipe bounding boxes
-        when(pipe1.getBottomPipe()).thenReturn(mock(Rectangle.class));
-        when(pipe1.getTopPipe()).thenReturn(mock(Rectangle.class));
-        when(pipe2.getBottomPipe()).thenReturn(mock(Rectangle.class));
-        when(pipe2.getTopPipe()).thenReturn(mock(Rectangle.class));
-
-        // Mock coin bounding boxes
-        when(coin1.getBoundary()).thenReturn(mock(Rectangle.class));
-        when(coin2.getBoundary()).thenReturn(mock(Rectangle.class));
-
+        bird = new Bird(300, 300);
+        pipes = new ArrayList<>();
+        pipes.add(new Pipe(0, 1));
+        coins = new ArrayList<>();
+        coins.add(new Coin(0, 1));
+        spike = new Spike(0);
         collisionHandler = new CollisionHandler(bird, pipes, coins, spike);
+
     }
 
     @Test
     public void testCheckPipes_noCollision() {
-        when(bird.getBoundingBox().overlaps(any())).thenReturn(false);  // No overlap with pipes
+        bird.setPosition(300, 300);
+        pipes.getFirst().setPosition(0);
         collisionHandler.checkCollisions();
-
-        verify(bird, never()).setCollidingPipe();
+        assertFalse(bird.isCollidingPipe());
     }
 
-
-
+    @Test
+    public void testCheckPipes_Collision() {
+        bird.setPosition(0, 0);
+        pipes.getFirst().setPosition(0);
+        collisionHandler.checkCollisions();
+        assertTrue(bird.isCollidingPipe());
+    }
 
     @Test
-    public void testCheckSpikes_withCollision() {
-        when(bird.getBoundingBox().overlaps(spike.getSpikeBoundary())).thenReturn(true);  // Bird touches the spike
-        boolean result = collisionHandler.checkSpikes();
-
-        assertTrue(result);
+    public void testCheckSpikes_Collision() {
+        bird.setPosition(20,20);
+        assertTrue(collisionHandler.checkSpikes());
     }
 
     @Test
     public void testCheckSpikes_noCollision() {
-        when(bird.getBoundingBox().overlaps(spike.getSpikeBoundary())).thenReturn(false);  // No collision with spike
-        boolean result = collisionHandler.checkSpikes();
+        bird.setPosition(300,300);
+        assertFalse(collisionHandler.checkSpikes());
+    }
 
-        assertFalse(result);
+    @Test
+    public void testCheckCoin_Collision() {
+        try (MockedStatic<AudioManager> mockedAudioManager = mockStatic(AudioManager.class)) {
+            mockedAudioManager.when(() -> AudioManager.playSound(anyString())).thenAnswer(invocation -> null);
+            bird.setPosition(0, 0);
+            coins.getFirst().setPosition(0, 0);
+            int initialScore = collisionHandler.getScore();
+            collisionHandler.checkCollisions();
+            assertEquals(initialScore + 1, collisionHandler.getScore());
+        }
+    }
+
+    @Test
+    public void testCheckCoin_noCollision() {
+        bird.setPosition(300, 300);
+        coins.getFirst().setPosition(0, 0);
+        int initialScore = collisionHandler.getScore();
+        collisionHandler.checkCollisions();
+        assertEquals(initialScore, collisionHandler.getScore());
     }
 }
