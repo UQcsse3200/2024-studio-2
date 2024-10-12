@@ -388,7 +388,8 @@ public class CombatManager extends Component {
             return;
         }
 
-        List<String[]> moveTextList = new ArrayList<>();
+        // List to contain combat context dialogue.
+        List<String> moveTextList = new ArrayList<>();
 
         switch (playerAction) {
             case ATTACK -> {
@@ -422,12 +423,12 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
-                        moveTextList.add(playerMove.executeMove(playerAction));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
                         enemyMove.executeMove(enemyAction, playerStats, true);
                     }
                     case GUARD, SLEEP -> {
-                        moveTextList.add(playerMove.executeMove(playerAction));
-                        moveTextList.add(enemyMove.executeMove(enemyAction));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -436,15 +437,15 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
-                        moveTextList.add(playerMove.executeMove(playerAction));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
                         enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
                     }
                     case GUARD, SLEEP -> {
-                        moveTextList.add(playerMove.executeMove(playerAction));
-                        moveTextList.add(enemyMove.executeMove(enemyAction));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
+                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
                     }
                     case SPECIAL -> {
-                        moveTextList.add(playerMove.executeMove(playerAction));
+                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
                         enemyMove.executeMove(enemyAction, playerStats, false);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
@@ -459,20 +460,35 @@ public class CombatManager extends Component {
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
         }
 
-        logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
-        logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getHunger());
+        logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getHunger());
 
         displayDialogueOutcome(moveTextList);
     }
 
-    private void displayDialogueOutcome(List<String[]> moveTextList) {
-        // Convert the ArrayList to a 2D array for updateText
-        //String[][] moveText = new String[1][moveTextList.size()];
-        //moveText[0] = moveTextList.toArray(new String[0]);
-        String[][] moveText = new String[moveTextList.size()][];
-        for (int i = 0; i < moveTextList.size(); i++) {
-            moveText[i] = moveTextList.get(i);
+    /**
+     * Adds the strings from the array of strings to the list.
+     * @param listToAddTo the list to add the strings to.
+     * @param stringsToAdd the array of strings to add to the list.
+     * @return the list with the strings added.
+     */
+    private List<String> addStringsToList(List<String> listToAddTo, String[] stringsToAdd) {
+        for (String string : stringsToAdd) {
+            listToAddTo.add(string);
         }
+        return listToAddTo;
+    }
+
+    /**
+     * Displays the outcome of the combat moves using the dialogue box service.
+     * @param moveTextList the list of strings to display in the dialogue box.
+     */
+    private void displayDialogueOutcome(List<String> moveTextList) {
+        // Convert the ArrayList to a 2D array for updateText
+        String[][] moveText = new String[1][moveTextList.size()];
+        moveText[0] = moveTextList.toArray(new String[0]);
+
+        // Update dialogue boxes.
         ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
 
         // Hide the combat move buttons.
