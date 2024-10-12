@@ -21,8 +21,10 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"Moo there adventurer, welcome to the Animal Kingdom! I am your guide."
-							"To prove your worth, you will need to complete a few tasks. Are you ready?"
+							"Moo there adventurer, welcome to the Animal Kingdom! "
+							"I am your guide."
+							"To prove your worth, you will need to complete a few tasks. "
+							"Are you ready?"
 						]
 					]
 				}
@@ -124,7 +126,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Help the snake eat apples to train for your upcoming final battle!
+							Help the snake eat apples
+							to train for your upcoming final battle!
 						]
 					]
 
@@ -205,7 +208,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"Greetings, brave adventurer! You have entered the Water Kingdom."
+							"Greetings, brave adventurer! "
+							"You have entered the Water Kingdom."
 							"To gain my trust, you must complete some essential tasks."
 						]
 					]
@@ -310,7 +314,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Play the flappy bird minigame to unlock the next stage of your quest!
+							Play the flappy bird minigame
+							to unlock the next stage of your quest!
 						]
 					]
 				}
@@ -353,7 +358,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"Once you are ready, face the Water Leviathan and protect our kingdom."
+							"Once you are ready, "
+							"face the Water Leviathan and protect our kingdom."
 							"Good luck, brave adventurer!"
 						]
 					]
@@ -389,7 +395,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"Welcome, traveler of the skies! You have arrived in the Sky Kingdom."
+							"Welcome, traveler of the skies! "
+							"You have arrived in the Sky Kingdom."
 							"Complete these tasks to challenge the Sky Seraph."
 						]
 					]
@@ -472,12 +479,12 @@
 			]
 		}
 		{
-			questName: Tempest’s Challenge
-			questDescription: Complete the Tempests Minigame to unlock the next stage of your journey
+			questName: Underwater Challenge
+			questDescription: Complete the Maze Minigame to unlock the next stage of your journey
 			tasks: [
 				{
 					taskName: completeGame
-					description: Calm the Tempests Minigame
+					description: Calm the UnderWater Minigame
 					hint: Complete the minigame to go onto your next quest!
 					requiredTriggers: 1
 					triggerCount: 0
@@ -491,7 +498,7 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Complete the tempest minigame to move onto the next stage!
+							Complete the maze minigame to move onto the next stage!
 						]
 					]
 				}
@@ -524,7 +531,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							When you are prepared,confront the Sky Seraph in an epic battle!
+							When you are prepared,
+							confront the Sky Seraph in an epic battle!
 						]
 					]
 				}

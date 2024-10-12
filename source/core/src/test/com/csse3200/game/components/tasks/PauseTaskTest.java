@@ -211,7 +211,7 @@ class PauseTaskTest {
 
         cow.update();
 
-        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I am your guide.";
+        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! ";
 
         String hintDialogue = dialogueBox.getLabel().getText().toString();
         assertEquals(cowInitialDialogue, hintDialogue);
