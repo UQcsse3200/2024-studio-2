@@ -71,6 +71,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
             "sounds/minigames/gold.mp3",
     };
 
+    private final String errorMessage = "Unknown Mini-Game";
+
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
         this.score = score;
@@ -316,7 +318,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
                     backgroundTexture = new Texture(Gdx.files.internal("images/minigames/BirdEndGameScreen.png"));
             case MAZE ->
                     backgroundTexture = new Texture(Gdx.files.internal("images/minigames/MazeEndGameScreen2.png"));
-            default -> throw new IllegalArgumentException("Unknown mini-game");
+            default -> throw new IllegalArgumentException(errorMessage);
         }
 
         backgroundImage = new Image(backgroundTexture);
@@ -370,7 +372,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
             case GOLD ->
                 // Gold
                     AudioManager.playSound("sounds/minigames/gold.mp3");
-            default -> throw new IllegalArgumentException("Unknown mini-game");
+            default -> throw new IllegalArgumentException(errorMessage);
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
@@ -381,8 +383,13 @@ public class EndMiniGameScreen extends ScreenAdapter {
      * @return the message
      */
     private String getMessage() {
-        int bronzeMedalThreshold, silverMedalThreshold, goldMedalThreshold;
-        String failMessage, bronzeMessage, silverMessage, goldMessage;
+        int bronzeMedalThreshold;
+        int silverMedalThreshold;
+        int goldMedalThreshold;
+        String failMessage;
+        String bronzeMessage;
+        String silverMessage;
+        String goldMessage;
 
         switch (gameName) {
             case SNAKE -> {
@@ -412,7 +419,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 silverMessage = "Unfortunately, we lost Gerald and Bruce :(";
                 goldMessage = "Yay! You got all the fishie babies!!";
             }
-            default -> throw new IllegalArgumentException("Unknown mini-game");
+            default -> throw new IllegalArgumentException(errorMessage);
         }
 
         if (score < bronzeMedalThreshold) {
@@ -493,7 +500,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private MiniGameMedals getMedal(int score) {
 
         // Get the medal thresholds for each game
-        int bronzeThreshold, silverThreshold, goldThreshold;
+        int bronzeThreshold;
+        int silverThreshold;
+        int goldThreshold;
         switch (gameName) {
             case SNAKE -> {
                 bronzeThreshold = MiniGameConstants.SNAKE_BRONZE_THRESHOLD;
@@ -510,7 +519,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 silverThreshold = MiniGameConstants.MAZE_SILVER_THRESHOLD;
                 goldThreshold = MiniGameConstants.MAZE_GOLD_THRESHOLD;
             }
-            default -> throw new IllegalArgumentException("Unknown mini-game: " + game);
+            default -> throw new IllegalArgumentException(errorMessage);
         }
 
         // Return the medal
