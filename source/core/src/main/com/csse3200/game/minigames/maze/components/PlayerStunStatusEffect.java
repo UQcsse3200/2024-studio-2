@@ -32,7 +32,7 @@ public class PlayerStunStatusEffect implements StatusEffect {
         player.getComponent(MazePlayerActions.class).setEnabled(false);
         light = LightingComponent.createPointLight(1f, Color.WHITE);
         player.getComponent(LightingComponent.class).attach(light);
-        player.getComponent(ParticleEffectComponent.class).stopEmitting();
+        player.getComponent(ParticleEffectComponent.class).allowCompletion();
     }
 
     /** Stop the effects of this status immediately. This can be called at any time. */

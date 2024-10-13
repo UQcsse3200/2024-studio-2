@@ -76,6 +76,8 @@ public class MazePlayer extends Entity {
         this.setScale(this.getScale().scl(0.2f));  // Adjust the overall entity scale
         MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.85f, 0.45f);
 
+        this.getComponent(ParticleEffectComponent.class).stop();
+
         // Add lighting components
         addLightingComponents();
     }

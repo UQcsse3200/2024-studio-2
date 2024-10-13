@@ -19,17 +19,17 @@ public class EelVisualEffects extends Component {
         particleEffect = entity.getComponent(ParticleEffectComponent.class);
         entity.getEvents().addListener("wanderStart", this::stopEffect);
         entity.getEvents().addListener("chaseStart", this::startEffect);
-        particleEffect.stopEmitting();
+        particleEffect.stop();
     }
 
     private void startEffect() {
         light.setActive(true);
-        particleEffect.startEmitting();
+        particleEffect.forceEmit();
     }
 
     private void stopEffect() {
         light.setActive(false);
-        particleEffect.stopEmitting();
+        particleEffect.allowCompletion();
     }
 
     @Override

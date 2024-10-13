@@ -2,6 +2,8 @@ package com.csse3200.game.particles;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -43,37 +45,29 @@ public class ParticleService {
 
     /**
      * Create a particle effect of a certain type. The created particle effect must be freed when
-     * it is no longer used by using the freeEffect function.
+     * it is no longer used by using the freeEffect function. Calls the effect start() function.
      * @param type the type of particle effect to make.
+     * @param layer the render layer to make the particle.
      * @return reference to the created particle effect.
      */
-    public ParticleEffectPool.PooledEffect makeEffect(ParticleType type) {
+    public ParticleEffectRenderer makeEffect(ParticleType type, int layer) {
         ParticleEffectPool.PooledEffect effect = pools.get(type).obtain();
         effect.reset(false);
-        return effect;
-    }
-
-    /**
-     * Frees the particle effect returning it to the internal pool of particle effects.
-     * @param effect the effect to free.
-     */
-    public void freeEffect(ParticleEffectPool.PooledEffect effect) {
-        effect.free();
+        effect.start();
+        return new ParticleEffectRenderer(effect, layer);
     }
 
     /**
      * Plays a particle effect to completion at a given x,y location. Rendering and freeing the
      * particle effect is handled by the particle service. Requires the render service to be
-     * registered in the service locator.
+     * registered in the service locator. Initialises the ParticleEffectRenderer to display above
+     * entities.
      * @param type the type of particle effect to play.
-     * @param x the x world coordinate
-     * @param y the y world coordinate
+     * @param position the world position of the particle effect.
      */
-    public void playEffect(ParticleType type, float x, float y) {
-        ParticleEffectPool.PooledEffect effect = makeEffect(type);
-        new ParticleEffectRenderer(effect, 2);
-        effect.start();
-        effect.setPosition(x, y);
+    public void playEffect(ParticleType type, Vector2 position) {
+        ParticleEffectRenderer effect = makeEffect(type, 2);
+        effect.setPosition(position);
     }
 
     /**
@@ -88,6 +82,13 @@ public class ParticleService {
         final String path;
         final int initialCapacity;
         final int max;
+
+        /**
+         * Add a new particle effect type.
+         * @param path path to the particle effect .p file
+         * @param initialCapacity initial capacity for the internal ParticleEffectPool
+         * @param max max number of particle effects of this type that could be active at once.
+         */
 
         ParticleType(String path, int initialCapacity, int max) {
             this.path = path;

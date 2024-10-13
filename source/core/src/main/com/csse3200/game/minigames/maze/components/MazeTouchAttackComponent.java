@@ -86,7 +86,7 @@ public class MazeTouchAttackComponent extends Component {
             } else if (targetEntity instanceof ElectricEel) {
                 stunDuration = 2.8f;
             } else {
-                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, meEntity.getCenterPosition().x, meEntity.getCenterPosition().y);
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, meEntity.getCenterPosition());
             }
             targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
             AudioManager.playSound("sounds/minigames/maze-hit.mp3");

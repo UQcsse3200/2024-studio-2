@@ -2,6 +2,7 @@ package com.csse3200.game.particles;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ResourceService;
@@ -40,16 +41,10 @@ public class ParticleServiceTest {
         effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.FISH_EGG_SPARKLE);
         assertEquals("spark-colored.png", effect.getEmitters().get(0).getImagePaths().get(0));
     }
-    @Test
-    public void testFreeEffect() {
-        ParticleEffectPool.PooledEffect effect = mock(ParticleEffectPool.PooledEffect.class);
-        ServiceLocator.getParticleService().freeEffect(effect);
-        verify(effect).free();
-    }
 
     @Test
     public void testPlayEffect() {
-        ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, 1.2f, 1.5f);
+        ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, new Vector2(1.2f, 1.5f));
         verify(ServiceLocator.getRenderService()).register(any(ParticleEffectRenderer.class));
     }
 }

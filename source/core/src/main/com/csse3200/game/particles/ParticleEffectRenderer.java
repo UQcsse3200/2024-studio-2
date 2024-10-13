@@ -2,7 +2,9 @@ package com.csse3200.game.particles;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.rendering.Renderable;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -11,7 +13,7 @@ import com.csse3200.game.services.ServiceLocator;
  */
 public class ParticleEffectRenderer implements Renderable, Disposable {
     private final int layer;
-    private final ParticleEffectPool.PooledEffect pooledEffect;
+    private ParticleEffectPool.PooledEffect pooledEffect;
     public static final int PARTICLE_LAYER = 1;
 
     /**
@@ -40,10 +42,10 @@ public class ParticleEffectRenderer implements Renderable, Disposable {
      */
     @Override
     public void render(SpriteBatch batch) {
+        pooledEffect.draw(batch, ServiceLocator.getTimeSource().getDeltaTime());
         if (pooledEffect.isComplete()) {
             dispose();
         }
-        pooledEffect.draw(batch, ServiceLocator.getTimeSource().getDeltaTime());
     }
 
     @Override
@@ -62,11 +64,48 @@ public class ParticleEffectRenderer implements Renderable, Disposable {
     }
 
     /**
+     * Sets the position of the particle effect.
+     * @param position the position to set to.
+     */
+    public void setPosition(Vector2 position) {
+        setPosition(position.x, position.y);
+    }
+
+    /**
+     * Sets the position of the particle effect.
+     * @param x the x coordinate.
+     * @param y the y coordinate.
+     */
+    public void setPosition(float x, float y) {
+        if (isValid()) {
+            pooledEffect.setPosition(x, y);
+        }
+    }
+
+    /**
+     * Allows the completion of the particle effect.
+     */
+    public void allowCompletion() {
+        if (isValid()) {
+            pooledEffect.allowCompletion();
+        }
+    }
+
+    /**
+     * Returns whether the underlying particle effect has completed.
+     * @return true if the particle effect has completed.
+     */
+    public boolean isValid() {
+        return pooledEffect != null;
+    }
+
+    /**
      * Frees the particle effect from its pool and unregisters this from the render service.
      */
     @Override
     public void dispose() {
-        ServiceLocator.getParticleService().freeEffect(pooledEffect);
+        pooledEffect.free();
         ServiceLocator.getRenderService().unregister(this);
+        pooledEffect = null;
     }
 }

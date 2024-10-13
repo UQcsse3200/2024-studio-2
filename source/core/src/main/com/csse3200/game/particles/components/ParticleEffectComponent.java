@@ -1,76 +1,74 @@
 package com.csse3200.game.particles.components;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.components.Component;
 import com.csse3200.game.particles.ParticleEffectRenderer;
 import com.csse3200.game.particles.ParticleService;
-import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
  * This class adds a particle effect to track an NPC in the game e.g. sparkles on the fish eggs
  */
-public class ParticleEffectComponent extends RenderComponent {
+public class ParticleEffectComponent extends Component {
 
-    protected final ParticleEffect effect;
+    private final ParticleService.ParticleType type;
+    protected ParticleEffectRenderer effect;
 
     public ParticleEffectComponent(ParticleService.ParticleType type) {
         super();
-        this.effect = ServiceLocator.getParticleService().makeEffect(type);
+        this.type = type;
+        resetEffect();
     }
 
     /**
-     * Returns the effect used on the npc
-     * @return the effect
+     * Creates a new effect if none have been created yet or the previous one finished.
      */
-    public ParticleEffect getEffect() {
-        return effect;
+    private void resetEffect() {
+        this.effect = ServiceLocator.getParticleService().makeEffect(type, ParticleEffectRenderer.PARTICLE_LAYER);
     }
 
     /**
-     * Gets the z coordinate of the particle effect
-     * @return the z coordinate
+     * Starts the particle effect animation no matter what
      */
-    @Override
-    public float getZIndex() {
-        return super.getZIndex() - 1e6f;
+    public void forceEmit() {
+        if (effect.isValid()) {
+            effect.allowCompletion();
+        }
+        resetEffect();
     }
 
     /**
-     * Get the layer that the particle effects are on. Should be below sprites
-     * @return the particle layer
+     * Starts the particle effect animation if it has completed
      */
-    @Override
-    public int getLayer() {
-        return ParticleEffectRenderer.PARTICLE_LAYER;
+    public void emit() {
+        if (!effect.isValid()) {
+            resetEffect();
+        }
     }
 
     /**
-     * Starts the particle effect animation
+     * Allows the particle effect animation to complete
      */
-    public void startEmitting() {
-        effect.start();
-    }
-
-    /**
-     * Stops the particle effect animation
-     */
-    public void stopEmitting() {
+    public void allowCompletion() {
         effect.allowCompletion();
     }
 
     /**
-     * draws the particles
-     * @param batch Batch to render to.
+     * Stops the particle effects completely.
+     */
+    public void stop() {
+        if (effect.isValid()) {
+            effect.dispose();
+        }
+    }
+
+    /**
+     * makes the particle effects follow the entity
      */
     @Override
-    protected void draw(SpriteBatch batch) {
+    public void update() {
         Vector2 position = entity.getCenterPosition();
         //Setting the position of the ParticleEffect
-        effect.setPosition(position.x, position.y);
-        //Updating and Drawing the particle effect
-        effect.draw(batch, ServiceLocator.getTimeSource().getDeltaTime());
+        effect.setPosition(position);
     }
 
     /**
@@ -79,8 +77,6 @@ public class ParticleEffectComponent extends RenderComponent {
     @Override
     public void dispose() {
         super.dispose();
-        if (effect instanceof ParticleEffectPool.PooledEffect) {
-            ((ParticleEffectPool.PooledEffect) effect).free();
-        }
+        effect.dispose();
     }
 }

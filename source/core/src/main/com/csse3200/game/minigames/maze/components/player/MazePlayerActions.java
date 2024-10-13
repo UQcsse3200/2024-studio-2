@@ -33,11 +33,9 @@ public class MazePlayerActions extends Component {
         ParticleEffectComponent bubbles = entity.getComponent(ParticleEffectComponent.class);
         if (moving) {
             updateSpeed();
-            if (bubbles.getEffect().isComplete()) {
-                bubbles.startEmitting();
-            }
+            bubbles.emit();
         } else {
-            bubbles.stopEmitting();
+            bubbles.allowCompletion();
         }
     }
 
