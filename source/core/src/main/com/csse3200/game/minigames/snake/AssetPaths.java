@@ -20,7 +20,6 @@ public class AssetPaths {
     public static final String SPIKE = "images/minigames/spikes.png";
     public static final String PIPE = "images/minigames/pipe.png";
     public static final String BACKGROUND = "images/BackgroundSplashBasic.png";
-    public static final String COIN = "images/minigames/coin.png";
 
     public static final String[] IMAGES = {
             APPLE_IMAGE,
