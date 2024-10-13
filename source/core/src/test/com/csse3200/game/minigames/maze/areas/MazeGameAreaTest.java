@@ -17,13 +17,13 @@ import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.util.ReflectionUtils;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
@@ -38,10 +38,8 @@ import static org.mockito.Mockito.*;
 public class MazeGameAreaTest {
     MazeGameArea gameArea;
 
-    @Mock
-    RayHandler rayHandler;
-    @BeforeEach
-    void setUp() throws IllegalAccessException {
+
+    public static MazeGameArea setupFullMazeGame() throws IllegalAccessException {
         PhysicsService physicsService = new PhysicsService();
         ServiceLocator.registerPhysicsService(physicsService);
 
@@ -60,6 +58,7 @@ public class MazeGameAreaTest {
 
         ServiceLocator.registerInputService(new InputService());
 
+        RayHandler rayHandler = mock(RayHandler.class);
         LightingEngine engine = new LightingEngine(rayHandler, camComponent.getCamera());
         LightingService mockLightingService = mock(LightingService.class);
         when(mockLightingService.getLighting()).thenReturn(engine);
@@ -92,7 +91,14 @@ public class MazeGameAreaTest {
         when(terrainFactory.getCameraComponent()).thenReturn(camComponent);
         when(terrainFactory.createTerrain()).thenReturn(terrainComp);
 
-        gameArea = spy(new MazeGameArea(terrainFactory));
+        ServiceLocator.registerTimeSource(mock(GameTime.class));
+
+        return spy(new MazeGameArea(terrainFactory));
+    }
+
+    @BeforeEach
+     void setUp() throws IllegalAccessException {
+        gameArea = setupFullMazeGame();
         gameArea.create();
     }
 
@@ -107,6 +113,7 @@ public class MazeGameAreaTest {
                 + MazeGameArea.NUM_ANGLERS
                 + MazeGameArea.NUM_EELS
                 + MazeGameArea.NUM_OCTOPI, gameArea.getEnemies().size());
+        assertEquals(MazeGameArea.NUM_EGGS, gameArea.getEggs().size());
     }
 
     @Test

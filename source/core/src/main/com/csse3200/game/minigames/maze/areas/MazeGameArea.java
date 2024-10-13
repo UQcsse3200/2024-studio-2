@@ -415,6 +415,15 @@ public class MazeGameArea extends GameArea {
         return enemies.get(enemyType);
     }
 
+    /**
+     * Gets the list of fish eggs
+     *
+     * @return the list of eggs
+     */
+    public List<Entity> getEggs() {
+        return fishEggs;
+    }
+
     @Override
     public List<Entity> getBosses() {
         throw new UnsupportedOperationException("Unimplemented method 'getBosses'");
