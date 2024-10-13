@@ -1,6 +1,11 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
+import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEvent;
+import com.csse3200.game.components.inventory.CombatInventoryDisplay;
+import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.combat.CombatArea;
@@ -15,6 +20,7 @@ import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.overlays.*;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.services.*;
@@ -22,6 +28,10 @@ import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * The game screen containing the combat feature.
@@ -38,6 +48,7 @@ public class CombatScreen extends ResizableScreen {
           "images/statuses/poisoned_stat.png", "images/statuses/shocked_stat.png"
 
   };
+  private GdxGame game;
   private boolean isPaused = false;
   private final GdxGame game;
   private final PhysicsEngine physicsEngine;
@@ -50,8 +61,6 @@ public class CombatScreen extends ResizableScreen {
   private final CombatArea combatArea;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
-    super();
-    
     this.game = game;
     this.oldScreen = screen;
     this.oldScreenServices = container;
@@ -68,6 +77,9 @@ public class CombatScreen extends ResizableScreen {
     physicsEngine = physicsService.getPhysics();
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
+    ServiceLocator.registerEntityService(new EntityService());
+    ServiceLocator.registerRenderService(new RenderService());
+    renderer = RenderFactory.createRenderer();
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     // Load the DialogueBoxService Into Stage
@@ -84,6 +96,14 @@ public class CombatScreen extends ResizableScreen {
     createUI();
   }
 
+  /**
+   * Puts the screen into a resting state, pausing music and resting all entities.
+   */
+  public void rest() {
+    logger.info("Screen is resting");
+    resting = true;
+    ServiceLocator.getEntityService().restWholeScreen();
+  }
   @Override
   public void render(float delta) {
     if (!isPaused){
@@ -121,7 +141,7 @@ public class CombatScreen extends ResizableScreen {
 
     unloadAssets();
     ServiceLocator.getResourceService().dispose();
-    
+
     super.dispose();
   }
 
@@ -149,7 +169,7 @@ public class CombatScreen extends ResizableScreen {
         ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     // Initialise combat manager with instances of player and enemy to be passed into combat actions
-    CombatManager manager = new CombatManager(player, enemy);
+    CombatManager manager = new CombatManager(player, enemy, game, oldScreen, oldScreenServices);
     Inventory playerInv = player.getComponent(InventoryComponent.class).getInventory();
     int numCols = player.getComponent(PlayerInventoryDisplay.class).getNumCols();
 

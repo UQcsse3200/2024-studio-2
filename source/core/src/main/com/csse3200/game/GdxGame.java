@@ -189,7 +189,7 @@ public class GdxGame extends Game {
                 yield new StoryScreen(this, selectedAnimal);
             }
             case CUTSCENE -> (new CutSceneScreen(this));
-            case QUICK_TIME_EVENT -> new QuickTimeEventScreen(this);
+           // case QUICK_TIME_EVENT -> new QuickTimeEventScreen(this);
             default -> null;
         };
     }

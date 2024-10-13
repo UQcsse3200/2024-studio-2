@@ -28,7 +28,7 @@ public class CombatScreenTest {
         this.container = new ServiceContainer();
         //this.player = PlayerFactory.createPlayer(game);
         this.enemy = BossFactory.createKangaBossEntity(player);
-        this.combatScreen = new CombatScreen(game, oldScreen, container, player, enemy);
+        this.combatScreen = new CombatScreen(game, oldScreen, container, player, enemy, quickTimeEvents);
     }
 
     /*
