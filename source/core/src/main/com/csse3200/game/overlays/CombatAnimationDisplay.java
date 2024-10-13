@@ -82,12 +82,10 @@ public class CombatAnimationDisplay extends UIComponent {
         if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER){
             float xZ = stage.getWidth() * 0.2f;
             float yZ = stage.getHeight() * 0.6f;
-
             sleepImage.setPosition(xZ, yZ);
         } else {
-            float xZ = stage.getWidth() * 0.17f;
+            float xZ = stage.getWidth() * 0.23f;
             float yZ = stage.getHeight() * 0.39f;
-
             sleepImage.setPosition(xZ, yZ);
         }
 
@@ -193,17 +191,17 @@ public class CombatAnimationDisplay extends UIComponent {
         guardImage = new Image(guardTexture);
 
 
-        // float xZ = 750;  // 750;
-        // float yZ = 440; // 410;
+        float xZ;
+        float yZ;
         if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            float xZ = stage.getWidth() * 0.39f;
-            float yZ = stage.getHeight() * 0.5f;
-            guardImage.setPosition(xZ, yZ);
+            xZ = stage.getWidth() * 0.39f;
+            yZ = stage.getHeight() * 0.5f;
         } else {
-            float xZ = stage.getWidth() * 0.370f;
-            float yZ = stage.getHeight() * 0.285f;
-            guardImage.setPosition(xZ, yZ);
+            xZ = stage.getWidth() * 0.370f;
+            yZ = stage.getHeight() * 0.285f;
         }
+
+        guardImage.setPosition(xZ, yZ);
 
         float scaleFactor = stage.getWidth() * 0.1f / guardImage.getWidth();
         guardImage.setScale(scaleFactor);
@@ -278,8 +276,16 @@ public class CombatAnimationDisplay extends UIComponent {
         combatImage.setAlign(Align.center);
         combatImage.setScale(0.3f);
 
-        float xZ = stage.getWidth() * 0.3f;
-        float yZ = stage.getHeight() * 0.3f;
+        float xZ;
+        float yZ;
+
+        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
+            xZ = stage.getWidth() * 0.3f;
+            yZ = stage.getHeight() * 0.5f;
+        } else {
+            xZ = stage.getWidth() * 0.3f;
+            yZ = stage.getHeight() * 0.3f;
+        }
 
         // Set the initial position of the image (e.g., off-screen or at a specific point)
         // combatImage.setPosition(600, 550);

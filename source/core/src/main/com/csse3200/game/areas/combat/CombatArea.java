@@ -126,9 +126,11 @@ public class CombatArea extends GameArea {
             if (kingdomType == KINGDOM.WATER) {
                 playerSpawn = new GridPoint2(330, 337);
             } else if (kingdomType == KINGDOM.AIR) {
-                playerSpawn = new GridPoint2(380, 610); // y = 480
+                playerSpawn = new GridPoint2(380, 215); // y = 480
+                newPlayer.scaleHeight(60f);
             } else {
-                playerSpawn = new GridPoint2(332, 195); // 332, 335
+                playerSpawn = new GridPoint2(332, 200); // 332, 335
+                newPlayer.scaleHeight(150f);
             }
             // newPlayer.scaleHeight(60f);
         } else if (imagePath.equals("images/dog.png")){
