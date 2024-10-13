@@ -486,6 +486,13 @@ public class CombatManager extends Component {
      * @param moveTextList the list of strings to display in the dialogue box.
      */
     private void displayDialogueOutcome(List<String> moveTextList) {
+
+        String statusEffects = playerStatusEffects();
+
+        if (!statusEffects.isEmpty()) {
+            moveTextList.add(statusEffects);
+        }
+
         // Convert the ArrayList to a 2D array for updateText
         String[][] moveText = new String[1][moveTextList.size()];
         moveText[0] = moveTextList.toArray(new String[0]);
