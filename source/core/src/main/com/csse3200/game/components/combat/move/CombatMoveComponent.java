@@ -145,7 +145,12 @@ public class CombatMoveComponent extends Component {
             statChanges = "No move found.";
         }
 
-        String moveDescription = String.format("You decided to use %s.", item.getName());
+        String moveDescription;
+        if (item.getName().charAt(0) == 'A' || item.getName().charAt(0) == 'E' || item.getName().charAt(0) == 'I' || item.getName().charAt(0) == 'O' || item.getName().charAt(0) == 'U') {
+            moveDescription = String.format("You decided to use an %s.", item.getName());
+        } else {
+            moveDescription = String.format("You decided to use a %s.", item.getName());
+        }
 
         // Execute the move and get the stat changes.
         String moveOutcome;
