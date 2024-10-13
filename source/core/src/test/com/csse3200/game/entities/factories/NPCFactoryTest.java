@@ -121,7 +121,7 @@ class NPCFactoryTest {
      */
     @Test
     @Order(1)
-    public void testDialogueInputTriggersForwardAndBackward() {
+    void testDialogueInputTriggersForwardAndBackward() {
         RenderService renderService = mock(RenderService.class);
         when(renderService.getStage()).thenReturn(mock(Stage.class));
         ServiceLocator.registerRenderService(renderService);
@@ -584,7 +584,7 @@ class NPCFactoryTest {
     void TestSnakeHasCorrectBaseHint() {
         String[][] baseHint = configs.snake.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS, I am the mighty Snake of the Jungle!"}});
+        Assertions.assertArrayEquals(baseHint, new String[][]{{"HHIISSSSSSS", "I am the Sally the Snake", "The might snake of the Jungle!"}});
     }
 
     /**

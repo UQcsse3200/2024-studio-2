@@ -28,10 +28,8 @@ public class CombatStatsComponent extends Component {
   private int defense;
   private int speed;
   private int experience;
-  private int stamina;
   private int level;
   private final int maxLevel;
-  private final int maxStamina;
   private final int maxHunger;
   private int maxExperience;
   private final boolean isPlayer;
@@ -47,14 +45,12 @@ public class CombatStatsComponent extends Component {
    * @param defense Initial defense value
    * @param speed Initial speed value
    * @param experience Initial experience value
-   * @param stamina Initial stamina value
    * @param isPlayer Boolean indicating if this entity is the player
    */
-  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, int stamina, boolean isPlayer, boolean isBoss, int level) {
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer, boolean isBoss, int level) {
     this.maxHealth = health;
     this.maxHunger = hunger;
     this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
-    this.maxStamina = stamina;
     this.isPlayer = isPlayer;
     this.isBoss = isBoss;
     this.maxLevel = 10;
@@ -64,7 +60,6 @@ public class CombatStatsComponent extends Component {
     setDefense(defense);
     setSpeed(speed);
     setExperience(experience);
-    setStamina(stamina);
   }
 
   /**
@@ -72,7 +67,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity player
    */
-  public Boolean isPlayer() {
+  public boolean isPlayer() {
     return isPlayer;
   }
 
@@ -81,7 +76,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is entity dead
    */
-  public Boolean isDead() {
+  public boolean isDead() {
     return health == 0;
   }
 
@@ -90,7 +85,7 @@ public class CombatStatsComponent extends Component {
    *
    * @return is player dead
    */
-  public Boolean isBoss() {
+  public boolean isBoss() {
     return this.isBoss;
   }
 
@@ -109,7 +104,7 @@ public class CombatStatsComponent extends Component {
    * @param health health value to set
    */
   public void setHealth(int health) {
-    if (health >= 0) {
+    if (health > 0) {
       if (health >= this.maxHealth) {
         this.health = this.maxHealth;
       } else {
@@ -117,6 +112,16 @@ public class CombatStatsComponent extends Component {
       }
     } else {
       this.health = 0;
+      if (isPlayer) {
+        int playerLevel = getLevel();
+        int lvlDiff = 1 + (playerLevel / 2) ;
+        addStrength(-lvlDiff);
+        addDefense(-lvlDiff);
+        addSpeed(-lvlDiff);
+        setLevel(lvlDiff);
+        addMaxHealth(-lvlDiff);
+        setExperience(0);
+      }
     }
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
@@ -323,6 +328,16 @@ public class CombatStatsComponent extends Component {
     return maxHealth;
   }
 
+  public void addMaxHealth(int health) {
+    if(this.maxHealth + health < 0){
+      this.maxHealth = 0;
+    }
+
+    else{
+      this.maxHealth = this.maxHealth - health;
+    }
+  }
+
   /**
    * Returns the entity's maximum hunger.
    *
@@ -339,42 +354,6 @@ public class CombatStatsComponent extends Component {
    */
   public int getMaxExperience() {
     return this.maxExperience;
-  }
-
-  /**
-   * Returns the entity's stamina.
-   *
-   * @return entity's stamina
-   */
-  public int getStamina() {
-    return stamina;
-  }
-
-  /**
-   * Sets the entity's stamina. Stamina has a minimum bound of 0 and cannot exceed maxStamina.
-   *
-   * @param stamina stamina value to set
-   */
-  public void setStamina(int stamina) {
-    this.stamina = Math.min(maxStamina, Math.max(0, stamina));
-  }
-
-  /**
-   * Adds a specified amount to the entity's stamina. The amount can be negative to reduce stamina.
-   *
-   * @param stamina stamina to add (positive or negative)
-   */
-  public void addStamina(int stamina) {
-    setStamina(this.stamina + stamina);
-  }
-
-  /**
-   * Returns the entity's maximum stamina.
-   *
-   * @return entity's max stamina
-   */
-  public int getMaxStamina() {
-    return maxStamina;
   }
 
   /**
@@ -459,13 +438,15 @@ public class CombatStatsComponent extends Component {
    */
   public int getStatusEffectDuration(StatusEffect effect) {
     switch (effect) {
-      case BLEEDING, SHOCKED -> {
-        return 3;
-      }
-      case POISONED -> {
+        case BLEEDING, SHOCKED -> {
+            return 3;
+        }
+        case POISONED -> {
         return 2;
-      }
+        }
+        default -> {
+          return 0;
+        }
     }
-    return 0;
   }
 }

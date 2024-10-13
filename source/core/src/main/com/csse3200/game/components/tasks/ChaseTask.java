@@ -4,9 +4,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
@@ -26,7 +26,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     protected MovementTask movementTask;
     private Music heartbeatSound;
     private final boolean isBoss;
-    private static final String heartbeat = "sounds/heartbeat.mp3";
+    private static final String HEARTBEAT = "sounds/heartbeat.mp3";
     private final Vector2 bossSpeed;
     private boolean chaseDir = false; // 0 left, 1 right
     private Vector2 speed;
@@ -63,8 +63,13 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         // Set movementTask based on npc type
         Vector2 currentPos = owner.getEntity().getPosition();
         Vector2 targetPos = target.getPosition();
-        movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
-                new MovementTask(targetPos, speed);
+        // temporary fix as the behaviour of this was changed without changing the maze game.
+        if (owner.getEntity() instanceof MazeEntity) {
+            movementTask = new MovementTask(targetPos);
+        } else {
+            movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
+                    new MovementTask(targetPos, speed);
+        }
         movementTask.create(owner);
         movementTask.start();
         
@@ -84,7 +89,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     
     void playTensionSound() {
         if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
-            heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
+            heartbeatSound = ServiceLocator.getResourceService().getAsset(HEARTBEAT, Music.class);
             heartbeatSound.setLooping(true);
             heartbeatSound.setVolume(1.0f);
         }
@@ -158,7 +163,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         
         // If there is an obstacle in the path to the player, not visible.
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
+            debugRenderer.drawLine(from, hit.getPoint());
             return false;
         }
         debugRenderer.drawLine(from, to);

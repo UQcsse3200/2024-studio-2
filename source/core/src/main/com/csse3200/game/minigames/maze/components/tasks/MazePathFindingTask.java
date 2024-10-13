@@ -46,7 +46,7 @@ public class MazePathFindingTask extends DefaultTask {
     private void computePath() {
         Vector2 entityWorldPos = owner.getEntity().getCenterPosition();
         GridPoint2 entityGridPos = MazeTerrainFactory.worldPosToGridPos(entityWorldPos);
-        Maze.breadthFirstSearch bfs = maze.new breadthFirstSearch(entityGridPos);
+        Maze.BreadthFirstSearch bfs = maze.new BreadthFirstSearch(entityGridPos);
         path = bfs.getShortestPath(target).reversed();
     }
 
@@ -66,7 +66,7 @@ public class MazePathFindingTask extends DefaultTask {
 
                 // If there is an obstacle in the path to the player, not visible.
                 if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-                    debugRenderer.drawLine(from, hit.point);
+                    debugRenderer.drawLine(from, hit.getPoint());
                     break;
                 }
                 debugRenderer.drawLine(from, to);

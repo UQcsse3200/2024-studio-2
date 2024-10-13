@@ -2,7 +2,6 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,17 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.overlays.PauseOverlay;
-import com.csse3200.game.areas.terrain.TerrainFactory;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
-import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
@@ -33,14 +25,11 @@ import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
 /**
  * Manages the cutscene for Boss NPCs displayed before transitioning to the combat screen.
  * Handles initialization, rendering, and disposal of cutscene elements.
  */
-public class BossCutsceneScreen extends ScreenAdapter {
+public class BossCutsceneScreen extends ResizableScreen {
     private static final float CUTSCENE_DURATION = 5.0f; // Cutscene lasts for 3 seconds
     private float timeElapsed = 0;
     private boolean transition;
@@ -49,13 +38,11 @@ public class BossCutsceneScreen extends ScreenAdapter {
     private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
     private boolean isPaused = false;
     private final GdxGame game;
-    private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Entity player;
     private final Entity enemy;
-    private final Deque<Overlay> enabledOverlays = new LinkedList<>();
 
     /**
      * Creates a new cutscene screen.
@@ -67,12 +54,14 @@ public class BossCutsceneScreen extends ScreenAdapter {
      * @param enemy the enemy entity
      */
     public BossCutsceneScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+        super();
+        
         this.game = game;
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.player = player;
         this.enemy = enemy;
-
+        
         logger.debug("Initializing boss cutscene screen services");
         ServiceLocator.registerTimeSource(new GameTime());
 
@@ -82,11 +71,7 @@ public class BossCutsceneScreen extends ScreenAdapter {
 
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
-
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
-
-        renderer = RenderFactory.createRenderer();
+        
         renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
@@ -94,9 +79,6 @@ public class BossCutsceneScreen extends ScreenAdapter {
         createUI();
 
         logger.debug("Initialising main game dup screen entities");
-        TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        //this.gameArea = new ForestGameArea(terrainFactory, game);
-        //this.gameArea.create();
     }
 
     @Override
@@ -110,43 +92,28 @@ public class BossCutsceneScreen extends ScreenAdapter {
             if (timeElapsed >= CUTSCENE_DURATION && !transition) {
                 transition = true;
                 logger.info("Cutscene finished, transitioning to combat screen");
-                // dispose();
                 game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy));
             }
         }
     }
-
-    @Override
-    public void resize(int width, int height) {
-        renderer.resize(width, height);
-        logger.trace("Resized renderer: ({} x {})", width, height);
-    }
-
+    
     @Override
     public void pause() {
         isPaused = true;
-        //gameArea.pauseMusic();
         logger.info("Game paused");
     }
 
     @Override
     public void resume() {
         isPaused = false;
-        //gameArea.playMusic();
         logger.info("Game resumed");
     }
 
     @Override
     public void dispose() {
         logger.debug("Disposing cutscene screen");
-
-        renderer.dispose();
-
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.getRenderService().dispose();
         ServiceLocator.getResourceService().dispose();
-
-        ServiceLocator.clear();
+        super.dispose();
     }
 
     /**
@@ -332,17 +299,5 @@ public class BossCutsceneScreen extends ScreenAdapter {
         setupUIComponents();
         configureAndAddUIElements();
         addUIAnimations();
-    }
-
-    public void rest() {
-        logger.info("Screen is resting");
-        //gameArea.pauseMusic();
-        ServiceLocator.getEntityService().restWholeScreen();
-    }
-
-    public void wake() {
-        logger.info("Screen is Awake");
-        //gameArea.playMusic();
-        ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }

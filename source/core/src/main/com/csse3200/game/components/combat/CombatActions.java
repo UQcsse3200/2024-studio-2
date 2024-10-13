@@ -7,8 +7,6 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.screens.GameOverLoseScreen;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +19,13 @@ import java.util.Objects;
  */
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
-  private GdxGame game;
+  private final GdxGame game;
   private final CombatManager manager;
   private final Screen previousScreen;
   private final ServiceContainer previousServices;
 
   public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices) {
     this.game = game;
-    //this.enemy = enemy;
     this.manager = manager;
     this.previousServices = previousServices;
     this.previousScreen = previousScreen;
@@ -47,15 +44,12 @@ public class CombatActions extends Component {
     entity.getEvents().addListener("Guard", this::onGuard);
     entity.getEvents().addListener("Sleep", this::onSleep);
     entity.getEvents().addListener("Items", this::onItems);
-    entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) -> {
-      game.returnFromCombat(previousScreen, previousServices, triggeredEntity);
-    });
-    entity.getEvents().addListener("finishedBossLossCombatDialogue", () -> {
-      game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE);
-    });
-    entity.getEvents().addListener("finishedFinalCombatDialogue", () -> {
-      game.setScreen(GdxGame.ScreenType.END_GAME_STATS);
-    });
+    entity.getEvents().addListener("finishedEndCombatDialogue", (Entity triggeredEntity) ->
+      game.returnFromCombat(previousScreen, previousServices, triggeredEntity));
+    entity.getEvents().addListener("finishedBossLossCombatDialogue", () ->
+      game.setScreen(GdxGame.ScreenType.GAME_OVER_LOSE));
+    entity.getEvents().addListener("finishedFinalCombatDialogue", () ->
+      game.setScreen(GdxGame.ScreenType.END_GAME_STATS));
   }
 
   /**
@@ -64,17 +58,17 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Entity enemy) {
     logger.debug("Returning to main game screen after combat win.");
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
+
+    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
+
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
 
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
-    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
-    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
   }
 
   /**
@@ -82,7 +76,6 @@ public class CombatActions extends Component {
    */
   private void onCombatLoss(Entity enemy) {
     logger.debug("Returning to main game screen after combat loss.");
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
 
@@ -109,8 +102,6 @@ public class CombatActions extends Component {
       entity.getEvents().trigger("airBossDefeated");
     }
 
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());

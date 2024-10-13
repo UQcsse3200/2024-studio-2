@@ -1,22 +1,25 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Grid;
-import com.csse3200.game.minigames.snake.Apple;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.Assert.*;
 
-public class AppleTest {
+@ExtendWith(GameExtension.class)
+class AppleTest {
 
     private Grid grid;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         grid = new Grid(10, 10);
     }
 
     @Test
-    public void testAppleSpawn() {
+    void testAppleSpawn() {
         Apple apple = new Apple(grid);
 
         int x = apple.getX();
@@ -27,7 +30,7 @@ public class AppleTest {
     }
 
     @Test
-    public void testAppleRespawn() {
+    void testAppleRespawn() {
         Apple apple = new Apple(grid);
 
         apple.spawn();

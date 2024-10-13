@@ -39,8 +39,8 @@ public class AppleRenderer implements MinigameRenderable {
     public void render() {
 
         // Calculate the top-left corner of the grid, centered in the camera's view
-        float gridWidthInWorldUnits = grid.getWidth() * CELL_SIZE;
-        float gridHeightInWorldUnits = grid.getHeight() * CELL_SIZE;
+        float gridWidthInWorldUnits = (float) grid.getWidth() * CELL_SIZE;
+        float gridHeightInWorldUnits = (float) grid.getHeight() * CELL_SIZE;
 
         // Determine where the grid starts in the camera's world coordinates
         float startX = renderer.getCam().position.x - gridWidthInWorldUnits / 2f;

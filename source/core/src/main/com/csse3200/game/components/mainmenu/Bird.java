@@ -16,7 +16,7 @@ public class Bird extends Actor {
         position = new Vector3(x, y, 0);
         texture = new Texture("BirdMain.png");
         birdAnimation = new BirdAnimation(new TextureRegion(texture), 3, 0.5f);
-        bounds = new Rectangle(x, y, texture.getWidth() / 3, texture.getHeight());
+        bounds = new Rectangle(x, y, texture.getWidth() / 3f, texture.getHeight());
     }
 
     public void update(float dt){

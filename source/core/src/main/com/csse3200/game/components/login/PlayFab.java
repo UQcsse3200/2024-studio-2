@@ -4,16 +4,20 @@ import com.playfab.PlayFabErrors.*;
 import com.playfab.PlayFabClientModels.*;
 import com.playfab.PlayFabClientAPI;
 import com.playfab.PlayFabSettings;
-import org.lwjgl.Sys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Map;
+
+
 /**
  * The PlayFab class handles user registration and login via PlayFab's client API.
  * It allows initializing the PlayFab client with a Title ID and provides methods
  * for user registration and login.
  */
 public class PlayFab {
+    private static final Logger logger = LoggerFactory.getLogger(PlayFab.class);
+
     /**
      * Constructor to initialize PlayFab with the given Title ID.
      *
@@ -51,6 +55,7 @@ public class PlayFab {
         request.Password = password;
         request.DisplayName = username;
 
+
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
 
         if (result.Result != null) {
@@ -58,7 +63,7 @@ public class PlayFab {
             return new Response(succeedMsg, true);
         } else {
             String errorMsg = result.Error.errorMessage;
-            System.out.println(errorMsg);
+            logger.debug(errorMsg);
             return new Response(errorMsg, false);
         }
         //
@@ -80,11 +85,43 @@ public class PlayFab {
 
         if (result.Result != null) {
             String succeedMsg = "Welcome " + request.Username + ".";
+            logger.debug(succeedMsg);
+            return new Response(succeedMsg, true);
+        } else {
+            String errorMsg = result.Error.errorMessage;
+            logger.debug(result.Error.errorMessage);
+            return new Response(errorMsg, false);
+        }
+    }
+
+    public static Response saveData(Map<String, String> data) {
+        UpdateUserDataRequest request = new UpdateUserDataRequest();
+        request.Data = data;
+        PlayFabResult<UpdateUserDataResult> result = PlayFabClientAPI.UpdateUserData(request);
+
+        if (result.Result != null) {
+            String succeedMsg = "Data is successfully saved.";
             System.out.println(succeedMsg);
             return new Response(succeedMsg, true);
         } else {
             String errorMsg = result.Error.errorMessage;
-            System.out.println(result.Error.errorMessage);
+            System.out.println(errorMsg);
+            return new Response(errorMsg, false);
+        }
+    }
+
+    public static Response loadData() {
+        GetUserDataRequest request = new GetUserDataRequest();
+        PlayFabResult<GetUserDataResult> result = PlayFabClientAPI.GetUserData(request);
+
+        if (result.Result != null && result.Result.Data != null) {
+            Map<String, UserDataRecord> userData = result.Result.Data;
+            String succeedMsg = "Data is successfully loaded.";
+            System.out.println(succeedMsg);
+            return new Response(userData.toString(), true);
+        } else {
+            String errorMsg = result.Error.errorMessage;
+            System.out.println(errorMsg);
             return new Response(errorMsg, false);
         }
     }

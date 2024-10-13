@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.animal.AirAnimalSelectionDisplay;
 import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
-import com.csse3200.game.components.animal.WaterAnimalSelectionDisplay;
 
 public class AirAnimalSelectionScreen extends AnimalRouletteScreen1 {
 

@@ -1,11 +1,10 @@
 package com.csse3200.game.minigames.maze;
 
 import com.badlogic.gdx.math.GridPoint2;
+import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
 
 import java.util.*;
-
-import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
 
 /**
  * Represents a maze on a 2d grid. Allows for generation of random mazes, finding reasonable spawn
@@ -16,6 +15,7 @@ public class Maze {
     private final int height;
     public final List<GridPoint2>[][] adjacency;
     List<GridPoint2> startLocationSpanningTree;
+    private final Random rand = new Random();
 
     public Maze(int size) {
         this(size, size);
@@ -106,7 +106,7 @@ public class Maze {
      */
     public List<GridPoint2> getAdjacent(GridPoint2 cell) {
         List<GridPoint2> adjacent = new ArrayList<>();
-        for (GridPoint2 delta : GRID_DIRECTIONS) {
+        for (GridPoint2 delta : GridPoint2Utils.directions()) {
             GridPoint2 newCell = cell.cpy().add(delta);
             if (inBounds(newCell)) {
                 adjacent.add(newCell);
@@ -138,7 +138,7 @@ public class Maze {
      * Assumes maze has not been generated or read from a file previously.
      */
     private void generateRandomMaze() {
-        recursiveBacktracking(getRandomCell(), new Random());
+        recursiveBacktracking(getRandomCell(), rand);
     }
 
     /**
@@ -153,7 +153,7 @@ public class Maze {
      */
     public GridPoint2 getNextStartLocation() {
 
-        breadthFirstSearch bfs = new breadthFirstSearch(startLocationSpanningTree);
+        BreadthFirstSearch bfs = new BreadthFirstSearch(startLocationSpanningTree);
         GridPoint2 mostDistant = bfs.getMostDistant();
         List<GridPoint2> path = bfs.getShortestPath(mostDistant);
         // don't add first cell of path because it is already in the tree
@@ -186,13 +186,13 @@ public class Maze {
     /**
      * Class for bfs, used for finding paths in the maze (including the angular fish path to the player)
      */
-    public class breadthFirstSearch {
+    public class BreadthFirstSearch {
         int[][] distances;
         GridPoint2[][] previous;
         GridPoint2 mostDistant;
 
 
-        public breadthFirstSearch(GridPoint2 startCell) {
+        public BreadthFirstSearch(GridPoint2 startCell) {
             this(Collections.singletonList(startCell));
         }
 
@@ -200,7 +200,7 @@ public class Maze {
          * bfs algorithm
          * @param startCells the initial position
          */
-        public breadthFirstSearch(List<GridPoint2> startCells) {
+        public BreadthFirstSearch(List<GridPoint2> startCells) {
             distances = new int[width][height];
             previous = new GridPoint2[width][height];
             for (int x = 0; x < width; x++) {
@@ -256,7 +256,7 @@ public class Maze {
      * @param count the number of walls to break
      */
     public void breakWalls(int count) {
-        Random rand = new Random();
+        //Random rand = new Random();
         while (count > 0) {
             GridPoint2 cell = getRandomCell();
             List<GridPoint2> walledCells = getNotMazeAdjacent(cell);
