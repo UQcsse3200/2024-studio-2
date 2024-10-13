@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csse3200.game.minigames.MinigameRenderable;
 import com.csse3200.game.minigames.MinigameRenderer;
-//import com.csse3200.game.minigames.birdiedash.entities.Pipe;
 import com.csse3200.game.minigames.birdiedash.entities.*;
 import com.csse3200.game.minigames.snake.AssetPaths;
 import com.csse3200.game.services.ResourceService;

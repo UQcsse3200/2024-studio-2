@@ -1,12 +1,8 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
@@ -49,7 +45,6 @@ public class BirdieDashScreen extends PausableScreen {
     private final Skin skin;
     private final Stage stage;
     private float scale;
-    private final Table exitButtonTable;
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
     private final Screen oldScreen;
@@ -59,7 +54,6 @@ public class BirdieDashScreen extends PausableScreen {
     public BirdieDashScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
         this.scale = 1;
-        this.exitButtonTable = new Table();
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.birdGame = new BirdieDashGame();
@@ -176,28 +170,6 @@ public class BirdieDashScreen extends PausableScreen {
         font.dispose();
         skin.dispose();
         stage.dispose();
-    }
-
-    /**
-     * Set up the exit button in the top right
-     */
-    private void setupExitButton() {
-        exitButtonTable.clear();
-        TextButton exitButton = new TextButton("Exit", skin);
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                exitGame();
-            }
-        });
-
-        exitButtonTable.setFillParent(true);
-        exitButtonTable.top().right();
-        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-        stage.addActor(exitButtonTable);
     }
 
     /**

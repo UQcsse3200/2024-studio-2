@@ -1,12 +1,8 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
@@ -55,7 +51,6 @@ public class SnakeScreen extends PausableScreen {
     private final Skin skin;
     private final Stage stage;
     private float scale;
-    private final Table exitButtonTable;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Texture backgroundTexture;
@@ -70,7 +65,6 @@ public class SnakeScreen extends PausableScreen {
     public SnakeScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
         this.scale = 1;
-        this.exitButtonTable = new Table();
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.ui = new Entity();
@@ -203,33 +197,6 @@ public class SnakeScreen extends PausableScreen {
         font.dispose();
         skin.dispose();
         stage.dispose();
-    }
-
-    /**
-     * Makes an exit button in the top right of the screen
-     */
-    private void setupExitButton() {
-        // Set up exit button
-        exitButtonTable.clear();
-        TextButton exitButton = new TextButton("Exit", skin);
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Return to main menu and original screen colour
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                exitGame();
-            }
-        });
-
-        // Set up the table for UI layout
-        exitButtonTable.setFillParent(true);
-        exitButtonTable.top().right();
-        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-
-        // Add the table to the stage
-        stage.addActor(exitButtonTable);
     }
 
     /**
