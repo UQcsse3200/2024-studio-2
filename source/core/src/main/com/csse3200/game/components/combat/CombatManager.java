@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
+import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -19,8 +20,6 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.overlays.*;
-import com.csse3200.game.physics.PhysicsEngine;
-import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.screens.QuickTimeEventScreen;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceContainer;
@@ -480,10 +479,11 @@ public class CombatManager extends Component {
     }
 
     private int getPlayerMultiHitsLanded() {
-        int score=0;
-        game.setScreen(GdxGame.ScreenType.QUICK_TIME_EVENT);
+        QuickTimeEventDisplay qtd = new QuickTimeEventDisplay();
+        int QTECurrScore = qtd.getQTEScore();
+        logger.info("Combat manager:: getPlayerMultiHitsLanded() " +QTECurrScore );
         game.setScreen(new QuickTimeEventScreen(game, oldScreen, oldScreenServices, player, enemy));
-        return score;
+        return QTECurrScore;
     }
 
 

@@ -118,7 +118,7 @@ public class QuickTimeEventScreen extends ScreenAdapter {
         ui.addComponent(new InputDecorator(stage, 10))
           .addComponent(new QuickTimeEventDisplay())
           .addComponent(inputComponent)
-          .addComponent(new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy));
+          .addComponent(new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy,0));
         ServiceLocator.getEntityService().register(ui);
     }
 }

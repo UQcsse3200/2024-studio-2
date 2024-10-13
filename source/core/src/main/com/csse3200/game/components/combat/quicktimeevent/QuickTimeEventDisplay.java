@@ -50,7 +50,8 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     // score
     private int maxScore;
-    private int score;
+    private static int score;
+
 
     // assets
     private final Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
@@ -91,8 +92,9 @@ public class QuickTimeEventDisplay extends UIComponent {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("exit button clicked");
-                entity.getEvents().trigger("exit");
+                logger.info("exit button clicked");
+              entity.getEvents().trigger("exit");
+
             }
         });
 
@@ -193,6 +195,9 @@ public class QuickTimeEventDisplay extends UIComponent {
             score++; // increment score
         }
         updateDisplayScore();
+    }
+    public int getQTEScore(){
+        return score;
     }
 
     /**
@@ -296,6 +301,7 @@ public class QuickTimeEventDisplay extends UIComponent {
                     qte.setVisible(false);
                     setTargetImage("target_default");
                 }
+
             });
             actions.addAction(resetAction);
         }

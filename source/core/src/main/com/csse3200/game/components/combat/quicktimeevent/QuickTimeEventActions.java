@@ -13,23 +13,25 @@ import org.slf4j.LoggerFactory;
 
 public class QuickTimeEventActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventActions.class);
-    private final GdxGame game;
+    private static GdxGame game;
     private GameTime gameTime;
     private int count = 0;
     private static final int MAX_COUNT = 3;
     private long lastUpdate;
-    private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
-    private final Entity player;
-    private final Entity enemy;
+    private static Screen oldScreen;
+    private static ServiceContainer oldScreenServices;
+    private static Entity player;
+    private static Entity enemy;
+    private int score = 0;
 
 
-    public QuickTimeEventActions(GdxGame game,Screen oldScreen, ServiceContainer oldScreenServices, Entity player, Entity enemy) {
+    public QuickTimeEventActions(GdxGame game,Screen oldScreen, ServiceContainer oldScreenServices, Entity player, Entity enemy, int score) {
         this.game = game;
         this.oldScreenServices = oldScreenServices;
         this.oldScreen = oldScreen;
         this.player = player;
         this.enemy = enemy;
+        this.score = score;
 
     }
 
@@ -37,7 +39,10 @@ public class QuickTimeEventActions extends Component {
     public void create() {
         gameTime = ServiceLocator.getTimeSource();
         entity.getEvents().addListener("start", this::onStart);
+        logger.info("QuickTimeEventActions::create() before on exit");
         entity.getEvents().addListener("exit", this::onExit);
+
+        logger.info("QuickTimeEventActions::create() after on exit");
     }
 
     @Override
@@ -67,17 +72,17 @@ public class QuickTimeEventActions extends Component {
     /**
      * Exits to the main menu
      */
-    private void onExit(Screen screen, ServiceContainer container) {
+    private void onExit() {
         logger.info("Exit QuickTimeEvent screen");
        // game.setScreen(GdxGame.ScreenType.COMBAT);
-        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy));
+//        entity.getEvents().trigger(game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, score)) , 0 );
+        int score = 0;
+        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, score));
     }
 
     /**
      * Creates a demo list of four quick-time events
      * with different durations
-     *
-     * @returns a list of demo quick-time events
      */
     private static QuickTimeEvent[] quickTimeEventsDemo() {
         float delay = 0.2f;
@@ -86,6 +91,8 @@ public class QuickTimeEventActions extends Component {
         for (int i = 0; i < durations.length; i++) {
             quickTimeEvents[i] = new QuickTimeEvent(durations[i], delay);
         }
+
         return quickTimeEvents;
+
     }
 }

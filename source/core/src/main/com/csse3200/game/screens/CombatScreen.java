@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEvent;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
@@ -51,17 +52,18 @@ public class CombatScreen extends ScreenAdapter{
           "images/statuses/poisoned_stat.png", "images/statuses/shocked_stat.png"
 
   };
-  private final GdxGame game;
+  private GdxGame game;
   private boolean isPaused = false;
-  private final Renderer renderer;
-  private final PhysicsEngine physicsEngine;
-  private final Screen oldScreen;
-  private final ServiceContainer oldScreenServices;
-  private final Entity player;
-  private final Entity enemy;
+  private Renderer renderer;
+  private PhysicsEngine physicsEngine;
+  private Screen oldScreen;
+  private ServiceContainer oldScreenServices;
+  private Entity player;
+  private Entity enemy;
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
-  private final CombatArea combatArea;
+  private CombatArea combatArea;
+  private int score;
   /**
    * Queue of currently enabled overlays in the game screen.
    */
@@ -72,12 +74,15 @@ public class CombatScreen extends ScreenAdapter{
   private final Map<Overlay.OverlayType, Boolean> activeOverlayTypes = Overlay.getNewActiveOverlayList();
   protected boolean resting = false;
 
-  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy, int score) {
     this.game = game;
     this.oldScreen = screen;
     this.oldScreenServices = container;
     this.player = player;
     this.enemy = enemy;
+    if (score != -1) {
+        this.score = score;
+    }
 
     this.playerCombatStats = player.getComponent(CombatStatsComponent.class);
     this.enemyCombatStats = enemy.getComponent(CombatStatsComponent.class);
@@ -106,6 +111,12 @@ public class CombatScreen extends ScreenAdapter{
     combatArea.create();
 
     createUI();
+  }
+
+
+  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+
+    this(game, screen, container, player, enemy, -1);
   }
   /**
    * Puts the screen into a resting state, pausing music and resting all entities.
