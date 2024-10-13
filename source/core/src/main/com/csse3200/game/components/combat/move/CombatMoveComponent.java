@@ -6,8 +6,6 @@ import com.csse3200.game.components.combat.CombatManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -16,7 +14,6 @@ import java.util.List;
  * It allows for the execution of specific combat moves based on the action type and target.
  */
 public class CombatMoveComponent extends Component {
-    private static final Logger logger = LoggerFactory.getLogger(CombatMoveComponent.class);
     private final List<CombatMove> moveSet;  // The list of available combat moves for the entity.
     private String name; // The name of the entity.
 
@@ -34,7 +31,7 @@ public class CombatMoveComponent extends Component {
 
     private String[] getMoveContextStrings(CombatMove move, String statChanges) {
         // Get the name of the entity.
-        if (name == "Uninitialised") {
+        if (name.equals("Uninitialised")) {
             if (entity.isPlayer()) {
                 name = "You";
             } else {
@@ -44,12 +41,7 @@ public class CombatMoveComponent extends Component {
         String moveDescription = String.format("%s decided to %s.", name, move.getMoveName());
 
         // Execute the move and get the stat changes.
-        String moveOutcome;
-        if (move != null) {
-            moveOutcome = String.format("%s %s", name, statChanges);
-        } else {
-            moveOutcome = "No move found.";
-        }
+        String moveOutcome = String.format("%s %s", name, statChanges);
 
         return new String[]{moveDescription, moveOutcome};
     }
@@ -134,7 +126,7 @@ public class CombatMoveComponent extends Component {
      * @param item the item to be used in the move.
      * @param context the context in which the item is used.
      * @param index the index of the item in the inventory.
-     * @return
+     * @return an array of strings containing the move description and outcome.
      */
     public String[] executeMove(CombatManager.Action action, Entity eventCaller, AbstractItem item, ItemUsageContext context, int index) {
         CombatMove move = getMoveAction(action);

@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The SpecialMove class defines an abstract base for all special combat moves in the game.
- * Special moves generally buff the attacker's stats and may debuff the target's stats.
- * Each special move is responsible for defining specific debuffs and buffs via abstract methods.
+ * Special moves generally buff the attacker's stats and may de-buff the target's stats.
+ * Each special move is responsible for defining specific de-buffs and buffs via abstract methods.
  */
 public abstract class SpecialMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(SpecialMove.class);
@@ -27,7 +27,7 @@ public abstract class SpecialMove extends CombatMove {
      * a default error message if invoked with insufficient parameters.
      *
      * @param attackerStats the combat stats of the attacker.
-     * @return
+     * @return an error message indicating that the special move needs more arguments.
      */
     @Override
     public String execute(CombatStatsComponent attackerStats) {
@@ -63,8 +63,8 @@ public abstract class SpecialMove extends CombatMove {
     }
 
     /**
-     * Executes the special move, applying buffs to the attacker and debuffs to the target if unguarded.
-     * If the target is guarded, debuffs are not applied.
+     * Executes the special move, applying buffs to the attacker and de-buffs to the target if unguarded.
+     * If the target is guarded, de-buffs are not applied.
      *
      * @param attackerStats   the combat stats of the attacker.
      * @param targetStats     the combat stats of the target.
@@ -92,8 +92,8 @@ public abstract class SpecialMove extends CombatMove {
     }
 
     /**
-     * Abstract method to apply debuffs to the target. Each special move must implement this
-     * to define specific debuffs to be applied.
+     * Abstract method to apply de-buffs to the target. Each special move must implement this
+     * to define specific de-buffs to be applied.
      *
      * @param targetStats the combat stats of the target.
      */

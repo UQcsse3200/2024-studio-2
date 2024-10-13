@@ -33,18 +33,16 @@ public class SleepMove extends CombatMove {
         int healthBefore = attackerStats.getHealth();
         int hungerBonus = (int) (0.1 * attackerStats.getMaxHunger());
         int healthBonus = (int) (0.1 * attackerStats.getMaxHealth());
-        if (attackerStats != null) {
-            attackerStats.addHunger(hungerBonus);
-            if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
-                attackerStats.addHealth(healthBonus);
-            }
-            logger.info("{} sleeps: increased hunger to {} and health to {}.",
-                    attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
-                    attackerStats.getHunger(),
-                    attackerStats.getHealth());
-        } else {
-            logger.error("Entity does not have CombatStatsComponent");
+
+        attackerStats.addHunger(hungerBonus);
+        if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
+            attackerStats.addHealth(healthBonus);
         }
+        logger.info("{} sleeps: increased hunger to {} and health to {}.",
+                attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
+                attackerStats.getHunger(),
+                attackerStats.getHealth());
+
         int hungerGain = attackerStats.getHunger() - hungerBefore;
         int healthGain = attackerStats.getHealth() - healthBefore;
         return String.format("gained %d health and %d hunger.", healthGain, hungerGain);

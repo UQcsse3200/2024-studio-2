@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The ItemMove class represents a increase stat move where the entity takes a moment to increase or restore one of
+ * The ItemMove class represents an increase stat move where the entity takes a moment to increase or restore one of
  * their stats (health, hunger, defense, strength)
  */
 public class ItemMove extends CombatMove {
@@ -47,11 +47,10 @@ public class ItemMove extends CombatMove {
     public String execute(CombatStatsComponent attackerStats, Entity eventCaller,
                           AbstractItem item, ItemUsageContext context, int index) {
         if (item != null) {
-            CombatStatsComponent statsBefore = attackerStats;
-            int hungerBefore = statsBefore.getHunger();
-            int healthBefore = statsBefore.getHealth();
-            int defenseBefore = statsBefore.getDefense();
-            int strengthBefore = statsBefore.getStrength();
+            int hungerBefore = attackerStats.getHunger();
+            int healthBefore = attackerStats.getHealth();
+            int defenseBefore = attackerStats.getDefense();
+            int strengthBefore = attackerStats.getStrength();
 
             // Use item and inflict status changes.
             eventCaller.getEvents().trigger("itemUsedInCombat", item, context, index);

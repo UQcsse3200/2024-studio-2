@@ -324,7 +324,7 @@ public class CombatManager extends Component {
         
         StringBuilder enemyMoves = new StringBuilder("");
 
-        // compare enemy move seq to last 3 enemy moves)
+        // compare enemy move seq to last 3 enemy moves
         switch (enemy.getEnemyType().toString())
         {
             case "FROG" -> {
@@ -406,24 +406,24 @@ public class CombatManager extends Component {
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
-                            addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats));
-                            addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats));
+                            Collections.addAll(moveTextList, playerMove.executeMove(playerAction, enemyStats));
+                            Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction, playerStats));
                         } else {
-                            addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats));
-                            addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats));
+                            Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction, playerStats));
+                            Collections.addAll(moveTextList, playerMove.executeMove(playerAction, enemyStats));
                         }
                     }
                     case GUARD -> {
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats, true));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction, enemyStats, true));
                     }
                     case SLEEP -> {
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded()));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded()));
                     }
                     case SPECIAL -> {
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false));
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction, enemyStats));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction, enemyStats));
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -432,12 +432,12 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, true));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction, playerStats, true));
                     }
                     case GUARD, SLEEP -> {
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction));
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -446,16 +446,16 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded()));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded()));
                     }
                     case GUARD, SLEEP -> {
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction));
                     }
                     case SPECIAL -> {
-                        addStringsToList(moveTextList, playerMove.executeMove(playerAction));
-                        addStringsToList(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false));
+                        Collections.addAll(moveTextList, playerMove.executeMove(playerAction));
+                        Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction, playerStats, false));
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -463,8 +463,8 @@ public class CombatManager extends Component {
             case ITEM -> {
                 // Player's move is using an item in the CombatInventoryDisplay.
                 //entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
-                addStringsToList(moveTextList, playerMove.executeMove(playerAction, entity, playerItem, playerItemContext, playerItemIndex));
-                addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
+                Collections.addAll(moveTextList, playerMove.executeMove(playerAction, entity, playerItem, playerItemContext, playerItemIndex));
+                Collections.addAll(moveTextList, enemyMove.executeMove(enemyAction));
                 entity.getEvents().trigger("useItem", playerStats, enemyStats);
             }
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
@@ -474,19 +474,6 @@ public class CombatManager extends Component {
         logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getHunger());
 
         displayDialogueOutcome(moveTextList);
-    }
-
-    /**
-     * Adds the strings from the array of strings to the list.
-     * @param listToAddTo the list to add the strings to.
-     * @param stringsToAdd the array of strings to add to the list.
-     * @return the list with the strings added.
-     */
-    private List<String> addStringsToList(List<String> listToAddTo, String[] stringsToAdd) {
-        for (String string : stringsToAdd) {
-            listToAddTo.add(string);
-        }
-        return listToAddTo;
     }
 
     /**
