@@ -165,7 +165,9 @@ public class CombatManager extends Component {
         logger.info("(BEFORE) ENEMY {}: health {}, hunger {}", enemyAction, enemyStats.getHealth(), enemyStats.getHunger());
 
         // Execute the selected moves for both player and enemy.
-        executeMoveCombination(playerAction, enemyAction);
+        List<String> moveTextList = executeMoveCombination(playerAction, enemyAction);
+
+        displayDialogueOutcome(moveTextList);
 
         handleStatusEffects();
 
@@ -383,18 +385,15 @@ public class CombatManager extends Component {
      * @param playerAction the player's selected action.
      * @param enemyAction the enemy's selected action.
      */
-    private void executeMoveCombination(Action playerAction, Action enemyAction) {
+    private List<String> executeMoveCombination(Action playerAction, Action enemyAction) {
         if (playerAction == null || enemyAction == null) {
             logger.error("Both player and enemy actions must be determined.");
-            return;
         }
         if (playerMove == null) {
             logger.error("Player does not have a CombatMoveComponent.");
-            return;
         }
         if (enemyMove == null) {
             logger.error("Enemy does not have a CombatMoveComponent.");
-            return;
         }
 
         // List to contain combat context dialogue.
@@ -473,7 +472,7 @@ public class CombatManager extends Component {
         logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getHunger());
         logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getHunger());
 
-        displayDialogueOutcome(moveTextList);
+        return moveTextList;
     }
 
     /**
