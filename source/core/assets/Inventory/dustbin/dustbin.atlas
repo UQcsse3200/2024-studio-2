@@ -1,0 +1,20 @@
+
+dustbin.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+down
+  rotate: false
+  xy: 200, 88
+  size: 197, 307
+  orig: 197, 307
+  offset: 0, 0
+  index: -1
+up
+  rotate: false
+  xy: 1, 88
+  size: 197, 307
+  orig: 197, 307
+  offset: 0, 0
+  index: -1

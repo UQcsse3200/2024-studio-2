@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.*;
@@ -19,6 +21,8 @@ import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static com.badlogic.gdx.utils.Align.left;
 
 /**
  * Abstract class for displaying an inventory. Subclasses can extend this to implement specific types of inventory
@@ -43,8 +47,14 @@ public abstract class InventoryDisplay extends UIComponent {
     // Skins (created by @PratulW5):
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
+    //Minecraft Skin for label
+    private final Skin descrip= new Skin(Gdx.files.internal("Inventory/18font.json"));
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
-
+    Texture discpbg = new Texture(Gdx.files.internal("Inventory/descp.png"));
+    private final Skin sortButtonskin= new Skin(Gdx.files.internal("Inventory/sortButton.json"));
+    ImageButton dustbin =new ImageButton(new Skin(Gdx.files.internal("Inventory/dustbin/dustbin.json")));//+1 for dustbin
+    private static final int DUSTBIN_INDEX = 51;
+    Label descriptionLabel = new Label("", descrip);
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
@@ -77,7 +87,7 @@ public abstract class InventoryDisplay extends UIComponent {
         this.numRows = capacity / numCols;
 
         this.slots = new ImageButton[inventory.getCapacity()];
-    }
+            }
 
     /**
      * Initializes the component by setting up event listeners for toggling the inventory display
@@ -189,10 +199,22 @@ public abstract class InventoryDisplay extends UIComponent {
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                 int sourceIndex = (int) payload.getObject();
+                logger.debug("Item dragged from index: {}", sourceIndex);
+
+                if (targetIndex == DUSTBIN_INDEX && item == null) {
+                    logger.debug("Item dropped into the dustbin.");
+                    inventory.deleteItemAt(sourceIndex);
+                    createSlot(sourceIndex);
+                    updateDisplay();
+
+                }
+                else{
                 inventory.swap(sourceIndex, targetIndex);
                 createSlot(sourceIndex);
                 createSlot(targetIndex);
-                updateDisplay();
+                updateDisplay();}
+
+
             }
         });
     }
@@ -213,8 +235,8 @@ public abstract class InventoryDisplay extends UIComponent {
             table.row(); // Move to the next row in the table
         }
 
-        // Add sort button:
-        TextButton sortButton = new TextButton("Sort", skin);
+        // Add sort button
+        TextButton sortButton = new TextButton("Sort", sortButtonskin);
         sortButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -222,11 +244,32 @@ public abstract class InventoryDisplay extends UIComponent {
                 regenerateDisplay();
             }
         });
-        table.row();
-        table.add(sortButton);
+
+        setupDragAndDrop(dustbin, DUSTBIN_INDEX, null);
+        table.pack();
+        // Create the scroll pane with the table
+        ScrollPane scrollPane = new ScrollPane(table, skin);
+        scrollPane.setSize(450, 450);
+
+        // For description
+        Table discp = new Table();
+        discp.setBackground(new TextureRegionDrawable(discpbg)); // Set the background for the tooltip
+        descriptionLabel.setWrap(true);
+    descriptionLabel.setAlignment(Align.topLeft);
+
+        // Add the description label to the table
+        discp.add(descriptionLabel).pad(10).top().left().padLeft(50).size(350,470); // Align to top-left of the table
+        discp.top().left(); // Ensure the table itself is aligned correctly
 
         // Add the table to the window
-        mainInventoryDisplay.add(table).expand().fill();
+        mainInventoryDisplay.add(scrollPane).size(450, 450).align(Align.left).padTop(2).padLeft(20);
+        mainInventoryDisplay.add(discp).size(400, 470).align(Align.top | Align.right).padTop(20).padRight(0); // Align to top-right
+        mainInventoryDisplay.row();
+        Table buttonTable = new Table();
+        buttonTable.add(dustbin).size(80, 80).padRight(350); // Adjust padding as needed
+        buttonTable.add(sortButton).size(100, 50).padLeft(350);
+        mainInventoryDisplay.add(buttonTable).colspan(2).bottom().padTop(5);
+        scrollPane.setScrollingDisabled(true, false);  // Enable both vertical and horizontal scrolling
         mainInventoryDisplay.pack();
 
         // Set position in stage top-center
@@ -235,6 +278,7 @@ public abstract class InventoryDisplay extends UIComponent {
                 (stage.getHeight() - mainInventoryDisplay.getHeight()) / 2 // Center vertically
         );
     }
+
 
     /**
      * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
@@ -298,10 +342,12 @@ public abstract class InventoryDisplay extends UIComponent {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
                 enterSlot(item);
+                descriptionLabel.setText(item.getDescription());
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 exitSlot(item);
+                descriptionLabel.setText("");
             }
         });
 

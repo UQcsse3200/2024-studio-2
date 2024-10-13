@@ -41,7 +41,7 @@ public class HealingPotion extends ConsumableItem {
     public HealingPotion(int quantity) {
         super("Health Potion", 51, 3, quantity);
         this.setTexturePath(PATH);
-        this.setDescription("This is a health potion");
+        this.setDescription("This is a health potion. Increases heals player health by 25.");
         this.effectAmount = 25;
     }
 

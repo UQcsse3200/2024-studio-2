@@ -39,7 +39,7 @@ public class DefensePotion extends TimedUseItem {
     public DefensePotion(int quantity) {
         super("Defense Potion", 53, 3, quantity, 25, DURATION, MSG);
         this.setTexturePath(PATH);
-        this.setDescription("This is a defense potion");
+        this.setDescription("This is a defense potion. Increases defence by 25 for 2 mins. (Combat Item)");
         this.onlyCombatItem = true;
     }
 
