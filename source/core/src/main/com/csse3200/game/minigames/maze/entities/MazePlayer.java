@@ -16,6 +16,7 @@ import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.minigames.maze.entities.configs.MazePlayerConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
+import com.csse3200.game.particles.components.ParticleEffectComponent;
 import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.ColliderComponent;

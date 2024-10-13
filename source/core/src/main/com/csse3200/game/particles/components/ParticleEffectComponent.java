@@ -1,19 +1,19 @@
-package com.csse3200.game.minigames.maze.components;
+package com.csse3200.game.particles.components;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.particles.ParticleEffectRenderer;
 import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.rendering.RenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**
- * This class adds particle effects to NPC's in the game including sparkles on the fish eggs
+ * This class adds a particle effect to track an NPC in the game e.g. sparkles on the fish eggs
  */
 public class ParticleEffectComponent extends RenderComponent {
 
     protected final ParticleEffect effect;
-    public static final int PARTICLE_LAYER = 1;
 
     public ParticleEffectComponent(ParticleService.ParticleType type) {
         super();
@@ -34,7 +34,7 @@ public class ParticleEffectComponent extends RenderComponent {
      */
     @Override
     public float getZIndex() {
-        return super.getZIndex() - 1e6f; // TODO this should really be a layer below sprites, but above tiles.
+        return super.getZIndex() - 1e6f;
     }
 
     /**
@@ -43,7 +43,7 @@ public class ParticleEffectComponent extends RenderComponent {
      */
     @Override
     public int getLayer() {
-        return PARTICLE_LAYER;
+        return ParticleEffectRenderer.PARTICLE_LAYER;
     }
 
     /**
@@ -70,9 +70,6 @@ public class ParticleEffectComponent extends RenderComponent {
         //Setting the position of the ParticleEffect
         effect.setPosition(position.x, position.y);
         //Updating and Drawing the particle effect
-        /*if (effect.isComplete()) {
-            effect.reset(); // TODO, make on complete customisable
-        }*/
         effect.draw(batch, ServiceLocator.getTimeSource().getDeltaTime());
     }
 
