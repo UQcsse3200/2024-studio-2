@@ -1,6 +1,7 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
@@ -111,7 +112,7 @@ public class MainGameScreen extends PausableScreen {
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     lightingEngine = new LightingEngine(physicsEngine.getWorld(),
-            renderer.getCamera().getCamera());
+            (OrthographicCamera) renderer.getCamera().getCamera());
 
     lightingEngine.getRayHandler().setAmbientLight(new Color(0.5f, 0.45f, 0.3f, 0.6f));
 
