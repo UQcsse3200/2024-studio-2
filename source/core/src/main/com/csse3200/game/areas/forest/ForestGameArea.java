@@ -41,6 +41,7 @@ import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
+import com.csse3200.game.areas.terrain.enums.TileLocation;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
@@ -138,7 +139,7 @@ public class ForestGameArea extends GameArea {
         player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
         player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
         player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
-        player.getEvents().addListener("unlockArea", this::unlockArea);
+        player.getEvents().addListener(UNLOCK_AREA_EVENT, this::unlockArea);
         kangarooBossSpawned = false;
         waterBossSpawned = false;
         airBossSpawned = false;
@@ -679,31 +680,31 @@ public class ForestGameArea extends GameArea {
 
         // Cow
         generator = () -> NPCFactory.createCow(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_COWS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_COWS, TileLocation.FOREST);
 
         // Fish
         generator = () -> NPCFactory.createFish(player, this.enemies);
-        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_FISH);
+        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_FISH,TileLocation.WATER);
 
         // Lion
         generator = () -> NPCFactory.createLion(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_LIONS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_LIONS, TileLocation.FOREST);
 
         // Turtle
         generator = () -> NPCFactory.createTurtle(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_TURTLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_TURTLES, TileLocation.WATER);
 
         // Eagle
         generator = () -> NPCFactory.createEagle(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES, TileLocation.AIR);
 
         // Snake
         generator = () -> NPCFactory.createSnake(player, this.enemies);
-        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_SNAKES);
+        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_SNAKES, TileLocation.FOREST);
 
         // Magpie
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
-        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_MAGPIES);
+        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_MAGPIES, TileLocation.AIR);
     }
 
     /**
@@ -810,9 +811,27 @@ public class ForestGameArea extends GameArea {
         }
     }
 
-    private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    /**
+     * Spawns a specified number of NPCs at random positions within a designated zone.
+     * The NPCs are created using the provided entity supplier and spawned at a random location
+     * within the defined area for the zone.
+     *
+     * @param creator  A supplier function that creates new NPC entities.
+     * @param numNPCs  The number of NPCs to spawn.
+     * @param loc     The zone within which to spawn the NPCs. The zone enum determines the vertical position range.
+     */
+    private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs, TileLocation loc) {
+        int zone = 0;
+        if (loc == TileLocation.FOREST) {
+            zone = 1;
+        } else if (loc == TileLocation.AIR) {
+            zone = 3;
+        } else {
+            zone = 2;
+        }
+
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < numNPCs; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -822,16 +841,18 @@ public class ForestGameArea extends GameArea {
         }
     }
 
+    private void spawnMinigameNPC(Supplier<Entity> creator, int numNPCs, TileLocation loc) {
+        int zone = 0;
+        if (loc == TileLocation.FOREST) {
+            zone = 1;
+        } else if (loc == TileLocation.AIR) {
+            zone = 3;
+        } else {
+            zone = 2;
+        }
 
-    public void spawnRandomObject(){
-
-    }
-
-
-
-    private void spawnMinigameNPC(Supplier<Entity> creator, int numNPCs) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < numNPCs; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);

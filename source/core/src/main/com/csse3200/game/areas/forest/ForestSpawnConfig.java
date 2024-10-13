@@ -37,13 +37,13 @@ public class ForestSpawnConfig {
     public static final int NUM_HIVES = 3;
 
     // NPCs
-    public static final int NUM_COWS = 2;
-    public static final int NUM_FISH = 2;
-    public static final int NUM_LIONS = 1;
-    public static final int NUM_TURTLES = 2;
-    public static final int NUM_EAGLES = 1;
-    public static final int NUM_SNAKES = 2;
-    public static final int NUM_MAGPIES = 1;
+    public static final int NUM_COWS = 5;
+    public static final int NUM_FISH = 5;
+    public static final int NUM_LIONS = 5;
+    public static final int NUM_TURTLES = 5;
+    public static final int NUM_EAGLES = 5;
+    public static final int NUM_SNAKES = 5;
+    public static final int NUM_MAGPIES = 5;
 
     private ForestSpawnConfig() {
         throw new IllegalArgumentException("Do not instantiate static util class!");
