@@ -26,7 +26,6 @@ public class CombatActions extends Component {
 
   public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices) {
     this.game = game;
-    //this.enemy = enemy;
     this.manager = manager;
     this.previousServices = previousServices;
     this.previousScreen = previousScreen;

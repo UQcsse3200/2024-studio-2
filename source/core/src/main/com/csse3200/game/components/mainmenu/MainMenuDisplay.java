@@ -31,6 +31,7 @@ import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A UI component for displaying the Main menu.
@@ -56,7 +57,7 @@ public class MainMenuDisplay extends UIComponent {
     private Dialog chatbotDialog;
     private TextField userInputField;
     private Label chatbotResponseLabel;
-    private java.util.List<String> predefinedQuestions;
+    private List<String> predefinedQuestions;
     private ChatbotService chatbotService;
     private boolean isChatbotDialogVisible = false;
     private Image owlImage;
@@ -66,7 +67,7 @@ public class MainMenuDisplay extends UIComponent {
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
-
+    private boolean dogDirection = true;
     private Cursor customCursor;
     private CustomButton startBtn;
     private CustomButton loadBtn;
@@ -75,25 +76,39 @@ public class MainMenuDisplay extends UIComponent {
     private CustomButton achievementsBtn;
     private CustomButton helpBtn;
     private CustomButton exitBtn;
+    private Label versionLabel;
+
+    // Changes from main branch
+    private final float windowButtonWidth = 200;
+    private final float windowButtonHeight = 45;
+    private final float windowButtonSpacing = 15;
+    private final float fullScreenButtonWidth = 300; // Updated width
+    private final float fullScreenButtonHeight = 60; // Updated height
+    private final float fullScreenButtonSpacing = 20; // Updated spacing
+    private Image birdAniImage;
+    private Image monkeyAniImage;
+    private Image dogAniImage;
+    private TextureAtlas birdAtlas;
+    private TextureAtlas dogAtlas; // Added dogAtlas
+    private TextureAtlas monkeyAtlas; // Added monkeyAtlas
+
     private static final float WINDOWBUTTONWIDTH = 200;
     private static final float WINDOWBUTTONHEIGHT = 45;
     private static final float WINDOWBUTTONSPACING = 15;
     private static final float FULLSCREENBUTTONWIDTH = 300;
     private static final float FULLSCREENBUTTONHEIGHT = 60;
     private static final float FULLSCREENBUTTONSPACING = 20;
-    private Image birdAniImage;
-    private Image monkeyAniImage;
-    private Image dogAniImage;
+
     private Array<TextureRegion> birdTextures;
-    private Array<TextureRegion> monkeyTextures;
-    private Array<TextureRegion> dogTextures;
+    private Array<TextureRegion> monkeyTextures; // Added monkeyTextures
+    private Array<TextureRegion> dogTextures; // Added dogTextures
     private boolean birdDirection = true;
-    private boolean dogDirection = true;
     int birdCurrentFrame = 0;
-    int monkeyCurrentFrame = 0;
-    int dogCurrentFrame = 0;
+    int monkeyCurrentFrame = 0; // Added monkeyCurrentFrame
+    int dogCurrentFrame = 0; // Added dogCurrentFrame
     private float timer;
     private Image titleAniImage;
+
 
     /**
      * Called when the component is created. Initializes the main menu UI.

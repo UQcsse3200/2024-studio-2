@@ -155,7 +155,6 @@ public class MapHandler {
       default -> throw new IllegalArgumentException("Map type not supported: " + mapType);
     };
   }
-
   /**
    * Map types
    */
