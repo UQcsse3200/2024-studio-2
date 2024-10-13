@@ -73,9 +73,15 @@ public class CombatActions extends Component {
 
   /**
    * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
+   * Also handles the consequences of losing (inventory and experience loss)
    */
   private void onCombatLoss(Entity enemy) {
     logger.debug("Returning to main game screen after combat loss.");
+    int lossExp = 0;
+    // Clear the player inventory and wipe their current experience progress
+    manager.getPlayerStats().setExperience(lossExp);
+
+
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
 
