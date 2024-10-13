@@ -67,9 +67,7 @@
 			isFailed: false
 			isActive: false
 			taskCompletionTriggers: null,
-			followQuests: [
-				"Guide's Intro"
-			]
+			followQuests: null
 		}
 		{
 			questName: Defeat Chickens
@@ -101,9 +99,7 @@
 			isFailed: false
 			isActive: false
 			taskCompletionTriggers: null,
-			followQuests: [
-				"Guide's Intro"
-			]
+			followQuests: null
 		}
 		{
 			questName: Play Snake Minigame
@@ -136,9 +132,9 @@
 					npcName: Snake
 					dialogue: [
 						["HHIISSSSSSS, I am the mighty Snake of the Jungle!"
-						"You look very tasty and I am very hungry"
-						"Go play a game and collect me some apples..."
-						"/msOr I will eat you whole!"]
+							"You look very tasty and I am very hungry"
+							"Go play a game and collect me some apples..."
+							"/msOr I will eat you whole!"]
 					]
 				}
 			],
@@ -147,7 +143,9 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Guide's Intro"
+				"Guide's Intro",
+				"Guide's Request",
+				"Defeat Chickens"
 			]
 		}
 		{
@@ -182,8 +180,6 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Guide's Request",
-				"Defeat Bears",
 				"Play Snake Minigame"
 			]
 		}
@@ -224,7 +220,7 @@
 			]
 		}
 		{
-			questName: Potion Collection
+			questName: Sea Pearl Collection
 			questDescription: Fill in
 			tasks: [
 				{
@@ -256,7 +252,7 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's Intro"
+				"Kangaroo Boss Challenge"
 			]
 		}
 		{
@@ -290,11 +286,11 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's Intro"
+				"Kangaroo Boss Challenge"
 			]
 		}
 		{
-			questName: Play Flappy Game.
+			questName: Play Flappy Game
 			questDescription: Fill in
 			tasks: [
 				{
@@ -323,9 +319,9 @@
 					npcName: Magpie
 					dialogue: [
 						["WHO GOES THERE!!"
-						"If you want to get past me you must pay"
-						"Go play a game and collect me some coins"
-						"/mbOr I will claw your eyes out!"]
+							"If you want to get past me you must pay"
+							"Go play a game and collect me some coins"
+							"/mbOr I will claw your eyes out!"]
 					]
 				}
 
@@ -335,11 +331,13 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's Intro"
+				"Water Sage's Intro",
+				"Sea Pearl Collection",
+				"Defeat Frogs"
 			]
 		}
 		{
-			questName: Defeat Water Boss,
+			questName: Defeat Water Boss
 			questDescription: Fill in
 			tasks: [
 				{
@@ -370,13 +368,11 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's research",
-				"Defeat Monkeys",
 				"Play Flappy Game"
 			]
 		}
 		{
-			questName: Talk To Sage
+			questName: Talk To Cloud Sage
 			questDescription: Embark on a quest in the Sky Kingdom to aid the Cloud Sage
 			tasks: [
 				{
@@ -441,7 +437,7 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Talk To Sage"
+				"Defeat Water Boss"
 			]
 		}
 		{
@@ -475,7 +471,7 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Talk To Sage"
+				"Defeat Water Boss"
 			]
 		}
 		{
@@ -508,7 +504,9 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Talk To Sage"
+				"Talk To Cloud Sage",
+				"Gathering Sky Crystals",
+				"Defeat Bees"
 			]
 		}
 		{
@@ -542,9 +540,7 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Gathering Sky Crystals",
-				"Defeat frogs",
-				"Tempest’s Challenge"
+				"Underwater Challenge"
 			]
 		}
 
