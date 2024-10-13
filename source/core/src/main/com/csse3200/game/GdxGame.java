@@ -39,7 +39,7 @@ public class GdxGame extends Game {
         }
 
         // Assign the game to a singleton
-        GdxGameManager.setInstance(this);
+        ServiceLocator.setGame(this);
 
         // Sets background to light yellow
         Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
@@ -148,9 +148,6 @@ public class GdxGame extends Game {
         }
         AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
         animationRenderComponent.stopAnimation();
-        //int enemyExp = enemy.getComponent(CombatStatsComponent.getExperience());
-        //player.getComponent(CombatStatsComponent.addExperience())
-        //enemy.getComponent(CombatStatsComponent.getExperience());
         enemy.specialDispose();
     }
 

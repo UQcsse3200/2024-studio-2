@@ -7,9 +7,7 @@ import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.combat.move.*;
-import com.csse3200.game.components.npc.AirBossAnimationController;
-import com.csse3200.game.components.npc.KangaBossAnimationController;
-import com.csse3200.game.components.npc.WaterBossAnimationController;
+import com.csse3200.game.components.npc.BossAnimationController;
 import com.csse3200.game.components.tasks.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -55,8 +53,8 @@ public class BossFactory {
         Entity kangarooBoss = createBossNPC(target, Entity.EnemyType.KANGAROO, config);
 
         kangarooBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new KangaBossAnimationController());
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
+                .addComponent(new BossAnimationController());
 
         kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         kangarooBoss.scaleHeight(4.0f);
@@ -76,8 +74,8 @@ public class BossFactory {
         
 
         waterBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new WaterBossAnimationController());
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
+                .addComponent(new BossAnimationController());
 
         waterBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         waterBoss.scaleHeight(5.0f);
@@ -96,8 +94,8 @@ public class BossFactory {
         Entity airBoss = createBossNPC(target, Entity.EnemyType.AIR_BOSS, config);
         
         airBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1))
-                .addComponent(new AirBossAnimationController());
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
+                .addComponent(new BossAnimationController());
 
         airBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         airBoss.scaleHeight(6.0f);
@@ -161,7 +159,7 @@ public class BossFactory {
 
         kangarooBoss
                 .addComponent(new TextureRenderComponent("images/final_boss_kangaroo_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1));
 
         kangarooBoss.scaleHeight(120.0f);
 
@@ -179,7 +177,7 @@ public class BossFactory {
         waterBoss.setEnemyType(Entity.EnemyType.WATER_BOSS);
         waterBoss
                 .addComponent(new TextureRenderComponent("images/water_boss_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1));
         waterBoss.scaleHeight(120.0f);
         return waterBoss;
     }
@@ -195,7 +193,7 @@ public class BossFactory {
         airBoss.setEnemyType(Entity.EnemyType.AIR_BOSS);
         airBoss
                 .addComponent(new TextureRenderComponent("images/air_boss_idle.png"))
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, true, 1));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1));
         airBoss.scaleHeight(120.0f);
         return airBoss;
     }

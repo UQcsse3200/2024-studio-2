@@ -65,7 +65,7 @@ public class MazeTouchAttackComponent extends Component {
             return;
         }
 
-        Entity targetEntity = ((BodyUserData) other.getBody().getUserData()).entity;
+        Entity targetEntity = ((BodyUserData) other.getBody().getUserData()).getEntity();
         Entity meEntity = entity;
 
         if (meEntity instanceof MazePlayer) {

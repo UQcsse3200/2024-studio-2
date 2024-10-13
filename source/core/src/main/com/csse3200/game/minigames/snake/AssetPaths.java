@@ -40,4 +40,8 @@ public class AssetPaths {
     public static final String[] SOUNDS = {
             "sounds/minigames/snake-apple.mp3"
     };
+
+    private AssetPaths() {
+        throw new IllegalArgumentException("Do not instantiate util class!");
+    }
 }

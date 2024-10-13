@@ -1,9 +1,12 @@
 package com.csse3200.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.Screen;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
@@ -19,10 +22,8 @@ import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
@@ -30,7 +31,6 @@ import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
 
 import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 
@@ -140,10 +140,8 @@ public class BirdieDashScreen extends PausableScreen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        float baseWidth = 1920;
-        float baseHeight = 1200;
-        float scaleWidth = width / baseWidth;
-        float scaleHeight = height / baseHeight;
+        float scaleWidth = width / 1920f;
+        float scaleHeight = height / 1200f;
         scale = Math.min(scaleWidth, scaleHeight);
         if (scale == 0) {  // Screen has been minimised
             scale = 1;

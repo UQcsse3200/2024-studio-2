@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class InventoryComponentTest {
+class InventoryComponentTest {
     @Test
     void testAll() {
         InventoryComponent component = new InventoryComponent(5);

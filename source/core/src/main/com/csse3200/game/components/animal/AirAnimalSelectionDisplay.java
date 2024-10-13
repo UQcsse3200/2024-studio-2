@@ -1,28 +1,13 @@
 package com.csse3200.game.components.animal;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class AirAnimalSelectionDisplay extends AnimalRouletteDisplay1 {
-    private Image[] animalImages;
-    private TextButton[] animalButtons;
+
     public AirAnimalSelectionDisplay(Stage stage, Skin skin) {
         super(stage, skin);
         initializeAnimalImagesAndButtons();
-    }
-
-    private void initializeAnimalImagesAndButtons() {
-        String[] imagePaths = getAnimalImagePaths();
-        animalImages = new Image[imagePaths.length];
-        animalButtons = new TextButton[imagePaths.length];
-
-        for (int i = 0; i < imagePaths.length; i++) {
-            animalImages[i] = new Image(new Texture(imagePaths[i]));
-            animalButtons[i] = new TextButton(getAnimalType(i), getSkin());
-        }
     }
 
     @Override
@@ -53,13 +38,5 @@ public class AirAnimalSelectionDisplay extends AnimalRouletteDisplay1 {
     public String getAnimalType(int index) {
         String[] types = {"Bird", "Bird", "Bird"};
         return types[index];
-    }
-
-    public Image[] getAnimalImages() {
-        return animalImages;
-    }
-
-    public TextButton[] getAnimalButtons() {
-        return animalButtons;
     }
 }

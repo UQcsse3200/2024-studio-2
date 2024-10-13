@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
-public class AnimalRouletteDisplayTest {
+class AnimalRouletteDisplayTest {
     Stage stage;
     Entity ui;
 
@@ -58,8 +58,8 @@ public class AnimalRouletteDisplayTest {
     @Test
     void defaultAnimalShouldBeDog() {
         // Default animal should be dog
-        assertEquals(display.getSelectedAnimal(), "images/dog.png");
-        assertEquals(display.getCurrentAnimalIndex(), 0);
+        assertEquals("images/dog.png", display.getSelectedAnimal());
+        assertEquals( 0, display.getCurrentAnimalIndex());
     }
 
     /**
@@ -76,18 +76,18 @@ public class AnimalRouletteDisplayTest {
 
         // Press button (should now be bird)
         leftButton.fire(touchEvent);
-        assertEquals(display.getSelectedAnimal(), "images/bird.png");
-        assertEquals(display.getCurrentAnimalIndex(), 2);
+        assertEquals( "images/bird.png", display.getSelectedAnimal());
+        assertEquals(2, display.getCurrentAnimalIndex());
 
         // Press button again (should now be croc)
         leftButton.fire(touchEvent);
-        assertEquals(display.getSelectedAnimal(), "images/croc.png");
-        assertEquals(display.getCurrentAnimalIndex(), 1);
+        assertEquals("images/croc.png", display.getSelectedAnimal());
+        assertEquals(1, display.getCurrentAnimalIndex());
 
         // Press button again (should now be dog again)
         leftButton.fire(touchEvent);
-        assertEquals(display.getSelectedAnimal(), "images/dog.png");
-        assertEquals(display.getCurrentAnimalIndex(), 0);
+        assertEquals("images/dog.png", display.getSelectedAnimal());
+        assertEquals(0, display.getCurrentAnimalIndex());
     }
 
     /**
@@ -104,17 +104,17 @@ public class AnimalRouletteDisplayTest {
 
         // Press button (should now be croc)
         rightButton.fire(touchEvent);
-        assertEquals(display.getSelectedAnimal(), "images/croc.png");
-        assertEquals(display.getCurrentAnimalIndex(), 1);
+        assertEquals("images/croc.png", display.getSelectedAnimal());
+        assertEquals(1, display.getCurrentAnimalIndex());
 
         // Press button again (should now be bird)
         rightButton.fire(touchEvent);
-        assertEquals(display.getSelectedAnimal(), "images/bird.png");
-        assertEquals(display.getCurrentAnimalIndex(), 2);
+        assertEquals("images/bird.png", display.getSelectedAnimal());
+        assertEquals(2, display.getCurrentAnimalIndex());
 
         // Press button again (should now be dog again)
         rightButton.fire(touchEvent);
-        assertEquals(display.getSelectedAnimal(), "images/dog.png");
-        assertEquals(display.getCurrentAnimalIndex(), 0);
+        assertEquals("images/dog.png", display.getSelectedAnimal());
+        assertEquals(0, display.getCurrentAnimalIndex());
     }
 }

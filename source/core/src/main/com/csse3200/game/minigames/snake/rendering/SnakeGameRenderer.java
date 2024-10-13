@@ -19,7 +19,6 @@ public class SnakeGameRenderer {
     private final ScoreBoard scoreBoard;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
             snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture, grassLightTexture, grassDarkTexture;
-
     private final MinigameRenderer renderer;
 
     /**

@@ -45,7 +45,8 @@ public class ProjectileAttackComponent extends TouchAttackComponent {
         if (checkHitboxAndLayer(me, other)) return;
         
         // does damage if player
-        if (((BodyUserData) other.getBody().getUserData()).entity.isPlayer()) { //dont do damage if not player
+        if (((BodyUserData) other.getBody().getUserData()).getEntity().isPlayer()) { //dont do damage
+            // if not player
             if (getEntity().getEnemyType() == ELECTRICORB) {
                 target.getComponent(KeyboardPlayerInputComponent.class).paralyze();
             } else {

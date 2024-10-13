@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.ui.UIComponent;
-import com.csse3200.game.minigames.MiniGameConstants;
 
 /**
  * Class to show the score and medal thresholds on the game screen
  */
 public class MazePlayerScoreDisplay extends UIComponent {
+    private static final String LARGE_WHITE_TEXT = "large-white";
 
     Table table;  // Table to display
 
@@ -57,13 +57,13 @@ public class MazePlayerScoreDisplay extends UIComponent {
         // Score text
         int score = entity.getComponent(MazeGameManagerComponent.class).getScore();
         CharSequence scoreText = String.format("Score: %d", score);
-        scoreLabel = new Label(scoreText, skin, "large-white");
+        scoreLabel = new Label(scoreText, skin, LARGE_WHITE_TEXT);
         scoreLabel.setFontScale(0.7f);
 
         if (GameState.minigame != null) {
             CharSequence highScore = String.format("High Score %d",
                     GameState.minigame.getHighScore(MiniGameNames.MAZE));
-            highScoreLabel = new Label(highScore, skin, "large-white");
+            highScoreLabel = new Label(highScore, skin, LARGE_WHITE_TEXT);
             highScoreLabel.setFontScale(0.7f);
         }
     }

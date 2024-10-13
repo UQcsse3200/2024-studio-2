@@ -1,6 +1,5 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;

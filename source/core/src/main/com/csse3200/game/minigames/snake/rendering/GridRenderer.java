@@ -35,8 +35,8 @@ public class GridRenderer implements MinigameRenderable {
      */
     public void render() {
         // Calculate the total size of the grid in world units
-        float gridWidthInWorldUnits = grid.getWidth() * CELL_SIZE;
-        float gridHeightInWorldUnits = grid.getHeight() * CELL_SIZE;
+        float gridWidthInWorldUnits = (float) grid.getWidth() * CELL_SIZE;
+        float gridHeightInWorldUnits = (float) grid.getHeight() * CELL_SIZE;
 
         // Calculate the top-left corner of the grid so that it's centered in the camera's view
         float startX = renderer.getCam().position.x - gridWidthInWorldUnits / 2f;

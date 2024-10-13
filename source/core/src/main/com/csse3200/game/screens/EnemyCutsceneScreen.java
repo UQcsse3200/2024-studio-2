@@ -2,7 +2,6 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,13 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
-import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
@@ -34,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * Manages the cutscene for enemy NPCs displayed before transitioning to the combat screen.
  * Handles initialization, rendering, and disposal of cutscene elements.
  */
-public class EnemyCutsceneScreen extends ScreenAdapter {
+public class EnemyCutsceneScreen extends ResizableScreen {
     private static final float CUTSCENE_DURATION = 5.0f; // Cutscene lasts for 3 seconds
     private int labelBuffer;
     private int imageBuffer;
@@ -45,7 +40,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
     private static final Vector2 CAMERA_POSITION = new Vector2(7.5f, 7.5f);
     private boolean isPaused = false;
     private final GdxGame game;
-    private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
@@ -78,11 +72,7 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
 
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
-
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
-
-        renderer = RenderFactory.createRenderer();
+        
         renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
@@ -115,18 +105,6 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
     }
 
     /**
-     * Resizes the renderer when the screen size changes.
-     *
-     * @param width  The new width of the screen.
-     * @param height The new height of the screen.
-     */
-    @Override
-    public void resize(int width, int height) {
-        renderer.resize(width, height);
-        logger.trace("Resized renderer: ({} x {})", width, height);
-    }
-
-    /**
      * Pauses the cutscene screen. Disables updates and rendering when the game is paused.
      */
     @Override
@@ -152,13 +130,9 @@ public class EnemyCutsceneScreen extends ScreenAdapter {
     public void dispose() {
         logger.debug("Disposing cutscene screen");
 
-        renderer.dispose();
-
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.getRenderService().dispose();
         ServiceLocator.getResourceService().dispose();
 
-        ServiceLocator.clear();
+        super.dispose();
     }
 
     /**

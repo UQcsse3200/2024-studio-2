@@ -25,8 +25,8 @@ class CombatMoveTest {
      */
     static class TestCombatMove extends CombatMove {
 
-        public TestCombatMove(String moveName, int staminaCost) {
-            super(moveName, staminaCost);
+        public TestCombatMove(String moveName, int hungerCost) {
+            super(moveName, hungerCost);
         }
 
         @Override
@@ -73,16 +73,16 @@ class CombatMoveTest {
     }
 
     /**
-     * Test the getStaminaCost method to ensure the stamina cost is returned correctly.
+     * Test the getHungerCost method to ensure the hunger cost is returned correctly.
      */
     @Test
-    void testGetStaminaCost() {
-        assertEquals(15, testCombatMove.getStaminaCost(), "Stamina cost should be 15.");
+    void testGetHungerCost() {
+        assertEquals(15, testCombatMove.getHungerCost(), "Hunger cost should be 15.");
     }
 
     /**
      * Test the execute method that only takes the attacker as a parameter.
-     * In this case, we're only verifying that the method is called and no changes are made to health or stamina.
+     * In this case, we're only verifying that the method is called and no changes are made to health or hunger.
      */
     @Test
     void testExecuteWithAttackerOnly() {
