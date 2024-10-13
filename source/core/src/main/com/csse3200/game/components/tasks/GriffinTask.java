@@ -3,15 +3,19 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /**
  * Represents a task for a Griffin entity that manages its movement towards a target
@@ -61,6 +65,9 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         movementTask = new MovementTask(newPosition(true));
         movementTask.create(owner);
         movementTask.start();
+
+        playTensionMusic();
+        target.getEvents().trigger("startHealthBarBeating");
     }
 
     @Override
@@ -80,6 +87,9 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
     public void stop() {
         super.stop();
         movementTask.stop();
+
+        stopTensionMusic();
+        target.getEvents().trigger("stopHealthBarBeating");
     }
 
     @Override
@@ -159,5 +169,32 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         logger.debug("Shooting gust of wind at target");
         lastShotTime = timer.getTime();  // Update the time of the last shot
         owner.getEntity().getEvents().trigger("spawnWindGust", owner.getEntity()); // Trigger the event to shoot
+    }
+
+    /**
+     * Plays the tension music to enhance the experience during the chase.
+     */
+    void playTensionMusic() {
+        // Play the heartbeat using AudioManager
+        AudioManager.stopMusic();
+        AudioManager.playMusic("sounds/heartbeat.mp3", true);
+    }
+
+    /**
+     * Stops playing the tension music and play the background music.
+     */
+    void stopTensionMusic() {
+        // Stop the heartbeat using AudioManager
+        AudioManager.stopMusic();
+
+        // Get the selected music track from the user settings
+        UserSettings.Settings settings = UserSettings.get();
+        String selectedTrack = settings.selectedMusicTrack; // This will be "Track 1" or "Track 2"
+
+        if (Objects.equals(selectedTrack, "Track 1")) {
+            AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+        } else if (Objects.equals(selectedTrack, "Track 2")) {
+            AudioManager.playMusic("sounds/track_2.mp3", true);
+        }
     }
 }
