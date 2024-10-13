@@ -6,11 +6,13 @@ import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.minigames.maze.areas.MazeGameAreaTest;
 import com.csse3200.game.physics.components.HitboxComponent;
+import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
 class MazeTouchAttackComponentTest {
@@ -60,6 +62,10 @@ class MazeTouchAttackComponentTest {
 
         player.getEvents().trigger("collisionStart", playerFixture, fishFixture);
         octopus.getEvents().trigger("collisionStart", fishFixture, playerFixture);
+
+        ServiceLocator.getEntityService().update();
+        when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(1000f);
+        ServiceLocator.getEntityService().update();
     }
 
     @Test
@@ -89,6 +95,10 @@ class MazeTouchAttackComponentTest {
 
         player.getEvents().trigger("collisionStart", playerFixture, eelFixture);
         electricEel.getEvents().trigger("collisionStart", eelFixture, playerFixture);
+
+        ServiceLocator.getEntityService().update();
+        when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(1000f);
+        ServiceLocator.getEntityService().update();
     }
 
     @Test
@@ -100,6 +110,10 @@ class MazeTouchAttackComponentTest {
         Fixture fishEggFixture = fishEgg.getComponent(HitboxComponent.class).getFixture();
 
         player.getEvents().trigger("collisionStart", playerFixture, fishEggFixture);
+
+        ServiceLocator.getEntityService().update();
+        when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(1000f);
+        ServiceLocator.getEntityService().update();
     }
 
     @Test

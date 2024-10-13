@@ -16,6 +16,7 @@ import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.physics.PhysicsService;
+import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
@@ -55,6 +56,7 @@ public class MazeGameAreaTest {
         CameraComponent camComponent = camera.getComponent(CameraComponent.class);
 
         ServiceLocator.getRenderService().setStage(mock(Stage.class));
+        ServiceLocator.getRenderService().setDebug(mock(DebugRenderer.class));
 
         ServiceLocator.registerInputService(new InputService());
 
