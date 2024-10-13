@@ -140,8 +140,8 @@
 			],
 			currentTaskIndex: 0
 			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null,
+			isActive: false,
+			taskCompletionTriggers: spawnKangaBoss
 			followQuests: [
 				"Guide's Intro",
 				"Guide's Request",
@@ -224,10 +224,10 @@
 			questDescription: Fill in
 			tasks: [
 				{
-					taskName: collectSeaPearls
-					description: Collect Sea Pearls
-					hint: Find six Sea Pearls hidden around for the Water Sage's research.
-					requiredTriggers: 1
+					taskName: pickUpApple
+					description: Collect Sea Pearls (Apples)
+					hint: Find six Sea Pearls (Apples) hidden around for the Water Sage's research.
+					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
@@ -261,8 +261,8 @@
 			tasks: [
 				{
 					taskName: defeatFROG
-					description: Lorem ipsum
-					hint: Defeat water boss's followers'
+					description: Defeat 3 frogs
+					hint: Defeat water boss's followers - the frogs
 					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
@@ -328,8 +328,8 @@
 			],
 			currentTaskIndex: 0
 			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null,
+			isActive: false,
+			taskCompletionTriggers: spawnWaterBoss,
 			followQuests: [
 				"Water Sage's Intro",
 				"Sea Pearl Collection",
@@ -411,10 +411,10 @@
 			questDescription: Help the Cloud Sage collect Sky Crystals scattered across the kingdom
 			tasks: [
 				{
-					taskName: collectSkyCrystals
-					description: Collect Sky Crystals
-					hint: Gather seven Sky Crystals for the Cloud Sage
-					requiredTriggers: 1
+					taskName: pickUpCandy,
+					description: Collect Sky Crystals (Candy)
+					hint: Gather seven Sky Crystals (Candy) for the Cloud Sage
+					requiredTriggers: 7
 					triggerCount: 0
 					completed: false
 					failed: false
@@ -502,7 +502,7 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null,
+			taskCompletionTriggers: spawnAirBoss
 			followQuests: [
 				"Talk To Cloud Sage",
 				"Gathering Sky Crystals",
