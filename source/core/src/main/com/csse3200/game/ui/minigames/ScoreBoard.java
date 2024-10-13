@@ -14,7 +14,7 @@ import com.csse3200.game.services.ServiceLocator;
 import static com.csse3200.game.minigames.MiniGameNames.*;
 
 /**
- * UI component for displaying the scoreboard in all mini-games.
+ * UI component for displaying the scoreboard for mini-game Snake and BirdieDash
  * Manages score and medal display with dynamic scaling based on screen size.
  */
 public class ScoreBoard {

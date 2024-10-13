@@ -35,9 +35,6 @@ import org.slf4j.Logger;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import static com.csse3200.game.minigames.MiniGameNames.BIRD;
-import static com.csse3200.game.minigames.MiniGameNames.SNAKE;
-
 /**
  * Makes a new screen when the snake game is over.
  * Displays the stats and add buttons to exit and restart.
@@ -135,12 +132,10 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     private void setGameScreen() {
         dispose();
-        if (gameName == SNAKE) {
-            game.enterSnakeScreen();
-        } else if (gameName == BIRD) {
-            game.enterBirdieDashScreen();
-        } else {
-            game.enterMazeGameScreen();
+        switch (gameName) {
+            case SNAKE -> game.enterSnakeScreen();
+            case BIRD -> game.enterBirdieDashScreen();
+            case MAZE -> game.enterMazeGameScreen();
         }
     }
 

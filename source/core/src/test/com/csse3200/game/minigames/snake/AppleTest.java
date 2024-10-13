@@ -1,7 +1,6 @@
 package com.csse3200.game.minigames.snake;
 
 import com.csse3200.game.minigames.Grid;
-import com.csse3200.game.minigames.snake.Apple;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

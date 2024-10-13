@@ -100,7 +100,6 @@ public class Snake {
             case LEFT -> this.x -= 1;
             case UP -> this.y += 1;
             case DOWN -> this.y -= 1;
-            default -> {}
         }
         if (snakeBody.size() >= length) {
             Segment removed = snakeBody.removeFirst();
@@ -173,30 +172,6 @@ public class Snake {
      * Record that represents a segment of the snake's body
      */
     public record Segment(int x, int y, Direction direction) {
-
-            /**
-             * @return the x-coordinate of the snake body segment
-             */
-            @Override
-            public int x() {
-                return x;
-            }
-
-            /**
-             * @return the y-coordinate of the snake body segment
-             */
-            @Override
-            public int y() {
-                return y;
-            }
-
-            /**
-             * @return the direction of the snake body segment
-             */
-            @Override
-            public Direction direction() {
-                return this.direction;
-            }
 
         /**
          * A function to check if segments are equal
