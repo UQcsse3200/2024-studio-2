@@ -229,7 +229,7 @@ public class DialogueBox {
 
     /**
      * Creates the optionButton.
-     * @param index
+     * @param index the option index
      * @return the optionButton instance.
      */
     public TextButton createOptionButton(int index) {
