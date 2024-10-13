@@ -274,7 +274,7 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new TerminalDisplay())
               .addComponent(new MiniMapDisplay(gameArea))
               .addComponent(new TimeDisplay())
-              .addComponent(mapTab);
+              .addComponent(mapTab)
               .addComponent(miniMapDisplay)
               .addComponent(new TimeDisplay());
       
