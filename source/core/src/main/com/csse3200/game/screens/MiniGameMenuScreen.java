@@ -94,6 +94,7 @@ public class MiniGameMenuScreen implements Screen {
      * @param texturePath the image texture
      * @param xPositionFactor the image position on the x coordinate
      * @param imageScale to scale the image up or down (and match the other two)
+     * @param padRight padding for the bord image to center it
      * @param listener the listener to attach the button and image to (that boots up the mini-game)
      */
     private void setupMinigameUI(String buttonText, String texturePath, float xPositionFactor, float imageScale, float padRight, ClickListener listener) {
