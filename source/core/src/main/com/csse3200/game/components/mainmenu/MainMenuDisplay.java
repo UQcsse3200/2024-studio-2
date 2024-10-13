@@ -106,7 +106,7 @@ public class MainMenuDisplay extends UIComponent {
         this.setupCustomCursor();
         this.addDog();
         this.addMonkey();
-        chatbotUI = new ChatbotUI(stage, skin);
+        chatbotUI = new ChatbotUI(stage, skin, this);
         this.applyUserSettings();
         this.setupOwlFacts();
         this.addBird();
@@ -205,6 +205,7 @@ public class MainMenuDisplay extends UIComponent {
         settingsBtn = createMenuButton("Settings", () -> {
             logger.info("Settings button clicked");
             settingsMenu.showSettingsMenu();
+            setMenuUntouchable();
         });
 
         achievementsBtn = createMenuButton("Achievements", () -> {
@@ -524,6 +525,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 loginRegisterTable.setVisible(true);
+                setMenuUntouchable();
             }
         });
         stage.addActor(userTable);
@@ -533,7 +535,7 @@ public class MainMenuDisplay extends UIComponent {
      * Add login register table, which could be open by clicking the profile button
      */
     private void addLoginRegisterTable() {
-        LoginRegisterDisplay loginRegisterDisplay = new LoginRegisterDisplay();
+        LoginRegisterDisplay loginRegisterDisplay = new LoginRegisterDisplay(this);
         loginRegisterTable = loginRegisterDisplay.makeLoginRegisterTable();
         loginRegisterTable.setVisible(false);
         loginRegisterTable.setSize(663, 405);
@@ -576,6 +578,7 @@ public class MainMenuDisplay extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 leaderboardTable.setVisible(true);
+                setMenuUntouchable();
             }
         });
 
@@ -608,7 +611,7 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     private void addLeaderboardTable() {
-        minigameLeaderboard = new MinigameLeaderboard();
+        minigameLeaderboard = new MinigameLeaderboard(this);
         leaderboardTable = minigameLeaderboard.makeLeaderboardTable();
         leaderboardTable.setVisible(false);
         leaderboardTable.setSize(525, 675);
@@ -743,7 +746,7 @@ public class MainMenuDisplay extends UIComponent {
      * Adds a settings menu to the screen.
      */
     private void addSettingMenu() {
-        settingsMenu = new SettingsMenu();  // Create an instance of SettingsMenu
+        settingsMenu = new SettingsMenu(this);  // Create an instance of SettingsMenu
         settingsMenu.create();  // Initialize it
     }
 

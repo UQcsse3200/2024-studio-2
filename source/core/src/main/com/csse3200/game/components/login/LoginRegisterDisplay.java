@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csse3200.game.components.mainmenu.MainMenuDisplay;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
@@ -41,14 +42,15 @@ public class LoginRegisterDisplay extends UIComponent {
     private Texture backgroundTexture;
     private Texture closeButtonTexture;
     private PlayFab playFab;
-
+    private MainMenuDisplay mainMenuDisplay;
     /**
      * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
      * and prepares the display for user interaction.
      */
-    public LoginRegisterDisplay() {
+    public LoginRegisterDisplay(MainMenuDisplay mainMenuDisplay) {
         super();
         playFab = new PlayFab("DBB26");
+        this.mainMenuDisplay = mainMenuDisplay;
     }
 
 
@@ -121,6 +123,7 @@ public class LoginRegisterDisplay extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.info("Close button clicked");
                 table.setVisible(false);
+                mainMenuDisplay.setMenuTouchable();
             }
         });
     }

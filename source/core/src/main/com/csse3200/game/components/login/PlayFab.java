@@ -35,6 +35,13 @@ public class PlayFab {
         highscores = new ArrayList<>();
     }
 
+    public static void main(String[] args) {
+        new PlayFab("DBB26");
+        //registerUser("GameMaster", "adhsj@gmail.com", "123456");
+        //loginUser("GameMaster", "123456");
+        //submitScore("Bird", 100000);
+    }
+
     /**
      * Registers a new user in PlayFab with the provided credentials.
      *
