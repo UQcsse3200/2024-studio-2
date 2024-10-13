@@ -86,9 +86,6 @@ public class MazeNPCFactoryTest {
 
         field.setAccessible(true);
         field.set(rayHandler, new Array<>());
-
-        ElectricEel.resetParticlePool();
-        FishEgg.resetParticlePool();
     }
 
     @Test

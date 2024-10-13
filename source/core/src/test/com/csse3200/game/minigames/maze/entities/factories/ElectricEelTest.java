@@ -66,8 +66,6 @@ public class ElectricEelTest {
         resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
 
-        ElectricEel.resetParticlePool();
-
         target = mock(Entity.class);
         config = new MazeEntityConfig();
         config.health = 150;

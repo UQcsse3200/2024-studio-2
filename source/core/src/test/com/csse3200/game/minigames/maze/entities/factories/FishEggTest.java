@@ -49,7 +49,6 @@ public class FishEggTest {
         resourceService.loadTextures(TEXTURE_MAZE);
         resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
-        FishEgg.resetParticlePool();
         fishEgg = MazeNPCFactory.createFishEgg();
     }
 
