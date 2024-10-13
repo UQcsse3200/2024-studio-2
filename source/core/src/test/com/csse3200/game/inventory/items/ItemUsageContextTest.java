@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class ItemUsageContextTest {
+class ItemUsageContextTest {
 
     @Test
-    public void testDefaultConstructor() { // Test ItemUsageContext with no inputs
+    void testDefaultConstructor() { // Test ItemUsageContext with no inputs
         ItemUsageContext context = new ItemUsageContext();
         assertEquals(0, context.getNumInputs(), "Default constructor should have 0 inputs.");
     }

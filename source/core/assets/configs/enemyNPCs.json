@@ -27,7 +27,7 @@
     "isEnemy": 1
   },
   "bear": {
-    "spritePath": "images/bear.atlas",
+    "spritePath": "images/enemy-bear.atlas",
     "health": 15,
     "baseAttack": 10,
     "defense": 15,
@@ -42,6 +42,15 @@
     "defense": 2,
     "speed": 200,
     "experience": 10,
+    "isEnemy": 1
+  },
+  "octopus": {
+    "spritePath": "images/octopus.atlas",
+    "health": 8,
+    "baseAttack": 2,
+    "defense": 5,
+    "speed": 170,
+    "experience": 15,
     "isEnemy": 1
   },
   "bee": {

@@ -1,11 +1,13 @@
 package com.csse3200.game.services;
 
 import com.badlogic.gdx.Gdx;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.areas.GameArea;
@@ -30,6 +32,22 @@ public class ServiceLocator {
   private static LightingService lightingService;
   // static field for GameArea
   private static GameArea gameArea;
+  private static GdxGame game;
+
+  /**
+   * Sets the GdxGame for any services that require it (should not be used unless necessary).
+   * Errors if the game is set twice
+   * @param g the instance of GdxGame that is running
+   */
+  public static void setGame(GdxGame g) {
+    if (game != null) {
+      throw new IllegalArgumentException("The GdxGame instance should be set only once!");
+    }
+    game = g;
+
+    // Provide GdxGame instance to services which require it:
+    DialogueBox.setGame(game);
+  }
 
   public static DialogueBoxService getDialogueBoxService() {
     return dialogueBoxService;

@@ -3,7 +3,6 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.ai.tasks.Task;
 
 /**
  * A task that spawns an entity at a specified position after a certain duration.
@@ -77,14 +76,5 @@ public class SpawnTask extends DefaultTask implements PriorityTask {
      */
     public void completeTask() {
         this.stop();
-    }
-
-    /**
-     * Stops the spawn task, cleaning up if necessary.
-     */
-    @Override
-    public void stop() {
-        super.stop();
-        // Clean up if necessary
     }
 }

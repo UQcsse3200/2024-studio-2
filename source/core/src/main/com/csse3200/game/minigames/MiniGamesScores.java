@@ -26,7 +26,6 @@ public class MiniGamesScores {
         snakeMedal = MiniGameMedals.FAIL;
         birdMedal = MiniGameMedals.FAIL;
         mazeMedal = MiniGameMedals.FAIL;
-;
     }
 
     /**

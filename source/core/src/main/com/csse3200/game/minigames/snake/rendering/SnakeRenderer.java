@@ -49,8 +49,8 @@ public class SnakeRenderer implements MinigameRenderable {
      */
     public void render() {
         // Calculate the top-left corner of the grid, centered in the camera's view
-        float gridWidthInWorldUnits = grid.getWidth() * CELL_SIZE;
-        float gridHeightInWorldUnits = grid.getHeight() * CELL_SIZE;
+        float gridWidthInWorldUnits = (float) grid.getWidth() * CELL_SIZE;
+        float gridHeightInWorldUnits = (float) grid.getHeight() * CELL_SIZE;
 
         float startX = renderer.getCam().position.x - gridWidthInWorldUnits / 2f;
         float startY = renderer.getCam().position.y - gridHeightInWorldUnits / 2f;
@@ -94,7 +94,8 @@ public class SnakeRenderer implements MinigameRenderable {
      */
     private void renderSnakeBody(float startX, float startY) {
         Direction prevDirection = snake.getDirection();
-        float segmentX, segmentY;
+        float segmentX;
+        float segmentY;
         Snake.Segment lastSegment = snake.getLastSegment();
 
         for (Snake.Segment segment : snake.getBodySegments()) {
@@ -160,14 +161,11 @@ public class SnakeRenderer implements MinigameRenderable {
      * @return The rotation angle in degrees.
      */
     private float getBentRotation(Direction prevDirection, Direction currentDirection) {
-        if (prevDirection == Direction.UP) {
-            return (currentDirection == Direction.RIGHT) ? 0f : 270f;
-        } else if (prevDirection == Direction.RIGHT) {
-            return (currentDirection == Direction.DOWN) ? 270f : 180f;
-        } else if (prevDirection == Direction.DOWN) {
-            return (currentDirection == Direction.LEFT) ? 180f : 90f;
-        } else {
-            return (currentDirection == Direction.UP) ? 90f : 0f;
-        }
+        return switch (prevDirection) {
+            case UP -> (currentDirection == Direction.RIGHT) ? 0f : 270f;
+            case RIGHT -> (currentDirection == Direction.DOWN) ? 270f : 180f;
+            case DOWN -> (currentDirection == Direction.LEFT) ? 180f : 90f;
+            default -> (currentDirection == Direction.UP) ? 90f : 0f;
+        };
     }
 }

@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 
 public abstract class AnimalRouletteDisplay1 {
+    protected Image[] animalImages;
+    protected TextButton[] animalButtons;
     private final Stage stage;
     private final Skin skin;
     private Image animalImage;
@@ -12,8 +14,6 @@ public abstract class AnimalRouletteDisplay1 {
     private final TextButton backButton;
     private final TextButton leftButton;
     private final TextButton rightButton;
-    public abstract Image[] getAnimalImages();
-    public abstract TextButton[] getAnimalButtons();
 
     public AnimalRouletteDisplay1(Stage stage, Skin skin) {
         this.stage = stage;
@@ -28,9 +28,6 @@ public abstract class AnimalRouletteDisplay1 {
     }
 
     protected abstract String getBackgroundImagePath();
-    public abstract String[] getAnimalImagePaths();
-    public abstract String getAnimalDescription(int index);
-    public abstract String getAnimalType(int index);
 
     private void initializeDisplay() {
         BackgroundImage backgroundImage = new BackgroundImage(getBackgroundImagePath());
@@ -61,7 +58,40 @@ public abstract class AnimalRouletteDisplay1 {
     public void updateAnimalImage(String imagePath) {
         animalImage.setDrawable(new Image(new Texture(imagePath)).getDrawable());
     }
-
+    
+    protected void initializeAnimalImagesAndButtons() {
+        String[] imagePaths = getAnimalImagePaths();
+        animalImages = new Image[imagePaths.length];
+        animalButtons = new TextButton[imagePaths.length];
+        
+        for (int i = 0; i < imagePaths.length; i++) {
+            animalImages[i] = new Image(new Texture(imagePaths[i]));
+            animalButtons[i] = new TextButton(getAnimalType(i), getSkin());
+        }
+    }
+    
+    public String[] getAnimalImagePaths() {
+        return new String[] {
+                "images/dog.png",
+                "images/croc.png",
+                "images/bird.png"
+        };
+    }
+    
+    public String getAnimalDescription(int index) {
+        String[] descriptions = {
+                "The dog is a loyal and brave companion, known for its agility and combat prowess.",
+                "The crocodile is a powerful reptile with incredible strength and tough scales.",
+                "The bird is a versatile creature with the ability to fly and survey the battlefield from above."
+        };
+        return descriptions[index];
+    }
+    
+    public String getAnimalType(int index) {
+        String[] types = {"Dog", "Croc", "Bird"};
+        return types[index];
+    }
+    
     public Image getAnimalImage() {
         return animalImage;
     }
@@ -88,5 +118,14 @@ public abstract class AnimalRouletteDisplay1 {
 
     public Stage getStage() {
         return stage;
+    }
+    
+    //moving these here, but they are not used anyways so might delete later.
+    public Image[] getAnimalImages() {
+        return animalImages;
+    }
+    
+    public TextButton[] getAnimalButtons() {
+        return animalButtons;
     }
 }

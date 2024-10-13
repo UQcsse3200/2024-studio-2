@@ -1,19 +1,13 @@
 package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.npc.AirBossAnimationController;
-import com.csse3200.game.components.npc.KangaBossAnimationController;
-import com.csse3200.game.components.npc.WaterBossAnimationController;
+import com.csse3200.game.components.npc.BossAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsService;
-import com.csse3200.game.physics.PhysicsUtils;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
@@ -21,7 +15,6 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -95,7 +88,7 @@ class BossFactoryTest {
         assertNotNull(kanga.getComponent(PhysicsComponent.class));
         assertNotNull(kanga.getComponent(PhysicsMovementComponent.class));
         assertNotNull(kanga.getComponent(ColliderComponent.class));
-        assertNotNull(kanga.getComponent(KangaBossAnimationController.class));
+        assertNotNull(kanga.getComponent(BossAnimationController.class));
         assertNotNull(kanga.getComponent(CombatStatsComponent.class));
     }
 
@@ -151,7 +144,7 @@ class BossFactoryTest {
         assertNotNull(waterBoss.getComponent(PhysicsComponent.class));
         assertNotNull(waterBoss.getComponent(PhysicsMovementComponent.class));
         assertNotNull(waterBoss.getComponent(ColliderComponent.class));
-        assertNotNull(waterBoss.getComponent(WaterBossAnimationController.class));
+        assertNotNull(waterBoss.getComponent(BossAnimationController.class));
         assertNotNull(waterBoss.getComponent(CombatStatsComponent.class));
     }
 
@@ -197,7 +190,7 @@ class BossFactoryTest {
         assertNotNull(airBoss.getComponent(PhysicsComponent.class));
         assertNotNull(airBoss.getComponent(PhysicsMovementComponent.class));
         assertNotNull(airBoss.getComponent(ColliderComponent.class));
-        assertNotNull(airBoss.getComponent(AirBossAnimationController.class));
+        assertNotNull(airBoss.getComponent(BossAnimationController.class));
         assertNotNull(airBoss.getComponent(CombatStatsComponent.class));
     }
 

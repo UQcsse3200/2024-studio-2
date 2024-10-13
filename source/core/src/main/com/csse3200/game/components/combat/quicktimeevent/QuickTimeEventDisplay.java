@@ -1,13 +1,16 @@
 package com.csse3200.game.components.combat.quicktimeevent;
 
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.services.AudioManager;
@@ -17,22 +20,20 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 public class QuickTimeEventDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventDisplay.class);
     private GameTime gameTime;
-    private static final Map<Integer, Float> IMAGE_ROTATE = Map.of(
-            Keys.W, 0f, Keys.A, 90f, Keys.S, 180f, Keys.D, 270f
-    );
     
     // sizes and dimensions
-    private static final float IMG_SIZE = 250f;
+    private static final float COL_WIDTH = 160f;
+    private static final float IMG_SIZE = 300f;
     private static final float QTE_ORIGIN_X = IMG_SIZE/2;
     private static final float QTE_ORIGIN_Y = IMG_SIZE/3;
     private static final float QTE_START_SCALE = 1.8f;
     private static final float QTE_START_ROT = -80f;
     private static final float LABEL_WIDTH = 500f;
+    private static final float BTN_WIDTH = 90f;
+    private static final float BTN_HEIGHT = 45f;
 
     // actors
     private Table table;
@@ -42,7 +43,6 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     // quick-time event constants and variables
     private static final long QUICK_TIME_WINDOW = 40; // milli-secs
-    private int keyRequired;
     private boolean qteActive = false;
     private boolean isDefault = true;
     private long startTime;
@@ -53,8 +53,9 @@ public class QuickTimeEventDisplay extends UIComponent {
     private int score;
 
     // assets
-    private final TextureAtlas pawsAtlas =
-            new TextureAtlas("images/quicktimeevent/paws.atlas");
+    private final Texture backgroundTexture = new Texture("images/BackgroundSplashBasic.png");
+    private final Texture tableTexture = new Texture("images/quicktimeevent/white_background.png");
+    private final TextureAtlas pawsAtlas = new TextureAtlas("images/quicktimeevent/paws.atlas");
     private final String victorySound = "sounds/victory.mp3";
 
     @Override
@@ -70,9 +71,34 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     private void addActors() {
         table = new Table(skin);
+        table.setBackground(new TextureRegionDrawable(tableTexture));
         table.setFillParent(true);
 
+        TextButton startButton = new TextButton("Start", skin);
+        TextButton exitButton = new TextButton("Exit", skin);
+
+        // Add start button listener
+        startButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("start button clicked");
+                resetDisplay();
+                entity.getEvents().trigger("start");
+            }
+        });
+
+        // Add exit button listener
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("exit button clicked");
+                entity.getEvents().trigger("exit");
+            }
+        });
+
         // first row (quick-time event images)
+        table.add().width(COL_WIDTH);
+        table.add().width(COL_WIDTH);
         Group group = new Group();
         // Set up the target (for the quick-time event)
         target = new ImageButton(skin);
@@ -80,39 +106,64 @@ public class QuickTimeEventDisplay extends UIComponent {
         target.setSize(IMG_SIZE, IMG_SIZE);
         ImageButtonStyle buttonStyle = new ImageButtonStyle();
         target.setStyle(buttonStyle);
-        target.getImage().setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
         setTargetImage("target_default");
         group.addActor(target);
         // Set up the quick-time event
         qte = new Image(pawsAtlas.findRegion("qte"));
         qte.setSize(IMG_SIZE, IMG_SIZE);
         qte.setOrigin(QTE_ORIGIN_X, QTE_ORIGIN_Y);
+        qte.setVisible(false); // Start as not visible
         group.addActor(qte);
         table.add(group).size(IMG_SIZE,IMG_SIZE).expand().padTop(60f);
+        table.add().width(COL_WIDTH);
+        table.add().width(COL_WIDTH);
 
         // second row (text region)
         table.row();
+        padCols(2);
         label = new Label(new StringBuffer(), skin);
         label.setFontScale(3.0f);
         label.setAlignment(Align.center);
-        table.add(label).width(LABEL_WIDTH).padBottom(175f);
+        table.add(label).width(LABEL_WIDTH);
+        padCols(2);
 
-        toggleVisibility(false);
+        // third row (buttons)
+        table.row();
+        padCols(3);
+        addButtonToTable(startButton);
+        addButtonToTable(exitButton).padLeft(5f).padRight(75f);
+
         stage.addActor(table);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        // draw is handled by the stage
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batchDupe.end();
     }
 
     /**
-     * Toggle visibility of all actors on screen
+     * Adds a button to the table and resizes it
+     *
+     * @param button the button to add
+     * @return a reference to the cell occupied by the button
+     *         in the table
      */
-    private void toggleVisibility(boolean visible) {
-        qte.setVisible(visible);
-        target.setVisible(visible);
-        label.setVisible(visible);
+    private Cell addButtonToTable(TextButton button) {
+        return table.add(button).width(BTN_WIDTH).height(BTN_HEIGHT).padBottom(60f);
+    }
+
+    /**
+     * Pads the columns with empty space
+     *
+     * @param numCols the number of cols to fill
+     */
+    private void padCols(int numCols) {
+        for (int i = 0; i < numCols; i++) {
+            table.add();
+        }
     }
 
     /**
@@ -153,12 +204,10 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     /**
      * Animates the quick-time events
+     *
+     * @param quickTimeEvents the quick-time event data
      */
-    private void onStartQuickTime() {
-        // set up the quick-time events
-        QuickTimeEvent[] quickTimeEvents = quickTimeEventsDemo();
-        // make actors visible
-        toggleVisibility(true);
+    private void onStartQuickTime(QuickTimeEvent[] quickTimeEvents) {
         // set up the displayed score
         int numEvents = quickTimeEvents.length;
         score = 0;
@@ -195,10 +244,8 @@ public class QuickTimeEventDisplay extends UIComponent {
             @Override
             public void run() {
                 logger.debug("Setting up quick-time event");
-                keyRequired = quickTimeEvent.keycode();
                 qte.setScale(QTE_START_SCALE);
-                qte.setRotation(QTE_START_ROT + IMAGE_ROTATE.get(keyRequired));
-                target.getImage().setRotation(IMAGE_ROTATE.get(keyRequired));
+                qte.setRotation(QTE_START_ROT);
                 qte.setVisible(true);
                 setTargetImage("target_default");
                 startTime = gameTime.getTime();
@@ -246,9 +293,7 @@ public class QuickTimeEventDisplay extends UIComponent {
                         // perfect score - play a jingle
                         AudioManager.playSound(victorySound);
                     }
-                    // make actors invisible
-                    toggleVisibility(false);
-                    target.getImage().setRotation(0f);
+                    qte.setVisible(false);
                     setTargetImage("target_default");
                 }
             });
@@ -259,19 +304,16 @@ public class QuickTimeEventDisplay extends UIComponent {
 
     /**
      * Handle quick-time event button press
-     *
-     * @param keycode the key pressed by the user
      */
-    private void onQuickTimeBtnPress(int keycode) {
+    private void onQuickTimeBtnPress() {
         if (qteActive) {
             // quick-time event in process
-            if (keycode == keyRequired
-                    && gameTime.getTime() >= windowStartTime) {
-                // correct button pressed + timed correctly
+            if (gameTime.getTime() >= windowStartTime) {
+                // button press timed correctly
                 setTargetImage("target_perfect");
                 incScore();
             } else {
-                // incorrect button pressed or too fast
+                // button press too fast
                 setTargetImage("target_fast");
             }
             // de-render quick-time event animation
@@ -304,22 +346,5 @@ public class QuickTimeEventDisplay extends UIComponent {
     public void dispose() {
         table.clear();
         super.dispose();
-    }
-
-    /**
-     * Creates a demo list of four quick-time events
-     * with different durations
-     *
-     * @returns a list of demo quick-time events
-     */
-    private static QuickTimeEvent[] quickTimeEventsDemo() {
-        float delay = 0.2f;
-        float[] durations = {0.7f, 0.65f, 0.55f, 0.45f};
-        int[] directions = {Keys.W, Keys.S, Keys.S, Keys.A};
-        QuickTimeEvent[] quickTimeEvents = new QuickTimeEvent[durations.length];
-        for (int i = 0; i < durations.length; i++) {
-            quickTimeEvents[i] = new QuickTimeEvent(durations[i], delay, directions[i]);
-        }
-        return quickTimeEvents;
     }
 }

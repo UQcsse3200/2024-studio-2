@@ -2,14 +2,13 @@ package com.csse3200.game.components.quests;
 
 
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * Represents an achievement.
  * An achievement has a name, description, completion status, visibility status, type, and an icon path.
  * Implements the {@link Json.Serializable} interface for serialization and deserialization of achievement data.
  */
-public class Achievement implements Json.Serializable {
+public class Achievement {
     private String questName;
     private String questDescription;
     private boolean completed;
@@ -103,34 +102,6 @@ public class Achievement implements Json.Serializable {
         return this.iconPath;
     }
 
-    /**
-     * Serializes the achievement to JSON.
-     * @param json The Json object used for serialization.
-     */
-    @Override
-    public void write(Json json) {
-        json.writeValue("questName", questName);
-        json.writeValue("questDescription", questDescription);
-        json.writeValue("completed", completed);
-        json.writeValue("seen", seen);
-        json.writeValue("type", type.name());
-        json.writeValue("iconPath", iconPath);
-    }
-
-    /**
-     * Deserializes the achievement from JSON.
-     * @param json The Json object used for deserialization.
-     * @param jsonData The JsonValue object containing the data to deserialize.
-     */
-    @Override
-    public void read(Json json, JsonValue jsonData) {
-        this.questName = jsonData.getString("questName");
-        this.questDescription = jsonData.getString("questDescription");
-        this.completed = jsonData.getBoolean("completed");
-        this.seen = jsonData.getBoolean("seen");
-        this.type = AchievementType.valueOf(jsonData.getString("type"));
-        this.iconPath = jsonData.getString("iconPath");
-    }
     /**
      * Returns a string representation of the achievement.
      * @return A string containing all the achievement properties.

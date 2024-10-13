@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
@@ -18,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.audio.DogSoundPlayer;
 import com.csse3200.game.components.audio.AirAnimalSoundPlayer;
 import com.csse3200.game.components.audio.WaterAnimalSoundPlayer;
+
+import java.util.Objects;
 
 public class PlayerActions extends Component {
   private static final float BASE_SPEED = 3f; // Base speed in meters per second
@@ -44,7 +47,7 @@ public class PlayerActions extends Component {
     this.game = game;
     this.player = player;
     this.selectedAnimal = selectedAnimal;
-  }
+  }   
 
   @Override
   public void create() {
@@ -58,7 +61,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("quest", this::quest);
     entity.getEvents().addListener("statsInfo", this::statsInfo);
     entity.getEvents().addListener("startCombat", this::startCombat);
-    entity.getEvents().addListener("switchMap", this::switchMap);
+    entity.getEvents().addListener("unlockNextArea", this::unlocknextarea);
     entity.getEvents().addListener("stoF", this::stof);
 
     switch(selectedAnimal) {
@@ -94,7 +97,30 @@ public class PlayerActions extends Component {
    */
   private void switchMap() {
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
-    mainGameScreen.setMap(MapHandler.MapType.WATER);
+    if (MapHandler.getUnlockStatus(MapType.WATER)) {
+      mainGameScreen.setMap(MapHandler.MapType.WATER);
+    } else {
+      mainGameScreen.setMap(MapHandler.MapType.FOG);
+
+    }
+  }
+
+  /**
+   * Unlocks the next area.
+   */
+  public void unlocknextarea() {
+    MapHandler.unlockNextArea();
+  }
+
+  /**
+   * Checks if the bos in current area is defeat to unlock the ocean area
+   * @param player entity to check last triggered events
+   */
+  public void unlockOceanMap(Entity player) {
+    if (Objects.equals(player.getEvents().getLastTriggeredEvent(), "kangaDefeated")) {
+      MapHandler.updateBossDefeatCount();
+      MapHandler.setUnlockedWater(true);
+    }
   }
 
   @Override

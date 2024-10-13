@@ -49,11 +49,6 @@ public class MoonActor extends Actor {
         this.progress = Math.max(0, Math.min(progress, 1));  // Clamping logic
     }
 
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-    }
     /**
      * Set the opacity for the moon. Values should be between 0 (completely transparent) and 1 (fully opaque).
      */

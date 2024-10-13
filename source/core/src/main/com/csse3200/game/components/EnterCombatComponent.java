@@ -48,7 +48,7 @@ public class EnterCombatComponent extends Component {
             return;
         }
 
-        game.enterCombatScreen(entity, ((BodyUserData) other.getBody().getUserData()).entity);
+        game.enterCombatScreen(entity, ((BodyUserData) other.getBody().getUserData()).getEntity());
     }
 }
 

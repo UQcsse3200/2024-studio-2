@@ -1,13 +1,10 @@
 package com.csse3200.game.components.mainmenu;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
-import com.csse3200.game.gamestate.data.PlayerSave;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,9 +52,7 @@ public class MainMenuActions extends Component {
     logger.info("Load game");
 
     SaveHandler.load(GameState.class, "saves", FileLoader.Location.LOCAL);
-//    if(GameState.player == null) {
-//      GameState.player = new PlayerSave();
-//    }
+
     if(GameState.checkState()) {
       GameState.resetState();
     }

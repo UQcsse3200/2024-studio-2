@@ -82,6 +82,7 @@ class StatTest {
 
     @Test
     void shouldSaveLoadStats() {
+        GameState.clearState();
 
         GameState.clearState();
 
@@ -96,8 +97,6 @@ class StatTest {
         assertEquals("ApplesCollected", GameState.stats.stats.get(0).getStatName());
         assertEquals(10, GameState.stats.stats.get(0).getStatMax());
         assertEquals(Stat.StatType.ITEM, GameState.stats.stats.get(0).getType());
-
-        GameState.stats.stats = new Array<>();
 
         SaveHandler.delete(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
     }

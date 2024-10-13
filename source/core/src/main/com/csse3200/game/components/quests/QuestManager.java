@@ -1,14 +1,14 @@
 package com.csse3200.game.components.quests;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.minigames.MiniGameMedals;
 import com.csse3200.game.minigames.MiniGameNames;
-import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.Achievements;
 import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -17,8 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
-
 
 /**
  * Manages, tracks and updates the quests within the game.
@@ -26,9 +24,9 @@ import static com.csse3200.game.components.quests.AchievementManager.saveAchieve
  */
 public class QuestManager extends Component {
     /** Map to store quests. */
-    private final LinkedHashMap<String, QuestBasic> quests;
+    private final LinkedHashMap<String, Quest> quests;
      /** Array to store achievements. */
-     private final Array<Achievement> achievements;
+     private final List<Achievement> achievements;
     /** Logger for logging quest related attributes. */
     private static final Logger logger = LoggerFactory.getLogger(QuestManager.class);
     /** Sound effect for quest completion. */
@@ -48,19 +46,14 @@ public class QuestManager extends Component {
         setupAchievements();
         player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
         player.getEvents().addListener("landBossDefeated",
-              () ->  player.getEvents().trigger("defeatKangarooBoss"));
+              () ->  player.getEvents().trigger("defeatLandBoss"));
         player.getEvents().addListener("waterBossDefeated",
-                () ->  player.getEvents().trigger("defeatWater"));
+                () ->  player.getEvents().trigger("defeatWaterBoss"));
         player.getEvents().addListener("airBossDefeated",
-                () ->  player.getEvents().trigger("defeatSkySeraph"));
-
+                () ->  player.getEvents().trigger("defeatAirBoss"));
     }
 
-    private void handleEnemyQuest(Entity enemy) {
-        String type = enemy.getEnemyType().toString();
-        player.getEvents().trigger("defeat" + type);
 
-    }
 
     private void setupAchievements(){
         // Init logbook listeners and handlers
@@ -94,10 +87,20 @@ public class QuestManager extends Component {
     }
 
     /**
+     * Triggers quest task name unique to NPC type, listened to in subscribeToQuestEvents().
+     * @param enemy The type of enemy defeated.
+     */
+    private void handleEnemyQuest(Entity enemy) {
+        // Being run twice
+        String type = enemy.getEnemyType().toString();
+        player.getEvents().trigger("defeat" + type);
+    }
+
+    /**
      * Subscribes to event notifications for tasks quest.
      * @param quest The quest related to the quests.
      */
-    private void subscribeToQuestEvents(QuestBasic quest) {
+    private void subscribeToQuestEvents(Quest quest) {
         for (Task task : quest.getTasks()) {
             player.getEvents().addListener(task.getTaskName(),
                     () -> progressQuest(quest.getQuestName(), task.getTaskName()));
@@ -116,7 +119,7 @@ public class QuestManager extends Component {
      * @param quest The quest to be added.
      */
 
-    public void addQuest(QuestBasic quest) {
+    public void addQuest(Quest quest) {
         this.quests.put(quest.getQuestName(), quest);
         subscribeToQuestEvents(quest);
     }
@@ -127,7 +130,7 @@ public class QuestManager extends Component {
      * @see GameState
      */
     public void loadQuests() {
-        for (QuestBasic quest : GameState.quests.quests) {
+        for (Quest quest : GameState.quests.quests) {
             addQuest(quest);
             logger.info("Dialogue loaded: {}", quest.getQuestDialogue().getFirst());
         }
@@ -137,7 +140,7 @@ public class QuestManager extends Component {
      * Gets a list of all quests in QuestManager.
      * @return A list of all quests.
      */
-    public List<QuestBasic> getAllQuests() {
+    public List<Quest> getAllQuests() {
         return new ArrayList<>(quests.values());
     }
 
@@ -147,7 +150,7 @@ public class QuestManager extends Component {
      * @return The quest with the name.
      */
 
-    public QuestBasic getQuest(String questName) {
+    public Quest getQuest(String questName) {
         return quests.get(questName);
     }
 
@@ -157,7 +160,7 @@ public class QuestManager extends Component {
      * @param questName The name of the quest to fail.
      */
     public void failQuest(String questName) {
-        QuestBasic quest = getQuest(questName);
+        Quest quest = getQuest(questName);
         if (quest != null) {
             quest.failQuest();
         }
@@ -170,7 +173,7 @@ public class QuestManager extends Component {
      * @param taskName  The name of the task.
      */
     public void progressQuest(String questName, String taskName) {
-        QuestBasic quest = getQuest(questName);
+        Quest quest = getQuest(questName);
         if (quest == null || !canProgressQuest(quest, taskName)) {
             return;
         }
@@ -193,16 +196,16 @@ public class QuestManager extends Component {
      * @return true if the quest can be progressed
      */
 
-    private boolean canProgressQuest(QuestBasic quest, String taskName) {
+    private boolean canProgressQuest(Quest quest, String taskName) {
         return !quest.isQuestCompleted() &&
                 !quest.isFailed()
                 && Objects.equals(taskName, quest.getTasks().get(quest.getProgression()).getTaskName())
                 && quest.isActive();
     }
 
-    public ArrayList<QuestBasic> getActiveQuests() {
-        ArrayList<QuestBasic> newList = new ArrayList<>();
-        for(QuestBasic quest : quests.values()) {
+    public List<Quest> getActiveQuests() {
+        ArrayList<Quest> newList = new ArrayList<>();
+        for(Quest quest : quests.values()) {
             if(quest.isActive() || quest.isQuestCompleted()) {
                 newList.add(quest);
             }
@@ -214,7 +217,7 @@ public class QuestManager extends Component {
      * Completes the task of the updates the quest progression.
      * @param quest The quest to be completed.
      */
-    private void completeTask(QuestBasic quest) {
+    private void completeTask(Quest quest) {
         ; //advance quest progression
         if (quest.progressQuest(player)) {
             handleQuestCompletion(quest);
@@ -227,7 +230,7 @@ public class QuestManager extends Component {
      * Handle quest completion.
      * @param quest The quest that has been completed.
      */
-    private void handleQuestCompletion(QuestBasic quest) {
+    private void handleQuestCompletion(Quest quest) {
         if (!quest.isSecret()) {
             questComplete.play();
             player.getEvents().trigger("questCompleted");
@@ -235,7 +238,7 @@ public class QuestManager extends Component {
             logger.info("{} completed!", quest.getQuestName());
         }
 
-        for(QuestBasic questCheck : quests.values()) {
+        for(Quest questCheck : quests.values()) {
             boolean newActive = true;
             if(questCheck.getFollowQuests() != null) {
                 for(String name : questCheck.getFollowQuests()) {
@@ -259,14 +262,14 @@ public class QuestManager extends Component {
             achievement.complete();
             achievementComplete.play();
             player.getEvents().trigger("achievementCompleted");
-            saveAchievements(achievements,"saves/achievements.json");
+            SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
 
     @Override
     public void dispose() {
-        saveAchievements(achievements,"saves/achievements.json");
+        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         super.dispose();
     }
 

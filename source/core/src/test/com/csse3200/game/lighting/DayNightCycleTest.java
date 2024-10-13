@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
  * and verifying color interpolation between day phases.
  */
 @ExtendWith(MockitoExtension.class)
-public class DayNightCycleTest {
+class DayNightCycleTest {
 
     @Mock
     RayHandler rayHandler;
@@ -29,7 +29,7 @@ public class DayNightCycleTest {
      * Initializes the GameTime mock and registers it with the ServiceLocator before all tests.
      */
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         GameTime gameTime = mock(GameTime.class);
         ServiceLocator.registerTimeSource(gameTime);
     }
@@ -38,7 +38,7 @@ public class DayNightCycleTest {
      * Resets the RayHandler mock before each test to ensure a clean state.
      */
     @BeforeEach
-    public void resetMocks() {
+    void resetMocks() {
         reset(rayHandler);
     }
 
@@ -46,7 +46,7 @@ public class DayNightCycleTest {
      * Tests that the correct time of day is returned based on the in-game time.
      */
     @Test
-    public void testGetTimeOfDay() {
+    void testGetTimeOfDay() {
         float target = 0.1f;
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(0L);
 
@@ -61,7 +61,7 @@ public class DayNightCycleTest {
      * Tests that the ambient light is correctly updated at midnight (0.0 time of day).
      */
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         GameTime gameTime = mock(GameTime.class);
         ServiceLocator.registerTimeSource(gameTime);
 
@@ -75,7 +75,7 @@ public class DayNightCycleTest {
      * Tests that the time of day at midnight is correctly returned as 0.0.
      */
     @Test
-    public void testGetTimeOfDayAtMidnight() {
+    void testGetTimeOfDayAtMidnight() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(0L);
 
         DayNightCycle cycle = new DayNightCycle(rayHandler);
@@ -87,7 +87,7 @@ public class DayNightCycleTest {
      * Tests that the time of day at noon is correctly returned as 0.5.
      */
     @Test
-    public void testGetTimeOfDayAtNoon() {
+    void testGetTimeOfDayAtNoon() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(DayNightCycle.DAY_LENGTH / 2);
 
         DayNightCycle cycle = new DayNightCycle(rayHandler);
@@ -99,7 +99,7 @@ public class DayNightCycleTest {
      * Tests that the time of day close to the end of the day is returned as approximately 1.0.
      */
     @Test
-    public void testGetTimeOfDayCloseToDayEnd() {
+    void testGetTimeOfDayCloseToDayEnd() {
         long almostEndOfDay = DayNightCycle.DAY_LENGTH - 1;
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(almostEndOfDay);
 
@@ -112,7 +112,7 @@ public class DayNightCycleTest {
      * Tests that the ambient light is updated correctly for midnight (keyTimes[0]).
      */
     @Test
-    public void testUpdateAtMidnight() {
+    void testUpdateAtMidnight() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(0L);
         DayNightCycle cycle = new DayNightCycle(rayHandler);
         cycle.update();
@@ -125,7 +125,7 @@ public class DayNightCycleTest {
      * Tests that the ambient light is updated correctly for noon (keyTimes[4]).
      */
     @Test
-    public void testUpdateAtNoon() {
+    void testUpdateAtNoon() {
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(DayNightCycle.DAY_LENGTH / 2);
         DayNightCycle cycle = new DayNightCycle(rayHandler);
         cycle.update();
@@ -138,7 +138,7 @@ public class DayNightCycleTest {
      * Tests that the ambient light is updated correctly for dawn (keyTimes[2]).
      */
     @Test
-    public void testUpdateAtDawn() {
+    void testUpdateAtDawn() {
         // Dawn is 25% into the day
         long dawnTime = DayNightCycle.DAY_LENGTH / 4;
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(dawnTime);
@@ -153,7 +153,7 @@ public class DayNightCycleTest {
      * Tests that the ambient light is updated correctly for dusk (keyTimes[6]).
      */
     @Test
-    public void testUpdateAtDusk() {
+    void testUpdateAtDusk() {
         // Dusk is approximately 75% into the day
         long duskTime = 3 * DayNightCycle.DAY_LENGTH / 4;
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(duskTime);
@@ -169,7 +169,7 @@ public class DayNightCycleTest {
      * verifying that color interpolation is being used.
      */
     @Test
-    public void testUpdateInterpolatedColor() {
+    void testUpdateInterpolatedColor() {
         // Set the time between two key times, say between keyTimes[0] (midnight) and keyTimes[1] (late night)
         long timeBetweenMidnightAndLateNight = (long) (DayNightCycle.DAY_LENGTH * 0.05); // 5% into the day
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(timeBetweenMidnightAndLateNight);

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
-public class ItemFactoryTest {
+class ItemFactoryTest {
     private Entity apple;
     private Entity healthPotion;
 

@@ -178,4 +178,88 @@ chase
   orig: 276, 285
   offset: 0, 0
   index: 6
+combat_idle
+  rotate: false
+  xy: 0, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 289, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 615, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 3
+combat_idle
+  rotate: false
+  xy: 898, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 4
+combat_idle
+  rotate: false
+  xy: 1194, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 5
+combat_idle
+  rotate: false
+  xy: 1432, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 6
+combat_move
+  rotate: false
+  xy: 0, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 289, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 615, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 898, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 1194, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 5
+combat_move
+  rotate: false
+  xy: 1432, 5
+  size: 276, 285
+  orig: 276, 285
+  offset: 0, 0
+  index: 6
 

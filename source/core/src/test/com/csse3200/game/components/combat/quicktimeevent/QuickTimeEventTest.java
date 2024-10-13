@@ -32,6 +32,7 @@ class QuickTimeEventTest {
     private static final int LOOP_TIME_OUT = 1000;
 
     Entity ui;
+    QuickTimeEventActions actions;
     Stage stage;
 
     @Mock GdxGame game;
@@ -57,11 +58,44 @@ class QuickTimeEventTest {
         // create ui
         ui = new Entity();
         display = Mockito.spy(new QuickTimeEventDisplay());
+        actions = new QuickTimeEventActions(game);
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForCombat();
-        ui.addComponent(display).addComponent(inputComponent);
+        ui.addComponent(display).addComponent(actions).addComponent(inputComponent);
         ServiceLocator.getEntityService().register(ui);
 
+    }
+
+    /**
+     * This test is used to determine if the exit button
+     * returns to the main menu
+     */
+    @Test
+    void exitButtonShouldReturnToMenu() {
+        ui.getEvents().trigger("exit");
+        ui.update();
+        Mockito.verify(game).setScreen(GdxGame.ScreenType.MAIN_MENU);
+    }
+
+    /**
+     * This test is used to show that the start button both
+     * starts and decrements the counter
+     */
+    @Test
+    void startButtonShouldDecCounter() {
+        when(gameTime.getTime()).thenReturn(0L);
+        ui.getEvents().trigger("start");
+        ui.update();
+        // label should no longer be empty
+        assertNotEquals("", display.getLabel().getText().toString());
+        int startCount = parseLabelTextToInt();
+        // make 1 second pass
+        when(gameTime.getTimeSince(0L)).thenReturn(1000L);
+        ui.update();
+        // counter should have decremented by 1
+        int nextCount = parseLabelTextToInt();
+        assertNotEquals(startCount, nextCount);
+        assertEquals(startCount, nextCount + 1);
     }
 
     /**
@@ -84,7 +118,7 @@ class QuickTimeEventTest {
         }
         assertTrue(i < LOOP_TIME_OUT);
         // quick-time event should have triggered
-        assertEquals(ui.getEvents().getLastTriggeredEvent(), "startQuickTime");
+        assertEquals("startQuickTime", ui.getEvents().getLastTriggeredEvent());
     }
 
     /**
@@ -94,7 +128,7 @@ class QuickTimeEventTest {
     @Test
     void shouldHandleFastQuickTimeEvent() {
         when(gameTime.getTime()).thenReturn(0L);
-        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f, Keys.W)};
+        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f)};
         ui.getEvents().trigger("startQuickTime", quickTimeEvents);
         ui.update();
         stage.act(0.5f);
@@ -112,7 +146,7 @@ class QuickTimeEventTest {
     @Test
     void shouldHandlePerfectQuickTimeEvent() {
         when(gameTime.getTime()).thenReturn(0L);
-        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f, Keys.W)};
+        QuickTimeEvent[] quickTimeEvents = {new QuickTimeEvent(1.0f, 0.1f)};
         ui.getEvents().trigger("startQuickTime", quickTimeEvents);
         ui.update();
         stage.act(0.995f);

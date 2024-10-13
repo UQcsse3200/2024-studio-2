@@ -21,7 +21,7 @@ import com.badlogic.gdx.Gdx;
 
 
 @ExtendWith(GameExtension.class)
-public class ItemProximityTaskTest {
+class ItemProximityTaskTest {
 
     @BeforeEach
     void beforeEach() {
