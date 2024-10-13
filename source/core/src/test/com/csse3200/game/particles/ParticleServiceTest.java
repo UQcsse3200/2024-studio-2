@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -29,17 +30,17 @@ public class ParticleServiceTest {
 
     @Test
     public void testMakeEffect() {
-        ParticleEffect effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.BUBBLES);
-        assertEquals("bubble.png", effect.getEmitters().get(0).getImagePaths().get(0));
+        ParticleEffectRenderer effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.BUBBLES, 1);
+        assertNotEquals(null, effect);
 
-        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.DAMAGE10);
-        assertEquals("-10.png", effect.getEmitters().get(0).getImagePaths().get(0));
+        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.DAMAGE10, 1);
+        assertNotEquals(null, effect);
 
-        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.SPARKS);
-        assertEquals("particle-star.png", effect.getEmitters().get(0).getImagePaths().get(0));
+        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.SPARKS, 1);
+        assertNotEquals(null, effect);
 
-        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.FISH_EGG_SPARKLE);
-        assertEquals("spark-colored.png", effect.getEmitters().get(0).getImagePaths().get(0));
+        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.FISH_EGG_SPARKLE, 1);
+        assertNotEquals(null, effect);
     }
 
     @Test

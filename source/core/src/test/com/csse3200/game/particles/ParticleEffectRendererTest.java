@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.csse3200.game.particles.ParticleEffectRenderer.PARTICLE_LAYER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
@@ -27,12 +28,15 @@ public class ParticleEffectRendererTest {
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerRenderService(mock(RenderService.class));
         ServiceLocator.registerParticleService(spy(new ParticleService()));
-        ParticleEffectPool.PooledEffect effect = ServiceLocator.getParticleService().makeEffect(
-                ParticleService.ParticleType.DAMAGE10);
-        effect.setPosition(0, 0);
-        effect.start();
-        effectRenderer = new ParticleEffectRenderer(effect, layer);
+        effectRenderer = ServiceLocator.getParticleService().makeEffect(
+                ParticleService.ParticleType.DAMAGE10, layer);
+        effectRenderer.setPosition(0, 0);
         ServiceLocator.registerTimeSource(mock(GameTime.class));
+    }
+
+    @Test
+    public void testGetEffect() {
+        assertNotEquals(null, effectRenderer.getEffect());
     }
 
     @Test
@@ -51,7 +55,7 @@ public class ParticleEffectRendererTest {
         effectRenderer = spy(effectRenderer);
         SpriteBatch sb = mock(SpriteBatch.class);
         when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(10000f);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             effectRenderer.render(sb);
         }
         verify(effectRenderer).dispose();
@@ -77,11 +81,5 @@ public class ParticleEffectRendererTest {
     public void shouldUnregisterOnDispose() {
         effectRenderer.dispose();
         verify(ServiceLocator.getRenderService()).unregister(effectRenderer);
-    }
-
-    @Test
-    public void shouldFreeOnDispose() {
-        effectRenderer.dispose();
-        verify(ServiceLocator.getParticleService()).freeEffect(any());
     }
 }

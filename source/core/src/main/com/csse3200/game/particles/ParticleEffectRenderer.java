@@ -1,5 +1,6 @@
 package com.csse3200.game.particles;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -46,6 +47,14 @@ public class ParticleEffectRenderer implements Renderable, Disposable {
         if (pooledEffect.isComplete()) {
             dispose();
         }
+    }
+
+    /**
+     * Get the underlying ParticleEffect. Null if completed.
+     * @return the particle effect
+     */
+    public ParticleEffect getEffect() {
+        return pooledEffect;
     }
 
     @Override

@@ -25,60 +25,66 @@ import static org.mockito.Mockito.*;
 public class ParticleEffectComponentTest {
     Entity entity;
     ParticleEffectComponent component;
-    ParticleEffectPool.PooledEffect effect;
+    ParticleEffectRenderer effect;
 
     @BeforeEach
     public void setup() {
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerRenderService(mock(RenderService.class));
         ServiceLocator.registerParticleService(mock(ParticleService.class));
-        effect = spy(new ParticleService().makeEffect(ParticleService.ParticleType.BUBBLES));
-        when(ServiceLocator.getParticleService().makeEffect(any())).thenReturn(effect);
-        component = new ParticleEffectComponent(ParticleService.ParticleType.BUBBLES);
+        effect = spy(new ParticleService().makeEffect(ParticleService.ParticleType.DAMAGE10, 1));
+        when(ServiceLocator.getParticleService().makeEffect(any(), anyInt())).thenReturn(effect);
+        component = new ParticleEffectComponent(ParticleService.ParticleType.DAMAGE10);
         entity = new Entity().addComponent(component);
         ServiceLocator.registerTimeSource(mock(GameTime.class));
         entity.create();
     }
-
     @Test
-    public void testGetEffect() {
-        assertEquals(effect, component.getEffect());
-    }
-
-
-    @Test
-    public void testGetZIndex() {
-        assertEquals(-1e6f, component.getZIndex(), 1f);
+    public void testEmit() {
+        component.emit();
+        verify(ServiceLocator.getParticleService(), atMostOnce()).makeEffect(any(), anyInt());
     }
 
     @Test
-    public void testGetLayer() {
-        assertEquals(ParticleEffectRenderer.PARTICLE_LAYER, component.getLayer());
+    public void testEmitShouldRestartIfComplete() {
+        SpriteBatch sb = mock(SpriteBatch.class);
+        when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(10000f);
+        for (int i = 0; i < 2; i++) {
+            effect.render(sb);
+        }
+        component.emit();
+        verify(ServiceLocator.getParticleService(), times(2)).makeEffect(any(), anyInt());
     }
 
     @Test
-    public void testStartEmitting() {
-        component.startEmitting();
-        verify(effect).start();
+    public void testForceEmit() {
+        component.forceEmit();
+        verify(ServiceLocator.getParticleService(), times(2)).makeEffect(any(), anyInt());
     }
 
     @Test
-    public void testStopEmitting() {
-        component.stopEmitting();
+    public void testAllowCompletion() {
+        component.allowCompletion();
         verify(effect).allowCompletion();
     }
 
     @Test
-    public void shouldSetPositionOnDraw() {
+    public void testStop() {
+        component.stop();
+        verify(effect).dispose();
+    }
+
+    @Test
+    public void shouldSetPositionOnUpdate() {
         Vector2 position = new Vector2(3f, 1.2f);
         entity.setPosition(position);
-        component.draw(mock(SpriteBatch.class));
+        component.update();
         verify(effect).setPosition(position.x + entity.getScale().x/2, position.y + entity.getScale().y/2);
     }
 
     @Test
     public void shouldFreeOnDispose() {
         component.dispose();
-        verify(effect).free();
+        verify(effect).dispose();
     }
 }
