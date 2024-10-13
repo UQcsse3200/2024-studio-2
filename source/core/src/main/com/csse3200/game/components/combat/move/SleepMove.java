@@ -29,10 +29,14 @@ public class SleepMove extends CombatMove {
      */
     @Override
     public String execute(CombatStatsComponent attackerStats) {
+        int hungerBefore = attackerStats.getHunger();
+        int healthBefore = attackerStats.getHealth();
+        int hungerBonus = (int) (0.1 * attackerStats.getMaxHunger());
+        int healthBonus = (int) (0.1 * attackerStats.getMaxHealth());
         if (attackerStats != null) {
-            attackerStats.addHunger((int) (0.25 * attackerStats.getMaxHunger()));
+            attackerStats.addHunger(hungerBonus);
             if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
-                attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
+                attackerStats.addHealth(healthBonus);
             }
             logger.info("{} sleeps: increased hunger to {} and health to {}.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
@@ -41,7 +45,9 @@ public class SleepMove extends CombatMove {
         } else {
             logger.error("Entity does not have CombatStatsComponent");
         }
-        return String.format("lost %d hunger.", hungerCost);
+        int hungerGain = attackerStats.getHunger() - hungerBefore;
+        int healthGain = attackerStats.getHealth() - healthBefore;
+        return String.format("gained %d health and %d hunger.", healthGain, hungerGain);
     }
 
     /**

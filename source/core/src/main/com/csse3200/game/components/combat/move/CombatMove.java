@@ -1,6 +1,10 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 
@@ -75,5 +79,9 @@ public abstract class CombatMove {
      */
     public int getHungerCost() {
         return hungerCost;
+    }
+
+    public String execute(CombatStatsComponent attackerStats, Entity eventCaller, AbstractItem item, ItemUsageContext context, int index) {
+       return "Should only be called with items.";
     }
 }

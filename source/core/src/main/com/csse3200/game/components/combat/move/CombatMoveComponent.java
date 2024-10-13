@@ -3,6 +3,11 @@ package com.csse3200.game.components.combat.move;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.CombatManager;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -11,6 +16,7 @@ import java.util.List;
  * It allows for the execution of specific combat moves based on the action type and target.
  */
 public class CombatMoveComponent extends Component {
+    private static final Logger logger = LoggerFactory.getLogger(CombatMoveComponent.class);
     private final List<CombatMove> moveSet;  // The list of available combat moves for the entity.
     private String name; // The name of the entity.
 
@@ -122,6 +128,37 @@ public class CombatMoveComponent extends Component {
     }
 
     /**
+     * Executes a move based on the provided action, item, and context. Uses the entity's own stats as the attacker.
+     * @param action the action that specifies which move.
+     * @param eventCaller entity passed in from CombatManager which can be used to trigger events.
+     * @param item the item to be used in the move.
+     * @param context the context in which the item is used.
+     * @param index the index of the item in the inventory.
+     * @return
+     */
+    public String[] executeMove(CombatManager.Action action, Entity eventCaller, AbstractItem item, ItemUsageContext context, int index) {
+        CombatMove move = getMoveAction(action);
+        String statChanges;
+        if (move != null) {
+            statChanges = move.execute(entity.getComponent(CombatStatsComponent.class), eventCaller, item, context, index); // entity is the attacker
+        } else {
+            statChanges = "No move found.";
+        }
+
+        String moveDescription = String.format("You decided to use %s.", item.getName());
+
+        // Execute the move and get the stat changes.
+        String moveOutcome;
+        if (move != null) {
+            moveOutcome = String.format("You %s", statChanges);
+        } else {
+            moveOutcome = "No move found.";
+        }
+
+        return new String[]{moveDescription, moveOutcome};
+    }
+
+    /**
      * Retrieves the appropriate combat move based on the action type.
      *
      * @param action the action that specifies which move to retrieve.
@@ -154,6 +191,7 @@ public class CombatMoveComponent extends Component {
                     if (move instanceof ItemMove) {
                         return move;
                     }
+                    break;
                 default:
                     return null;
             }

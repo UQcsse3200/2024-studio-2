@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.combat.move.CombatMove;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
+import com.csse3200.game.components.combat.move.ItemMove;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -85,6 +87,13 @@ public class CombatManager extends Component {
         this.enemyMove = enemy.getComponent(CombatMoveComponent.class);
 
         this.moveChangedByConfusion = false;
+        for (CombatMove move : playerMove.getMoveSet()) {
+            if (move instanceof ItemMove) {
+                logger.info("YES ITEM MOVE");
+            } else {
+                logger.info("NO ITEM MOVE");
+            }
+        }
     }
 
     /**
@@ -453,8 +462,9 @@ public class CombatManager extends Component {
             }
             case ITEM -> {
                 // Player's move is using an item in the CombatInventoryDisplay.
-                entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
-                enemyMove.executeMove(enemyAction);
+                //entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
+                addStringsToList(moveTextList, playerMove.executeMove(playerAction, entity, playerItem, playerItemContext, playerItemIndex));
+                addStringsToList(moveTextList, enemyMove.executeMove(enemyAction));
                 entity.getEvents().trigger("useItem", playerStats, enemyStats);
             }
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);

@@ -1,6 +1,9 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.inventory.items.ItemUsageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +41,41 @@ public class ItemMove extends CombatMove {
             logger.error("Entity does not have CombatStatsComponent.");
         }
         return "Item";
+    }
+
+    @Override
+    public String execute(CombatStatsComponent attackerStats, Entity eventCaller,
+                          AbstractItem item, ItemUsageContext context, int index) {
+        if (item != null) {
+            CombatStatsComponent statsBefore = attackerStats;
+            int hungerBefore = statsBefore.getHunger();
+            int healthBefore = statsBefore.getHealth();
+            int defenseBefore = statsBefore.getDefense();
+            int strengthBefore = statsBefore.getStrength();
+
+            // Use item and inflict status changes.
+            eventCaller.getEvents().trigger("itemUsedInCombat", item, context, index);
+
+            // Calculate stat changes.
+            int hungerGain = attackerStats.getHunger() - hungerBefore;
+            int healthGain = attackerStats.getHealth() - healthBefore;
+            int defenseGain = attackerStats.getDefense() - defenseBefore;
+            int strengthGain = attackerStats.getStrength() - strengthBefore;
+
+            // Log and return stat changes.
+            if (hungerGain > 0) {
+                return String.format("gained %d hunger.", hungerGain);
+            } else if (healthGain > 0) {
+                return String.format("gained %d health.", healthGain);
+            } else if (defenseGain > 0) {
+                return String.format("gained %d defense.", defenseGain);
+            } else if (strengthGain > 0) {
+                return String.format("gained %d strength.", strengthGain);
+            } else {
+                return "did not inflict any stat changes.";
+            }
+        }
+        return "did not inflict any stat changes.";
     }
 
     /**
