@@ -9,19 +9,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(GameExtension.class)
-class BirdTest {
+public class BirdTest {
     private Bird bird;
     private final float BIRD_HEIGHT = 45f;
     // Method Set Up to initialise the Bird instance
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         bird = new Bird(100, 300); // This is the initial bird's position
     }
 
 
     // Testing to verify the Bird's initial position when it is created.
     @Test
-    void testInitialPosition() {
+    public void testInitialPosition() {
         Vector2 position = bird.getPosition();
         assertEquals(100, position.x, "Initial X position should be 100");
         assertEquals(300, position.y, "Initial Y position should be 300");
@@ -29,14 +29,14 @@ class BirdTest {
 
     // Testing to ensure that the Bird's velocity is updated when the flap method is called.
     @Test
-    void testFlap() {
+    public void testFlap() {
         bird.flap();
         assertEquals(300, bird.getPosition().y, "Y velocity after flap should be 300");
     }
 
     // Testing the bird's movement with gravity.
     @Test
-    void testUpdateWithGravity() {
+    public void testUpdateWithGravity() {
 
         bird.flap(); // Simulate a flap
         bird.update(1.0f, 1); // Update with gravity
@@ -46,7 +46,7 @@ class BirdTest {
 
     // Testing bird collides with the pipe
     @Test
-    void testCollidingWithPipe() {
+    public void testCollidingWithPipe() {
         bird.setCollidingPipe();
         bird.update(1.0f, 1);
         assertTrue(bird.getPosition().x < 100, "Bird's X position should decrease when colliding with a pipe");
@@ -54,7 +54,7 @@ class BirdTest {
 
     // Testing after the bird stops colliding with a pipe, its X position does not continue decreasing.
     @Test
-    void testUnsetCollidingPipe() {
+    public void testUnsetCollidingPipe() {
         bird.setCollidingPipe();
         bird.unsetCollidingPipe();
         bird.update(1.0f, 1);
@@ -63,7 +63,7 @@ class BirdTest {
 
     // Testing to ensure the bird's bounding box updates its position when the bird moves.
     @Test
-    void testUpdateBoundingBox() {
+    public void testUpdateBoundingBox() {
         // Simulate some movement or state changes
         bird.update(0.1f, 1);
 
@@ -82,28 +82,28 @@ class BirdTest {
     }
 
     @Test
-    void testGoBelowScreen() {
+    public void testGoBelowScreen() {
         bird.setPosition(500,-10);
         bird.update(1.0f, 1.0f);
         assertEquals(0, bird.getPosition().y);
     }
 
     @Test
-    void testGoAboveScreen() {
+    public void testGoAboveScreen() {
         bird.setPosition(500,1210);
         bird.update(0.0001f, 1.0f);
         assertEquals(1155, bird.getPosition().y);
     }
 
     @Test
-    void testBirdTopofPipePosition() {
+    public void testBirdTopofPipePosition() {
         bird.setPosition(300,300);
         bird.setCollidingTopPipe(300);
         assertEquals(301, bird.getPosition().y);
     }
 
     @Test
-    void testBirdTopofPipeVelocity() {
+    public void testBirdTopofPipeVelocity() {
         bird.setPosition(300,300);
         bird.setCollidingTopPipe(300);
         bird.update(1, 1);
@@ -111,25 +111,25 @@ class BirdTest {
     }
 
     @Test
-    void testTouchingFloor() {
+    public void testTouchingFloor() {
         bird.setPosition(300, 0);
         assertTrue(bird.touchingFloor());
     }
 
     @Test
-    void testBirdHeight() {
+    public void testBirdHeight() {
         assertEquals(bird.getBirdHeight(), BIRD_HEIGHT);
     }
 
     @Test
-    void testCollidingBottomPipe() {
+    public void testCollidingBottomPipe() {
         bird.setPosition(100,100);
         bird.setCollidingBottomPipe(100);
         assertEquals(100-BIRD_HEIGHT-1, bird.getPosition().y);
     }
 
     @Test
-    void testUnsetCollidingTopPipe() {
+    public void testUnsetCollidingTopPipe() {
         bird.setCollidingTopPipe(0);
         bird.unsetCollidingTopPipe();
         assertFalse(bird.isCollideTopOfPipe());

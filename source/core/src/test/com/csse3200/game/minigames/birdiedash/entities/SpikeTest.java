@@ -18,13 +18,13 @@ public class SpikeTest {
 
     // Method Set Up to initialise the Spike instance
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         spike = new Spike(POSITION_X);
     }
 
     // Testing the initial position of the spike
     @Test
-    void testInitialPosition() {
+    public void testInitialPosition() {
         Vector2 position = spike.getPosition();
         assertEquals(POSITION_X, position.x, "Spike X position should be correctly initialized.");
         assertEquals(0, position.y, "Spike Y position should be zero.");
@@ -32,19 +32,19 @@ public class SpikeTest {
 
     // Testing the Width of the spike
     @Test
-    void testWidth() {
+    public void testWidth() {
         assertEquals(100, spike.getWidth(), "Spike width should be 100.");
     }
 
     // Testing the height of the spike
     @Test
-    void testHeight() {
+    public void testHeight() {
         assertEquals(1200, spike.getHeight(), "Spike height should be 1200.");
     }
 
     // Testing the Spike boundary
     @Test
-    void testSpikeBoundary() {
+    public void testSpikeBoundary() {
         Rectangle boundary = spike.getSpikeBoundary();
         // checking X
         assertEquals(0, boundary.x, "Spike boundary X position = 0.");

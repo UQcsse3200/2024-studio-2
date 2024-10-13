@@ -13,12 +13,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @ExtendWith(GameExtension.class)
-class CoinTest {
+public class CoinTest {
 
     private Coin coin;
     // Method Set Up to initialise the Coin instance
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         coin = new Coin(500, 100); // This is the initial coin's position
     }
 
@@ -52,7 +52,7 @@ class CoinTest {
 
     // Testing to verify the initial position of the coin is within the expected bounds
     @Test
-    void testInitialPosition() throws NoSuchFieldException, IllegalAccessException {
+    public void testInitialPosition() throws NoSuchFieldException, IllegalAccessException {
         float minY = getPrivateField("MIN_Y");
         float maxY = getPrivateField("MAX_Y");
 
@@ -62,14 +62,14 @@ class CoinTest {
 
     // Testing to verify the initial boundary of the coin matches its position and dimensions
     @Test
-    void testInitialBoundary() {
+    public void testInitialBoundary() {
         Rectangle expectedBoundary = new Rectangle(coin.getPosition().x, coin.getPosition().y, coin.getWidth(), coin.getHeight());
         assertEquals(expectedBoundary, coin.getBoundary());
     }
 
     // Testing to verify the coin's position updates correctly based on a simulated delta time
     @Test
-    void testChangePosition() {
+    public void testChangePosition() {
         float deltaTime = 0.016f; // Simulate 16ms
         coin.changePosition(deltaTime);
         Vector2 newPosition = coin.getPosition();
@@ -78,7 +78,7 @@ class CoinTest {
 
     // Testing to verify the coin respawns correctly when it moves off-screen
     @Test
-    void testRespawnCoin() throws NoSuchFieldException, IllegalAccessException {
+    public void testRespawnCoin() throws NoSuchFieldException, IllegalAccessException {
         // Simulates a coin that has moved off the screen
         coin.changePosition(1000); // Move it off screen
 
@@ -103,7 +103,7 @@ class CoinTest {
 
     // Tests to verify the coin's off-screen status is detected correctly
     @Test
-    void testCoinOffScreen() throws Exception {
+    public void testCoinOffScreen() throws Exception {
         coin.changePosition(1000);
         assertTrue(invokePrivateMethod("coinOffScreen"));
     }
@@ -111,7 +111,7 @@ class CoinTest {
     // Tests to check if the boundary updates correctly on position change
     // NEEDS TO BE DONE
     @Test
-    void testBoundaryUpdateOnChangePosition() {
+    public void testBoundaryUpdateOnChangePosition() {
         coin.changePosition(1);
         Rectangle expectedBoundary = new Rectangle(400 - coin.getWidth() / 2,
                 coin.getPosition().y - coin.getHeight() / 2,
