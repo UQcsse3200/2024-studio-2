@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.components.quests.Task;
@@ -38,7 +39,7 @@ public class QuestDisplay extends UIComponent {
      */
     private PausableScreen screen;
     /** Keeps track of number of quests per page */
-    private static final int NUM_QUESTS_PER_PAGE = 3;
+    private static final int NUM_QUESTS_PER_PAGE = 4;
     /**Current page tracker */
     private int currPage = 0;
     /**List of quests */
@@ -115,39 +116,50 @@ public class QuestDisplay extends UIComponent {
         Label questsCompletedLabel = new Label("Quests Completed: 0", skin, TITLE_TEXT);
         questsCompletedLabel.setColor(Color.BLACK);
         questsCompletedLabel.setFontScale(0.6f);
-        table.add(questsCompletedLabel).colspan(2).center().padBottom(10f).row();
+        table.setWidth(561);
+
+        table.add(questsCompletedLabel).expandX().center().padBottom(10f).row();
+
     }
 
-    /**
+    /*
      * Adds quest components such as progress bars, checkboxes, and hints to display.
      * @param table The table to which quest components are added to.
      * @param quest The quest for which components are being added to.
      */
+
     private void addQuestComponents(Table table, Quest quest) {
         Color questShownActive = determineQuestColor(quest);
-
-        Label questTitle = new Label(quest.getQuestName(), skin, TITLE_TEXT, questShownActive);
-        questTitle.setFontScaleX(0.5f);
-
-        ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
-        questProgressBar.setValue(quest.getProgression());
-
-
-        questProgressBar.setSize(270, 20);
-
-        CheckBox questCheckbox = new CheckBox("", skin);
-        questCheckbox.setChecked(quest.isQuestCompleted());
-
-
-        table.add(questTitle).expandX().fillX().padRight(5f);
-        table.add(questProgressBar).width(150).height(20).padRight(5f);
-        table.add(questCheckbox).padRight(10f);
-        table.row().padTop(5f);
-
+        addTitle(table, quest, questShownActive);
+        addProgressBar(table, quest);
+        addCheckbox(table, quest);
         addQuestInfo(table, quest);
 
         table.row().padTop(10f);
     }
+
+    private void addTitle(Table table, Quest quest, Color questShownActive) {
+        Label questTitle = new Label(quest.getQuestName(), skin, TITLE_TEXT, questShownActive);
+        questTitle.setFontScaleX(0.5f);
+        table.setWidth(561);
+        table.add(questTitle).expandX().fillX().padRight(5f);
+    }
+
+    private void addProgressBar(Table table, Quest quest) {
+        ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
+        questProgressBar.setValue(quest.getProgression());
+
+        questProgressBar.setSize(270, 20);
+        table.add(questProgressBar).width(150).height(20).padRight(5f);
+    }
+
+    private void addCheckbox(Table table, Quest quest) {
+        CheckBox questCheckbox = new CheckBox("", skin);
+        questCheckbox.setChecked(quest.isQuestCompleted());
+        table.add(questCheckbox).padRight(10f);
+        table.row().padTop(5f);
+    }
+
 
     /**
      * Returns the color representing the quests' status.
@@ -201,6 +213,8 @@ public class QuestDisplay extends UIComponent {
         long completedCount = questList.stream().filter(Quest::isQuestCompleted).count();
         Label questsCompletedLabel = (Label) table.getChildren().get(0);
         questsCompletedLabel.setText("Quests Completed: " + completedCount);
+
+
     }
 
     /**
