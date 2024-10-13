@@ -266,7 +266,7 @@ public class CombatAnimationDisplay extends UIComponent {
         // Clear any existing actions to avoid conflicts
         combatImage.clearActions();
 
-        float xMove = stage.getWidth() * 0.7f;
+        float xMove = stage.getWidth() * 0.69f;
 
         // Move the image over 2 seconds
         // combatImage.addAction(moveTo(1200, 550, 0.8f, Interpolation.linear));
@@ -297,8 +297,12 @@ public class CombatAnimationDisplay extends UIComponent {
         enemyCombatImage.setAlign(Align.center);
         enemyCombatImage.setScale(1f);
 
+        float xZ = stage.getWidth() * 0.69f;
+        float yZ = stage.getHeight() * 0.3f;
+
         // Set the initial position of the image (e.g., off-screen or at a specific point)
-        enemyCombatImage.setPosition(1200, 550);
+        // enemyCombatImage.setPosition(1200, 550);
+        enemyCombatImage.setPosition(xZ, yZ);
         enemyCombatImage.setVisible(true);
 
         // Add the table to the stage
@@ -307,8 +311,11 @@ public class CombatAnimationDisplay extends UIComponent {
         // Clear any existing actions to avoid conflicts
         enemyCombatImage.clearActions();
 
+        float xMove = stage.getWidth() * 0.3f;
+
         // Move the image over 2 seconds
-        enemyCombatImage.addAction(moveTo(600, 550, 2f, Interpolation.linear));
+        // enemyCombatImage.addAction(moveTo(600, 550, 2f, Interpolation.linear));
+        enemyCombatImage.addAction(moveTo(xMove, yZ, 2f, Interpolation.linear));
 
         // Schedule to hide the image after it reaches its destination
         Timer timer = new Timer();
