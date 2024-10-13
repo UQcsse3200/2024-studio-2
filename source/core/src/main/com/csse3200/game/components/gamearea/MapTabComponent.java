@@ -263,7 +263,7 @@ public class MapTabComponent extends Component {
      */
     private void preloadLandmarks() {
         landmarks = new ArrayList<>();
-        landmarks.add(new Vector2(500, 800));  // Example landmark position
+        landmarks.add(new Vector2(50, 80));  // Example landmark position
         // Add more landmarks as needed
     }
 
@@ -280,8 +280,8 @@ public class MapTabComponent extends Component {
      */
     private Vector2 convertGamePositionToMap(Vector2 gamePosition, float mapX, float mapY, float mapWidth, float mapHeight) {
         // Assuming world is 5000x5000
-        float worldWidth = 5000f;
-        float worldHeight = 5000f;
+        float worldWidth = 175f;
+        float worldHeight = 175f;
 
         float normalizedX = gamePosition.x / worldWidth;
         float normalizedY = gamePosition.y / worldHeight;
