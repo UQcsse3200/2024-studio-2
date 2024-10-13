@@ -6,23 +6,23 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The SleepMove class represents a defensive move where the entity takes a rest, restoring a percentage of
- * both stamina and health. This move is generally used to recover and does not target or attack opponents.
+ * both hunger and health. This move is generally used to recover and does not target or attack opponents.
  */
 public class SleepMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(SleepMove.class);
 
     /**
-     * Constructor to initialize the SleepMove with its name and stamina cost.
+     * Constructor to initialize the SleepMove with its name and hunger cost.
      *
      * @param moveName    the name of the sleep move.
-     * @param staminaCost the stamina cost required to execute the sleep move.
+     * @param hungerCost the hunger cost required to execute the sleep move.
      */
-    public SleepMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public SleepMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**
-     * Executes the sleep move, restoring 25% of the user's maximum stamina and 10% of their maximum health.
+     * Executes the sleep move, restoring 25% of the user's maximum hunger and 10% of their maximum health.
      * Health will not be restored if the Poisoned status effect is applied.
      *
      * @param attackerStats the combat stats of the entity performing the sleep move.
@@ -30,13 +30,13 @@ public class SleepMove extends CombatMove {
     @Override
     public void execute(CombatStatsComponent attackerStats) {
         if (attackerStats != null) {
-            attackerStats.addStamina((int) (0.25 * attackerStats.getMaxStamina()));
+            attackerStats.addHunger((int) (0.25 * attackerStats.getMaxHunger()));
             if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
                 attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
             }
-            logger.info("{} sleeps: increased stamina to {} and health to {}.",
+            logger.info("{} sleeps: increased hunger to {} and health to {}.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
-                    attackerStats.getStamina(),
+                    attackerStats.getHunger(),
                     attackerStats.getHealth());
         } else {
             logger.error("Entity does not have CombatStatsComponent");

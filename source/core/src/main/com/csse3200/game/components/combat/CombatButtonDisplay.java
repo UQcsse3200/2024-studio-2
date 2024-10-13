@@ -41,8 +41,7 @@ public class CombatButtonDisplay extends UIComponent {
     private Label hoverTextLabel;
     private Image backgroundImage;
     private static final Texture BACKGROUND_TEXTURE = new Texture(Gdx.files.internal("images/blue-bar.png"));
-    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui" +
-            ".json"));
+    private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
 
     /**
@@ -102,8 +101,8 @@ public class CombatButtonDisplay extends UIComponent {
      * Create a text box pop up to provide the user with description on moves when hovering over with mouse upon
      */
     private void createTextForHints() {
-        hoverTextLabel = new Label("", SKIN, "default-white");
-        hoverTextTable = new Table(SKIN);
+        hoverTextLabel = new Label("", skin, "default-white");
+        hoverTextTable = new Table(skin);
         hoverTextTable.clear();
         hoverTextTable.setBackground("white");  // Set a white background (ensure you have this drawable in your skin)
         hoverTextTable.add(hoverTextLabel).pad(10f);  // Add padding around the text
@@ -168,7 +167,7 @@ public class CombatButtonDisplay extends UIComponent {
             // Brings up the combat hint when the user hovers over attack button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Lower enemy HP but drains stamina!");
+                setTextForCombatHint("Lower enemy HP but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the attack button
@@ -191,7 +190,7 @@ public class CombatButtonDisplay extends UIComponent {
             // Brings up the combat hint when the user hovers over guard button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Reduces damage of the next attack but drains stamina!");
+                setTextForCombatHint("Reduces damage of the next attack but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the guard button
@@ -213,7 +212,7 @@ public class CombatButtonDisplay extends UIComponent {
         sleepButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Recover health and stamina but potentially take more damage!");
+                setTextForCombatHint("Recover health and hunger but potentially take more damage!");
                 return true;
             }
 
@@ -235,7 +234,7 @@ public class CombatButtonDisplay extends UIComponent {
         itemsButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Access items to either buff yourself or debuff the enemy");
+                setTextForCombatHint("Access items to either buff yourself or de-buff the enemy");
                 return true;
             }
 

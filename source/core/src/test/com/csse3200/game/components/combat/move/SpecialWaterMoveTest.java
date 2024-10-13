@@ -27,7 +27,7 @@ class SpecialWaterMoveTest {
      */
     @BeforeEach
     void setUp() {
-        // Create an instance of SpecialWaterMove with a mock move name and stamina cost.
+        // Create an instance of SpecialWaterMove with a mock move name and hunger cost.
         specialWaterMove = new SpecialWaterMove("Water Fury", 30);
 
         // Mock the target and attacker stats (CombatStatsComponent).

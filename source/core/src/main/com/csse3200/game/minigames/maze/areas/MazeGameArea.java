@@ -377,4 +377,24 @@ public class MazeGameArea extends GameArea {
         }
         return enemies.get(enemyType);
     }
+
+    @Override
+    public List<Entity> getBosses() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBosses'");
+    }
+
+
+    @Override
+    public List<Entity> getFriendlyNPCs() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
+    }
+
+
+    @Override
+    public List<Entity> getMinigameNPCs() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
+    }
 }
