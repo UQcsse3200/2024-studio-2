@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class ElectricEelTest {
+class ElectricEelTest {
 
     private ElectricEel electricEel;
     private static final String[] TEXTURE_ATLASES = {"images/minigames/eels.atlas"};
@@ -89,7 +89,7 @@ public class ElectricEelTest {
     }
 
     @Test
-    public void testDefaultMazeEntityComponents() {
+    void testDefaultMazeEntityComponents() {
         assertNotNull(electricEel.getComponent(PhysicsComponent.class),
                 "ElectricEel should have a PhysicsComponent from MazeEntity");
         assertNotNull(electricEel.getComponent(PhysicsMovementComponent.class),
@@ -101,7 +101,7 @@ public class ElectricEelTest {
     }
 
     @Test
-    public void testElectricEelHasComponents() {
+    void testElectricEelHasComponents() {
         assertNotNull(electricEel.getComponent(MazeEntityAnimationController.class),
                 "ElectricEel should have a MazeEntityAnimationController");
         assertNotNull(electricEel.getComponent(LightingComponent.class),
@@ -116,7 +116,7 @@ public class ElectricEelTest {
     }
 
     @Test
-    public void testMazeCombatStatsComponent() {
+    void testMazeCombatStatsComponent() {
         MazeCombatStatsComponent combatStats = electricEel.getComponent(MazeCombatStatsComponent.class);
         assertNotNull(combatStats, "ElectricEel should have a MazeCombatStatsComponent");
         assertEquals(150, combatStats.getHealth(), "Health should be set from config");
@@ -124,7 +124,7 @@ public class ElectricEelTest {
     }
 
     @Test
-    public void testEntityScale() {
+    void testEntityScale() {
         Vector2 scale = electricEel.getScale();
         assertEquals(0.3f, scale.x, 0.001, "Scale x should be 0.3f");
         assertEquals(0.3f, scale.y, 0.001, "Scale y should be 0.3f");

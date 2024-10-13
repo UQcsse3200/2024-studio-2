@@ -25,8 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import static com.csse3200.game.components.quests.AchievementManager.saveAchievements;
-
 /**
  * The {@code AchievementDisplay} class manages the display of achievements in the achievements screen
  */
@@ -39,6 +37,8 @@ public class AchievementDisplay extends UIComponent {
     private final java.util.List<Achievement> achievements;
     final TabButton[] lastPressedButton = {null};
     private Float originalY;
+    private static final String SAVESPATH = "saves/achievement";
+    private static final String LOGBOOKSOUND = "sounds/logbook/select_005.ogg";
 
     /**
      * Array of texture paths used in the Achievements game screen.
@@ -56,7 +56,7 @@ public class AchievementDisplay extends UIComponent {
             "images/logbook/lb-red-btn-pressed.png",
             "images/logbook/lb-yellow-btn-pressed.png"};
 
-    private static final String[] logbookSounds = {"sounds/logbook/select_005.ogg",
+    private static final String[] logbookSounds = {LOGBOOKSOUND,
             "sounds/logbook/select_004.ogg"};
 
     /**
@@ -197,7 +197,7 @@ public class AchievementDisplay extends UIComponent {
                 ServiceLocator.getResourceService()
                         .getAsset("images/logbook/lb-blue-tab.png", Texture.class);
 
-        Sound tabSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_005.ogg", Sound.class);
+        Sound tabSound = ServiceLocator.getResourceService().getAsset(LOGBOOKSOUND, Sound.class);
 
         TabButton itemButton = new TabButton("Items", skin, itemBG);
         TabButton enemyButton = new TabButton("Enemy", skin, enemyBG);
@@ -319,7 +319,7 @@ public class AchievementDisplay extends UIComponent {
 
         ImageButton exitBtn = new ImageButton(exit.getDrawable());
         addButtonElevationEffect(exitBtn);
-        Sound tabSound = ServiceLocator.getResourceService().getAsset("sounds/logbook/select_005.ogg", Sound.class);
+        Sound tabSound = ServiceLocator.getResourceService().getAsset(LOGBOOKSOUND, Sound.class);
         exitBtn.addListener(
                 new ChangeListener() {
                     @Override
@@ -381,24 +381,23 @@ public class AchievementDisplay extends UIComponent {
      * Sets the current game screen back to the main menu.
      */
     private void exitMenu() {
-        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.save(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
     private void clearAchievements() {
-        SaveHandler.delete(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.delete(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
         Achievements.resetState();
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
-
-    /**
-     * Draws the actors.
-     */
+    
     @Override
     public void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.end();
+        // batch isn't used, batchDupe is to make SonarCloud happy, unsure why batch doesn't just work, but it causes
+        // the game to crash :/
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.end();
     }
 
     /**
@@ -406,7 +405,7 @@ public class AchievementDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.save(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(logbookTextures);
         ServiceLocator.getResourceService().unloadAssets(logbookSounds);

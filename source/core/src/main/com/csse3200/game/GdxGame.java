@@ -12,7 +12,6 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -150,9 +149,6 @@ public class GdxGame extends Game {
         }
         AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
         animationRenderComponent.stopAnimation();
-        //int enemyExp = enemy.getComponent(CombatStatsComponent.getExperience());
-        //player.getComponent(CombatStatsComponent.addExperience())
-        //enemy.getComponent(CombatStatsComponent.getExperience());
         enemy.specialDispose();
     }
 
