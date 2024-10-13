@@ -16,12 +16,14 @@ public class ParticleEffectRenderer implements Renderable, Disposable {
 
     /**
      * Initialise to render a given pooled particle effect on a specified layer.
+     * Requires the render service to be initialised.
      * @param pooledEffect the particle effect to be rendered.
      * @param layer the layer to render to.
      */
     public ParticleEffectRenderer(ParticleEffectPool.PooledEffect pooledEffect, int layer) {
         this.pooledEffect = pooledEffect;
         this.layer = layer;
+        ServiceLocator.getRenderService().register(this);
     }
 
     /**
@@ -51,7 +53,7 @@ public class ParticleEffectRenderer implements Renderable, Disposable {
 
     @Override
     public float getZIndex() {
-        return -pooledEffect.getBoundingBox().getCenterY() - 1e6f;
+        return -pooledEffect.getEmitters().get(0).getY() - 1e6f;
     }
 
     @Override

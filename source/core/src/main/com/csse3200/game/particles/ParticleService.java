@@ -71,8 +71,7 @@ public class ParticleService {
      */
     public void playEffect(ParticleType type, float x, float y) {
         ParticleEffectPool.PooledEffect effect = makeEffect(type);
-        ParticleEffectRenderer renderer = new ParticleEffectRenderer(effect, 2);
-        ServiceLocator.getRenderService().register(renderer);
+        new ParticleEffectRenderer(effect, 2);
         effect.start();
         effect.setPosition(x, y);
     }

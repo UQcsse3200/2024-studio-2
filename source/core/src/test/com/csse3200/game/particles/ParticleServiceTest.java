@@ -1,19 +1,14 @@
-package com.csse3200.game.particles.components;
+package com.csse3200.game.particles;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.particles.ParticleEffectRenderer;
-import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +30,15 @@ public class ParticleServiceTest {
     public void testMakeEffect() {
         ParticleEffect effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.BUBBLES);
         assertEquals("bubble.png", effect.getEmitters().get(0).getImagePaths().get(0));
+
+        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.DAMAGE10);
+        assertEquals("-10.png", effect.getEmitters().get(0).getImagePaths().get(0));
+
+        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.SPARKS);
+        assertEquals("particle-star.png", effect.getEmitters().get(0).getImagePaths().get(0));
+
+        effect = ServiceLocator.getParticleService().makeEffect(ParticleService.ParticleType.FISH_EGG_SPARKLE);
+        assertEquals("spark-colored.png", effect.getEmitters().get(0).getImagePaths().get(0));
     }
     @Test
     public void testFreeEffect() {
