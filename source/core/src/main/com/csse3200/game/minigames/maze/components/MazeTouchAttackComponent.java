@@ -113,9 +113,6 @@ public class MazeTouchAttackComponent extends Component {
             Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
             // Knockback can be changed. tried doing velocity instead of impulse for more consistency
             Vector2 knockbackVelocity = direction.scl(knockbackForce);
-            if (targetEntity instanceof FishEgg && meEntity instanceof Turtle) {
-                knockbackVelocity.scl(-1);
-            }
             targetBody.setLinearVelocity(knockbackVelocity);
         }
     }
