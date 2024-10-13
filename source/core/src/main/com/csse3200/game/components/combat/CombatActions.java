@@ -79,9 +79,15 @@ public class CombatActions extends Component {
   private void onCombatLoss(Entity enemy) {
     logger.debug("Returning to main game screen after combat loss.");
     int lossExp = 0;
+    int maxPlayerHealth = manager.getPlayerStats().getMaxHealth();
+    int maxPlayerHunger = manager.getPlayerStats().getMaxHunger();
+    int statusRestoreMult = 2;
     // Clear the player inventory and wipe their current experience progress
     manager.getPlayerStats().setExperience(lossExp);
 
+    // Reset player health and hunger back to half
+    manager.getPlayerStats().setHealth(maxPlayerHealth/statusRestoreMult);
+    manager.getPlayerStats().setHunger(maxPlayerHunger/statusRestoreMult);
 
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
