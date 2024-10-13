@@ -273,7 +273,8 @@ public class EnemyFactory {
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
         animator.addAnimation("jump", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("alert", 1.0f, Animation.PlayMode.LOOP);
+        animator.addAnimation("spawn",0.1f, Animation.PlayMode.NORMAL);
 
         frog
                 .addComponent(animator)
