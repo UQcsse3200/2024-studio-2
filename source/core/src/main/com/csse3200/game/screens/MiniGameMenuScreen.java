@@ -49,7 +49,7 @@ public class MiniGameMenuScreen implements Screen {
         // Setup UI elements including all images and buttons
 
         // Snake image and button
-        setupMinigameUI("Snake", "images/minigames/snakeicon.png", 0.2f, 1, new ClickListener() {
+        setupMinigameUI("Snake", "images/minigames/snakeicon.png", 0.2f, 1, 0, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -60,7 +60,7 @@ public class MiniGameMenuScreen implements Screen {
         });
 
         // Bird image and button
-        setupMinigameUI("Flappy bird", "images/minigames/flappybirdicon.png", 0.5f, 0.8f, new ClickListener() {
+        setupMinigameUI("Flappy bird", "images/minigames/flappybirdicon.png", 0.5f, 0.8f, 20f, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.enterBirdieDashScreen();
@@ -68,7 +68,7 @@ public class MiniGameMenuScreen implements Screen {
         });
 
         // Fish Image and button
-        setupMinigameUI("Underwater maze", "images/minigames/underwatermazeicon.png", 0.8f, 1, new ClickListener() {
+        setupMinigameUI("Underwater maze", "images/minigames/underwatermazeicon.png", 0.8f, 1, 0, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.enterMazeGameScreen();
@@ -96,7 +96,7 @@ public class MiniGameMenuScreen implements Screen {
      * @param imageScale to scale the image up or down (and match the other two)
      * @param listener the listener to attach the button and image to (that boots up the mini-game)
      */
-    private void setupMinigameUI(String buttonText, String texturePath, float xPositionFactor, float imageScale, ClickListener listener) {
+    private void setupMinigameUI(String buttonText, String texturePath, float xPositionFactor, float imageScale, float padRight, ClickListener listener) {
         // Load the texture for the image
         Texture texture = new Texture(Gdx.files.internal(texturePath));
 
@@ -113,7 +113,7 @@ public class MiniGameMenuScreen implements Screen {
         float xPos = screenWidth * xPositionFactor - (image.getWidth()) / 2;
 
         // Set positions for the image and button
-        image.setPosition(xPos, centerY);
+        image.setPosition(xPos - padRight, centerY);
         button.setPosition(xPos + 80 * scale, 200 * scale);
 
         // Add both image and button to the stage
