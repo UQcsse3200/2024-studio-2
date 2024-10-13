@@ -38,7 +38,7 @@ public class CombatArea extends GameArea {
     public enum CombatAnimation { IDLE, MOVE }
     public enum KINGDOM {LAND, AIR, WATER }
 
-    private KINGDOM kingdomType;
+    public static KINGDOM kingdomType;
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
@@ -133,9 +133,9 @@ public class CombatArea extends GameArea {
             // newPlayer.scaleHeight(60f);
         } else if (imagePath.equals("images/dog.png")){
             if(kingdomType == KINGDOM.WATER) {
-                playerSpawn = new GridPoint2(430, 550);
+                playerSpawn = new GridPoint2(360, 330);
             } else if  (kingdomType == KINGDOM.AIR) {
-                playerSpawn = new GridPoint2(337, 350);
+                playerSpawn = new GridPoint2(337, 215);
             } else {
                 playerSpawn = new GridPoint2(337, 190); // 337, 335
             }
@@ -145,10 +145,11 @@ public class CombatArea extends GameArea {
                 playerSpawn = new GridPoint2(400, 550);
                 player.scaleHeight(250f);
             } else if (kingdomType == KINGDOM.AIR) {
-                playerSpawn = new GridPoint2(337, 350);
+                playerSpawn = new GridPoint2(337, 200);
+                newPlayer.scaleHeight(100);
             } else {
-                playerSpawn = new GridPoint2(350, 235); // 350, 335
-                newPlayer.scaleHeight(250);
+                playerSpawn = new GridPoint2(350, 200); // 350, 335
+                newPlayer.scaleHeight(200);
             }
         }
         spawnEntityAt(newPlayer, playerSpawn, true, true);
@@ -205,7 +206,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnChicken() {
         Entity newEnemy = CombatAnimalFactory.createChickenCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(760, 180), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(760, 185), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -223,7 +224,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnMonkey() {
         Entity newEnemy = CombatAnimalFactory.createMonkeyCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(750, 180), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(750, 185), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -232,7 +233,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity newEnemy = CombatAnimalFactory.createBearCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(750, 180), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(750, 185), true, true);
         this.enemyDisplay = newEnemy;
     }
 

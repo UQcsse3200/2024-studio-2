@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.areas.combat.CombatArea;
 import com.csse3200.game.components.combat.CombatManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
@@ -75,11 +76,24 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/zzz.png", Texture.class);
         sleepImage = new Image(sleepTexture);
 
-        float xZ = 310;
-        float yZ = 640;
+//        float xZ = 310;
+//        float yZ = 640;
 
-        sleepImage.setPosition(xZ, yZ);
-        sleepImage.setScale(0.3f);
+        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER){
+            float xZ = stage.getWidth() * 0.2f;
+            float yZ = stage.getHeight() * 0.6f;
+
+            sleepImage.setPosition(xZ, yZ);
+        } else {
+            float xZ = stage.getWidth() * 0.17f;
+            float yZ = stage.getHeight() * 0.39f;
+
+            sleepImage.setPosition(xZ, yZ);
+        }
+
+        float scaleFactor = stage.getWidth() * 0.06f / sleepImage.getWidth();
+        sleepImage.setScale(scaleFactor);
+        // sleepImage.setScale(0.3f);
         sleepImage.setVisible(true);
         stage.addActor(sleepImage);
         sleepImage.clearActions();
@@ -179,11 +193,22 @@ public class CombatAnimationDisplay extends UIComponent {
         guardImage = new Image(guardTexture);
 
 
-        float xZ = 750;  // 750;
-        float yZ = 440; // 410;
+        // float xZ = 750;  // 750;
+        // float yZ = 440; // 410;
+        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
+            float xZ = stage.getWidth() * 0.39f;
+            float yZ = stage.getHeight() * 0.5f;
+            guardImage.setPosition(xZ, yZ);
+        } else {
+            float xZ = stage.getWidth() * 0.370f;
+            float yZ = stage.getHeight() * 0.285f;
+            guardImage.setPosition(xZ, yZ);
+        }
 
-        guardImage.setPosition(xZ, yZ);
-        guardImage.setScale(0.5f);
+        float scaleFactor = stage.getWidth() * 0.1f / guardImage.getWidth();
+        guardImage.setScale(scaleFactor);
+
+        // guardImage.setScale(0.35f);
         guardImage.setColor(1f, 1f, 1f, 0.7f);
         guardImage.setVisible(true);
         stage.addActor(guardImage);
@@ -214,12 +239,13 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/shield.png", Texture.class);
         enemyGuardImage = new Image(guardTexture);
 
-
-        float xZ = 930;
-        float yZ = 440;
+//        float xZ = 930;
+//        float yZ = 440;
+        float xZ = stage.getWidth() * 0.6f;
+        float yZ = stage.getHeight() * 0.25f;
 
         enemyGuardImage.setPosition(xZ, yZ);
-        enemyGuardImage.setScale(0.5f);
+        enemyGuardImage.setScale(0.3f);
         enemyGuardImage.setColor(1f, 1f, 1f, 0.7f);
         enemyGuardImage.setVisible(true);
         stage.addActor(enemyGuardImage);
