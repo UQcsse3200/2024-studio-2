@@ -4,6 +4,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
@@ -50,7 +51,7 @@ public class MazeNPCFactoryTest {
     RayHandler rayHandler;
 
     @Mock
-    Camera camera;
+    OrthographicCamera camera;
 
     @BeforeEach
     public void setUp() throws IllegalAccessException {
