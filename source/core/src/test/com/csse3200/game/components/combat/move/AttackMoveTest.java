@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests for the AttackMove class, using Mockito to mock the CombatStatsComponent.
  * Tests ensure correct behaviour for various attack scenarios, including when the target is guarded,
- * when there are null components, and when stamina is reduced after an attack.
+ * when there are null components, and when hunger is reduced after an attack.
  */
 @ExtendWith(GameExtension.class)
 class AttackMoveTest {
@@ -56,7 +56,7 @@ class AttackMoveTest {
         // Mock stats for attacker and target
         when(attackerStats.getStrength()).thenReturn(20);  // Attacker has strength of 20
         when(targetStats.getDefense()).thenReturn(10);     // Target has defense of 10
-        when(attackerStats.getStamina()).thenReturn(100);  // Attacker has full stamina
+        when(attackerStats.getHunger()).thenReturn(100);  // Attacker has full hunger
         when(targetStats.getHealth()).thenReturn(50);      // Target has 50 health
 
         // Execute attack
@@ -75,7 +75,7 @@ class AttackMoveTest {
         // Mock stats for attacker and guarded target
         when(attackerStats.getStrength()).thenReturn(20);
         when(targetStats.getDefense()).thenReturn(10);
-        when(attackerStats.getStamina()).thenReturn(100);
+        when(attackerStats.getHunger()).thenReturn(100);
         when(targetStats.getHealth()).thenReturn(50);
 
         // Execute attack with the target guarded
@@ -87,7 +87,7 @@ class AttackMoveTest {
 
     /**
      * Tests that the execute() method handles null values for the attacker or target gracefully.
-     * Ensures that no changes are made to health or stamina when either is null.
+     * Ensures that no changes are made to health or hunger when either is null.
      */
     @Test
     void testExecuteWithNullAttackerOrTarget() {
@@ -95,26 +95,26 @@ class AttackMoveTest {
         attackMove.execute(null, targetStats);
         verify(targetStats, never()).setHealth(anyInt());
 
-        // Call execute() with a null target, and verify that no stamina is reduced for the attacker
+        // Call execute() with a null target, and verify that no hunger is reduced for the attacker
         attackMove.execute(attackerStats, null);
-        verify(attackerStats, never()).addStamina(anyInt());
+        verify(attackerStats, never()).addHunger(anyInt());
     }
 
     /**
-     * Tests that the attack move properly reduces the attacker's stamina after an attack.
-     * Verifies that the attacker's stamina is reduced by the correct amount specified by the stamina cost.
+     * Tests that the attack move properly reduces the attacker's hunger after an attack.
+     * Verifies that the attacker's hunger is reduced by the correct amount specified by the hunger cost.
      */
     @Test
-    void testStaminaReductionAfterAttack() {
+    void testHungerReductionAfterAttack() {
         // Mock stats for the attacker
         when(attackerStats.getStrength()).thenReturn(20);
         when(targetStats.getDefense()).thenReturn(10);
-        when(attackerStats.getStamina()).thenReturn(100);
+        when(attackerStats.getHunger()).thenReturn(100);
 
         // Execute attack
         attackMove.execute(attackerStats, targetStats);
 
-        // Verify that the attacker's stamina is reduced by the move's stamina cost (-10)
-        verify(attackerStats).addStamina(-10);  // -10 is the stamina cost for this attack
+        // Verify that the attacker's hunger is reduced by the move's hunger cost (-10)
+        verify(attackerStats).addHunger(-10);  // -10 is the hunger cost for this attack
     }
 }
