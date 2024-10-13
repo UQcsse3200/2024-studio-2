@@ -80,7 +80,9 @@ public class CombatAnimalFactory {
     public static Entity createFrogCombatEnemy() {
         BaseEnemyEntityConfig config = configs.frog;
         Entity frogEnemy = createCombatBaseEnemy(config, Entity.EnemyType.FROG);
-        frogEnemy.setScale(120.0f, 90.0f);
+        frogEnemy.setScale(120.0f, 90.0f); // 120, 90
+        //frogEnemy.scaleHeight(180f);
+        frogEnemy.scaleHeight(80f);
         return frogEnemy;
     }
 
@@ -150,6 +152,7 @@ public class CombatAnimalFactory {
         BaseEnemyEntityConfig config = configs.eel;
         Entity eelEnemy = createCombatBaseEnemy(config, Entity.EnemyType.EEL);
         eelEnemy.setScale(100f,70f);
+        eelEnemy.scaleHeight(80f);
         return eelEnemy;
     }
 

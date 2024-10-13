@@ -61,25 +61,27 @@ public class CombatArea extends GameArea {
         loadAssets();
         displayUI();
         spawnTerrain();
-        spawnPlayer();
+        // spawnPlayer();
         // get the enemy type player collided into for combat and spawn that
         switch (enemy.getEnemyType()) {
             case MONKEY -> {spawnMonkey(); kingdomType = KINGDOM.LAND;}
-            case FROG -> {spawnFrog(); kingdomType = KINGDOM.LAND;}
+            case FROG -> {spawnFrog(); kingdomType = KINGDOM.WATER;}
             case CHICKEN -> {spawnChicken(); kingdomType = KINGDOM.LAND;}
             case BEAR -> {spawnBear(); kingdomType = KINGDOM.LAND;}
             case JOEY -> {spawnJoey(); kingdomType = KINGDOM.LAND;}
             case KANGAROO -> {spawnKangaBoss(); kingdomType = KINGDOM.LAND;}
-            case WATER_BOSS -> {spawnWaterBoss(); kingdomType = KINGDOM.LAND;}
-            case AIR_BOSS -> {spawnAirBoss(); kingdomType = KINGDOM.LAND;}
-            case BEE -> {spawnBee(); kingdomType = KINGDOM.LAND;}
-            case PIGEON -> {spawnPigeon(); kingdomType = KINGDOM.LAND;}
-            case EEL -> {spawnEel(); kingdomType = KINGDOM.LAND;}
-            case OCTOPUS -> {spawnOctopus(); kingdomType = KINGDOM.LAND;}
-            case BIGSAWFISH -> {spawnBigSawfish(); kingdomType = KINGDOM.LAND;}
-            case MACAW -> {spawnMacaw(); kingdomType = KINGDOM.LAND;}
+            case WATER_BOSS -> {spawnWaterBoss(); kingdomType = KINGDOM.WATER;}
+            case AIR_BOSS -> {spawnAirBoss(); kingdomType = KINGDOM.AIR;}
+            case BEE -> {spawnBee(); kingdomType = KINGDOM.AIR;}
+            case PIGEON -> {spawnPigeon(); kingdomType = KINGDOM.AIR;}
+            case EEL -> {spawnEel(); kingdomType = KINGDOM.WATER;}
+            case OCTOPUS -> {spawnOctopus(); kingdomType = KINGDOM.WATER;}
+            case BIGSAWFISH -> {spawnBigSawfish(); kingdomType = KINGDOM.WATER;}
+            case MACAW -> {spawnMacaw(); kingdomType = KINGDOM.AIR;}
             // case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
+        spawnPlayer();
+        System.out.println(enemy.getEnemyType().toString());
         playMusic();
     }
 
@@ -98,7 +100,7 @@ public class CombatArea extends GameArea {
         } else if (kingdomType == KINGDOM.AIR) {
            terrain = combatTerrainFactory.createBackgroundTerrainAir(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
         } else { // water
-           terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, new GridPoint2(1826, 973));
+           terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE); // 1826, 973
         }
         //terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, new GridPoint2(1826, 973));
         Entity terrainEntity = new Entity();
@@ -121,24 +123,33 @@ public class CombatArea extends GameArea {
         String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         if (imagePath.equals("images/croc.png")){
-            if(kingdomType == KINGDOM.WATER) {
-                newPlayer.setScale(2.5f, 2.5f); // fix
+            if (kingdomType == KINGDOM.WATER) {
+                playerSpawn = new GridPoint2(330, 337);
+            } else if (kingdomType == KINGDOM.AIR) {
+                playerSpawn = new GridPoint2(380, 610); // y = 480
             } else {
-                playerSpawn = new GridPoint2(332, 335);
+                playerSpawn = new GridPoint2(332, 195); // 332, 335
             }
+            // newPlayer.scaleHeight(60f);
         } else if (imagePath.equals("images/dog.png")){
             if(kingdomType == KINGDOM.WATER) {
-                newPlayer.setScale(2.5f, 2.5f); // fix
+                playerSpawn = new GridPoint2(430, 550);
+            } else if  (kingdomType == KINGDOM.AIR) {
+                playerSpawn = new GridPoint2(337, 350);
             } else {
-                playerSpawn = new GridPoint2(337, 330);
+                playerSpawn = new GridPoint2(337, 190); // 337, 335
             }
         } else { //animal is bird
             if(kingdomType == KINGDOM.WATER) {
-                newPlayer.setScale(2.5f, 2.5f); // fix
+                newPlayer.setScale(5f, 5f); // 2.5f, 2.5f
+                playerSpawn = new GridPoint2(400, 550);
+                player.scaleHeight(250f);
+            } else if (kingdomType == KINGDOM.AIR) {
+                playerSpawn = new GridPoint2(337, 350);
             } else {
-                playerSpawn = new GridPoint2(350, 335);
+                playerSpawn = new GridPoint2(350, 235); // 350, 335
+                newPlayer.scaleHeight(250);
             }
-            newPlayer.scaleHeight(150);
         }
         spawnEntityAt(newPlayer, playerSpawn, true, true);
     }
@@ -157,7 +168,7 @@ public class CombatArea extends GameArea {
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
         if (kingdomType == KINGDOM.WATER) {
-            nP.setPosition(870, 440); // water background
+            nP.setPosition(520, 250); // water background 600, 300
         } else {
             nP.setPosition(520, 250);
         }
@@ -166,13 +177,13 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
         Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 146), true, true);
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
         Entity newEnemy = CombatAnimalFactory.createKangaBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 146), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -186,7 +197,7 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnAirBoss() {
         Entity newEnemy = CombatAnimalFactory.createAirBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 146), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -194,7 +205,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnChicken() {
         Entity newEnemy = CombatAnimalFactory.createChickenCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 328), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(760, 180), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -203,7 +214,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnFrog() {
         Entity newEnemy = CombatAnimalFactory.createFrogCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 311), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(1250, 250), true, true); // 800, 311
         this.enemyDisplay = newEnemy;
     }
 
@@ -212,7 +223,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnMonkey() {
         Entity newEnemy = CombatAnimalFactory.createMonkeyCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(750, 180), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -221,7 +232,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity newEnemy = CombatAnimalFactory.createBearCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(750, 180), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -230,7 +241,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnMacaw() {
         Entity newEnemy = CombatAnimalFactory.createMacawCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 237), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -239,7 +250,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnBee() {
         Entity newEnemy = CombatAnimalFactory.createBeeCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 217), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -257,7 +268,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnPigeon() {
         Entity newEnemy = CombatAnimalFactory.createPigeonCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 217), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -284,7 +295,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnJoey() {
         Entity newEnemy = CombatAnimalFactory.createJoeyCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(796, 211), true, true);
         this.enemyDisplay = newEnemy;
     }
 
