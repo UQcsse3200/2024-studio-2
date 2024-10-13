@@ -386,18 +386,24 @@ public class CombatManager extends Component {
      * @param enemyAction the enemy's selected action.
      */
     private List<String> executeMoveCombination(Action playerAction, Action enemyAction) {
+        // List to contain combat context dialogue.
+        List<String> moveTextList = new ArrayList<>();
+
         if (playerAction == null || enemyAction == null) {
             logger.error("Both player and enemy actions must be determined.");
+            moveTextList.add("Error: Both player and enemy actions must be determined.");
+            return moveTextList;
         }
         if (playerMove == null) {
             logger.error("Player does not have a CombatMoveComponent.");
+            moveTextList.add("Error: Player does not have a CombatMoveComponent.");
+            return moveTextList;
         }
         if (enemyMove == null) {
             logger.error("Enemy does not have a CombatMoveComponent.");
+            moveTextList.add("Error: Enemy does not have a CombatMoveComponent.");
+            return moveTextList;
         }
-
-        // List to contain combat context dialogue.
-        List<String> moveTextList = new ArrayList<>();
 
         switch (playerAction) {
             case ATTACK -> {
