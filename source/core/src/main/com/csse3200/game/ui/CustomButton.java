@@ -27,7 +27,7 @@ public class CustomButton extends Stack{
     // Preloaded textures and sound used across all buttons
     private static final Texture NORMAL_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlankLarge.png"));
     private static final Texture DIALOGUE_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlueBlankLarge.png"));
-
+    private static final Texture WIDE_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/WideButtonBrown.png"));
     private static final Texture SMALL_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/SmallBlankLarge.png"));
     private static final Texture SMALL_DIALOGUE_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlueBlankSmall.png"));
     private static final Sound BUTTON_CLICK_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3"));
@@ -168,6 +168,10 @@ public class CustomButton extends Stack{
                 buttonStyle.up = new TextureRegionDrawable(new TextureRegion(SMALL_DIALOGUE_BUTTON_TEXTURE));
                 label.setStyle(skin.get("default-white", Label.LabelStyle.class));
             }
+            case BROWN_WIDE -> {
+                buttonStyle.up = new TextureRegionDrawable(new TextureRegion(WIDE_BUTTON_TEXTURE));
+                label.setStyle(skin.get("default-white", Label.LabelStyle.class));
+            }
         }
         button.setStyle(buttonStyle);
     }
@@ -203,6 +207,6 @@ public class CustomButton extends Stack{
     }
 
     public enum Style {
-        NORMAL, DIALOGUE, SMALL, DIALOGUE_SMALL
+        NORMAL, DIALOGUE, SMALL, DIALOGUE_SMALL, BROWN_WIDE
     }
 }
