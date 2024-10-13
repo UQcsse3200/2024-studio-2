@@ -24,11 +24,11 @@ public class BirdieDashGame {
     private final Bird bird;
     private final Spike spike;
     private final Background background;
+    private final BirdRenderer birdRenderer;
 
     private final MinigameRenderer renderer;  // Mini-game renderer
     private final CollisionHandler collisionHandler; // Collision detection
     private float speedMultiplier = 1.0f; // Multiplier to increase the speed
-    private final float accelerationRate = 0.05f; // Mutiplier for acceleration of the bird
     private Boolean isGameOver; // Used to track if the game is over
 
     public BirdieDashGame() {
@@ -38,6 +38,7 @@ public class BirdieDashGame {
         this.spike = new Spike(0);
         this.background = new Background(START_SPEED / 3, 1920);
         this.renderer = new MinigameRenderer();
+        this.birdRenderer = new BirdRenderer(bird, renderer);
         this.isGameOver = false;
         this.collisionHandler = new CollisionHandler(bird, pipes, coins, spike);
         initRenderers();
@@ -51,7 +52,7 @@ public class BirdieDashGame {
         renderer.addRenderable(new BackgroundRenderer(background, renderer));
         renderer.addRenderable(new PipeRenderer(pipes, renderer));
         renderer.addRenderable(new CoinRenderer(coins, renderer));
-        renderer.addRenderable(new BirdRenderer(bird, renderer));
+        renderer.addRenderable(birdRenderer);
         renderer.addRenderable(new SpikeRenderer(spike, renderer));
         ServiceLocator.getResourceService().loadTextures(new String[]{"images/PauseOverlay/TitleBG.png",
                 "images/PauseOverlay/Button.png",
@@ -111,6 +112,8 @@ public class BirdieDashGame {
      * @param dt the change in game time
      */
     private void updateGamePosition(float dt) {
+        // Mutiplier for acceleration of the bird
+        float accelerationRate = 0.05f;
         speedMultiplier += accelerationRate * dt;
         collisionHandler.checkCollisions();
         if (collisionHandler.checkSpikes() || bird.touchingFloor()) {
@@ -133,9 +136,8 @@ public class BirdieDashGame {
 
     /**
      * Public method to render the game objects
-     * @param dt change in time
      */
-    public void render(float dt) {
+    public void render() {
         renderer.render();
     }
 
@@ -144,6 +146,7 @@ public class BirdieDashGame {
      */
     public void flapBird() {
         bird.flap();
+        birdRenderer.flap();
     }
 
     /**

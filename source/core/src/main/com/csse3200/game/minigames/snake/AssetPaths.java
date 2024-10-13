@@ -8,6 +8,9 @@ public class AssetPaths {
     public static final String APPLE_IMAGE = "images/foodtextures/apple.png";
     public static final String SNAKE_HEAD_IMAGE = "images/minigames/snakehead.png";
     public static final String GRASS_IMAGE = "images/minigames/grass.jpg";
+    public static final String GRASS_DARK_IMAGE = "images/minigames/grassDark.png";
+    public static final String GRASS_LIGHT_IMAGE = "images/minigames/grassLight.png";
+
     public static final String SNAKE_BODY_HORIZONTAL_IMAGE = "images/minigames/snakebodyhorizontal.png";
     public static final String SNAKE_BODY_VERTICAL_IMAGE = "images/minigames/snakebodyvertical.png";
     public static final String SNAKE_BODY_BENT_IMAGE = "images/minigames/snakebodybent.png";
@@ -19,13 +22,12 @@ public class AssetPaths {
     public static final String BACKGROUND = "images/BackgroundSplashBasic.png";
     public static final String COIN = "images/minigames/coin.png";
 
-    // Maze
-
-
     public static final String[] IMAGES = {
             APPLE_IMAGE,
             SNAKE_HEAD_IMAGE,
             GRASS_IMAGE,
+            GRASS_DARK_IMAGE,
+            GRASS_LIGHT_IMAGE,
             SNAKE_BODY_HORIZONTAL_IMAGE,
             SNAKE_BODY_VERTICAL_IMAGE,
             SNAKE_BODY_BENT_IMAGE,

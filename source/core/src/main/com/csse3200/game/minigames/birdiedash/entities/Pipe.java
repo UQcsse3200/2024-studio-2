@@ -8,8 +8,6 @@ import java.util.Random;
  * Class for the pipes in birdie dash mini-game
  */
 public class Pipe{
-    private final int GAME_WIDTH = 1920;
-    private final int GAME_HEIGHT = 1200;
 
     private Vector2 topPosition;
     private Vector2 bottomPosition;
@@ -58,6 +56,7 @@ public class Pipe{
      */
     public void respawnPipe() {
         height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
+        int GAME_WIDTH = 1920;
         this.bottomPosition = new Vector2(GAME_WIDTH - width/2 + 960, 0);
         this.topPosition=new Vector2(GAME_WIDTH - width/2 + 960, height + PIPE_GAP);
         setRectangles();
@@ -108,6 +107,7 @@ public class Pipe{
      * @return the pipe height
      */
     public float getHeightTop(){
+        int GAME_HEIGHT = 1200;
         return GAME_HEIGHT - height -PIPE_GAP;
     }
 

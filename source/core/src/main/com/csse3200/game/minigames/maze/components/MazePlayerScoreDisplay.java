@@ -18,9 +18,6 @@ public class MazePlayerScoreDisplay extends UIComponent {
     // All Labels to display
     private Label scoreLabel;
     private Label highScoreLabel;
-    private Label bronzeLabel;
-    private Label silverLabel;
-    private Label goldLabel;
 
     /**
      * Adds actors to the stage.
@@ -50,11 +47,6 @@ public class MazePlayerScoreDisplay extends UIComponent {
             table.add(highScoreLabel).center().padBottom(20).padTop(0).expandX().fillX().padLeft(0);
             table.row();
         }
-        table.add(bronzeLabel).center().expandX().fillX().padLeft(0);
-        table.row();
-        table.add(silverLabel).center().expandX().fillX().padLeft(0);
-        table.row();
-        table.add(goldLabel).center().expandX().fillX().padLeft(0);
         stage.addActor(table);
     }
 
@@ -66,22 +58,14 @@ public class MazePlayerScoreDisplay extends UIComponent {
         int score = entity.getComponent(MazeGameManagerComponent.class).getScore();
         CharSequence scoreText = String.format("Score: %d", score);
         scoreLabel = new Label(scoreText, skin, "large-white");
+        scoreLabel.setFontScale(0.7f);
 
         if (GameState.minigame != null) {
             CharSequence highScore = String.format("High Score %d",
                     GameState.minigame.getHighScore(MiniGameNames.MAZE));
             highScoreLabel = new Label(highScore, skin, "large-white");
+            highScoreLabel.setFontScale(0.7f);
         }
-
-        // Medals
-        CharSequence bronzeText = String.format("Bronze Medal %d", MiniGameConstants.MAZE_BRONZE_THRESHOLD);
-        bronzeLabel = new Label(bronzeText, skin, "large-white");
-
-        CharSequence silverText = String.format("Silver Medal %d", MiniGameConstants.MAZE_SILVER_THRESHOLD);
-        silverLabel = new Label(silverText, skin, "large-white");
-
-        CharSequence goldText = String.format("Gold Medal %d", MiniGameConstants.MAZE_GOLD_THRESHOLD);
-        goldLabel = new Label(goldText, skin, "large-white");
     }
 
     /**

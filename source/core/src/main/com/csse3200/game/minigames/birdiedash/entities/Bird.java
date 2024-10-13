@@ -20,6 +20,7 @@ public class Bird {
     private boolean collidingPipe; // Variable to track if bird is collided with pipe
     private boolean collideTopOfPipe; // Variable to detects if bird collided with top (or bottom) of pipe
     private boolean isFlapping; //Variable if the bird is flapping
+    private boolean isFalling; // Variable to track if is falling, used for edge case
 
     public Bird(float x, float y) {
         position = new Vector2(x, y);
@@ -73,6 +74,9 @@ public class Bird {
             velocity.set(0,0);
         }
         updateBoundingBox();
+
+        // Means it is falling
+        isFalling = velocity.y < 0;
     }
 
     /**
@@ -195,5 +199,13 @@ public class Bird {
      */
     public Vector2 getVelocity() {
         return velocity;
+    }
+
+    /**
+     * Determines if the bird is falling
+     * @return isFalling
+     */
+    public Boolean birdFalling() {
+        return isFalling;
     }
 }

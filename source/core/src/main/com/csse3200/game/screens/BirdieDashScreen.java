@@ -88,7 +88,7 @@ public class BirdieDashScreen extends PausableScreen {
         ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/bird-bg.mp3"});
         ServiceLocator.getResourceService().loadAll();
 
-        setupExitButton();
+        //setupExitButton();
         createUI();
 
         AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
@@ -107,7 +107,7 @@ public class BirdieDashScreen extends PausableScreen {
         }
 
         clearBackground();
-        birdGame.render(delta);
+        birdGame.render();
         isGameOver();
 
         scoreBoard.updateScore(birdGame.getScore());
@@ -122,10 +122,10 @@ public class BirdieDashScreen extends PausableScreen {
     private void isGameOver() {
         if (birdGame.getIsGameOver()) {
             dispose();
-            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
             }
+            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
             SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         }
     }
@@ -155,7 +155,7 @@ public class BirdieDashScreen extends PausableScreen {
             scale = 1;
             ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
         }
-        setupExitButton();
+        //setupExitButton();
         scoreBoard.resize();
     }
 

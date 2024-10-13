@@ -1,14 +1,12 @@
 package com.csse3200.game.minigames.birdiedash.rendering;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.minigames.MinigameRenderable;
 import com.csse3200.game.minigames.MinigameRenderer;
 import com.csse3200.game.minigames.birdiedash.entities.Coin;
-import com.csse3200.game.minigames.snake.AssetPaths;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
-
 import java.util.List;
 
 /**
@@ -17,8 +15,9 @@ import java.util.List;
 public class CoinRenderer implements MinigameRenderable {
     private final List<Coin> coins;
     private final MinigameRenderer renderer;
-    private Texture coinTexture;
-    private TextureRegion coinRegion;
+    private Animation<TextureRegion> coinAnimation;
+    private float stateTime; // To track animation time
+
 
     // The Constructor with default width and height
     public CoinRenderer(List<Coin> coins, MinigameRenderer renderer) {
@@ -31,9 +30,13 @@ public class CoinRenderer implements MinigameRenderable {
     /**
      * renders the coin
      */
-    public void render(){
+    public void render() {
+
+        stateTime += com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = coinAnimation.getKeyFrame(stateTime, true);
+
         for (Coin coin : this.coins) {
-            renderer.getSb().draw(coinRegion,
+            renderer.getSb().draw(currentFrame,
                     coin.getPosition().x - coin.getWidth()/2,
                     coin.getPosition().y - coin.getWidth()/2,
                     coin.getWidth(),
@@ -42,36 +45,26 @@ public class CoinRenderer implements MinigameRenderable {
     }
 
     /**
-     * Loads the asse
+     * Loads the assets
      */
     private void loadAssets() {
-        ResourceService rs = ServiceLocator.getResourceService();
-        rs.loadTextures(new String[]{AssetPaths.COIN});
-        ServiceLocator.getResourceService().loadAll();
-        coinTexture = rs.getAsset(AssetPaths.COIN, Texture.class);
-        int centerX = coinTexture.getWidth() / 2;
-        int centerY = coinTexture.getHeight() / 2;
-        int regionWidth = 400;
-        int regionHeight = 480;
-        int x = centerX - regionWidth / 2;
-        int y = centerY - regionHeight / 2;
-        coinRegion = new TextureRegion(coinTexture, x, y, regionWidth, regionHeight);
-    }
+        TextureAtlas atlas = new TextureAtlas("images/minigames/coin.atlas");
+        Array<TextureAtlas.AtlasRegion> frames = new Array<>();
 
-    /**
-     * unloads assets
-     */
-    private void unloadAssets() {
-        ResourceService rs = ServiceLocator.getResourceService();
-        rs.unloadAssets(new String[]{AssetPaths.COIN});
+        for (int i = 1; i <= 7; i++) {
+            TextureAtlas.AtlasRegion region = atlas.findRegion("frame" + i);
+            if (region != null) {
+                frames.add(region);
+            }
+        }
+        coinAnimation = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
     }
 
     /**
      * dispose
      */
     public void dispose() {
-        unloadAssets();
-        coinTexture.dispose();
+        // Nothing to dispose here
     }
 }
 

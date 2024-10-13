@@ -58,7 +58,7 @@ public class CollisionHandler{
                         collisionDetected = true;
                         return;
                     } else if (isApproximatelyEqual(bird.getPosition().y + bird.getBirdHeight(),
-                            topPipeY)) {
+                            topPipeY) && !bird.birdFalling()) {
                         bird.setCollidingBottomPipe(topPipeY);
                         collisionDetected = true;
                         return;
