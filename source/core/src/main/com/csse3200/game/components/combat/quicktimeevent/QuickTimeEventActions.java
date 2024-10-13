@@ -74,8 +74,8 @@ public class QuickTimeEventActions extends Component {
         logger.info("Exit QuickTimeEvent screen");
        // game.setScreen(GdxGame.ScreenType.COMBAT);
 //        entity.getEvents().trigger(game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, score)) , 0 );
-        int score = 0;
-        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, score));
+//        int score = 0;
+        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy ));
     }
 
     /**

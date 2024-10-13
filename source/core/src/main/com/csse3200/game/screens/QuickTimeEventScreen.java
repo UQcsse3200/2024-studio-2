@@ -2,7 +2,6 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.csse3200.game.GdxGame;
@@ -12,9 +11,9 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.input.InputService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
@@ -53,8 +52,8 @@ public class QuickTimeEventScreen extends ResizableScreen {
         // Rendering
         renderer = RenderFactory.createRenderer();
         renderer.getStage().setViewport(
-                new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
+                new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
+        );
         loadAssets();
         createUI();
     }
@@ -85,9 +84,12 @@ public class QuickTimeEventScreen extends ResizableScreen {
     public void dispose() {
         logger.debug("Disposing QuickTimeEvent screen");
 
+        renderer.dispose();
         unloadAssets();
+        ServiceLocator.getRenderService().dispose();
+        ServiceLocator.getEntityService().dispose();
 
-        super.dispose();
+        ServiceLocator.clear();
     }
 
     private void loadAssets() {
@@ -116,7 +118,7 @@ public class QuickTimeEventScreen extends ResizableScreen {
         ui.addComponent(new InputDecorator(stage, 10))
           .addComponent(new QuickTimeEventDisplay())
           .addComponent(inputComponent)
-          .addComponent(new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy,0));
+          .addComponent(new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy));
         ServiceLocator.getEntityService().register(ui);
     }
 }

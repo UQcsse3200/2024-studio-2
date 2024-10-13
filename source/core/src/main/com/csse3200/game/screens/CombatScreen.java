@@ -50,7 +50,6 @@ public class CombatScreen extends ResizableScreen {
   };
   private GdxGame game;
   private boolean isPaused = false;
-  private final GdxGame game;
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
@@ -59,6 +58,7 @@ public class CombatScreen extends ResizableScreen {
   private CombatStatsComponent playerCombatStats;
   private CombatStatsComponent enemyCombatStats;
   private final CombatArea combatArea;
+  private boolean resting;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
     this.game = game;
@@ -77,9 +77,9 @@ public class CombatScreen extends ResizableScreen {
     physicsEngine = physicsService.getPhysics();
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
-    ServiceLocator.registerEntityService(new EntityService());
-    ServiceLocator.registerRenderService(new RenderService());
-    renderer = RenderFactory.createRenderer();
+//    ServiceLocator.registerEntityService(new EntityService());
+//    ServiceLocator.registerRenderService(new RenderService());
+//    renderer = RenderFactory.createRenderer();
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     // Load the DialogueBoxService Into Stage
