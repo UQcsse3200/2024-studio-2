@@ -475,6 +475,7 @@ public class MainMenuDisplay extends UIComponent {
                 } else {
                     applyDayMode();
                 }
+                clickSound.play();
             }
         });
 
