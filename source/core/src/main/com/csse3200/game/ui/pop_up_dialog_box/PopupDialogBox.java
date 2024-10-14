@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.ui.CustomButton;
 
 /**
  * A customizable popup dialog box that displays animal information and health bars.
@@ -15,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 public class PopupDialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
-    private final TextButton nextButton;
-    private final TextButton backButton;
+    private final CustomButton nextButton;  // Changed to CustomButton
+    private final CustomButton backButton;  // Changed to CustomButton
     private final Image animalImage;
     private Table statsTable;
     private Runnable callback;
@@ -75,8 +76,13 @@ public class PopupDialogBox extends Dialog {
         contentLabel = new Label(content[currentIndex], skin);
         contentLabel.setWrap(true);
 
-        nextButton = new TextButton("Confirm and Start game", skin);
-        backButton = new TextButton("Back", skin);
+        // Using CustomButton for both buttons
+        nextButton = new CustomButton("Confirm choice", skin);
+        backButton = new CustomButton("Back", skin);
+
+        nextButton.setSize(200, 50);
+        backButton.setSize(200, 50);
+
         addActionListeners();
         createDialogLayout();
     }
@@ -84,27 +90,19 @@ public class PopupDialogBox extends Dialog {
     public void setCallback(Runnable callback) {
         this.callback = callback;
     }
+
     /**
      * Adds action listeners to the buttons in the dialog.
      */
     private void addActionListeners() {
-        nextButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                hide();
-                if (callback != null) {
-                    callback.run();
-                }
+        nextButton.addClickListener(() -> {
+            hide();
+            if (callback != null) {
+                callback.run();
             }
         });
 
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                hide(); // Hide the dialog
-                // You can add additional logic here if needed when going back
-            }
-        });
+        backButton.addClickListener(() -> hide()); // Simple back action for now
     }
 
     /**
@@ -136,10 +134,10 @@ public class PopupDialogBox extends Dialog {
         innerTable.add(animalImage).width(dialogWidth * 0.4f).height(dialogHeight * 0.8f).padRight(20);
         innerTable.add(rightTable).width(dialogWidth * 0.6f).expandY().top();
 
-        // Add inner table and next button to contentTable
+        // Add inner table and buttons to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(nextButton).padTop(20);
-        contentTable.add(backButton).padTop(10);
+        contentTable.add(nextButton).padTop(20).width(200).height(50);  // Explicit width and height
+        contentTable.add(backButton).padTop(10).width(200).height(50);  // Explicit width and height
 
         getContentTable().add(contentTable).expand().center();
 
@@ -163,23 +161,6 @@ public class PopupDialogBox extends Dialog {
         statsTable.add(new Label(String.valueOf(defenseStats[animalIndex]), getSkin())).right().row();
         statsTable.add(new Label("STRENGTH:", getSkin())).left();
         statsTable.add(new Label(String.valueOf(strengthStats[animalIndex]), getSkin())).right().row();
-    }
-
-    /**
-     * Moves to the next page of content in the dialog box. If all pages are shown, hides the dialog.
-     */
-    private void proceedToNext() {
-        currentIndex++;
-        if (currentIndex < titles.length) {
-            titleLabel.setText(titles[currentIndex]);
-            contentLabel.setText(content[currentIndex]);
-            updateStatsTable(); // Update stats table when changing pages
-        } else {
-            hide();  // Hide dialog when content is done
-            if (callback != null) {
-                callback.run();  // Execute the callback when dialog is closed
-            }
-        }
     }
 
     /**
