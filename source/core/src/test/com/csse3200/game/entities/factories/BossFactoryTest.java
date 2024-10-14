@@ -2,9 +2,7 @@ package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.npc.AirBossAnimationController;
-import com.csse3200.game.components.npc.KangaBossAnimationController;
-import com.csse3200.game.components.npc.WaterBossAnimationController;
+import com.csse3200.game.components.npc.BossAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
@@ -90,7 +88,7 @@ class BossFactoryTest {
         assertNotNull(kanga.getComponent(PhysicsComponent.class));
         assertNotNull(kanga.getComponent(PhysicsMovementComponent.class));
         assertNotNull(kanga.getComponent(ColliderComponent.class));
-        assertNotNull(kanga.getComponent(KangaBossAnimationController.class));
+        assertNotNull(kanga.getComponent(BossAnimationController.class));
         assertNotNull(kanga.getComponent(CombatStatsComponent.class));
     }
 
@@ -146,7 +144,7 @@ class BossFactoryTest {
         assertNotNull(waterBoss.getComponent(PhysicsComponent.class));
         assertNotNull(waterBoss.getComponent(PhysicsMovementComponent.class));
         assertNotNull(waterBoss.getComponent(ColliderComponent.class));
-        assertNotNull(waterBoss.getComponent(WaterBossAnimationController.class));
+        assertNotNull(waterBoss.getComponent(BossAnimationController.class));
         assertNotNull(waterBoss.getComponent(CombatStatsComponent.class));
     }
 
@@ -192,7 +190,7 @@ class BossFactoryTest {
         assertNotNull(airBoss.getComponent(PhysicsComponent.class));
         assertNotNull(airBoss.getComponent(PhysicsMovementComponent.class));
         assertNotNull(airBoss.getComponent(ColliderComponent.class));
-        assertNotNull(airBoss.getComponent(AirBossAnimationController.class));
+        assertNotNull(airBoss.getComponent(BossAnimationController.class));
         assertNotNull(airBoss.getComponent(CombatStatsComponent.class));
     }
 

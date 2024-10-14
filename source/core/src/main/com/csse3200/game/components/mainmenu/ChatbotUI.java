@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.ui.CustomButton;
+import com.sun.tools.javac.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +36,14 @@ public class ChatbotUI {
     private final Stage stage;
     private final Skin skin;
     private final ChatbotService chatbotService; // ChatbotService instance
+    private MainMenuDisplay mainMenuDisplay;
 
-    public ChatbotUI(Stage stage, Skin skin) {
+    public ChatbotUI(Stage stage, Skin skin, MainMenuDisplay mainMenuDisplay) {
         this.stage = stage;
         this.skin = skin;
         this.chatbotService = new ChatbotService(); // Initialize ChatbotService
         this.setupPredefinedQuestions();
+        this.mainMenuDisplay = mainMenuDisplay;
     }
 
     /**
@@ -51,6 +54,7 @@ public class ChatbotUI {
             logger.info("Creating chatbot dialog.");
             createChatbotDialog();
         }
+        mainMenuDisplay.setMenuUntouchable();
 
         chatbotDialog.clearActions();
         chatbotDialog.setVisible(true);
@@ -67,6 +71,7 @@ public class ChatbotUI {
             logger.info("Closing chatbot dialog.");
             chatbotDialog.setVisible(false); // Instantly hide the dialog
             isChatbotDialogVisible = false;  // Update the visibility flag
+            mainMenuDisplay.setMenuTouchable();
         }
     }
 

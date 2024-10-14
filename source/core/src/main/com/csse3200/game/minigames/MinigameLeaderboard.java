@@ -9,9 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.PlayFab;
+import com.csse3200.game.components.mainmenu.MainMenuDisplay;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
+import com.sun.tools.javac.Main;
 import org.lwjgl.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +34,7 @@ public class MinigameLeaderboard extends UIComponent {
     private Table buttonRow;
     private Label title;
     private Label warningLabel;
+    private Label gameTitle;
 
     private ArrayList<String> playerNames;
     private ArrayList<String> playerScores;
@@ -49,13 +52,15 @@ public class MinigameLeaderboard extends UIComponent {
     private CustomButton birdButton;
     private CustomButton fishButton;
     private int currentIdx;
+    private MainMenuDisplay mainMenuDisplay;
     /**
      * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
      * and prepares the display for user interaction.
      */
-    public MinigameLeaderboard() {
+    public MinigameLeaderboard(MainMenuDisplay mainMenuDisplay) {
         super();
         playFab = new PlayFab("DBB26");
+        this.mainMenuDisplay = mainMenuDisplay;
         gameName = new ArrayList<>();
         gameName.add("Snake");
         gameName.add("Bird");
@@ -73,11 +78,9 @@ public class MinigameLeaderboard extends UIComponent {
         loadTextures();
         initializeTable();
         addButtons();
-        refreshLeaderboard();
-
+        refreshLeaderboard("Current");
         return table;
     }
-
 
     /**
      * Loads the necessary textures for the UI components.
@@ -104,13 +107,6 @@ public class MinigameLeaderboard extends UIComponent {
         warningLabel.setAlignment(Align.center);
         usernames = new ArrayList<>();
         highscores = new ArrayList<>();
-    }
-
-    public void refreshLeaderboard() {
-        PlayFab.submitScore(gameName.get(currentIdx), 0);
-        PlayFab.getLeaderboard(gameName.get(currentIdx));
-        updateLeaderboard();
-        updateUI();
     }
     private void updateLeaderboard() {
         playerNames = playFab.getUsernames();
@@ -141,26 +137,32 @@ public class MinigameLeaderboard extends UIComponent {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.info("Close button clicked");
                 table.setVisible(false);
+                mainMenuDisplay.setMenuTouchable();
             }
         });
 
         refreshButton = new CustomButton("Refresh", skin);
-        refreshButton.addClickListener(this::refreshLeaderboard);
+        refreshButton.addClickListener(() -> refreshLeaderboard("Current"));
 
         snakeButton = new CustomButton("Snake", skin);
-        snakeButton.addClickListener(() -> moveToLeaderboard("Snake"));
+        snakeButton.addClickListener(() -> refreshLeaderboard("Snake"));
 
         birdButton = new CustomButton("Bird", skin);
-        birdButton.addClickListener(() -> moveToLeaderboard("Bird"));
+        birdButton.addClickListener(() -> refreshLeaderboard("Bird"));
 
         fishButton = new CustomButton("Fish", skin);
-        fishButton.addClickListener(() -> moveToLeaderboard("Fish"));
+        fishButton.addClickListener(() -> refreshLeaderboard("Fish"));
     }
 
-    private void moveToLeaderboard(String name) {
-        PlayFab.getLeaderboard(name);
+    /**
+     *
+     */
+    public void refreshLeaderboard(String name) {
+        if (!name.equals("Current")) {
+            currentIdx = gameName.indexOf(name);
+        }
         PlayFab.submitScore(gameName.get(currentIdx), 0);
-        currentIdx = gameName.indexOf(name);
+        PlayFab.getLeaderboard(gameName.get(currentIdx));
         updateLeaderboard();
         updateUI();
     }
@@ -174,14 +176,14 @@ public class MinigameLeaderboard extends UIComponent {
         table.clear();  // Clear the table to re-add elements
 
         topTable.top().padTop(10);
-        topTable.add(title).expandX().center().padTop(5);
+        topTable.add(title).expandX().center().padTop(5).top();
         topTable.row();
         topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
         if (PlayFab.isLogin) {
             // Add table headers for username and score
-            contentTable.add(new Label("Username", skin, "large-white")).padRight(30f).left();
-            contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).right();
+            contentTable.add(new Label("Username", skin, "large-white")).padRight(30f).left().top();
+            contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).right().top();
 
             contentTable.row();
             for (int i = 0; i < usernames.size(); i++) {
@@ -194,9 +196,9 @@ public class MinigameLeaderboard extends UIComponent {
             buttonRow.add(birdButton).size(150, 50).padRight(10);   // Add bird button
             buttonRow.add(fishButton).size(150, 50);                // Add fish button
 
-            table.add(topTable).expandX().fillX().padTop(-10);
+            table.add(topTable).expandX().fillX().padTop(-10).top();
             table.row();
-            table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(-100);
+            table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).top().padTop(20);
             table.row();
             table.add(buttonRow).expandX().bottom().padBottom(20); // Add buttons row
             table.row();
@@ -204,25 +206,22 @@ public class MinigameLeaderboard extends UIComponent {
         } else {
             contentTable.add(warningLabel).expandX().width(450);
 
-            table.add(topTable).expandX().fillX().padTop(-5);
+            table.add(topTable).expandX().fillX().padTop(-5).top();
             table.row();
             table.add(contentTable).expandX().expandY().padLeft(30f).padRight(30f).padTop(20);
             table.row();
             table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50);
         }
     }
-    @Override
-    public void update() {
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        // draw is handled by the stage
-    }
 
     @Override
     public float getZIndex() {
         return Z_INDEX;
+    }
+
+    @Override
+    protected void draw(SpriteBatch batch) {
+
     }
 
     @Override
