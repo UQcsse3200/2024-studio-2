@@ -1,0 +1,90 @@
+
+inventorySkin.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+button
+  rotate: false
+  xy: 1003, 1675
+  size: 830, 355
+  orig: 830, 355
+  offset: 0, 0
+  index: -1
+buttondown
+  rotate: false
+  xy: 1, 965
+  size: 831, 358
+  orig: 831, 358
+  offset: 0, 0
+  index: -1
+down
+  rotate: false
+  xy: 1835, 1723
+  size: 197, 307
+  orig: 197, 307
+  offset: 0, 0
+  index: -1
+e9_yOtsBihM7gZXXsXGJK8jb.ttf_0
+  rotate: false
+  xy: 834, 1195
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+hotbarskindown
+  rotate: false
+  xy: 1, 135
+  size: 351, 314
+  orig: 351, 314
+  offset: 0, 0
+  index: -1
+hotbarskinhover
+  rotate: false
+  xy: 515, 649
+  size: 351, 314
+  orig: 351, 314
+  offset: 0, 0
+  index: -1
+hotbarskinup
+  rotate: false
+  xy: 1517, 1359
+  size: 351, 314
+  orig: 351, 314
+  offset: 0, 0
+  index: -1
+inventory(4)
+  rotate: false
+  xy: 1, 1325
+  size: 1000, 705
+  orig: 1000, 705
+  offset: 0, 0
+  index: -1
+pixel_18
+  rotate: false
+  xy: 1003, 1161
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+pixel_32
+  rotate: false
+  xy: 1, 451
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+up
+  rotate: false
+  xy: 354, 142
+  size: 197, 307
+  orig: 197, 307
+  offset: 0, 0
+  index: -1
+18font
+  rotate: false
+  xy: 1, 5
+  size: 256, 128
+  orig: 256, 128
+  offset: 0, 0
+  index: -1

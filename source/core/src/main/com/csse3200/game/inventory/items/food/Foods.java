@@ -17,7 +17,7 @@ public class Foods {
         public Apple(int quantity) {
             super("Apple", 11, 1, quantity, 2);
             this.setTexturePath(PATH);
-            this.setDescription("This is an apple. Increases Health by 2.");
+            this.setDescription("This is an apple. Increases Hunger by 2.");
         }
     }
 
@@ -33,7 +33,7 @@ public class Foods {
         public ChickenLeg(int quantity) {
             super("Chicken_Leg", 12, 1, quantity, 7);
             this.setTexturePath(PATH);
-            this.setDescription("This is a chicken leg. Increases Health by 7.");
+            this.setDescription("This is a chicken leg. Increases Hunger by 7.");
         }
     }
 
@@ -49,7 +49,7 @@ public class Foods {
         public Meat(int quantity) {
             super("Meat", 13, 1, quantity, 7);
             this.setTexturePath(PATH);
-            this.setDescription("This is meat. Increases Health by 7.");
+            this.setDescription("This is meat. Increases Hunger by 7.");
         }
     }
 
@@ -65,7 +65,7 @@ public class Foods {
         public Candy(int quantity) {
             super("Candy", 14, 1, quantity, 10);
             this.setTexturePath(PATH);
-            this.setDescription("This is candy. Increases Health by 20.");
+            this.setDescription("This is candy. Increases Hunger by 20.");
         }
     }
 
@@ -81,7 +81,7 @@ public class Foods {
         public Carrot(int quantity) {
             super("Carrot", 15, 1, quantity, 3);
             this.setTexturePath(PATH);
-            this.setDescription("This is a carrot. Increases Health by 3.");
+            this.setDescription("This is a carrot. Increases Hunger by 3.");
         }
     }
 
@@ -97,7 +97,7 @@ public class Foods {
         public Milk(int quantity) {
             super("Milk", 16, 1, quantity, 20);
             this.setTexturePath(PATH);
-            this.setDescription("This is milk. Increases Health by 20.");
+            this.setDescription("This is milk. Increases Hunger by 20.");
         }
     }
 
@@ -113,7 +113,7 @@ public class Foods {
         public Sushi(int quantity) {
             super("Caviar", 17, 1, quantity, 40);
             this.setTexturePath(PATH);
-            this.setDescription("This is Sushi. Increases Health by 40.");
+            this.setDescription("This is Sushi. Increases Hunger by 40.");
         }
     }
 }
