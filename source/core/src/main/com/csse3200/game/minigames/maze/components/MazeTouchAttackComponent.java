@@ -6,9 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.MazePlayer;
-import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
-import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
-import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.minigames.maze.entities.mazenpc.*;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -83,6 +81,8 @@ public class MazeTouchAttackComponent extends Component {
                 stunDuration = 1;
             } else if (targetEntity instanceof ElectricEel) {
                 stunDuration = 2.8f;
+            } else if (targetEntity instanceof Octopus) {
+                stunDuration = 1.4f;
             }
             targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
             AudioManager.playSound("sounds/minigames/maze-hit.mp3");
@@ -91,6 +91,11 @@ public class MazeTouchAttackComponent extends Component {
         if (meEntity instanceof ElectricEel && targetEntity instanceof MazePlayer) {
             targetEntity.getComponent(StatusEffectComponent.class).setExpiryIfInactive("stun", 2f);
             AudioManager.playSound("sounds/minigames/eel-zap.mp3");
+        }
+
+        if (meEntity instanceof Octopus && targetEntity instanceof MazePlayer) {
+            targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("ink", 3.5f);
+            AudioManager.playSound("sounds/minigames/ink-splat.mp3");
         }
 
         // Change to maze combat stats
@@ -107,7 +112,6 @@ public class MazeTouchAttackComponent extends Component {
             Body targetBody = physicsComponent.getBody();
             Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
             // Knockback can be changed. tried doing velocity instead of impulse for more consistency
-            // I imagine we also give the player invincibility for a few seconds after getting hit
             Vector2 knockbackVelocity = direction.scl(knockbackForce);
             targetBody.setLinearVelocity(knockbackVelocity);
         }
