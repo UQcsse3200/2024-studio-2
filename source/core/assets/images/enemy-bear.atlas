@@ -122,6 +122,90 @@ spawn
   orig: 77, 53
   offset: 0, 0
   index: 0
+combat_idle
+  rotate: false
+  xy: 18, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 100, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 184, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 269, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 3
+combat_idle
+  rotate: false
+  xy: 353, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 4
+combat_idle
+  rotate: false
+  xy: 438, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 5
+combat_move
+  rotate: false
+  xy: 20, 211
+  size: 70, 83
+  orig: 70, 83
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 93, 211
+  size: 70, 83
+  orig: 70, 83
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 164, 211
+  size: 90, 83
+  orig: 90, 83
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 255, 211
+  size: 70, 83
+  orig: 70, 83
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 324, 211
+  size: 75, 83
+  orig: 75, 83
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 400, 211
+  size: 80, 83
+  orig: 80, 83
+  offset: 0, 0
+  index: 5
 default
   rotate: false
   xy: 20, 11
