@@ -1,17 +1,29 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.services.AudioManager;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(GameExtension.class)
 class SnakeGameTest {
     private SnakeGame game;
+
+    private static final String[] SOUNDS = {"sounds/minigames/snake-apple.mp3"};
 
     @BeforeEach
     void setUp() {
         game = new SnakeGame();
+        ResourceService resourceService = new ResourceService();
+        ServiceLocator.registerResourceService(resourceService);
+        resourceService.loadSounds(SOUNDS);
+        resourceService.loadAll();
     }
 
     @Test
