@@ -45,7 +45,6 @@ public class StatDisplay extends UIComponent {
     public StatDisplay(GdxGame game) {
         super();
         this.game = game;
-//      StatSaveManager statSaveManager = new StatSaveManager();
         this.stats = GameState.stats.stats;
     }
 
@@ -219,43 +218,46 @@ public class StatDisplay extends UIComponent {
      */
     private Table makeLogbookTable(Stat.StatType type) {
         Table table = new Table();
-        table.top().pad(1);  // Adds padding around the top of the table
-        table.left().pad(100);  // Adds padding around the left of the table
+        table.top().pad(10);  // Adds padding around the top of the table
+        table.padLeft(200);  // Adds padding around the left of the table
 
         // Create and add the title label at the top of the table
-        Label titleLabel = new Label(type + " Statistics", skin);
+        String modifiedType = type.name().charAt(0) + type.name().substring(1).toLowerCase();
+        Label titleLabel = new Label(modifiedType + " Statistics", skin);
         titleLabel.setFontScale(2.0f); // Set the font size
-        table.add(titleLabel).colspan(2).padBottom(35);  // Spanning across both columns and adding some padding below
-        table.row();  // Move to the next row for stats
+        table.add(titleLabel).colspan(4).padLeft(-100).padBottom(35).padTop(35);  // Spanning across both columns and adding some padding below
+        table.row();
+        int count = 0;
 
-        logger.info("stats are: {}", stats);
+        // Log two stats per row with a line separator between them
         for (Stat stat : stats) {
+            // Log 2 stats per row
             logger.info("stat is: {}", stat);
             if (stat.getCurrent() != 0 && stat.getType() == type) {
                 // Create labels to display stat information
-                Label statNameLabel = new Label(String.valueOf(stat.getStatName()), skin);
+                Label statNameLabel = new Label(String.valueOf(stat.getStatDescription()), skin);
                 Label statCurrentLabel = new Label(String.valueOf(stat.getCurrent()), skin);
 
                 // Style the labels
                 statNameLabel.setFontScale(1.5f);
-                statNameLabel.setAlignment(Align.center);
-
                 statCurrentLabel.setFontScale(1.5f);
-                statCurrentLabel.setAlignment(Align.center);
 
                 // Add stat labels to the table
-                table.add(statNameLabel).padRight(20); // Adding padding between columns
-                table.add(statCurrentLabel).padRight(20);
+                table.add(statNameLabel).uniform().pad(10).padBottom(10);
+                table.add(statCurrentLabel).uniform().pad(10).padBottom(20);
+                count++;
 
-                // Add the actual row for the stat
-                table.row();
-
-                // Add a physical line as a separator
-                Label separator = new Label("--------------------------------------------------", skin);
-                separator.setFontScale(1.2f); // Adjust line thickness/size
-                separator.setAlignment(Align.center);
-                table.add(separator).colspan(2).padTop(10).padBottom(10);  // Spanning across both columns
-                table.row();
+                if (count % 2 == 0) {
+                    logger.info("count is even");
+                    table.row();
+                    // Add a physical line as a separator
+                    String statSeparator = "--------------------------------------------------------------------------------------------------";
+                    Label separator = new Label(statSeparator, skin);
+                    separator.setFontScale(1.2f); // Adjust line thickness/size
+                    separator.setAlignment(Align.center);
+                    table.add(separator).colspan(4).padLeft(-125);  // Spanning across both columns
+                    table.row();
+                }
             }
         }
         return table;
@@ -301,8 +303,6 @@ public class StatDisplay extends UIComponent {
     
     @Override
     public void draw(SpriteBatch batch) {
-        // batch isn't used, batchDupe is to make SonarCloud happy, unsure why batch doesn't just work, but it causes
-        // the game to crash :/
         SpriteBatch batchDupe = new SpriteBatch();
         batchDupe.begin();
         batchDupe.draw(new Texture("images/BackgroundSplash.png"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -314,7 +314,6 @@ public class StatDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-//        saveStats(stats);
         SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(StatTextures);
@@ -332,7 +331,6 @@ public class StatDisplay extends UIComponent {
                         Actions.moveBy(0, 5, 0.1f),
                         Actions.scaleTo(1.05f, 1.05f, 0.1f)
                 ));
-                //logger.info("Hover feature activated"); uncomment this if you want to check hover feature
             }
 
             @Override

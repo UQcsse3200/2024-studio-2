@@ -2,39 +2,39 @@
   stats: [
     {
       "statName": "Apple Collected",
-      "statDescription": "Apples collected by player",
-      "statCurrent": 0,
+      "statDescription": "Apples Collected",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
     },
     {
       "statName": "Candy Collected",
-      "statDescription": "Candy collected by player",
-      "statCurrent": 0,
+      "statDescription": "Candy collected",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
     },
     {
       "statName": "Meat Collected",
-      "statDescription": "Meat collected by player",
-      "statCurrent": 0,
+      "statDescription": "Meat collected",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
     },
     {
       "statName": "Carrot Collected",
-      "statDescription": "Carrots collected by player",
-      "statCurrent": 0,
+      "statDescription": "Carrots collected",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
     },
     {
       "statName": "Chicken_Leg Collected",
-      "statDescription": "Chicken legs collected by player",
+      "statDescription": "Chicken legs",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
@@ -42,7 +42,7 @@
     },
     {
       "statName": "Milk Collected",
-      "statDescription": "Milk collected by player",
+      "statDescription": "Milk collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
@@ -50,7 +50,7 @@
     },
     {
       "statName": "Caviar Collected",
-      "statDescription": "Caviar collected by player",
+      "statDescription": "Caviar collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,

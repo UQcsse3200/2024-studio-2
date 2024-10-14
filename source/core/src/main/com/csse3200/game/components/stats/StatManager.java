@@ -80,13 +80,11 @@ public class StatManager extends Component {
                 logger.info("stat not found in stats");
             }
         }
-//        saveStats(stats);
         SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
     }
 
     @Override
     public void dispose() {
-//        saveStats(stats);
         SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         super.dispose();
     }
