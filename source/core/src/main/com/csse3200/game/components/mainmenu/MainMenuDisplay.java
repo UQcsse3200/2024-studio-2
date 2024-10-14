@@ -58,6 +58,7 @@ public class MainMenuDisplay extends UIComponent {
     private String[] owlFacts;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
+    private Texture dayBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
     private boolean dogDirection = true;
     private Cursor customCursor;
@@ -129,6 +130,7 @@ public class MainMenuDisplay extends UIComponent {
         toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
         cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashEmptyNight.png"); // Night background
+        dayBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png"); // Day Background Texture
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
     }
@@ -524,7 +526,7 @@ public class MainMenuDisplay extends UIComponent {
      * Applies Day Mode by changing the background texture to the default day version.
      */
     private void applyDayMode() {
-        lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");  // Set the day mode background.
+        lightBackgroundTexture = dayBackgroundTexture;  // Set the day mode background.
     }
 
     private void updateMuteButtonIcon() {
