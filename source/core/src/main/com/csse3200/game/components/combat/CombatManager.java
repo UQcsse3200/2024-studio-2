@@ -249,28 +249,26 @@ public class CombatManager extends Component {
      * @return the selected action for the enemy.
      */
     private Action selectEnemyMove() {
-        return Action.ATTACK;
-//
-//        Action action;
-//
-//        if (enemyStats.getStamina() < 25) {
-//            updateEnemyMoveStore(Action.SLEEP);
-//            return Action.SLEEP;
-//        }
-//
-//        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
-//                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
-//        action = switch (rand) {
-//            case 0 -> Action.ATTACK;
-//            case 1 -> Action.GUARD;
-//            case 2 -> Action.SLEEP;
-//            case 3 -> Action.SPECIAL;
-//            default -> null;
-//        };
-//
-//        //stores enemyAction
-//        updateEnemyMoveStore(action);
-//        return action;
+        Action action;
+
+        if (enemyStats.getStamina() < 25) {
+            updateEnemyMoveStore(Action.SLEEP);
+            return Action.SLEEP;
+        }
+
+        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
+                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
+        action = switch (rand) {
+            case 0 -> Action.ATTACK;
+            case 1 -> Action.GUARD;
+            case 2 -> Action.SLEEP;
+            case 3 -> Action.SPECIAL;
+            default -> null;
+        };
+
+        //stores enemyAction
+        updateEnemyMoveStore(action);
+        return action;
     }
     /**
      * Updates the stored sequence of enemy moves for a specific enemy type.
