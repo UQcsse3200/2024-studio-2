@@ -42,6 +42,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     buttonPressed.put(Keys.A, false);
     buttonPressed.put(Keys.S, false);
     buttonPressed.put(Keys.D, false);
+    buttonPressed.put(Keys.UP, false);
+    buttonPressed.put(Keys.LEFT, false);
+    buttonPressed.put(Keys.DOWN, false);
+    buttonPressed.put(Keys.RIGHT, false);
     timeSource = ServiceLocator.getTimeSource();
   }
 
@@ -68,25 +72,37 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       return false;
     }
     switch (keycode) {
+      case Keys.UP:
+        buttonPressed.put(Keys.UP, true);
+        updateWalkDirection();
+        return true;
+      case Keys.LEFT:
+        buttonPressed.put(Keys.LEFT, true);
+        updateWalkDirection();
+        return true;
+      case Keys.DOWN:
+        buttonPressed.put(Keys.DOWN, true);
+        updateWalkDirection();
+        return true;
+      case Keys.RIGHT:
+        buttonPressed.put(Keys.RIGHT, true);
+        updateWalkDirection();
+        return true;
       case Keys.W:
         buttonPressed.put(Keys.W, true);
-        walkDirection.add(Vector2Utils.UP);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.A:
         buttonPressed.put(Keys.A, true);
-        walkDirection.add(Vector2Utils.LEFT);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.S:
         buttonPressed.put(Keys.S, true);
-        walkDirection.add(Vector2Utils.DOWN);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.D:
         buttonPressed.put(Keys.D, true);
-        walkDirection.add(Vector2Utils.RIGHT);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
@@ -214,16 +230,16 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   private void updateWalkDirection() {
     walkDirection.set(Vector2.Zero);
-    if (buttonPressed.get(Keys.W)) {
+    if (buttonPressed.get(Keys.W) || buttonPressed.get(Keys.UP)) {
       walkDirection.add(Vector2Utils.UP);
     }
-    if (buttonPressed.get(Keys.A)) {
+    if (buttonPressed.get(Keys.A) || buttonPressed.get(Keys.LEFT)) {
       walkDirection.add(Vector2Utils.LEFT);
     }
-    if (buttonPressed.get(Keys.S)) {
+    if (buttonPressed.get(Keys.S) || buttonPressed.get(Keys.DOWN)) {
       walkDirection.add(Vector2Utils.DOWN);
     }
-    if (buttonPressed.get(Keys.D)) {
+    if (buttonPressed.get(Keys.D) || buttonPressed.get(Keys.RIGHT)) {
       walkDirection.add(Vector2Utils.RIGHT);
     }
     triggerWalkEvent();
