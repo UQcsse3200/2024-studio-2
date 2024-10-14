@@ -60,7 +60,7 @@ public class MiniGameMenuScreen implements Screen {
         });
 
         // Bird image and button
-        setupMinigameUI("Flappy bird", "images/minigames/flappybirdicon.png", 0.5f, 0.8f, 20f, new ClickListener() {
+        setupMinigameUI("Birdie Dash", "images/minigames/flappybirdicon.png", 0.5f, 0.8f, 20f, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.enterBirdieDashScreen();
