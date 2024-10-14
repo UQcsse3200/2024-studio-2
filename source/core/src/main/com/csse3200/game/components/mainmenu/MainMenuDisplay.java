@@ -483,6 +483,7 @@ public class MainMenuDisplay extends UIComponent {
         profileBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                clickSound.play();
                 loginRegisterTable.setVisible(true);
                 setMenuUntouchable();
             }
@@ -492,6 +493,7 @@ public class MainMenuDisplay extends UIComponent {
         trophyBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                clickSound.play();
                 leaderboardTable.setVisible(true);
                 setMenuUntouchable();
             }
