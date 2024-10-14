@@ -76,10 +76,6 @@ public class QuestDisplay extends UIComponent {
         addActors();
     }
 
-    /**
-     * Creates and updates a table with sliders to display quest progression.
-     * @return A table containing sliders for each quest's progression.
-     */
     private Table makeSliders() {
         QuestManager questManager = (QuestManager) ServiceLocator.getEntityService().getSpecificComponent(QuestManager.class);
         Table table = new Table();
@@ -89,13 +85,10 @@ public class QuestDisplay extends UIComponent {
         if (questManager != null) {
             listOfQuests = questManager.getActiveQuests();
             listOfQuests.sort(questComparator);
-            //
+
             int start = currPage * NUM_QUESTS_PER_PAGE;
-            //
             int end = Math.min(start + NUM_QUESTS_PER_PAGE, listOfQuests.size());
             List<Quest> questDisplay = listOfQuests.subList(start, end);
-
-
 
             for (Quest quest : questDisplay) {
                 if (!quest.isSecret()) {
@@ -116,10 +109,9 @@ public class QuestDisplay extends UIComponent {
         Label questsCompletedLabel = new Label("Quests Completed: 0", skin, TITLE_TEXT);
         questsCompletedLabel.setColor(Color.BLACK);
         questsCompletedLabel.setFontScale(0.6f);
-        table.setWidth(561);
+        questsCompletedLabel.setAlignment(1); // Center alignment
 
         table.add(questsCompletedLabel).expandX().center().padBottom(10f).row();
-
     }
 
     /*
@@ -127,38 +119,87 @@ public class QuestDisplay extends UIComponent {
      * @param table The table to which quest components are added to.
      * @param quest The quest for which components are being added to.
      */
-
     private void addQuestComponents(Table table, Quest quest) {
-        Color questShownActive = determineQuestColor(quest);
-        addTitle(table, quest, questShownActive);
-        addProgressBar(table, quest);
-        addCheckbox(table, quest);
-        addQuestInfo(table, quest);
+        Table questRow = new Table();
 
-        table.row().padTop(10f);
+        Color questShownActive = determineQuestColor(quest);
+        addTitle(questRow, quest, questShownActive);
+        addProgressBar(questRow, quest);
+        addCheckbox(questRow, quest);
+
+        table.add(questRow).expandX().fillX().padBottom(10f);
+        table.row();
+
+        addQuestInfo(table, quest);
     }
 
-    private void addTitle(Table table, Quest quest, Color questShownActive) {
+    //DONE POSITIONING
+    private void addTitle(Table questRow, Quest quest, Color questShownActive) {
         Label questTitle = new Label(quest.getQuestName(), skin, TITLE_TEXT, questShownActive);
         questTitle.setFontScaleX(0.5f);
-        table.setWidth(561);
-        table.add(questTitle).expandX().fillX().padRight(5f);
+        questRow.add(questTitle).expandX().fillX().padRight(135f).padLeft(10f);
     }
-
-    private void addProgressBar(Table table, Quest quest) {
+    //DONE POSITIONING
+    private void addProgressBar(Table questRow, Quest quest) {
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
         questProgressBar.setValue(quest.getProgression());
 
         questProgressBar.setSize(270, 20);
-        table.add(questProgressBar).width(150).height(20).padRight(5f);
+        questRow.add(questProgressBar).width(150).height(20).padRight(5f);
     }
 
-    private void addCheckbox(Table table, Quest quest) {
+    //DONE POSITIONING
+    private void addCheckbox(Table questRow, Quest quest) {
         CheckBox questCheckbox = new CheckBox("", skin);
         questCheckbox.setChecked(quest.isQuestCompleted());
-        table.add(questCheckbox).padRight(10f);
-        table.row().padTop(5f);
+        questRow.add(questCheckbox).padRight(10f);
     }
+
+    /**
+     * Adds quest description and hint labels for each task within quest labels to the table.
+     * @param table The table to which task hints are added to.
+     * @param quest The quest whose task hints are to be added to.
+     */
+
+    //DONE POSITIONING
+    private void addQuestInfo(Table table, Quest quest) {
+        Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
+        descLabel.setColor(Color.GRAY);
+        descLabel.setFontScale(0.70f);
+        descLabel.setWrap(true);
+        descLabel.setWidth(100);
+
+        //table.add(descLabel).expandX().fillX().colspan(10);
+        table.add(descLabel).expandX().fillX().colspan(10).padLeft(10f).padRight(135f); // Match padding with questTitle
+
+
+        table.row().padTop(1f);
+
+        for (Task task : quest.getTasks()) {
+            Label hintLabel = new Label("Hint: " + task.getHint(), skin, "default");
+            hintLabel.setColor(Color.GRAY);
+            hintLabel.setFontScale(0.70f);
+            hintLabel.setWrap(true);
+            hintLabel.setWidth(300);
+
+            //table.add(hintLabel).expandX().fillX().colspan(10);
+
+            table.add(hintLabel).expandX().fillX().colspan(10).padLeft(10f).padRight(135f); // Match padding
+            table.row().padTop(1f);
+        }
+    }
+
+    /**
+     * Updates and displays the number of quests completed.
+     * @param table The table containing the label to update.
+     * @param questList The list of quests.
+     */
+    private void updateQuestsCompletedLabel(Table table, List<Quest> questList) {
+        long completedCount = questList.stream().filter(Quest::isQuestCompleted).count();
+        Label questsCompletedLabel = (Label) table.getChildren().get(0);
+        questsCompletedLabel.setText("Quests Completed: " + completedCount);
+    }
+
 
 
     /**
@@ -175,53 +216,15 @@ public class QuestDisplay extends UIComponent {
         }
     }
 
-    /**
-     * Adds quest description and hint labels for each task within quest labels to the table.
-     * @param table The table to which task hints are added to.
-     * @param quest The quest whose task hints are to be added to.
-     */
-    private void addQuestInfo(Table table, Quest quest) {
-        Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
-        descLabel.setColor(Color.GRAY);
-        descLabel.setFontScale(0.70f);
-        descLabel.setWrap(true);
-        descLabel.setWidth(300);
-
-        table.add(descLabel).expandX().fillX().colspan(10);
-        table.row().padTop(1f);
-
-        for (Task task : quest.getTasks()) {
-            Label hintLabel = new Label("Hint: " + task.getHint(), skin, "default");
-            hintLabel.setColor(Color.GRAY);
-            hintLabel.setFontScale(0.70f);
 
 
-            hintLabel.setWrap(true);
-            hintLabel.setWidth(300);
-
-            table.add(hintLabel).expandX().fillX().colspan(10);
-            table.row().padTop(1f);
-        }
-    }
-
-    /**
-     * Updates and displays the number of quests completed.
-     * @param table The table containing the label to update.
-     * @param questList The list of quests.
-     */
-    private void updateQuestsCompletedLabel(Table table, List<Quest> questList) {
-        long completedCount = questList.stream().filter(Quest::isQuestCompleted).count();
-        Label questsCompletedLabel = (Label) table.getChildren().get(0);
-        questsCompletedLabel.setText("Quests Completed: " + completedCount);
-
-
-    }
 
     /**
      * Creates and returns a table containing menu buttons for navigating the quest menu.
      * @return A table containing the menu buttons.
      */
 
+    //DONE POSITONING
     private Table makeMenuBtns() {
 
         TextButton exitBtn = new TextButton("Leave Menu", skin);
@@ -265,12 +268,14 @@ public class QuestDisplay extends UIComponent {
 
 
         Table table = new Table();
-        table.add(prevPage).expandX().left().padRight(10f);
-        table.add(exitBtn).expandX().center().padRight(10f);
-        table.add(nextPage).expandX().right().padLeft(10f);
+
+
+        table.add(prevPage).expandX().left().padRight(10f).padTop(-100f);
+        table.add(exitBtn).expandX().center().padRight(10f).padTop(-100f);
+        table.add(nextPage).expandX().right().padLeft(10f).padTop(-100f);
+
 
         table.padTop(10f);
-
         return table;
     }
 
