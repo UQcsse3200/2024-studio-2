@@ -122,9 +122,14 @@ public class SnakeRenderer implements MinigameRenderable {
                     case RIGHT -> rotation = 270;
                 }
             }else {
-                bodyTexture = (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT)
-                        ? snakeBodyHorizontalTexture
-                        : snakeBodyVerticalTexture;
+                bodyTexture = snakeBodyVerticalTexture;
+                switch(currentDirection) {
+                    case Direction.UP -> rotation = 0;
+                    case DOWN -> rotation = 180;
+                    case LEFT -> rotation = 90;
+                    case RIGHT -> rotation = 270;
+                }
+
             }
 
             renderer.getSb().draw(
