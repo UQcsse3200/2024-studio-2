@@ -39,7 +39,7 @@ public class QuestDisplay extends UIComponent {
      */
     private PausableScreen screen;
     /** Keeps track of number of quests per page */
-    private static final int NUM_QUESTS_PER_PAGE = 4;
+    private static final int NUM_QUESTS_PER_PAGE = 3;
     /**Current page tracker */
     private int currPage = 0;
     /**List of quests */
@@ -133,13 +133,23 @@ public class QuestDisplay extends UIComponent {
         addQuestInfo(table, quest);
     }
 
-    //DONE POSITIONING
+    /**
+     * Adds the title of the quest.
+     * @param questRow      The table representing the row for the quest.
+     * @param quest         The quest object containing information about the quest.
+     * @param questShownActive The color to display the quest title when it is active.
+     */
     private void addTitle(Table questRow, Quest quest, Color questShownActive) {
         Label questTitle = new Label(quest.getQuestName(), skin, TITLE_TEXT, questShownActive);
         questTitle.setFontScaleX(0.5f);
-        questRow.add(questTitle).expandX().fillX().padRight(135f).padLeft(10f);
+        questRow.add(questTitle).expandX().fillX().padRight(130f).padLeft(10f);
     }
-    //DONE POSITIONING
+
+    /**
+     * Adds a progress bar for the quests.
+     * @param questRow The table representing the row for the quest.
+     * @param quest    The quest object containing information about the quest.
+     */
     private void addProgressBar(Table questRow, Quest quest) {
         ProgressBar questProgressBar = new ProgressBar(0, quest.getNumQuestTasks(), 1, false, skin);
         questProgressBar.setValue(quest.getProgression());
@@ -148,7 +158,11 @@ public class QuestDisplay extends UIComponent {
         questRow.add(questProgressBar).width(150).height(20).padRight(5f);
     }
 
-    //DONE POSITIONING
+    /**
+     * Adds a checkbox indicating the completion status of the quest .
+     * @param questRow The table representing the row for the quest.
+     * @param quest    The quest object containing information about the quest.
+     */
     private void addCheckbox(Table questRow, Quest quest) {
         CheckBox questCheckbox = new CheckBox("", skin);
         questCheckbox.setChecked(quest.isQuestCompleted());
@@ -161,7 +175,7 @@ public class QuestDisplay extends UIComponent {
      * @param quest The quest whose task hints are to be added to.
      */
 
-    //DONE POSITIONING
+
     private void addQuestInfo(Table table, Quest quest) {
         Label descLabel = new Label(quest.getQuestDescription(), skin, "default");
         descLabel.setColor(Color.GRAY);
@@ -169,7 +183,7 @@ public class QuestDisplay extends UIComponent {
         descLabel.setWrap(true);
         descLabel.setWidth(100);
 
-        //table.add(descLabel).expandX().fillX().colspan(10);
+
         table.add(descLabel).expandX().fillX().colspan(10).padLeft(10f).padRight(135f); // Match padding with questTitle
 
 
@@ -182,7 +196,7 @@ public class QuestDisplay extends UIComponent {
             hintLabel.setWrap(true);
             hintLabel.setWidth(300);
 
-            //table.add(hintLabel).expandX().fillX().colspan(10);
+
 
             table.add(hintLabel).expandX().fillX().colspan(10).padLeft(10f).padRight(135f); // Match padding
             table.row().padTop(1f);
@@ -224,7 +238,7 @@ public class QuestDisplay extends UIComponent {
      * @return A table containing the menu buttons.
      */
 
-    //DONE POSITONING
+
     private Table makeMenuBtns() {
 
         TextButton exitBtn = new TextButton("Leave Menu", skin);
