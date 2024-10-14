@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -146,6 +147,37 @@ class QuestManagerTest {
         assertTrue(updatedQuest.getTasks().get(0).isCompleted());
         assertTrue(updatedQuest.getTasks().get(1).isCompleted());
         assertTrue(updatedQuest.isQuestCompleted());
+    }
+
+
+    @Test
+    void TestProgressThroughMultipleTasks() {
+        Task task1 = new Task("task1", "Task 1", "Description", 1, 0, false, false);
+        Task task2 = new Task("task2", "Task 2", "Description", 1, 0, false, false);
+        Quest quest = new Quest("Multi Task Quest", "Description", List.of(task1, task2), false, null, null, true, false, 0, new String[] {});
+        questManager.addQuest(quest);
+
+        questManager.progressQuest("Multi Task Quest", "task1");
+        assertFalse(quest.isQuestCompleted());
+        questManager.progressQuest("Multi Task Quest", "task2");
+        assertTrue(quest.isQuestCompleted());
+    }
+
+    @Test
+    void TestFollowQuest() {
+        Task task1 = new Task("task1", "Task 1", "Description", 1, 0, false, false);
+        Quest quest1 = new Quest("Quest 1", "Description", List.of(task1), false, null, null, true, false, 0, new String[] {});
+
+        Task task2 = new Task("task2", "Task 2", "Description", 1, 0, false, false);
+        Quest quest2 = new Quest("Quest 2", "Description", List.of(task2), false, null, null, false, false, 0, new String[] {"Quest 1"});
+
+        questManager.addQuest(quest1);
+        questManager.addQuest(quest2);
+
+        assertFalse(quest2.isActive());
+        questManager.progressQuest("Quest 1", "task1");
+        assertTrue(quest1.isQuestCompleted());
+        assertTrue(quest2.isActive());
     }
 
 }

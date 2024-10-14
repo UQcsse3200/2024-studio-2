@@ -31,6 +31,11 @@ public class PauseDisplay extends UIComponent {
     private GdxGame game;
 
 
+    /**
+     * Constructs a PauseDisplay instance.
+     * @param screen The screen that can be paused and resumed.
+     * @param game   The game instance that manages the overall state.
+     */
     public PauseDisplay(PausableScreen screen, GdxGame game) {
      super();
      this.screen = screen;
@@ -42,6 +47,10 @@ public class PauseDisplay extends UIComponent {
         super.create();
         addActors();
     }
+
+    /**
+     * Adds UI actors to the pause display, including the title and buttons.
+     */
 
     private void addActors() {
         // Title label
@@ -65,6 +74,10 @@ public class PauseDisplay extends UIComponent {
         stage.addActor(rootTable);
     }
 
+    /**
+     * Creates a table of menu buttons for the pause display.
+     * @return A table containing buttons for game.
+     */
     private Table makeMenuBtns() {
         // Create buttons
         TextButton resumeBtn = new TextButton("Resume", skin);
@@ -133,14 +146,23 @@ public class PauseDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Exits the pause overlay, resuming the game.
+     */
     private void exitOverlay() {
         screen.removeOverlay();
     }
 
+    /**
+     * Opens the quest tracker overlay.
+     */
     private void openQuests() {
         screen.addOverlay(Overlay.OverlayType.QUEST_OVERLAY);
     }
 
+    /**
+     * Opens the settings overlay.
+     */
     private void openSettings() {  // New method to open settings overlay
         screen.addOverlay(Overlay.OverlayType.SETTINGS_OVERLAY);
     }
