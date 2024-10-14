@@ -26,7 +26,6 @@ public class CombatInventoryDisplay extends InventoryDisplay {
     public void create() {
         super.create();
         entity.getEvents().addListener("itemUsedInCombat", this::useItemInCombat);
-        entity.getEvents().addListener("combatLossInvClear", this.inventory::clearInventory);
     }
 
     @Override
