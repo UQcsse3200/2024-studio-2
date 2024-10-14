@@ -29,6 +29,7 @@ public class MiniGameMenuScreen implements Screen {
     private SpriteBatch batch;
     private SnakePopup PopupWindow;
     private float scale;
+    private SnakePopup snakePopup;
 
     // Image textures
     private Texture snakeTexture;
@@ -206,6 +207,7 @@ public class MiniGameMenuScreen implements Screen {
 
     }
 
+
     /**
      * Called when the screen is resized
      * @param width width fo the new screen
@@ -215,6 +217,9 @@ public class MiniGameMenuScreen implements Screen {
     public void resize(int width, int height) {
         // Update the stage viewport
         stage.getViewport().update(width, height, true);
+        if (PopupWindow != null) {
+            PopupWindow.resize(width, height);
+        }
         float baseWidth = 1920f;
         float baseHeight = 1200f;
         float scaleWidth = width / baseWidth;
@@ -222,6 +227,7 @@ public class MiniGameMenuScreen implements Screen {
         scale = Math.min(scaleWidth, scaleHeight);
         show();
     }
+
 
     /**
      * Called when the game is paused

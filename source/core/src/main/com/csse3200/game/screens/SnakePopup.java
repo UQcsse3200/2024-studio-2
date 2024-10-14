@@ -68,7 +68,10 @@ public class SnakePopup {
         window.setVisible(true);
         Gdx.input.setInputProcessor(stage);
     }
-
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+        window.setSize(width, height);  // Adjust window size accordingly
+    }
     public void hide() {
         window.setVisible(false);
         Gdx.input.setInputProcessor(null);
