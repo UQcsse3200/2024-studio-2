@@ -50,11 +50,11 @@ com.csse3200.game.inventory.items.potions
 com.csse3200.game.lighting
 com.csse3200.game.lighting.components
 com.csse3200.game.minigames
-com.csse3200.game.minigames.birdieDash
-com.csse3200.game.minigames.birdieDash.collision
-com.csse3200.game.minigames.birdieDash.controller
-com.csse3200.game.minigames.birdieDash.entities
-com.csse3200.game.minigames.birdieDash.rendering
+com.csse3200.game.minigames.birdiedash
+com.csse3200.game.minigames.birdiedash.collision
+com.csse3200.game.minigames.birdiedash.controller
+com.csse3200.game.minigames.birdiedash.entities
+com.csse3200.game.minigames.birdiedash.rendering
 com.csse3200.game.minigames.maze
 com.csse3200.game.minigames.maze.areas
 com.csse3200.game.minigames.maze.areas.terrain
@@ -68,6 +68,7 @@ com.csse3200.game.minigames.maze.entities.configs
 com.csse3200.game.minigames.maze.entities.factories
 com.csse3200.game.minigames.maze.entities.mazenpc
 com.csse3200.game.minigames.maze.physics
+com.csse3200.game.minigames.maze.rendering
 com.csse3200.game.minigames.snake
 com.csse3200.game.minigames.snake.controller
 com.csse3200.game.minigames.snake.rendering

@@ -98,7 +98,8 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EndMiniGameScreen</span>
 <span class="extends-implements">extends com.badlogic.gdx.ScreenAdapter</span></div>
 <div class="block">Makes a new screen when the snake game is over.
- Displays the stats and add buttons to exit and restart.</div>
+ Displays the stats and add buttons to exit and restart.
+ Gives loot box and achievements to player based on the medal</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -138,7 +139,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(float)" class="member-name-link">render</a><wbr>(float&nbsp;delta)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Renders the screen.</div>
+<div class="block">Renders the stage that includes the background image and the contentsTable</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resize(int,int)" class="member-name-link">resize</a><wbr>(int&nbsp;width,
@@ -188,8 +189,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="render(float)">
 <h3>render</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">render</span><wbr><span class="parameters">(float&nbsp;delta)</span></div>
-<div class="block">Renders the screen. Sets the background colour, draws the UI elements (buttons) and
- renders the message labels and handles key presses</div>
+<div class="block">Renders the stage that includes the background image and the contentsTable</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>render</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.Screen</code></dd>
