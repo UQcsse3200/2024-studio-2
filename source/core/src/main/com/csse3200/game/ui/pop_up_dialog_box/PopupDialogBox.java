@@ -56,8 +56,8 @@ public class PopupDialogBox extends Dialog {
         this.getContentTable().setBackground(backgroundImage.getDrawable());
         this.titles = titles;
         this.content = content;
-        this.dialogWidth = dialogWidth;
-        this.dialogHeight = dialogHeight;
+        this.dialogWidth = dialogWidth + 200;
+        this.dialogHeight = dialogHeight + 150;
 
         // Load the animal image
         Texture animalTexture = new Texture(Gdx.files.internal(animalImagePath));
@@ -112,41 +112,45 @@ public class PopupDialogBox extends Dialog {
         Table contentTable = new Table();
         contentTable.pad(20);
 
-        // Layout: Image on the left, text and stats table on the right
+        // Layout for animal image and text
         Table rightTable = new Table();
-
-        // Text on top 1/3 of the right side
         Table textTable = new Table();
-        textTable.add(contentLabel).width(dialogWidth * 0.5f)
-                .padTop(30)
-                .top().expandY();
+        textTable.add(contentLabel).width(dialogWidth * 0.5f).padTop(30).top().expandY();
         rightTable.add(textTable).width(dialogWidth * 0.5f).expandX().row();
 
-        // Stats table under text
+        // Stats Table
         Table statsContainer = new Table();
         statsTable = new Table();
         statsTable.add(new Label("STATS", getSkin())).colspan(2).padBottom(10).row();
         statsContainer.add(statsTable).expand().top().row();
         rightTable.add(statsContainer).width(dialogWidth * 0.5f).expandX().fillY().top();
 
-        // Add image and right table to the content layout
+        // Add image and rightTable
         Table innerTable = new Table();
         innerTable.add(animalImage).width(dialogWidth * 0.4f).height(dialogHeight * 0.8f).padRight(20);
         innerTable.add(rightTable).width(dialogWidth * 0.6f).expandY().top();
 
-        // Add inner table and buttons to contentTable
+        // Add innerTable to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(nextButton).padTop(20).width(200).height(50);  // Explicit width and height
-        contentTable.add(backButton).padTop(10).width(200).height(50);  // Explicit width and height
 
+        // Create a new table for buttons and align them horizontally
+        Table buttonTable = new Table();
+        buttonTable.add(nextButton).width(200).height(50).padRight(10); // Reduced right padding
+        buttonTable.add(backButton).width(200).height(50);
+
+        // Add buttonTable to contentTable with reduced top padding
+        contentTable.add(buttonTable).padTop(10).expandX().center();
+
+        // Add contentTable to the dialog's content table
         getContentTable().add(contentTable).expand().center();
 
         // Set the size and position of the dialog box
         setSize(dialogWidth, dialogHeight);
         setPosition((Gdx.graphics.getWidth() - getWidth()) / 2f, (Gdx.graphics.getHeight() - getHeight()) / 2f);
 
-        updateStatsTable(); // Update stats table with the current animal's stats
+        updateStatsTable(); // Update stats with animal data
     }
+
 
     /**
      * Updates the stats table with the current animal's stats.
