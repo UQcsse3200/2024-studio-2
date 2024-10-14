@@ -40,7 +40,6 @@ public class MainMenuScreen extends ResizableScreen {
   @Override
   public void resize(int width, int height) {
     super.resize(width, height);
-    mainMenuDisplay.updateUserTable();
     //mainMenuDisplay.updateSettingMenu();
     mainMenuDisplay.updateLoginRegisterTable();
     mainMenuDisplay.updateMenuButtonLayout();

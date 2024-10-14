@@ -38,8 +38,6 @@ public class MainMenuDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table table;
     private Table menuButtonTable;
-    private Table userTable;
-    private Table trophyTable;
     private Table loginRegisterTable;
     private Table leaderboardTable;
     private SettingsMenu settingsMenu;
@@ -155,8 +153,6 @@ public class MainMenuDisplay extends UIComponent {
         addTopLeftToggle();
         addTopRightButtons();
         addSettingMenu();
-        addUserTable();
-        addTrophyTable();
         addLoginRegisterTable();
         addLeaderboardTable();
     }
@@ -166,8 +162,6 @@ public class MainMenuDisplay extends UIComponent {
     private void initializeTables() {
         table = new Table();
         menuButtonTable = new Table();
-        userTable = new Table();
-        trophyTable = new Table();
         loginRegisterTable = new Table();
         leaderboardTable = new Table();
     }
@@ -470,7 +464,9 @@ public class MainMenuDisplay extends UIComponent {
         topLeftTable.top().left();
         topLeftTable.setFillParent(true);
 
-        Image toggleImage = new Image(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
+        Button toggleImage = new Button(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
+        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
+        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
 
         toggleImage.addListener(new ClickListener() {
             @Override
@@ -485,8 +481,33 @@ public class MainMenuDisplay extends UIComponent {
             }
         });
 
+
+        profileBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                loginRegisterTable.setVisible(true);
+                setMenuUntouchable();
+            }
+        });
+
+
+        trophyBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                leaderboardTable.setVisible(true);
+                setMenuUntouchable();
+            }
+        });
+
         // Add the image to the top left corner
-        topLeftTable.add(toggleImage).size(175, 175).pad(10); // Adjust the size as needed
+        topLeftTable.add(toggleImage).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.row();
+        // Add the image to the top left corner
+        topLeftTable.add(profileBtn).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.row();
+        // Add the image to the top left corner
+        topLeftTable.add(trophyBtn).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.row();
 
         // Add the table to the stage
         stage.addActor(topLeftTable);
@@ -514,23 +535,6 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
-    private void addUserTable() {
-        userTable.setSize(175, 175);
-        userTable.setVisible(true);
-        userTable.setPosition(185, Gdx.graphics.getHeight() - 30);
-        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
-        userTable.add(profileBtn).size(110, 110).top().padTop(30).expandY();
-
-        profileBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                loginRegisterTable.setVisible(true);
-                setMenuUntouchable();
-            }
-        });
-        stage.addActor(userTable);
-    }
-
     /**
      * Add login register table, which could be open by clicking the profile button
      */
@@ -550,42 +554,6 @@ public class MainMenuDisplay extends UIComponent {
         );
 
         stage.addActor(loginRegisterTable);
-    }
-    private void addTrophyTable() {
-        // Clear existing content to prevent duplication and allow resizing
-        trophyTable.clear();
-        trophyTable.setVisible(true);
-
-        // Get current screen dimensions
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        // Determine the size and position based on the screen dimensions
-        float tableSize = screenWidth * 0.08f;
-        float positionX = 10f;
-        float positionY = screenHeight - tableSize - 150f;
-
-        // Set the size and position of the trophyTable
-        trophyTable.setSize(tableSize, tableSize);
-        trophyTable.setPosition(positionX, positionY);
-
-        // Create the trophy button with the appropriate size
-        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
-        trophyTable.add(trophyBtn).size(tableSize * 0.8f, tableSize * 0.8f).top().padTop(30).expandY();
-
-        // Add the listener to the trophy button
-        trophyBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                leaderboardTable.setVisible(true);
-                setMenuUntouchable();
-            }
-        });
-
-        // Add the trophyTable to the stage if it's not already added
-        if (!stage.getActors().contains(trophyTable, true)) {
-            stage.addActor(trophyTable);
-        }
     }
     /**
      * Update the size and position of the leaderboard table based on screen size and fullscreen mode.
@@ -643,14 +611,6 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Update the position of user table.
-     */
-    public void updateUserTable() {
-        float screenHeight = Gdx.graphics.getHeight();
-        userTable.setPosition(165, screenHeight - 190);
-    }
-
-    /**
      * Displays the help window with slides for game instructions.
      */
     private void showHelpWindow() {
@@ -701,7 +661,6 @@ public class MainMenuDisplay extends UIComponent {
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                     updateLeaderboardTable();
-                    addTrophyTable();
                 } else {
                     // Fullscreen mode
                     UserSettings.Settings settings = UserSettings.get();
@@ -709,7 +668,6 @@ public class MainMenuDisplay extends UIComponent {
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                     updateLeaderboardTable();
-                    addTrophyTable();
                 }
                 logger.info("Fullscreen toggled: {}", !isFullscreen);
             }
