@@ -37,7 +37,7 @@ public class CombatManager extends Component {
     /**
      * Enum representing the possible actions in combat: ATTACK, GUARD, SLEEP, SPECIAL, or ITEM.
      */
-    public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
+    public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM, INVALID}
     private final CombatAnimationDisplay combatAnimationDisplay = new CombatAnimationDisplay();
 
     private final Entity player;
@@ -108,7 +108,11 @@ public class CombatManager extends Component {
         this.playerItemIndex = index;
         this.playerItemContext = context;
 
-        onPlayerActionSelected("ITEM");
+        if (item.onlyMapItem()) {
+            onPlayerActionSelected("INVALID");
+        } else {
+            onPlayerActionSelected("ITEM");
+        }
     }
 
     /**
@@ -148,19 +152,21 @@ public class CombatManager extends Component {
             return;
         }
 
-        enemyAction = selectEnemyMove();
+        if (!playerActionStr.equals("INVALID")) {
+            enemyAction = selectEnemyMove();
 
-        handlePlayerConfusion();
+            handlePlayerConfusion();
 
-        logger.info("(BEFORE) PLAYER {}: health {}, hunger {}", playerAction, playerStats.getHealth(), playerStats.getHunger());
-        logger.info("(BEFORE) ENEMY {}: health {}, hunger {}", enemyAction, enemyStats.getHealth(), enemyStats.getHunger());
+            logger.info("(BEFORE) PLAYER {}: health {}, hunger {}", playerAction, playerStats.getHealth(), playerStats.getHunger());
+            logger.info("(BEFORE) ENEMY {}: health {}, hunger {}", enemyAction, enemyStats.getHealth(), enemyStats.getHunger());
 
-        // Execute the selected moves for both player and enemy.
-        executeMoveCombination(playerAction, enemyAction);
+            // Execute the selected moves for both player and enemy.
+            executeMoveCombination(playerAction, enemyAction);
 
-        handleStatusEffects();
+            handleStatusEffects();
 
-        checkCombatEnd();
+            checkCombatEnd();
+        }
     }
 
     /**
@@ -616,52 +622,63 @@ public class CombatManager extends Component {
 
         String[] entityStatChanges = calculateStatChanges();
 
-        if (!entityStatChanges[0].isEmpty()) {
-            playerStatChange = true;
-        }
-        if (!entityStatChanges[1].isEmpty()) {
-            enemyStatChange = true;
-        }
-        logger.info(entityStatChanges[1]);
-        logger.info("The enemyStat change value is {}", enemyStatChange);
+        if (!playerAction.equals(Action.INVALID)) {
+            if (!entityStatChanges[0].isEmpty()) {
+                playerStatChange = true;
+            }
+            if (!entityStatChanges[1].isEmpty()) {
+                enemyStatChange = true;
+            }
+            logger.info(entityStatChanges[1]);
+            logger.info("The enemyStat change value is {}", enemyStatChange);
 
 
-        if (moveChangedByConfusion) {
-            moveTextList.add(String.format("The enemy confused you into %sing!", playerMoveDetails));
-        } else if (playerMoveDetails.equals("ITEM")) {
-            moveTextList.add(String.format("You decided to use an %s.", playerMoveDetails));
+            if (moveChangedByConfusion) {
+                moveTextList.add(String.format("The enemy confused you into %sing!", playerMoveDetails));
+            } else if (playerMoveDetails.equals("ITEM")) {
+                moveTextList.add(String.format("You decided to use an %s.", playerMoveDetails));
+            } else {
+                moveTextList.add(String.format("You decided to %s.", playerMoveDetails));
+            }
+            if (enemyMoveDetails.equals("SLEEP") || enemyMoveDetails.equals("GUARD")) {
+                moveTextList.add(String.format("The enemy decided to %s!", enemyMoveDetails));
+            } else {
+                moveTextList.add(String.format("The enemy used their %s!", enemyMoveDetails));
+            }
+
+            if (playerStatChange) {
+                moveTextList.add(entityStatChanges[0]);
+            }
+            if (enemyStatChange) {
+                moveTextList.add(entityStatChanges[1]);
+            }
+
+            String statusEffects = playerStatusEffects();
+
+            if (!statusEffects.isEmpty()) {
+                moveTextList.add(statusEffects);
+            }
+
+            // Convert the ArrayList to a 2D array for updateText
+            String[][] moveText = new String[1][moveTextList.size()];
+            moveText[0] = moveTextList.toArray(new String[0]);
+
+            ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
+
+            // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
+            addDialogueBoxListener();
+
+            entity.getEvents().trigger("displayCombatResults");
         } else {
-            moveTextList.add(String.format("You decided to %s.", playerMoveDetails));
-        }
-        if (enemyMoveDetails.equals("SLEEP") || enemyMoveDetails.equals("GUARD")) {
-            moveTextList.add(String.format("The enemy decided to %s!", enemyMoveDetails));
-        } else {
-            moveTextList.add(String.format("The enemy used their %s!", enemyMoveDetails));
-        }
+            moveTextList.add(String.format("Cannot use this item in combat", playerMoveDetails));
+            String[][] moveText = new String[1][moveTextList.size()];
+            moveText[0] = moveTextList.toArray(new String[0]);
 
-        if (playerStatChange) {
-            moveTextList.add(entityStatChanges[0]);
-        }
-        if (enemyStatChange) {
-            moveTextList.add(entityStatChanges[1]);
+            ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
+            addDialogueBoxListener();
         }
 
-        String statusEffects = playerStatusEffects();
 
-        if (!statusEffects.isEmpty()) {
-            moveTextList.add(statusEffects);
-        }
-
-        // Convert the ArrayList to a 2D array for updateText
-        String[][] moveText = new String[1][moveTextList.size()];
-        moveText[0] = moveTextList.toArray(new String[0]);
-
-        ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
-
-        // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
-        addDialogueBoxListener();
-
-        entity.getEvents().trigger("displayCombatResults");
     }
 
     /**

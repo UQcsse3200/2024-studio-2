@@ -46,9 +46,6 @@ public class CombatInventoryDisplay extends InventoryDisplay {
         ItemUsageContext context = new ItemUsageContext(entity);
         if (!item.onlyMapItem()) {
             entity.getEvents().trigger("itemClicked", item, index, context);
-        } else {
-            String[][] itemText = {{"This item can only be used on the map!"}};
-            ServiceLocator.getDialogueBoxService().updateText(itemText, DialogueBoxService.DialoguePriority.BATTLE);
         }
     }
 

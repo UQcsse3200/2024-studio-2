@@ -63,6 +63,7 @@ public class CombatButtonDisplay extends UIComponent {
         addActors();
         entity.getEvents().addListener("displayCombatResults", this::hideButtons);
         entity.getEvents().addListener("itemClicked", this::onItemClicked);
+        entity.getEvents().addListener("itemDenied", this::onItemClicked);
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
         entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
@@ -346,11 +347,13 @@ public class CombatButtonDisplay extends UIComponent {
      */
     private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
         logger.debug(String.format("Item %s was clicked.", item.getName()));
-        String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
-        ServiceLocator.getDialogueBoxService().updateText(checkText, DialogueBoxService.DialoguePriority.BATTLE);
+        if (!item.onlyMapItem()) {
+            String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
+            ServiceLocator.getDialogueBoxService().updateText(checkText, DialogueBoxService.DialoguePriority.BATTLE);
 
-        entity.getEvents().trigger("toggleCombatInventory");
-        entity.getEvents().trigger("itemConfirmed", item, index, context);
+            entity.getEvents().trigger("toggleCombatInventory");
+            entity.getEvents().trigger("itemConfirmed", item, index, context);
+        }
     }
 
     @Override
