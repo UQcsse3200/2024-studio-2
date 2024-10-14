@@ -64,6 +64,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private final MiniGameMedals medal;  // Medal based on the score
     private Texture backgroundTexture;  // The background image texture
     private Image backgroundImage;  // The background image
+    private Texture medalTexture; // Medal Image texture
     private static final String[] endMiniGameSounds = {  // Game sounds for each medal
             "sounds/minigames/fail.mp3",
             "sounds/minigames/bronze.mp3",
@@ -167,15 +168,16 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private void renderMedalImage() {
 
         // Set the medal image based on the medal
-        Texture medalTexture;
-        if (medal == MiniGameMedals.GOLD) {
-            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameGold.png"));
-        } else if (medal == MiniGameMedals.SILVER) {
-            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameSilver.png"));
-        } else {
-            medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameBronze.png"));
+        switch (medal) {
+            case GOLD ->
+                    this.medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameGold.png"));
+            case SILVER ->
+                    this.medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameSilver.png"));
+            case BRONZE ->
+                    this.medalTexture = new Texture(Gdx.files.internal("images/minigames/MiniGameBronze.png"));
+            default -> this.medalTexture = null;
         }
-        if (medal != MiniGameMedals.FAIL) {
+        if (this.medalTexture != null) {
             // Add in the medal Image
             Image medalImage = new Image(medalTexture);
             medalImage.setScaling(Scaling.fit);  // Keep this to maintain the aspect ratio
@@ -438,12 +440,13 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     @Override
     public void dispose() {
-        font18.dispose();
-        font26.dispose();
-        font32.dispose();
-        stage.dispose();
-        skin.dispose();
-        backgroundTexture.dispose();
+        if (font18 != null) {font18.dispose();}
+        if (font26 != null) {font26.dispose();}
+        if (font32 != null) {font32.dispose();}
+        if (stage != null) {stage.dispose();}
+        if (skin != null) {skin.dispose();}
+        if (backgroundTexture != null) {backgroundTexture.dispose();}
+        if (medalTexture != null) {medalTexture.dispose();}
         unloadAssets();
         ServiceLocator.getResourceService().dispose();
     }
