@@ -6,9 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.MazePlayer;
-import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
-import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
-import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.minigames.maze.entities.mazenpc.*;
 import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
@@ -77,14 +75,19 @@ public class MazeTouchAttackComponent extends Component {
             // Increment score if collision with fish eggs
             if (targetEntity instanceof FishEgg) {
                 meEntity.getComponent(MazeGameManagerComponent.class).setLastFishEgg(targetEntity);
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.SCORE1, meEntity.getCenterPosition());
                 AudioManager.playSound("sounds/minigames/collect-fishegg.mp3");
                 return;
             }
             float stunDuration = 0.8f;
             if (targetEntity instanceof AnglerFish) {
                 stunDuration = 1;
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE20, meEntity.getCenterPosition());
             } else if (targetEntity instanceof ElectricEel) {
                 stunDuration = 2.8f;
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE5, meEntity.getCenterPosition());
+            //} else if (targetEntity instanceof Octopus){ TODO add when merged with minigame updates
+            //    ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE15, meEntity.getCenterPosition());
             } else {
                 ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, meEntity.getCenterPosition());
             }

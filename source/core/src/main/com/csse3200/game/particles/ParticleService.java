@@ -77,7 +77,11 @@ public class ParticleService {
         SPARKS("particles/electricparticles.p", MazeGameArea.NUM_EELS, MazeGameArea.NUM_EELS*2),
         FISH_EGG_SPARKLE("particles/starlight.p", MazeGameArea.NUM_EGGS, MazeGameArea.NUM_EGGS*2),
         BUBBLES("particles/trail.p", 2, 4),
-        DAMAGE10("particles/damage_10.p", 5, 10);
+        DAMAGE5("particles/damage_5.p", 10, 20),
+        DAMAGE10("particles/damage_10.p", 5, 10),
+        DAMAGE15("particles/damage_15.p", 5, 7),
+        DAMAGE20("particles/damage_20.p", 5, 5),
+        SCORE1("particles/score_1.p", 2, 16);
 
         final String path;
         final int initialCapacity;
