@@ -18,7 +18,8 @@ public class SnakeGameRenderer {
 
     private final ScoreBoard scoreBoard;
     private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
-            snakeBodyVerticalTexture, snakeBodyBentTexture, grassTexture, grassLightTexture, grassDarkTexture;
+            snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture, grassTexture,
+            grassLightTexture, grassDarkTexture;
     private final MinigameRenderer renderer;
 
     /**
@@ -36,7 +37,8 @@ public class SnakeGameRenderer {
                 renderer));
         renderer.addRenderable(new SnakeRenderer(game.getSnake(), game.getGrid(), snakeTexture,
                 snakeBodyHorizontalTexture,
-                snakeBodyVerticalTexture, snakeBodyBentTexture, renderer));
+                snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture,
+                renderer));
         this.scoreBoard = new ScoreBoard(0, MiniGameNames.SNAKE);
     }
 
@@ -75,6 +77,8 @@ public class SnakeGameRenderer {
         snakeBodyHorizontalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_HORIZONTAL_IMAGE, Texture.class);
         snakeBodyVerticalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
         snakeBodyBentTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_BENT_IMAGE, Texture.class);
+        snakeTailTexture = resourceService.getAsset(AssetPaths.SNAKE_TAIL_IMAGE,
+                Texture.class);
 
     }
 
@@ -97,6 +101,7 @@ public class SnakeGameRenderer {
         snakeBodyHorizontalTexture.dispose();
         snakeBodyVerticalTexture.dispose();
         snakeBodyBentTexture.dispose();
+        snakeTailTexture.dispose();
         grassTexture.dispose();
         grassLightTexture.dispose();
         grassDarkTexture.dispose();

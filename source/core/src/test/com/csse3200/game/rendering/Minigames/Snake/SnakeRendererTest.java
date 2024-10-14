@@ -32,6 +32,7 @@ class SnakeRendererTest {
         Texture snakeBodyHorizontalTexture = mock(Texture.class);
         Texture snakeBodyVerticalTexture = mock(Texture.class);
         Texture snakeBodyBentTexture = mock(Texture.class);
+        Texture snakeTailTexture = mock(Texture.class);
         MinigameRenderer minigameRenderer = mock(MinigameRenderer.class);
 
         // Initialising the SnakeRenderer with mocked dependencies
@@ -40,6 +41,7 @@ class SnakeRendererTest {
                 snakeBodyHorizontalTexture,
                 snakeBodyVerticalTexture,
                 snakeBodyBentTexture,
+                snakeTailTexture,
                 minigameRenderer
         );
     }

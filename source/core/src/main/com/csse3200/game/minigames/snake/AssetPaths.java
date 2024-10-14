@@ -14,6 +14,7 @@ public class AssetPaths {
     public static final String SNAKE_BODY_HORIZONTAL_IMAGE = "images/minigames/snakebodyhorizontal.png";
     public static final String SNAKE_BODY_VERTICAL_IMAGE = "images/minigames/snakebodyvertical.png";
     public static final String SNAKE_BODY_BENT_IMAGE = "images/minigames/snakebodybent.png";
+    public static final String SNAKE_TAIL_IMAGE = "images/minigames/snakebodyhorizontal.png";
 
     // Bird
     public static final String BIRD = "images/minigames/bird.png";
