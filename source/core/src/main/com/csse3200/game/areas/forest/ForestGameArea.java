@@ -409,8 +409,8 @@ public class ForestGameArea extends GameArea {
             maxPos = new GridPoint2(maxGateX, (MAP_SIZE.y / 3 * 2) - 5);
         } else if (entity.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
             // Spawn at the top of the map
-            minPos = new GridPoint2(minGateX, MAP_SIZE.y - 10);
-            maxPos = new GridPoint2(maxGateX, MAP_SIZE.y - 5);
+            minPos = new GridPoint2(minGateX, MAP_SIZE.y - 20);
+            maxPos = new GridPoint2(maxGateX, MAP_SIZE.y - 15);
         }
 
         if (minPos != null) {
@@ -806,7 +806,7 @@ public class ForestGameArea extends GameArea {
 
             GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
 
-            spawnEntityAt(joey, spawnPos, true, false);
+            spawnEntityAt(joey, spawnPos, true, true);
             enemies.add(joey);
         }
     }
@@ -835,25 +835,6 @@ public class ForestGameArea extends GameArea {
 
             spawnEntityAtVector(windGust, pos);
         }
-    }
-
-    /**
-     * Static method to play the background music
-     */
-    public static void pMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC,
-                Music.class);
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
-    }
-
-    /**
-     * Static method to pause the background music
-     */
-    public static void puMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC, Music.class);
-        music.pause();
     }
 
     public void loadAssets() {

@@ -122,7 +122,7 @@ public class BossFactory {
         } else if (type == Entity.EnemyType.WATER_BOSS) {
             aiComponent.addTask(new LeviathanTask(target, 10, 10f, 16f, 100f, 300));
         } else if (type == Entity.EnemyType.AIR_BOSS) {
-            aiComponent.addTask(new GriffinTask(target, 10, 8f, 300, 100f));
+            aiComponent.addTask(new GriffinTask(target, 10, 30f, 300, 100f));
         }
         
         AnimationRenderComponent animator =
