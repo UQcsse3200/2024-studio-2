@@ -27,8 +27,8 @@ public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
     private Table rootTable;
     private static final String BUTTONTEXTURE = "images/PauseOverlay/Button2.png";
-    private PausableScreen screen;
-    private GdxGame game;
+    private final PausableScreen screen;
+    private final GdxGame game;
 
 
     /**
