@@ -28,8 +28,12 @@ public class MazeObstacleFactory {
     public static Entity createMazeWall(float width, float height) {
         Entity wall = new Entity()
                 .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-                .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-                .addComponent(new TextureRenderComponent("images/minigames/wall.png"));
+                .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+        if (width > height) {
+            wall.addComponent(new TextureRenderComponent("images/minigames/wall_h.png"));
+        } else {
+            wall.addComponent(new TextureRenderComponent("images/minigames/wall_v.png"));
+        }
         wall.setScale(width, height);
         return wall;
     }

@@ -85,7 +85,6 @@ public class CombatAreaConfig {
 
     static final String[] questSounds = {"sounds/QuestComplete.wav"};
     static final String[] forestSounds = {"sounds/Impact4.ogg"};
-    static final String HEARTBEAT = "sounds/heartbeat.mp3";
     static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
     static final String[] forestMusic = {BACKGROUND_MUSIC};
 
