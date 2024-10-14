@@ -121,6 +121,33 @@ public class GdxGame extends Game {
     }
 
     /**
+     * Makes a new snake screen (make to reduce circular dependencies)
+     * @param oldScreen the screen the game came from (mini-game menu or main game)
+     * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
+     */
+    public void newSnakeScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        this.setScreen(new SnakeScreen(this, oldScreen, oldScreenServices));
+    }
+
+    /**
+     * Makes a new bird screen (make to reduce circular dependencies)
+     * @param oldScreen the screen the game came from (mini-game menu or main game)
+     * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
+     */
+    public void newBirdScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        this.setScreen(new BirdieDashScreen(this, oldScreen, oldScreenServices));
+    }
+
+    /**
+     * Makes a new maze screen (make to reduce circular dependencies)
+     * @param oldScreen the screen the game came from (mini-game menu or main game)
+     * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
+     */
+    public void newMazeScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        this.setScreen(new MazeGameScreen(this, oldScreen, oldScreenServices));
+    }
+
+    /**
      * Overloaded to add new combat screen
      * Changes to a new screen, does NOT dispose of old screen
      *

@@ -136,9 +136,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
     private void setGameScreen() {
         dispose();
         switch (gameName) {
-            case SNAKE -> game.enterSnakeScreen();
-            case BIRD -> game.enterBirdieDashScreen();
-            case MAZE -> game.enterMazeGameScreen();
+            case SNAKE -> game.newSnakeScreen(oldScreen, oldScreenServices);
+            case BIRD -> game.newBirdScreen(oldScreen, oldScreenServices);
+            case MAZE -> game.newMazeScreen(oldScreen, oldScreenServices);
         }
     }
 
