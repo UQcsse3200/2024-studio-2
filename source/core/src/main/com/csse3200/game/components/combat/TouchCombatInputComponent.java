@@ -27,15 +27,15 @@ public class TouchCombatInputComponent extends InputComponent {
     }
     switch (keycode) {
       case Keys.UP:
-        triggerQuickTimeBtnPress(Keys.UP);
+//        triggerQuickTimeBtnPress(Keys.UP);
         return true;
       case Keys.LEFT:
-        triggerQuickTimeBtnPress(Keys.LEFT);
+//        triggerQuickTimeBtnPress(Keys.LEFT);
         return true;
       case Keys.RIGHT:
-        triggerQuickTimeBtnPress(Keys.RIGHT);
+//        triggerQuickTimeBtnPress(Keys.RIGHT);
       case Keys.DOWN:
-        triggerQuickTimeBtnPress(Keys.DOWN);
+//        triggerQuickTimeBtnPress(Keys.DOWN);
       default:
         return false;
     }

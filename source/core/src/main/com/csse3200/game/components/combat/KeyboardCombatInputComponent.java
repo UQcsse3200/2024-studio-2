@@ -32,17 +32,17 @@ public class KeyboardCombatInputComponent extends InputComponent {
     switch (keycode) {
       case Keys.W:
         buttonPressed.put(Keys.W, true);
-        triggerQuickTimeBtnPress(Keys.W);
+//        triggerQuickTimeBtnPress(Keys.W);
         return true;
       case Keys.A:
         buttonPressed.put(Keys.A, true);
-        triggerQuickTimeBtnPress(Keys.A);
+//        triggerQuickTimeBtnPress(Keys.A);
       case Keys.S:
         buttonPressed.put(Keys.S, true);
-        triggerQuickTimeBtnPress(Keys.S);
+//        triggerQuickTimeBtnPress(Keys.S);
       case Keys.D:
         buttonPressed.put(Keys.D, true);
-        triggerQuickTimeBtnPress(Keys.D);
+//        triggerQuickTimeBtnPress(Keys.D);
       default:
         return false;
     }
