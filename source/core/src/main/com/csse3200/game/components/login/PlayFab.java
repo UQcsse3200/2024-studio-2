@@ -87,12 +87,25 @@ public class PlayFab {
         if (result.Result != null) {
             String succeedMsg = "Welcome " + request.Username + ".";
             isLogin = true;
+
+            if (!usernames.contains(username)) {
+                usernames.add(username);
+            }
+
             logger.debug(succeedMsg);
             return new Response(succeedMsg, true);
         } else {
             String errorMsg = result.Error.errorMessage;
             logger.debug(result.Error.errorMessage);
             return new Response(errorMsg, false);
+        }
+    }
+
+    public static String getPlayerName() {
+        if (isLogin && !usernames.isEmpty()) {
+            return usernames.get(0);
+        } else {
+            return "Guest"; // Return "Guest" if no user is logged in or list is empty
         }
     }
 
