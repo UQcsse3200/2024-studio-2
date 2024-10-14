@@ -17,7 +17,6 @@ import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -87,7 +86,7 @@ public class MazeGameArea extends GameArea {
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
     private Maze maze;  // The maze instance
     private Entity player;  // THe player instance
-    private List<Entity> fishEggs;
+    private final List<Entity> fishEggs;
 
     /**
      * Initialise this ForestGameArea to use the provided TerrainFactory.

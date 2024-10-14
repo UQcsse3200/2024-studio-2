@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csse3200.game.rendering.TextureRenderComponent;
-import com.csse3200.game.services.ServiceLocator;
 
 public class AlphaTextureRenderComponent extends TextureRenderComponent {
     private float alpha = 1f;
@@ -18,6 +17,7 @@ public class AlphaTextureRenderComponent extends TextureRenderComponent {
     }
 
     /** @param texture Static texture to render. Will be scaled to the entity's scale. */
+    //TODO: Can we delete this?
     public AlphaTextureRenderComponent(Texture texture) {
         super(texture);
     }
