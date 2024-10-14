@@ -129,7 +129,7 @@
     "spritePath": "images/friendly-eel.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/eel_octopus.wav"],
-    "animalName": "Bear",
+    "animalName": "Eel",
     "itemProbability": 0.0
   },
   "friendlyOctopus": {
@@ -139,7 +139,7 @@
     "spritePath": "images/friendly-octopus.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/eel_octopus.wav"],
-    "animalName": "Bear",
+    "animalName": "Octopus",
     "itemProbability": 0.0
   },
   "friendlyBee": {
@@ -149,7 +149,7 @@
     "spritePath": "images/friendly-bee.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/bee.wav"],
-    "animalName": "Bear",
+    "animalName": "Bee",
     "itemProbability": 0.0
   },
   "friendlyPigeon": {
@@ -159,7 +159,7 @@
     "spritePath": "images/friendly-pigeon.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/pigeon.wav"],
-    "animalName": "Bear",
+    "animalName": "Pigeon",
     "itemProbability": 0.0
   },
   "friendlyBigsawfish": {
@@ -169,7 +169,7 @@
     "spritePath": "images/bigsawfish.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/bigsawfish.wav"],
-    "animalName": "Bear",
+    "animalName": "Bigsawfish",
     "itemProbability": 0.0
   },
   "friendlyMacaw": {
@@ -179,7 +179,7 @@
     "spritePath": "images/friendly-macaw.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/macaw.wav"],
-    "animalName": "Bear",
+    "animalName": "Macaw",
     "itemProbability": 0.0
   }
 }
