@@ -163,7 +163,7 @@ public class LoginRegisterDisplay extends UIComponent {
         contentTable.add(new Label("Username:", skin)).padRight(10);
         contentTable.add(usernameField).width(200).padBottom(10);
         contentTable.row();
-        
+
         contentTable.add(new Label("Password:", skin)).padRight(10);
         contentTable.add(passwordField).width(200).padBottom(10);
         contentTable.row();
