@@ -140,8 +140,8 @@
 			],
 			currentTaskIndex: 0
 			isFailed: false
-			isActive: false,
 			taskCompletionTriggers: spawnKangaBoss
+			isActive: false
 			followQuests: [
 				"Guide's Intro",
 				"Guide's Request",
@@ -185,7 +185,7 @@
 		}
 		{
 			questName: Water Sage's Intro
-			questDescription: Fill in
+			questDescription: Speak to the cow
 			tasks: [
 				{
 					taskName: talkToWaterSage
@@ -221,7 +221,7 @@
 		}
 		{
 			questName: Sea Pearl Collection
-			questDescription: Fill in
+			questDescription: Find and collect 6 apples
 			tasks: [
 				{
 					taskName: pickUpApple
@@ -291,7 +291,7 @@
 		}
 		{
 			questName: Play Flappy Game
-			questDescription: Fill in
+			questDescription: Win a flappy game medal
 			tasks: [
 				{
 					taskName: completeFlappyMinigame
@@ -328,8 +328,8 @@
 			],
 			currentTaskIndex: 0
 			isFailed: false
-			isActive: false,
 			taskCompletionTriggers: spawnWaterBoss,
+			isActive: false
 			followQuests: [
 				"Water Sage's Intro",
 				"Sea Pearl Collection",
@@ -338,7 +338,7 @@
 		}
 		{
 			questName: Defeat Water Boss
-			questDescription: Fill in
+			questDescription: Defeat the water boss
 			tasks: [
 				{
 					taskName: defeatWaterBoss
