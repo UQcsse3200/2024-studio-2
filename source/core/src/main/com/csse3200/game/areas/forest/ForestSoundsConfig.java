@@ -27,7 +27,9 @@ public class ForestSoundsConfig {
 
     public static final String[] GAME_MUSIC = {
             BACKGROUND_MUSIC,
-            "sounds/heartbeat.mp3"
+            "sounds/tension-land-boss.mp3",
+            "sounds/tension-water-boss.mp3",
+            "sounds/tension-air-boss.mp3",
     };
 
     public static final String [] CHARACTER_SOUNDS = {

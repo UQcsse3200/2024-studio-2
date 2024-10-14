@@ -8,17 +8,17 @@ import com.csse3200.game.components.CombatStatsComponent;
  */
 public abstract class CombatMove {
     protected String moveName;   // The name of the move.
-    protected int staminaCost;   // The stamina required to perform the move.
+    protected int hungerCost;   // The hunger required to perform the move.
 
     /**
-     * Constructor to initialize the move name and stamina cost.
+     * Constructor to initialize the move name and hunger cost.
      *
      * @param moveName    the name of the move.
-     * @param staminaCost the amount of stamina required to execute the move.
+     * @param hungerCost the amount of hunger required to execute the move.
      */
-    protected CombatMove(String moveName, int staminaCost) {
+    protected CombatMove(String moveName, int hungerCost) {
         this.moveName = moveName;
-        this.staminaCost = staminaCost;
+        this.hungerCost = hungerCost;
     }
 
     /**
@@ -67,11 +67,11 @@ public abstract class CombatMove {
     }
 
     /**
-     * Gets the stamina cost required to perform the move.
+     * Gets the hunger cost required to perform the move.
      *
-     * @return the stamina cost.
+     * @return the hunger cost.
      */
-    public int getStaminaCost() {
-        return staminaCost;
+    public int getHungerCost() {
+        return hungerCost;
     }
 }
