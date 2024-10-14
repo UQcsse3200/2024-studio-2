@@ -95,10 +95,22 @@ public class AnimalRouletteActions1 {
         display.updateAnimalImage(animalImagePaths[currentAnimalIndex]);
     }
 
+    /**
+     * This method selects the current animal and highlights it by setting its color.
+     * It resets the color of the previously selected animal if any.
+     */
     private void selectCurrentAnimal() {
+        if (selectedAnimalImage != null) {
+            // Reset the previous selection
+            selectedAnimalImage.setColor(1, 1, 1, 1); // Reset to white
+        }
+
+        // Select the new animal and highlight it
         selectedAnimalImage = display.getAnimalImage();
+        selectedAnimalImage.setColor(1, 0, 0, 1); // Set to red to indicate highlight
         selectedAnimalImagePath = animalImagePaths[currentAnimalIndex];
         GameState.player.selectedAnimalPath = selectedAnimalImagePath;
+
         logger.debug("Animal selected: {}", selectedAnimalImagePath);
     }
 
@@ -122,16 +134,13 @@ public class AnimalRouletteActions1 {
     }
 
     public void resetSelection() {
+        if (selectedAnimalImage != null) {
+            // Reset the color of the previously selected animal
+            selectedAnimalImage.setColor(1, 1, 1, 1); // Reset to white
+        }
         selectedAnimalImage = null;
         selectedAnimalImagePath = null;
         currentAnimalIndex = 0;
         updateDisplayedAnimal();
-    }
-
-    void selectAnimal(Image animalImage, String animalImagePath) {
-        selectedAnimalImage = animalImage;
-        selectedAnimalImagePath = animalImagePath;
-        GameState.player.selectedAnimalPath = animalImagePath;
-        logger.debug("Animal selected: {}", animalImage.getName());
     }
 }
