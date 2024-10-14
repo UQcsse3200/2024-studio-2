@@ -36,7 +36,6 @@ public class SnakeGameRenderer {
         renderer.addRenderable(new AppleRenderer(game.getApple(), game.getGrid(), appleTexture,
                 renderer));
         renderer.addRenderable(new SnakeRenderer(game.getSnake(), game.getGrid(), snakeTexture,
-                snakeBodyHorizontalTexture,
                 snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture,
                 renderer));
         this.scoreBoard = new ScoreBoard(0, MiniGameNames.SNAKE);

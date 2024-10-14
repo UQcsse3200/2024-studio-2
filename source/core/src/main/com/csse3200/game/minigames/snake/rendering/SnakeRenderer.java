@@ -16,7 +16,6 @@ public class SnakeRenderer implements MinigameRenderable {
     private final Snake snake;
     private final SnakeGrid grid;
     private final Texture snakeTexture;
-    private final Texture snakeBodyHorizontalTexture;
     private final Texture snakeBodyVerticalTexture;
     private final Texture snakeBodyBentTexture;
     private final Texture snakeTailTexture;
@@ -28,19 +27,17 @@ public class SnakeRenderer implements MinigameRenderable {
      * @param snake The snake to render.
      * @param grid The grid the snake is on.
      * @param snakeTexture The texture for the snake's head.
-     * @param snakeBodyHorizontalTexture The texture for the snake's horizontal body segments.
      * @param snakeBodyVerticalTexture The texture for the snake's vertical body segments.
      * @param snakeBodyBentTexture The texture for the snake's bent body segments.
      * @param renderer The renderer used for drawing.
      */
     public SnakeRenderer(Snake snake, SnakeGrid grid, Texture snakeTexture,
-                         Texture snakeBodyHorizontalTexture, Texture snakeBodyVerticalTexture,
+                         Texture snakeBodyVerticalTexture,
                          Texture snakeBodyBentTexture,
                          Texture snakeTailTexture, MinigameRenderer renderer) {
         this.snake = snake;
         this.grid = grid;
         this.snakeTexture = snakeTexture;
-        this.snakeBodyHorizontalTexture = snakeBodyHorizontalTexture;
         this.snakeBodyVerticalTexture = snakeBodyVerticalTexture;
         this.snakeBodyBentTexture = snakeBodyBentTexture;
         this.snakeTailTexture = snakeTailTexture;
