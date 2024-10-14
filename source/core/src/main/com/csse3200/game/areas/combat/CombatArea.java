@@ -100,9 +100,8 @@ public class CombatArea extends GameArea {
         } else if (kingdomType == KINGDOM.AIR) {
            terrain = combatTerrainFactory.createBackgroundTerrainAir(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
         } else { // water
-           terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE); // 1826, 973
+           terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
         }
-        //terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, new GridPoint2(1826, 973));
         Entity terrainEntity = new Entity();
         spawnEntityAt((terrainEntity.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
     }
@@ -126,10 +125,10 @@ public class CombatArea extends GameArea {
             if (kingdomType == KINGDOM.WATER) {
                 playerSpawn = new GridPoint2(330, 337);
             } else if (kingdomType == KINGDOM.AIR) {
-                playerSpawn = new GridPoint2(380, 215); // y = 480
-                newPlayer.scaleHeight(60f);
+                playerSpawn = new GridPoint2(370, 240);
+                newPlayer.scaleHeight(130f);
             } else {
-                playerSpawn = new GridPoint2(332, 200); // 332, 335
+                playerSpawn = new GridPoint2(332, 210);
                 newPlayer.scaleHeight(150f);
             }
             // newPlayer.scaleHeight(60f);
@@ -139,18 +138,18 @@ public class CombatArea extends GameArea {
             } else if  (kingdomType == KINGDOM.AIR) {
                 playerSpawn = new GridPoint2(337, 215);
             } else {
-                playerSpawn = new GridPoint2(337, 190); // 337, 335
+                playerSpawn = new GridPoint2(337, 190);
             }
         } else { //animal is bird
             if(kingdomType == KINGDOM.WATER) {
-                newPlayer.setScale(5f, 5f); // 2.5f, 2.5f
-                playerSpawn = new GridPoint2(400, 550);
-                player.scaleHeight(250f);
+                // newPlayer.setScale(5f, 5f); // 2.5f, 2.5f
+                playerSpawn = new GridPoint2(380, 340);
+                newPlayer.scaleHeight(180f);
             } else if (kingdomType == KINGDOM.AIR) {
                 playerSpawn = new GridPoint2(337, 200);
                 newPlayer.scaleHeight(100);
             } else {
-                playerSpawn = new GridPoint2(350, 200); // 350, 335
+                playerSpawn = new GridPoint2(350, 200);
                 newPlayer.scaleHeight(200);
             }
         }
@@ -171,7 +170,7 @@ public class CombatArea extends GameArea {
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
         if (kingdomType == KINGDOM.WATER) {
-            nP.setPosition(520, 250); // water background 600, 300
+            nP.setPosition(520, 250); // water background
         } else {
             nP.setPosition(520, 250);
         }
@@ -208,7 +207,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnChicken() {
         Entity newEnemy = CombatAnimalFactory.createChickenCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(760, 185), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(760, 190), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -226,7 +225,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnMonkey() {
         Entity newEnemy = CombatAnimalFactory.createMonkeyCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(750, 185), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(750, 190), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -280,7 +279,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnEel() {
         Entity newEnemy = CombatAnimalFactory.createEelCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(780, 337), true, true);
         this.enemyDisplay = newEnemy;
     }
 

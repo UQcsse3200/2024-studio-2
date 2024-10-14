@@ -76,20 +76,17 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/zzz.png", Texture.class);
         sleepImage = new Image(sleepTexture);
 
-//        float xZ = 310;
-//        float yZ = 640;
-
         if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER){
             float xZ = stage.getWidth() * 0.2f;
             float yZ = stage.getHeight() * 0.6f;
             sleepImage.setPosition(xZ, yZ);
         } else {
-            float xZ = stage.getWidth() * 0.23f;
+            float xZ = stage.getWidth() * 0.21f;
             float yZ = stage.getHeight() * 0.39f;
             sleepImage.setPosition(xZ, yZ);
         }
 
-        float scaleFactor = stage.getWidth() * 0.06f / sleepImage.getWidth();
+        float scaleFactor = stage.getWidth() * 0.07f / sleepImage.getWidth();
         sleepImage.setScale(scaleFactor);
         // sleepImage.setScale(0.3f);
         sleepImage.setVisible(true);
@@ -137,10 +134,16 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/zzz.png", Texture.class);
         enemySleepImage = new Image(sleepTexture2);
 
-        float xZ = 1150;
-        float yZ = 640;
+        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER){
+            float xZ = stage.getWidth() * 0.58f;
+            float yZ = stage.getHeight() * 0.6f;
+            enemySleepImage.setPosition(xZ, yZ);
+        } else {
+            float xZ = stage.getWidth() * 0.6f;
+            float yZ = stage.getHeight() * 0.39f;
+            enemySleepImage.setPosition(xZ, yZ);
+        }
 
-        enemySleepImage.setPosition(xZ, yZ);
         enemySleepImage.setScale(0.3f);
         enemySleepImage.setVisible(true);
         stage.addActor(enemySleepImage);
@@ -197,8 +200,8 @@ public class CombatAnimationDisplay extends UIComponent {
             xZ = stage.getWidth() * 0.39f;
             yZ = stage.getHeight() * 0.5f;
         } else {
-            xZ = stage.getWidth() * 0.370f;
-            yZ = stage.getHeight() * 0.285f;
+            xZ = stage.getWidth() * 0.371f;
+            yZ = stage.getHeight() * 0.286f;
         }
 
         guardImage.setPosition(xZ, yZ);
@@ -206,7 +209,6 @@ public class CombatAnimationDisplay extends UIComponent {
         float scaleFactor = stage.getWidth() * 0.1f / guardImage.getWidth();
         guardImage.setScale(scaleFactor);
 
-        // guardImage.setScale(0.35f);
         guardImage.setColor(1f, 1f, 1f, 0.7f);
         guardImage.setVisible(true);
         stage.addActor(guardImage);
@@ -237,13 +239,20 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/shield.png", Texture.class);
         enemyGuardImage = new Image(guardTexture);
 
-//        float xZ = 930;
-//        float yZ = 440;
-        float xZ = stage.getWidth() * 0.6f;
-        float yZ = stage.getHeight() * 0.25f;
+        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
+            float xZ = stage.getWidth() * 0.58f;
+            float yZ = stage.getHeight() * 0.5f;
+            enemyGuardImage.setPosition(xZ, yZ);
+        } else {
+            float xZ = stage.getWidth() * 0.57f;
+            float yZ = stage.getHeight() * 0.285f;
+            enemyGuardImage.setPosition(xZ, yZ);
+        }
 
-        enemyGuardImage.setPosition(xZ, yZ);
-        enemyGuardImage.setScale(0.3f);
+        // enemyGuardImage.setScale(0.4f);
+        float scaleFactor = stage.getWidth() * 0.1f / enemyGuardImage.getWidth();
+        enemyGuardImage.setScale(scaleFactor);
+
         enemyGuardImage.setColor(1f, 1f, 1f, 0.7f);
         enemyGuardImage.setVisible(true);
         stage.addActor(enemyGuardImage);
@@ -266,9 +275,6 @@ public class CombatAnimationDisplay extends UIComponent {
      * Triggers fireball to be thrown at enemy entity's position
      */
     public void attackAnimation() {
-//        Texture combatTexture = ServiceLocator.getResourceService()
-//                .getAsset("images/flipped_fireball.png", Texture.class); // Replaced with single_fireball
-
         Texture combatTexture = ServiceLocator.getResourceService()
                 .getAsset("images/rock.png", Texture.class); // Replaced with single_fireball
 
@@ -288,7 +294,6 @@ public class CombatAnimationDisplay extends UIComponent {
         }
 
         // Set the initial position of the image (e.g., off-screen or at a specific point)
-        // combatImage.setPosition(600, 550);
         combatImage.setPosition(xZ, yZ);
         combatImage.setVisible(true);
 
@@ -301,7 +306,6 @@ public class CombatAnimationDisplay extends UIComponent {
         float xMove = stage.getWidth() * 0.69f;
 
         // Move the image over 2 seconds
-        // combatImage.addAction(moveTo(1200, 550, 0.8f, Interpolation.linear));
         combatImage.addAction(moveTo(xMove, yZ, 0.8f, Interpolation.linear));
 
         // Schedule to hide the image after it reaches its destination
@@ -323,18 +327,24 @@ public class CombatAnimationDisplay extends UIComponent {
      */
     public void enemyAttackAnimation() {
         Texture combatTexture = ServiceLocator.getResourceService()
-                .getAsset("images/single_fireball.png", Texture.class); // Replaced with single_fireball
+                .getAsset("images/rock.png", Texture.class); // Replaced with single_fireball
 
         enemyCombatImage = new Image(combatTexture);
         enemyCombatImage.setAlign(Align.center);
-        enemyCombatImage.setScale(1f);
+        enemyCombatImage.setScale(0.3f);
 
-        float xZ = stage.getWidth() * 0.69f;
-        float yZ = stage.getHeight() * 0.3f;
+        float xZ;
+        float yZ = 0;
+        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
+            xZ = stage.getWidth() * 0.69f;
+            yZ = stage.getHeight() * 0.53f;
+            enemyCombatImage.setPosition(xZ, yZ);
+        } else {
+            xZ = stage.getWidth() * 0.69f;
+            yZ = stage.getHeight() * 0.38f;
+            enemyCombatImage.setPosition(xZ, yZ);
+        }
 
-        // Set the initial position of the image (e.g., off-screen or at a specific point)
-        // enemyCombatImage.setPosition(1200, 550);
-        enemyCombatImage.setPosition(xZ, yZ);
         enemyCombatImage.setVisible(true);
 
         // Add the table to the stage
@@ -346,8 +356,7 @@ public class CombatAnimationDisplay extends UIComponent {
         float xMove = stage.getWidth() * 0.3f;
 
         // Move the image over 2 seconds
-        // enemyCombatImage.addAction(moveTo(600, 550, 2f, Interpolation.linear));
-        enemyCombatImage.addAction(moveTo(xMove, yZ, 2f, Interpolation.linear));
+        enemyCombatImage.addAction(moveTo(xMove, yZ, 0.8f, Interpolation.linear));
 
         // Schedule to hide the image after it reaches its destination
         Timer timer = new Timer();
@@ -359,7 +368,7 @@ public class CombatAnimationDisplay extends UIComponent {
                     enemyCombatImage.remove();
                 }
             }
-        }, 2000);  // 2 seconds
+        }, 800);  // 2 seconds
     }
 
     @Override
