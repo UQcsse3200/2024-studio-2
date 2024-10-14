@@ -235,7 +235,7 @@ class InventoryTest {
         assertTrue(inventory.hasItem("Apple"));
 
         assertEquals(1, inventory.getAt(inventory.getIndex("Apple")).getQuantity());
-        assertEquals("This is a health potion. Increases heals player health by 25.",
+        assertEquals("This is a health potion. Increases player's health by 25.",
                 inventory.getAt(inventory.getIndex("Health Potion")).getDescription());
 
         SaveHandler.delete(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
