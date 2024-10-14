@@ -93,6 +93,8 @@ public class CombatManager extends Component {
     @Override
     public void create() {
         entity.getEvents().addListener("itemConfirmed", this::usePlayerItem);
+        entity.addComponent(new CombatStatsChangePopup());
+        entity.getComponent(CombatStatsChangePopup.class).create();
     }
 
     /**
@@ -582,6 +584,11 @@ public class CombatManager extends Component {
 
         statChanges[0] = playerStatsDetails;
         statChanges[1] = enemyStatsDetails;
+
+        entity.getEvents().trigger("playerHealthStatsDiffPopup", playerStats.getHealth() - copyPlayerStats.getHealth());
+        entity.getEvents().trigger("playerHungerStatsDiffPopup", playerStats.getStamina() - copyPlayerStats.getStamina());
+        entity.getEvents().trigger("enemyHealthStatsDiffPopup", enemyStats.getHealth() - copyEnemyStats.getHealth());
+        entity.getEvents().trigger("enemyHungerStatsDiffPopup", enemyStats.getStamina() - copyEnemyStats.getStamina());
 
         return statChanges;
     }
