@@ -21,6 +21,8 @@ public class SnakePopup {
     private final Texture texture;
     private final GdxGame game;
     private final String gameType;
+    private final int windowWidth = 800;
+    private final int windowHeight = 600;
 
     public SnakePopup(GdxGame game, String texturePath, String gameType) {
         this.game = game;
@@ -31,9 +33,11 @@ public class SnakePopup {
         texture = new Texture(Gdx.files.internal(texturePath));
 
         window = new Window("Help", skin);
-        window.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        window.setPosition(0, 0);
+        window.setSize(windowWidth, windowHeight);
+       // window.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+       // window.setPosition(0, 0);
         window.setModal(true);
+        window.setPosition((Gdx.graphics.getWidth() - windowWidth) / 2, (Gdx.graphics.getHeight() - windowHeight) / 2);
 
         Image image = new Image(texture);
         window.add(image).fill();
@@ -70,7 +74,7 @@ public class SnakePopup {
     }
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        window.setSize(width, height);  // Adjust window size accordingly
+        window.setPosition((width - windowWidth) / 2, (height - windowHeight) / 2); // Adjust window size accordingly
     }
     public void hide() {
         window.setVisible(false);
