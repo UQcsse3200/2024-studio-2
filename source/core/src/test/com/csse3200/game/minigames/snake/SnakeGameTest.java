@@ -2,7 +2,6 @@ package com.csse3200.game.minigames.snake;
 
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
-import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,7 +124,7 @@ class SnakeGameTest {
     void testIncreaseSnakeSpeed() {
 
         Apple apple = game.getApple();
-        Float originalPeriod = game.getSnake().getMovePeriod();
+        float originalPeriod = game.getSnake().getMovePeriod();
 
         // Move the snake to the apple's position to increase score
         for (int i = 0; i < 5; i++) {
