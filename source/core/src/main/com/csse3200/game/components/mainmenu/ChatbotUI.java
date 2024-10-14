@@ -176,6 +176,7 @@ public class ChatbotUI {
 
     /**
      * Processes the chat input and retrieves a response from the ChatbotService.
+     *
      * @param userInput The input from the user.
      */
     private void processChatInput(String userInput) {
