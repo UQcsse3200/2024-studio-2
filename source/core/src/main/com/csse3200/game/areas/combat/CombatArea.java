@@ -362,6 +362,7 @@ public class CombatArea extends GameArea {
         resourceService.loadSounds(CombatAreaConfig.forestSounds);
         resourceService.loadMusic(CombatAreaConfig.forestMusic);
         resourceService.loadSounds(CombatAreaConfig.questSounds);
+        resourceService.loadSounds(CombatAreaConfig.combatSounds);
         resourceService.loadMusic(CombatAreaConfig.combatBackgroundMusic);
 
         while (!resourceService.loadForMillis(10)) {
@@ -378,6 +379,7 @@ public class CombatArea extends GameArea {
         resourceService.unloadAssets(CombatAreaConfig.forestSounds);
         resourceService.unloadAssets(CombatAreaConfig.forestMusic);
         resourceService.unloadAssets(CombatAreaConfig.questSounds);
+        resourceService.unloadAssets(CombatAreaConfig.combatSounds);
         resourceService.unloadAssets(CombatAreaConfig.combatBackgroundMusic);
     }
 

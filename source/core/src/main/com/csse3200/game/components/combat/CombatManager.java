@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
+import com.csse3200.game.components.combat.quicktimeevent.CombatMoveAudio;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -39,6 +40,7 @@ public class CombatManager extends Component {
      */
     public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
     private final CombatAnimationDisplay combatAnimationDisplay = new CombatAnimationDisplay();
+    private final CombatMoveAudio combatMoveAudio = new CombatMoveAudio();
 
     private final Entity player;
     private final Entity enemy;
@@ -247,26 +249,28 @@ public class CombatManager extends Component {
      * @return the selected action for the enemy.
      */
     private Action selectEnemyMove() {
-        Action action;
-
-        if (enemyStats.getStamina() < 25) {
-            updateEnemyMoveStore(Action.SLEEP);
-            return Action.SLEEP;
-        }
-
-        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
-                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
-        action = switch (rand) {
-            case 0 -> Action.ATTACK;
-            case 1 -> Action.GUARD;
-            case 2 -> Action.SLEEP;
-            case 3 -> Action.SPECIAL;
-            default -> null;
-        };
-
-        //stores enemyAction
-        updateEnemyMoveStore(action);
-        return action;
+        return Action.ATTACK;
+//
+//        Action action;
+//
+//        if (enemyStats.getStamina() < 25) {
+//            updateEnemyMoveStore(Action.SLEEP);
+//            return Action.SLEEP;
+//        }
+//
+//        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
+//                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
+//        action = switch (rand) {
+//            case 0 -> Action.ATTACK;
+//            case 1 -> Action.GUARD;
+//            case 2 -> Action.SLEEP;
+//            case 3 -> Action.SPECIAL;
+//            default -> null;
+//        };
+//
+//        //stores enemyAction
+//        updateEnemyMoveStore(action);
+//        return action;
     }
     /**
      * Updates the stored sequence of enemy moves for a specific enemy type.
@@ -389,9 +393,12 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
+
+        combatMoveAudio.playSound(playerAction, enemyAction);
+        combatAnimationDisplay.animateCombat(playerAction, enemyAction, getFasterEntity() == player);
+
         switch (playerAction) {
             case ATTACK -> {
-                combatAnimationDisplay.initiateAnimation(Action.ATTACK);
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
@@ -418,7 +425,6 @@ public class CombatManager extends Component {
                 }
             }
             case GUARD -> {
-                combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
                         playerMove.executeMove(playerAction);
@@ -432,7 +438,6 @@ public class CombatManager extends Component {
                 }
             }
             case SLEEP -> {
-                combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
                         playerMove.executeMove(playerAction);
