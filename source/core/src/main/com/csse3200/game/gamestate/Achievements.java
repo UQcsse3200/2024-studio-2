@@ -18,7 +18,7 @@ public class Achievements {
      * Clears the contents of the GameState.
      */
     public static void resetState() {
-        SaveHandler.load(Achievements.class, "defaultsaves/achievement", FileLoader.Location.INTERNAL);
+        SaveHandler.getInstance().load(Achievements.class, "defaultsaves/achievement", FileLoader.Location.INTERNAL);
     }
 
     /**

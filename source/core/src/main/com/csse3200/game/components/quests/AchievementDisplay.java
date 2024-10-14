@@ -381,12 +381,12 @@ public class AchievementDisplay extends UIComponent {
      * Sets the current game screen back to the main menu.
      */
     private void exitMenu() {
-        SaveHandler.save(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
 
     private void clearAchievements() {
-        SaveHandler.delete(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().delete(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
         Achievements.resetState();
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
@@ -405,7 +405,7 @@ public class AchievementDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        SaveHandler.save(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(Achievements.class, SAVESPATH, FileLoader.Location.LOCAL);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(logbookTextures);
         ServiceLocator.getResourceService().unloadAssets(logbookSounds);

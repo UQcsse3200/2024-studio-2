@@ -51,7 +51,7 @@ public class MainMenuActions extends Component {
   private void onLoad() {
     logger.info("Load game");
 
-    SaveHandler.load(GameState.class, "saves", FileLoader.Location.LOCAL);
+    SaveHandler.getInstance().load(GameState.class, "saves", FileLoader.Location.LOCAL);
 
     if(GameState.checkState()) {
       GameState.resetState();

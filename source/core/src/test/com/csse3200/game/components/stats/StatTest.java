@@ -88,17 +88,17 @@ class StatTest {
 
         GameState.stats.stats.add(stat);
 
-        SaveHandler.save(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
 
         GameState.stats.stats = new Array<>();
 
-        SaveHandler.load(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().load(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
 
         assertEquals("ApplesCollected", GameState.stats.stats.get(0).getStatName());
         assertEquals(10, GameState.stats.stats.get(0).getStatMax());
         assertEquals(Stat.StatType.ITEM, GameState.stats.stats.get(0).getType());
 
-        SaveHandler.delete(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().delete(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
     }
 
     @Test

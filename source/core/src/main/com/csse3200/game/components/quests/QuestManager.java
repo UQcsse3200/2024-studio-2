@@ -262,14 +262,14 @@ public class QuestManager extends Component {
             achievement.complete();
             achievementComplete.play();
             player.getEvents().trigger("achievementCompleted");
-            SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+            SaveHandler.getInstance().save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
 
     @Override
     public void dispose() {
-        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         super.dispose();
     }
 

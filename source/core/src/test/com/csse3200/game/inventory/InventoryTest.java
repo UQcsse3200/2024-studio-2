@@ -223,11 +223,11 @@ class InventoryTest {
         inventory.add(new Foods.Apple(1));
         inventory.add(new HealingPotion(2));
 
-        SaveHandler.save(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
 
         GameState.inventory.inventoryContent = new AbstractItem[0];
 
-        SaveHandler.load(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().load(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
 
         inventory.loadInventoryFromSave();
 
@@ -238,7 +238,7 @@ class InventoryTest {
         assertEquals("This is a health potion",
                 inventory.getAt(inventory.getIndex("Health Potion")).getDescription());
 
-        SaveHandler.delete(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().delete(GameState.class, "test/saves/inventory", FileLoader.Location.LOCAL);
     }
 
     @Test

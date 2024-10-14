@@ -110,17 +110,17 @@ class QuestManagerTest {
         GameState.quests.quests.add(quest1);
         GameState.quests.quests.add(quest2);
 
-        SaveHandler.save(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
 
         GameState.quests.quests.clear();
 
-        SaveHandler.load(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().load(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
 
         assertTrue(GameState.quests.quests.getFirst().isFailed());
         assertEquals("Description 2", GameState.quests.quests.getLast().getQuestDescription());
         assertEquals(1, GameState.quests.quests.getLast().getTasks().size());
 
-        SaveHandler.delete(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().delete(GameState.class, "test/saves/quests", FileLoader.Location.LOCAL);
     }
 
     @Test

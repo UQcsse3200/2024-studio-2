@@ -99,7 +99,7 @@ public class PauseDisplay extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
+                        SaveHandler.getInstance().save(GameState.class, "saves", FileLoader.Location.LOCAL);
                     }
                 });
 
@@ -109,7 +109,7 @@ public class PauseDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Exit button clicked");
-                        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
+                        SaveHandler.getInstance().save(GameState.class, "saves", FileLoader.Location.LOCAL);
                         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
                     }
                 });

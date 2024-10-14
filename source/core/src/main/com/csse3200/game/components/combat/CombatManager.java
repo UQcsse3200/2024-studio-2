@@ -480,7 +480,7 @@ public class CombatManager extends Component {
             if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
                 this.getEntity().getEvents().trigger("bossCombatLoss", enemy);
                 GameState.resetState();
-                SaveHandler.delete(GameState.class, "saves", FileLoader.Location.LOCAL);
+                SaveHandler.getInstance().delete(GameState.class, "saves", FileLoader.Location.LOCAL);
             } else {
                 this.getEntity().getEvents().trigger("combatLoss");
                 //Clear inventory/other normal death events

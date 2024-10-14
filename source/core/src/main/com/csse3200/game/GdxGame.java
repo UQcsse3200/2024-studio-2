@@ -32,7 +32,7 @@ public class GdxGame extends Game {
         logger.info("Creating game");
         loadSettings();
 
-        SaveHandler.load(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().load(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
 
         if(Achievements.checkState()) {
             Achievements.resetState();
