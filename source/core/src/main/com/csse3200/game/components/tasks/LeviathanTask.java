@@ -20,7 +20,6 @@ import java.util.Objects;
 
 /**
  * A task that allows an entity to chase the player and fire projectiles at the player when within range.
- * The Leviathan will play a heartbeat sound to create tension while chasing the player.
  */
 public class LeviathanTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(LeviathanTask.class);
@@ -211,16 +210,16 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
      * Plays the tension music to enhance the experience during the chase.
      */
     void playTensionMusic() {
-        // Play the heartbeat using AudioManager
+        // Play the music using AudioManager
         AudioManager.stopMusic();
-        AudioManager.playMusic("sounds/heartbeat.mp3", true);
+        AudioManager.playMusic("sounds/tension-water-boss.mp3", true);
     }
 
     /**
      * Stops playing the tension music and play the background music.
      */
     void stopTensionMusic() {
-        // Stop the heartbeat using AudioManager
+        // Stop the music using AudioManager
         AudioManager.stopMusic();
 
         // Get the selected music track from the user settings

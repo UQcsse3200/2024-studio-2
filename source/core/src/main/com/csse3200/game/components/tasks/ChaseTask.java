@@ -91,16 +91,16 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
      * Plays the tension music to enhance the experience during the chase.
      */
     void playTensionMusic() {
-        // Play the heartbeat using AudioManager
+        // Play the music using AudioManager
         AudioManager.stopMusic();
-        AudioManager.playMusic("sounds/heartbeat.mp3", true);
+        AudioManager.playMusic("sounds/tension-land-boss.mp3", true);
     }
 
     /**
      * Stops playing the tension music and play the background music.
      */
     void stopTensionMusic() {
-        // Stop the heartbeat using AudioManager
+        // Stop the music using AudioManager
         AudioManager.stopMusic();
 
         // Get the selected music track from the user settings
