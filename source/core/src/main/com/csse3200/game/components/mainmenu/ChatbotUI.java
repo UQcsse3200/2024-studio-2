@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.csse3200.game.components.login.PlayFab;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -186,7 +187,22 @@ public class ChatbotUI {
      */
     private void processChatInput(String userInput) {
         logger.info("Processing input: " + userInput);
+
+        // Get the player's username safely
+        String username = PlayFab.getPlayerName();
+
+        // Check if the username is null or empty and set to "Guest" if it is
+        if (username == null || username.isEmpty()) {
+            username = "Guest";  // Use a default value like "Guest" if no username is found
+        }
+
+        // Get the chatbot response from ChatbotService
         String chatbotResponse = chatbotService.getResponse(userInput);
-        chatbotResponseLabel.setText(chatbotResponse); // Display the response in the chatbot UI
+
+        // Personalize the response by adding the username
+        String personalizedResponse = "Hello, " + username + "! " + chatbotResponse;
+
+        // Display the personalized chatbot response
+        chatbotResponseLabel.setText(personalizedResponse);
     }
 }
