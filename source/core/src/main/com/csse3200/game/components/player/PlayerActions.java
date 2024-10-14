@@ -80,12 +80,12 @@ public class PlayerActions extends Component {
         dogSoundPlayer = new DogSoundPlayer(pantingSoundPath, barkingSoundPath);
         break;
       case "images/bird.png":
-        Sound flappingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/flap.mp3", Sound.class);
-        Sound screechSound = ServiceLocator.getResourceService().getAsset("sounds/animal/birdscreech.mp3", Sound.class);
+        String flappingSound = "sounds/animal/flap.mp3";
+        String screechSound = "sounds/animal/birdscreech.mp3";
         airAnimalSoundPlayer = new AirAnimalSoundPlayer(flappingSound, screechSound);
         break;
       case "images/croc.png":
-        Sound swimmingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/waterwhoosh.mp3", Sound.class);
+        String swimmingSound = "sounds/animal/waterwhoosh.mp3";
         waterAnimalSoundPlayer = new WaterAnimalSoundPlayer(swimmingSound);
         break;
       default:
@@ -166,9 +166,9 @@ public class PlayerActions extends Component {
     if (dogSoundPlayer != null) {
       // Panting sound is managed in updatePantingSound(), no need to play here
     } else if (airAnimalSoundPlayer != null) {
-      airAnimalSoundPlayer.playFlappingSound(0.5f);
+      airAnimalSoundPlayer.playFlappingSound();
     } else {
-      waterAnimalSoundPlayer.playSwimmingSound(0.5f);
+      waterAnimalSoundPlayer.playSwimmingSound();
     }
   }
 
@@ -229,9 +229,9 @@ public class PlayerActions extends Component {
     if (dogSoundPlayer != null) {
       dogSoundPlayer.playBarkingSound();
     } else if (airAnimalSoundPlayer != null) {
-      airAnimalSoundPlayer.playScreechSound(1.0f);
+      airAnimalSoundPlayer.playScreechSound();
     } else if (waterAnimalSoundPlayer != null) {
-      waterAnimalSoundPlayer.playSwimmingSound(1.0f);
+      waterAnimalSoundPlayer.playSwimmingSound();
     }
 
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
