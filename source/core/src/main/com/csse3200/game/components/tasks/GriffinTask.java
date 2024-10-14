@@ -3,6 +3,7 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
@@ -140,6 +141,11 @@ public class GriffinTask extends DefaultTask implements PriorityTask {
         float deltaX = currentPos.x - targetPos.x;
         float deltaY = currentPos.y - targetPos.y;
         Vector2 newPos = new Vector2(currentPos.x + deltaX, currentPos.y + deltaY);
+
+        // Make sure that the new position is within the world boundaries
+        newPos.x = Math.max(0, Math.min(newPos.x, ForestGameArea.MAP_SIZE.x));
+        newPos.y = Math.max((float) ForestGameArea.MAP_SIZE.y / 3 * 2, Math.min(newPos.y, ForestGameArea.MAP_SIZE.y));
+
         if (trigger) {
             triggerDirection(newPos, owner.getEntity().getPosition());
         }
