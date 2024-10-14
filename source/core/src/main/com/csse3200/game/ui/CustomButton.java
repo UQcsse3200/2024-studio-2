@@ -31,6 +31,8 @@ public class CustomButton extends Stack{
     private static final Texture SMALL_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/SmallBlankLarge.png"));
     private static final Texture SMALL_DIALOGUE_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlueBlankSmall.png"));
     private static final Sound BUTTON_CLICK_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3"));
+    private static final Sound BUTTON_HOVER_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/hoversound1.mp3"));
+
 
     private Button button;
     private final Label label;
@@ -105,6 +107,10 @@ public class CustomButton extends Stack{
                         Actions.moveBy(0, hoverMoveBy, hoverDuration),
                         Actions.scaleTo(hoverScaleFactor, hoverScaleFactor, hoverDuration)
                 ));
+                // Play the hover sound when the button is hovered over
+                if (BUTTON_HOVER_SOUND != null) {
+                    BUTTON_HOVER_SOUND.play();
+                }
             }
 
             @Override
