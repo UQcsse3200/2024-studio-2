@@ -83,6 +83,7 @@ public class CombatActions extends Component {
     int statusRestoreMult = 2;
     // Clear the player inventory and wipe their current experience progress
     manager.getPlayerStats().setExperience(lossExp);
+    entity.getEvents().trigger("combatLossInvClear");
 
     // Reset player health and hunger back to half
     manager.getPlayerStats().setHealth(maxPlayerHealth/statusRestoreMult);
