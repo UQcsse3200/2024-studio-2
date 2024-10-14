@@ -46,16 +46,15 @@ public class PlayFab {
      * Registers a new user in PlayFab with the provided credentials.
      *
      * @param username The desired username for the user.
-     * @param email The email address associated with the user.
      * @param password The desired password for the user.
      * @return A {@link Response} object containing a success or failure message.
      */
-    public static Response registerUser(String username, String email, String password) {
+    public static Response registerUser(String username, String password) {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = username;
-        request.Email = email;
         request.Password = password;
         request.DisplayName = username;
+        request.RequireBothUsernameAndEmail = false;
 
 
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);

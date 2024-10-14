@@ -237,8 +237,6 @@ public class MainMenuDisplay extends UIComponent {
         owlAniImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 6f);
         stage.addActor(owlAniImage);
     }
-
-
     private void addMonkey() {
         monkeyAniImage = new Image();
         TextureAtlas monkeyAtlas = new TextureAtlas("spriteSheets/MonkeySprite.atlas");
@@ -267,7 +265,6 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(monkeyAniImage);
     }
-
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
         dogAniImage = new Image();
@@ -555,29 +552,24 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(loginRegisterTable);
     }
+
     /**
-     * Update the size and position of the leaderboard table based on screen size and fullscreen mode.
+     * Update the position of login register table.
      */
-    public void updateLeaderboardTable() {
+    public void updateLoginRegisterTable() {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        // Adjust size percentages based on fullscreen or windowed mode
-        float widthPercentage = Gdx.graphics.isFullscreen() ? 0.5f : 0.6f;
-        float heightPercentage = Gdx.graphics.isFullscreen() ? 0.7f : 0.8f;
-
-        float newWidth = screenWidth * widthPercentage;
-        float newHeight = screenHeight * heightPercentage;
-
-        leaderboardTable.setSize(newWidth, newHeight);
-
-        // Center the leaderboard table on the screen
-        leaderboardTable.setPosition(
-                (screenWidth - newWidth) / 2,
-                (screenHeight - newHeight) / 2
+        // Center the menu on the screen
+        loginRegisterTable.setPosition(
+                (screenWidth - loginRegisterTable.getWidth()) / 2,
+                (screenHeight - loginRegisterTable.getHeight()) / 2
         );
     }
 
+    /**
+     *
+     */
     private void addLeaderboardTable() {
         minigameLeaderboard = new MinigameLeaderboard(this);
         leaderboardTable = minigameLeaderboard.makeLeaderboardTable();
@@ -595,20 +587,29 @@ public class MainMenuDisplay extends UIComponent {
 
         stage.addActor(leaderboardTable);
     }
-
     /**
-     * Update the position of login register table.
+     * Update the size and position of the leaderboard table based on screen size and fullscreen mode.
      */
-    public void updateLoginRegisterTable() {
+    public void updateLeaderboardTable() {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        // Center the menu on the screen
-        loginRegisterTable.setPosition(
-                (screenWidth - loginRegisterTable.getWidth()) / 2,
-                (screenHeight - loginRegisterTable.getHeight()) / 2
+        // Adjust size percentages based on fullscreen or windowed mode
+        float widthPercentage = Gdx.graphics.isFullscreen() ? 0.35f : 0.45f;
+        float heightPercentage = Gdx.graphics.isFullscreen() ? 0.7f : 0.9f;
+
+        float newWidth = screenWidth * widthPercentage;
+        float newHeight = screenHeight * heightPercentage;
+
+        leaderboardTable.setSize(newWidth, newHeight);
+
+        // Center the leaderboard table on the screen
+        leaderboardTable.setPosition(
+                (screenWidth - newWidth) / 2,
+                (screenHeight - newHeight) / 2
         );
     }
+
 
     /**
      * Displays the help window with slides for game instructions.
@@ -660,14 +661,12 @@ public class MainMenuDisplay extends UIComponent {
                     settings.fullscreen = false;
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
-                    updateLeaderboardTable();
                 } else {
                     // Fullscreen mode
                     UserSettings.Settings settings = UserSettings.get();
                     settings.fullscreen = true;
                     UserSettings.applyDisplayMode(settings);
                     toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
-                    updateLeaderboardTable();
                 }
                 logger.info("Fullscreen toggled: {}", !isFullscreen);
             }
