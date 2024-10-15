@@ -217,13 +217,7 @@ public class GdxGame extends Game {
             case BIRD_MINI_GAME -> new BirdieDashScreen(this, screen, container);
             case MAZE_MINI_GAME -> new MazeGameScreen(this, screen, container);
             case LOADING_SCREEN -> new LoadingScreen(this);
-            case ANIMAL_SELECTION -> new LandAnimalSelectionScreen(this);
-            case ANIMAL_ROULETTE -> new AnimalRouletteScreen1(this) {
-                @Override
-                protected AnimalRouletteDisplay1 createDisplay(Stage stage, Skin skin) {
-                    return null;
-                }
-            };
+            case ANIMAL_ROULETTE -> new AnimalRouletteScreen1(this);
             case END_GAME_STATS -> new EndGameStatsScreen(this);
             case GAME_OVER_LOSE -> new GameOverLoseScreen(this);
             case STORY -> {
@@ -240,7 +234,7 @@ public class GdxGame extends Game {
      * types of screens
      */
     public enum ScreenType {
-        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,ANIMAL_ROULETTE,
+        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN,ANIMAL_ROULETTE,
         ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
         BIRD_MINI_GAME, MAZE_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, CUTSCENE, STORY
     }

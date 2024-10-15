@@ -148,7 +148,7 @@ public class CutSceneScreen extends ScreenAdapter {
 
         continueButton.addClickListener(() -> {
             logger.debug("Continue button clicked");
-            game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+            game.setScreen(GdxGame.ScreenType.ANIMAL_ROULETTE);
         });
 
         stage.addActor(continueButton);
