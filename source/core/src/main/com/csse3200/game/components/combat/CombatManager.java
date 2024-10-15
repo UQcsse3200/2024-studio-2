@@ -662,52 +662,7 @@ public class CombatManager extends Component {
 
         ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
 
-        // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
-        addDialogueBoxListener();
-
         entity.getEvents().trigger("displayCombatResults");
-    }
-
-    /**
-     * Add listener to continue button in dialogue box in combat to allow syncing of
-     * enemy animations after player animations and when continue button is pressed as enemy attack is
-     * described in dialogue box
-     */
-    public void addDialogueBoxListener() {
-
-        // Get the continue button for the dialogue box
-        contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
-
-        dialogueBoxCombatListener = new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                combatAnimationDisplay.dispose();
-
-                Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
-                String currentText = String.valueOf(db.getText());
-
-//                if (currentText.equals("The enemy decided to ATTACK")){
-//                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-//                } else if (currentText.equals("The enemy decided to SLEEP")){
-//                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-//                } else if (currentText.equals("The enemy decided to GUARD")){
-//                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
-//                }
-
-                if (currentText.equals("The enemy used their ATTACK!")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-                } else if (currentText.equals("The enemy decided to SLEEP!")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-                } else if (currentText.equals("The enemy decided to GUARD!")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
-                }
-
-                return true;
-            }
-        };
-
-        contButton.addListener(dialogueBoxCombatListener); // add the listener to the button for the duration of combat
     }
 
     /**

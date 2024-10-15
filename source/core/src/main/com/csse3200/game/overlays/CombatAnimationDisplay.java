@@ -298,12 +298,12 @@ public class CombatAnimationDisplay extends UIComponent {
         enemyGuardImage.setPosition(xZ, yZ);
         enemyGuardImage.setScale(0.3f);
         if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            float xZ = stage.getWidth() * 0.58f;
-            float yZ = stage.getHeight() * 0.5f;
+            xZ = stage.getWidth() * 0.58f;
+            yZ = stage.getHeight() * 0.5f;
             enemyGuardImage.setPosition(xZ, yZ);
         } else {
-            float xZ = stage.getWidth() * 0.57f;
-            float yZ = stage.getHeight() * 0.285f;
+            xZ = stage.getWidth() * 0.57f;
+            yZ = stage.getHeight() * 0.285f;
             enemyGuardImage.setPosition(xZ, yZ);
         }
 
