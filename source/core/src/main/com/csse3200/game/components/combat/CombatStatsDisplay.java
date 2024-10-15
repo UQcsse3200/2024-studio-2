@@ -75,6 +75,7 @@ public class CombatStatsDisplay extends UIComponent {
         entity.getEvents().addListener("onSleep", this::updateHealthUI);
         entity.getEvents().addListener("onSleep", this::updateHungerUI);
         entity.getEvents().addListener("onCombatWin", this::updatePlayerExperienceUI);
+        entity.getEvents().addListener("onCombatLoss", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("useItem", this::updateHealthUI);
         entity.getEvents().addListener("useItem", this::updateHungerUI);
         entity.getEvents().addListener("statusEffectAdded", this::updateStatusEffectUI);

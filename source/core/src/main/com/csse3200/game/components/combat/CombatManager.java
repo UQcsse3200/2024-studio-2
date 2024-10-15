@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMove;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
+import com.csse3200.game.components.combat.quicktimeevent.CombatMoveAudio;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -40,6 +41,7 @@ public class CombatManager extends Component {
      */
     public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
     private final CombatAnimationDisplay combatAnimationDisplay = new CombatAnimationDisplay();
+    private final CombatMoveAudio combatMoveAudio = new CombatMoveAudio();
 
     private final Entity player;
     private final Entity enemy;
@@ -364,11 +366,15 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
+
+        combatMoveAudio.playCombatSound(playerAction, enemyAction);
+        combatAnimationDisplay.animateCombat(playerAction, enemyAction, getFasterEntity() == player);
+
         CombatMove.StatsChange[] playerStatsChanges;
         CombatMove.StatsChange[] enemyStatsChanges;
+
         switch (playerAction) {
             case ATTACK -> {
-                combatAnimationDisplay.initiateAnimation(Action.ATTACK);
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
@@ -395,7 +401,6 @@ public class CombatManager extends Component {
                 }
             }
             case GUARD -> {
-                combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
                         playerStatsChanges = playerMove.executeMove(playerAction);
@@ -409,7 +414,6 @@ public class CombatManager extends Component {
                 }
             }
             case SLEEP -> {
-                combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
                         playerStatsChanges = playerMove.executeMove(playerAction);
@@ -471,7 +475,7 @@ public class CombatManager extends Component {
                 GameState.resetState();
                 SaveHandler.delete(GameState.class, "saves", FileLoader.Location.LOCAL);
             } else {
-                this.getEntity().getEvents().trigger("combatLoss");
+                this.getEntity().getEvents().trigger("combatLoss", enemy);
                 //Clear inventory/other normal death events
             }
             // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
@@ -579,60 +583,6 @@ public class CombatManager extends Component {
 
         ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
 
-        // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
-        addDialogueBoxListener();
-
         entity.getEvents().trigger("displayCombatResults");
-    }
-
-    /**
-     * Add listener to continue button in dialogue box in combat to allow syncing of
-     * enemy animations after player animations and when continue button is pressed as enemy attack is
-     * described in dialogue box
-     */
-    public void addDialogueBoxListener() {
-
-        // Get the continue button for the dialogue box
-        contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
-
-        dialogueBoxCombatListener = new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                combatAnimationDisplay.dispose();
-
-                Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
-                String currentText = String.valueOf(db.getText());
-
-                //            TODO: replace Label code with code below due in next PR
-                //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
-                //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
-                //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
-                //            String currentText = String.valueOf(fullText[index][index2]);
-
-                if (currentText.equals("The enemy used their ATTACK!")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-                } else if (currentText.equals("The enemy decided to SLEEP!")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-                } else if (currentText.equals("The enemy decided to GUARD!")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
-                }
-
-                return true;
-            }
-        };
-
-        contButton.addListener(dialogueBoxCombatListener); // add the listener to the button for the duration of combat
-    }
-
-    /**
-     * Remove the input listener for the continue button of the dialogue box used to
-     * sync the animations of enemy players with when continue button was clicked
-     */
-    private void nullifyCombatDialogueListener(){
-        if (dialogueBoxCombatListener != null) {
-            contButton.removeListener(dialogueBoxCombatListener);
-            dialogueBoxCombatListener = null;
-        }
     }
 }

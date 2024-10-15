@@ -9,7 +9,7 @@
     "isEnemy": 1
   },
   "frog": {
-    "spritePath": "images/enemy-frog.atlas",
+    "spritePath": "images/frog.atlas",
     "health": 4,
     "baseAttack": 25,
     "defense": 1,

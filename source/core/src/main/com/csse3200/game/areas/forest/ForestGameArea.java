@@ -733,7 +733,7 @@ public class ForestGameArea extends GameArea {
         // Get the selected music track from the user settings
         UserSettings.Settings settings = UserSettings.get();
         String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
-
+        AudioManager.stopMusic();
         if (Objects.equals(selectedTrack, "Track 1")) {
             loadAssets(); // Music was not loading after resuming combat
             AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
