@@ -81,7 +81,8 @@ public class ParticleService {
         DAMAGE10("particles/damage_10.p", 5, 10),
         DAMAGE15("particles/damage_15.p", 5, 7),
         DAMAGE20("particles/damage_20.p", 5, 5),
-        SCORE1("particles/score_1.p", 2, 16);
+        SCORE1("particles/score_1.p", 2, 16),
+        FIREFLY("particles/firefly.p", 10, 50);
 
         final String path;
         final int initialCapacity;

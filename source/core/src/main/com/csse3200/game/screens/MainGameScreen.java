@@ -24,6 +24,7 @@ import com.csse3200.game.input.InputService;
 import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -122,6 +123,8 @@ public class MainGameScreen extends PausableScreen {
     ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
     dayNightCycle = new DayNightCycle(lightingEngine.getRayHandler());
+
+    ServiceLocator.registerParticleService(new ParticleService());
 
     loadAssets();
     this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);

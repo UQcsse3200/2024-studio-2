@@ -582,6 +582,9 @@ public class ForestGameArea extends GameArea {
         // Magpie
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
         spawnMinigameNPC(generator, ForestSpawnConfig.NUM_MAGPIES, TileLocation.AIR);
+
+        generator = NPCFactory::createFirefly;
+        spawnRandomNPC(generator, 50, TileLocation.FOREST);
     }
 
     /**
