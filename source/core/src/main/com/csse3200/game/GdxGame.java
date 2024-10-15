@@ -3,6 +3,9 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
 import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
@@ -215,7 +218,12 @@ public class GdxGame extends Game {
             case MAZE_MINI_GAME -> new MazeGameScreen(this, screen, container);
             case LOADING_SCREEN -> new LoadingScreen(this);
             case ANIMAL_SELECTION -> new LandAnimalSelectionScreen(this);
-            case ANIMAL_ROULETTE -> new AnimalRouletteScreen(this);
+            case ANIMAL_ROULETTE -> new AnimalRouletteScreen1(this) {
+                @Override
+                protected AnimalRouletteDisplay1 createDisplay(Stage stage, Skin skin) {
+                    return null;
+                }
+            };
             case END_GAME_STATS -> new EndGameStatsScreen(this);
             case GAME_OVER_LOSE -> new GameOverLoseScreen(this);
             case STORY -> {

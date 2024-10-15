@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 
 public class WaterAnimalSelectionScreen extends ScreenAdapter {
@@ -128,7 +129,12 @@ public class WaterAnimalSelectionScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // System.out.println("Land Animals button clicked!"); // Log statement
-                game.setScreen(new AnimalRouletteScreen(game));
+                game.setScreen(new AnimalRouletteScreen1(game) {
+                    @Override
+                    protected AnimalRouletteDisplay1 createDisplay(Stage stage, Skin skin) {
+                        return null;
+                    }
+                });
             }
         });
 
@@ -136,7 +142,7 @@ public class WaterAnimalSelectionScreen extends ScreenAdapter {
         airAnimalsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AirAnimalSelectionScreen(game));
+                game.setScreen(new AirAnimalSelectionScreen1(game));
             }
         });
     }
