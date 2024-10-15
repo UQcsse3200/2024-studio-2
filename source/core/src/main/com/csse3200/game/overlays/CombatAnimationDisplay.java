@@ -22,6 +22,10 @@ public class CombatAnimationDisplay extends UIComponent {
     private Image enemyCombatImage; // enemy combat image
     private Image enemySleepImage; // enemy sleep image
     private Image enemyGuardImage; // enemy guard image
+    private static float rockTravelTime = 0.8f;
+
+    private static float bothAttackAnimationDelay = 1.0f;
+
     /**
      * Constructor for the CombatAnimationDisplay.
      */
@@ -29,31 +33,67 @@ public class CombatAnimationDisplay extends UIComponent {
         super();
     }
 
+    /**
+     * Getter method for rock travel time for audio purposes
+     */
+    public static float getRockTravelTime() {
+        return rockTravelTime;
+    }
+
+    /**
+     * Getter method for delay between animations for audio purposes
+     */
+    public static float getBothAttackAnimationDelay() {
+        return bothAttackAnimationDelay;
+    }
+
     @Override
     public void create() {
         super.create();
     }
 
+    /**
+     * Resolves how to animation combat based on player and enemy action and which one is faster
+     * @param playerAction
+     * @param enemyAction
+     * @param playerFaster
+     */
     public void animateCombat(CombatManager.Action playerAction, CombatManager.Action enemyAction, Boolean playerFaster) {
-        if (playerAction == enemyAction && playerAction == CombatManager.Action.ATTACK) {
-            if (playerFaster) {
+        // At least one of the entities has attacked
+        if (playerAction == CombatManager.Action.ATTACK || enemyAction == CombatManager.Action.ATTACK) {
+            // play rock animation for faster entity than play rock animation for other entity
+            if (playerAction == enemyAction && playerFaster) {
                 initiatePlayerAnimation(playerAction);
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         initiateEnemyAnimation(enemyAction);
                     }
-                }, 1f);
-            } else {
+                }, bothAttackAnimationDelay);
+                return;
+            } else if (playerAction == enemyAction) {
                 initiateEnemyAnimation(enemyAction);
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         initiatePlayerAnimation(playerAction);
                     }
-                }, 1f);
+                }, bothAttackAnimationDelay);
+                return;
             }
+            initiatePlayerAnimation(playerAction);
+            initiateEnemyAnimation(enemyAction);
+            return;
         }
+
+
+        initiatePlayerAnimation(playerAction);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                initiateEnemyAnimation(enemyAction);
+            }
+        }, rockTravelTime);
     }
 
     /**
@@ -305,9 +345,7 @@ public class CombatAnimationDisplay extends UIComponent {
 
         float xMove = stage.getWidth() * 0.69f;
 
-        // Move the image over 2 seconds
-        // combatImage.addAction(moveTo(1200, 550, 0.8f, Interpolation.linear));
-        combatImage.addAction(moveTo(xMove, yZ, 0.8f, Interpolation.linear));
+        combatImage.addAction(moveTo(xMove, yZ, rockTravelTime, Interpolation.linear));
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -316,7 +354,7 @@ public class CombatAnimationDisplay extends UIComponent {
                     combatImage.remove();
                 }
             }
-        }, 0.8f);  // 2 seconds
+        }, rockTravelTime);
     }
 
     /**
@@ -354,9 +392,7 @@ public class CombatAnimationDisplay extends UIComponent {
 
         float xMove = stage.getWidth() * 0.3f;
 
-        // Move the image over 2 seconds
-        // combatImage.addAction(moveTo(1200, 550, 0.8f, Interpolation.linear));
-        combatImage.addAction(moveTo(xMove, yZ, 0.8f, Interpolation.linear));
+        combatImage.addAction(moveTo(xMove, yZ, rockTravelTime, Interpolation.linear));
 
         // Schedule to hide the image after it reaches its destination
         Timer.schedule(new Timer.Task() {
@@ -367,7 +403,7 @@ public class CombatAnimationDisplay extends UIComponent {
                     combatImage.remove();
                 }
             }
-        }, 0.8f);  // 2 seconds
+        }, rockTravelTime);  // 2 seconds
     }
 
     @Override

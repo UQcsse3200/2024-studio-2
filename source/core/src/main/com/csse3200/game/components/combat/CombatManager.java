@@ -392,7 +392,7 @@ public class CombatManager extends Component {
             return;
         }
 
-        combatMoveAudio.playSound(playerAction, enemyAction);
+        combatMoveAudio.playCombatSound(playerAction, enemyAction);
         combatAnimationDisplay.animateCombat(playerAction, enemyAction, getFasterEntity() == player);
 
         switch (playerAction) {
