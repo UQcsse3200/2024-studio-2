@@ -101,11 +101,8 @@ public class GdxGame extends Game {
         addScreen(ScreenType.COMBAT, getScreen(), null, enemy);
     }
 
-    public void addBossCutsceneScreen(Entity player, Entity enemy) {
-        addScreen(ScreenType.BOSS_CUTSCENE, getScreen(), player, enemy);
-    }
-    public void addEnemyCutsceneScreen(Entity player, Entity enemy) {
-        addScreen(ScreenType.ENEMY_CUTSCENE, getScreen(), player, enemy);
+    public void addPreCombatCutsceneScreen(Entity player, Entity enemy) {
+        addScreen(ScreenType.PRE_COMBAT_CUTSCENE, getScreen(), player, enemy);
     }
 
     public void enterCombatScreen(Entity player, Entity enemy) {
@@ -206,8 +203,7 @@ public class GdxGame extends Game {
             case MAIN_MENU -> new MainMenuScreen(this);
             case MAIN_GAME -> new MainGameScreen(this);
             case COMBAT -> new CombatScreen(this, screen, container, player, enemy);
-            case BOSS_CUTSCENE -> new BossCutsceneScreen(this, screen, container, player, enemy);
-            case ENEMY_CUTSCENE -> new EnemyCutsceneScreen(this, screen, container, player, enemy);
+            case PRE_COMBAT_CUTSCENE -> new PreCombatCutsceneScreen(this, screen, container, player, enemy);
             case ACHIEVEMENTS -> new AchievementsScreen(this);
             case MINI_GAME_MENU_SCREEN -> new MiniGameMenuScreen(this);
             case SNAKE_MINI_GAME -> new SnakeScreen(this, screen, container);
@@ -232,8 +228,8 @@ public class GdxGame extends Game {
      * types of screens
      */
     public enum ScreenType {
-        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION,ANIMAL_ROULETTE,
-        ACHIEVEMENTS, COMBAT, BOSS_CUTSCENE, ENEMY_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
+        MAIN_MENU, MAIN_GAME, SETTINGS, MINI_GAME_MENU_SCREEN, LOADING_SCREEN, ANIMAL_SELECTION, ANIMAL_ROULETTE,
+        ACHIEVEMENTS, COMBAT, PRE_COMBAT_CUTSCENE, GAME_OVER_LOSE, SNAKE_MINI_GAME,
         BIRD_MINI_GAME, MAZE_MINI_GAME, QUICK_TIME_EVENT, END_GAME_STATS, CUTSCENE, STORY
     }
 
