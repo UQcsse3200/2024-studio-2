@@ -68,29 +68,28 @@ public class GdxGame extends Game {
         try {
             ServiceLocator.getTimeSource();
         } catch (IllegalStateException e) {
-            if (ServiceLocator.getTimeSource() == null) {
-                ServiceLocator.registerTimeSource(new GameTime());
-            }
-        }
 
+            ServiceLocator.registerTimeSource(new GameTime());
+
+        }
         // Register InGameTime
         try {
             ServiceLocator.getInGameTime();
         } catch (IllegalStateException e) {
-            if (ServiceLocator.getInGameTime() == null) {
-                ServiceLocator.registerInGameTime(new InGameTime());
-            }
+
+            ServiceLocator.registerInGameTime(new InGameTime());
+
         }
         // Register InGameTime
         try {
             ServiceLocator.getDayNightCycle();
         } catch (IllegalStateException e) {
             // Initialize RayHandler (or mock if necessary)
-            if (ServiceLocator.getDayNightCycle() == null) {
-                // Initialize RayHandler (or mock if necessary)
-                RayHandler rayHandler = new RayHandler(null); // Pass appropriate argument
-                ServiceLocator.registerDayNightCycle(new DayNightCycle(rayHandler));
-            }
+
+            // Initialize RayHandler (or mock if necessary)
+            RayHandler rayHandler = new RayHandler(null); // Pass appropriate argument
+            ServiceLocator.registerDayNightCycle(new DayNightCycle(rayHandler));
+
         }
 
         // Register other services as needed
@@ -174,6 +173,7 @@ public class GdxGame extends Game {
      * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
      */
     public void newSnakeScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        initializeServices();
         this.setScreen(new SnakeScreen(this, oldScreen, oldScreenServices));
     }
 
@@ -183,6 +183,7 @@ public class GdxGame extends Game {
      * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
      */
     public void newBirdScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        initializeServices();
         this.setScreen(new BirdieDashScreen(this, oldScreen, oldScreenServices));
     }
 
@@ -192,6 +193,7 @@ public class GdxGame extends Game {
      * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
      */
     public void newMazeScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        initializeServices();
         this.setScreen(new MazeGameScreen(this, oldScreen, oldScreenServices));
     }
 
