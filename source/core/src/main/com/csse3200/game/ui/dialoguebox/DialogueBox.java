@@ -241,7 +241,7 @@ public class DialogueBox {
 
     /**
      * Creates the optionButton.
-     * @param index
+     * @param index the option index
      * @return the optionButton instance.
      */
     public TextButton createOptionButton(int index) {
@@ -620,6 +620,16 @@ public class DialogueBox {
         }
         if (label != null) this.label.setVisible(true);
         showAppropriateButtons();
+    }
+
+    /**
+     * Hides or removes the "Continue" button (forward button) from the dialogue box.
+     */
+    public void removeContinueButton() {
+        if (forwardButton != null) {
+            forwardButton.setVisible(false);  // Hide the button
+            //forwardButton.remove();  // Optionally remove it from the stage completely
+        }
     }
 
     /**

@@ -8,16 +8,10 @@ import com.csse3200.game.rendering.Renderer;
 public class MapHandler {
   private static GameArea currentGameArea;
   private static MapType currentMap = MapType.NONE;
-  private static MapType previousMap = MapType.NONE;
   private static boolean unlockedWater = false;
   private static boolean unlockedAir = false;
   private static int bossDefeat = 0;
 
-  private static ForestGameArea forestGameArea;
-
-  /**
-   *
-   */
   private MapHandler() {
   }
 
@@ -30,10 +24,9 @@ public class MapHandler {
    * @param mapType map type
    * @param renderer renderer
    * @param game game
-   * @param saveState save state
-   * @return 
+   * @return
    */
-  public static GameArea switchMapTo(MapType mapType, Renderer renderer, GdxGame game, boolean saveState) {
+  public static GameArea switchMapTo(MapType mapType, Renderer renderer, GdxGame game) {
     if (currentMap != MapType.NONE) {
       getCurrentMap().dispose();
     }
@@ -45,7 +38,6 @@ public class MapHandler {
       currentGameArea.create();
     } 
 
-    previousMap = currentMap;
     currentMap = mapType;
     return currentGameArea;
   }
@@ -59,7 +51,7 @@ public class MapHandler {
    * @param mapType - the type of map to initiaise to
    * @param renderer renderer
    * @param game game
-   * @return
+   * @return the new map
    */
   public static GameArea createNewMap(MapType mapType, Renderer renderer, GdxGame game) {
     resetMapHandler();
@@ -89,26 +81,47 @@ public class MapHandler {
   }
 
   /**
-   * checks if the water map is unlcked yet
+   * checks if the requested map is unlocked yet
    * @return true iff the map is unlocked
    */
-  public static boolean getUnlockedOcean() {
-    return MapHandler.unlockedWater;
+  public static boolean getUnlockStatus(MapType type) {
+    switch (type) {
+      case WATER -> {return unlockedWater;}
+      case AIR -> {return unlockedAir;}
+      default -> throw new IllegalArgumentException("This map type is not yet available!");
+    }
+  }
+
+  /**
+   * Get the number of bosses defeated
+   *
+   * @return number of bosses defeated
+   */
+  public static int getBossDefeatCount() {
+    return bossDefeat;
   }
 
   /**
    * Updates the count of bosses defeated
    */
   public static void updateBossDefeatCount() {
-    MapHandler.bossDefeat += 1;
+    bossDefeat += 1;
   }
 
   /**
    * sets the state of unlocked water map
-   * @param unlockedWater the state of unlocked map
+   * @param unlock the state of unlocked map
    */
-  public static void setUnlockedWater(boolean unlockedWater) {
-    MapHandler.unlockedWater = unlockedWater;
+  public static void setUnlockedWater(boolean unlock) {
+    unlockedWater = unlock;
+  }
+
+  /**
+   * sets the state of unlocked air map
+   * @param unlock the state of unlocked map
+   */
+  public static void setUnlockedAir(boolean unlock) {
+    unlockedAir = unlock;
   }
 
   /**
@@ -116,9 +129,7 @@ public class MapHandler {
    */
   public static void resetMapHandler() {
     currentMap = MapType.NONE;
-    previousMap = MapType.NONE;
     currentGameArea = null;
-    forestGameArea = null;
   }
 
   /**
@@ -139,14 +150,11 @@ public class MapHandler {
    * @return map
    */
   public static GameArea getMap(MapType mapType) {
-    switch (mapType) {
-      case FOREST:
-        return currentGameArea;
-      default:
-        throw new IllegalArgumentException("Map type not supported: " + mapType);
-    }
+    return switch(mapType) {
+      case FOREST -> currentGameArea;
+      default -> throw new IllegalArgumentException("Map type not supported: " + mapType);
+    };
   }
-
   /**
    * Map types
    */

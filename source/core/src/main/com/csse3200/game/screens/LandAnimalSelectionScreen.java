@@ -22,7 +22,7 @@ public class LandAnimalSelectionScreen extends AnimalRouletteScreen1 {
     protected void createUI(Skin skin) {
         super.createUI(skin);
 
-        getLandAnimalsButton().setVisible(false);
+        //getLandAnimalsButton().setVisible(false);
     }
 
     @Override

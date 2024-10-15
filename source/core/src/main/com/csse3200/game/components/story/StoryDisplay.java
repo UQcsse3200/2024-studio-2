@@ -1,19 +1,27 @@
 package com.csse3200.game.components.story;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.components.settingsmenu.UserSettings;
+import com.csse3200.game.services.DialogueBoxService;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.csse3200.game.ui.CustomButton;
 
 /**
  * A UI component for displaying the story screen. Contains all 6 background images for the StoryScreen.
@@ -26,12 +34,15 @@ public class StoryDisplay extends UIComponent {
     private final Texture[] backgroundTextures;
     private final int screenNum;
     private final int finalScreen;
+    private final String storyName;  // The name of the selected story (dog, croc, bird)
+    private DialogueBox dialogueBox;  // DialogueBox instance for displaying the story dialogues
 
-    public StoryDisplay(Texture[] backgroundTextures, int screenNum) {
+    public StoryDisplay(Texture[] backgroundTextures, int screenNum, String storyName) {
         super();
         this.backgroundTextures = backgroundTextures;
         this.screenNum = screenNum;
         finalScreen = backgroundTextures.length - 1;
+        this.storyName = storyName;
     }
 
     /**
@@ -47,7 +58,26 @@ public class StoryDisplay extends UIComponent {
         entity.getEvents().addListener("nextDisplay", this::onNextDisplay);
         entity.getEvents().addListener("backDisplay", this::onBackDisplay);
         entity.getEvents().addListener("skip", this::onSkip);
+        displayStoryDialogue();
     }
+    /**
+     * Display the story dialogue using DialogueBoxService.
+     */
+    private void displayStoryDialogue() {
+        StoryDialogueData dialogueData = new StoryDialogueData();
+        String[][] dialogueText = dialogueData.getDialogue(storyName, screenNum);  // Get the dialogue for this screen
+
+        // Initialize DialogueBox if it isn't already initialized
+        if (dialogueBox == null) {
+            Stage stage = ServiceLocator.getRenderService().getStage();
+            dialogueBox = new DialogueBox(stage);  // Pass the stage to the DialogueBox
+        }
+
+        // Show the dialogue for the current screen
+        dialogueBox.showDialogueBox(dialogueText);
+        dialogueBox.removeContinueButton();
+    }
+
 
     /**
      * Applies user settings to the game.
@@ -77,23 +107,21 @@ public class StoryDisplay extends UIComponent {
         table.row();
 
         // Initialises buttons
-        TextButton nextBtn = new TextButton("Next", skin);
-        TextButton backBtn = new TextButton("Back", skin);
-        TextButton skipBtn = new TextButton(">>", skin);
+        CustomButton nextBtn = new CustomButton("Next", skin);
+        CustomButton backBtn = new CustomButton("Back", skin);
+        CustomButton skipBtn = new CustomButton(">>", skin);
 
+        nextBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
+        backBtn.setButtonStyle(CustomButton.Style.DIALOGUE, skin);
 
-        // Adds UI component (hover over buttons)
-        addButtonElevationEffect(nextBtn);
-        addButtonElevationEffect(backBtn);
-        addButtonElevationEffect(skipBtn);
+        skipBtn.setButtonSize(80, 40);
+        skipBtn.setButtonStyle(CustomButton.Style.SMALL, skin);
+        skipBtn.setButtonStyle(CustomButton.Style.DIALOGUE_SMALL, skin);
 
         // Added handles for when clicked
-        nextBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Next button clicked");
-                entity.getEvents().trigger("nextDisplay");
-            }
+        nextBtn.addClickListener(() -> {
+            System.out.println("Next button clicked!");
+            entity.getEvents().trigger("nextDisplay");
         });
 
         if (screenNum != 0) {
@@ -130,13 +158,12 @@ public class StoryDisplay extends UIComponent {
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
-        topRightTable.add(skipBtn).size(40, 40).padTop(10).padRight(10);
+        topRightTable.add(skipBtn).size(80, 40).padTop(10).padRight(10);
 
         stage.addActor(topRightTable);
         stage.addActor(table);
         stage.addActor(bottomLeftTable);
         stage.addActor(bottomRightTable);
-
     }
 
     /**
@@ -179,10 +206,12 @@ public class StoryDisplay extends UIComponent {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(backgroundTextures[screenNum], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        // batch isn't used, batchDupe is to make SonarCloud happy, unsure why batch doesn't just work, but it causes
+        // the game to crash :/
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(backgroundTextures[screenNum], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batchDupe.end();
     }
 
     @Override

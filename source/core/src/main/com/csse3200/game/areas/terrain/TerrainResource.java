@@ -8,8 +8,8 @@ import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
 import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
-import com.csse3200.game.areas.terrain.tiles.Tile;
 import com.csse3200.game.areas.terrain.tiles.TileConfig;
+import com.csse3200.game.areas.terrain.tiles.Tile;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -28,10 +28,11 @@ public class TerrainResource {
     private List<Tile> airTiles;
     private List<Tile> fogTiles;
 
-    public static int forestSize = 0;
-    public static int waterSize = 0;
-    public static int airSize = 0;
-    public static int fogSize = 0;
+    // total number of each tile
+    private int forestSize;
+    private int waterSize;
+    private int airSize;
+    private int fogSize;
 
     private boolean unlockedWater;
 
@@ -129,7 +130,7 @@ public class TerrainResource {
         }
     }
 
-    public static int getTileSize(TileLocation location) {
+    public int getTileSize(TileLocation location) {
         switch (location) {
             case FOREST -> {return forestSize;}
             case WATER -> {return waterSize;}

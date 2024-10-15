@@ -6,41 +6,41 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The ItemMove class represents a increase stat move where the entity takes a moment to increase or restore one of
- * their stats (health, stamina, defense, strength)
+ * their stats (health, hunger, defense, strength)
  */
 public class ItemMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(ItemMove.class);
 
     /**
-     * Constructor to initialize the ItemMove with its name and stamina cost.
+     * Constructor to initialize the ItemMove with its name and hunger cost.
      *
      * @param moveName the name of the item move.
-     * @param staminaCost the stamina cost required to execute the item move.
+     * @param hungerCost the hunger cost required to execute the item move.
      */
-    public ItemMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public ItemMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**
-     * Executes the items move, increasing stamina.
+     * Executes the items move, increasing hunger.
      *
      * @param attackerStats the combat stats of the entity performing the item move.
      */
     @Override
     public void execute(CombatStatsComponent attackerStats) {
         if (attackerStats != null) {
-            logger.info("{} item increasing {} stamina.",
+            logger.info("{} item increasing {} hunger.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
-                    this.getStaminaCost());
+                    this.getHungerCost());
 
-            attackerStats.addStamina(-(this.getStaminaCost()));
+            attackerStats.addHunger(-(this.getHungerCost()));
         } else {
             logger.error("Entity does not have CombatStatsComponent.");
         }
     }
 
     /**
-     * Executes the item move, which simply consumes stamina. The target is ignored in this case.
+     * Executes the item move, which simply consumes hunger. The target is ignored in this case.
      *
      * @param attackerStats the combat stats of the entity performing the move.
      * @param targetStats   the combat stats of the target (ignored for item moves).
@@ -51,7 +51,7 @@ public class ItemMove extends CombatMove {
     }
 
     /**
-     * Executes the item move, either consuming or increasing stamina. The target's guarding status is ignored in this
+     * Executes the item move, either consuming or increasing hunger. The target's guarding status is ignored in this
      * context.
      *
      * @param attackerStats   the combat stats of the entity performing the move.
@@ -64,7 +64,7 @@ public class ItemMove extends CombatMove {
     }
 
     /**
-     * Executes the item move, consuming stamina. The number of hits landed is ignored for item moves.
+     * Executes the item move, consuming hunger. The number of hits landed is ignored for item moves.
      *
      * @param attackerStats   the combat stats of the entity performing the move.
      * @param targetStats     the combat stats of the target (ignored for item moves).

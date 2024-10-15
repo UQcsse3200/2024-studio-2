@@ -45,7 +45,7 @@ public class MazeDifficultyIncrease extends Component {
 
         List<Entity> anglers = gameArea.getEnemies(Entity.EnemyType.MAZE_ANGLER);
         for (Entity angler : anglers) {
-            // make angler faster from speed 0.6 -> 1.5
+            // make angler faster from speed 0.6 -> 1.38
             Vector2 speed = angler.getComponent(MazeCombatStatsComponent.class).getBaseSpeed().scl(1 + 1.3f / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1) * score);
             angler.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
             for (Light light : angler.getComponent(LightingComponent.class).getLights()) {
@@ -59,6 +59,13 @@ public class MazeDifficultyIncrease extends Component {
             // make eels a little bit faster from speed 0.8 -> 1.2
             Vector2 speed = eel.getComponent(MazeCombatStatsComponent.class).getBaseSpeed().scl(1 + 0.5f / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1) * score);
             eel.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
+        }
+
+        List<Entity> octopi = gameArea.getEnemies(Entity.EnemyType.MAZE_OCTOPUS);
+        for (Entity octopus : octopi) {
+            // make eels a little bit faster from speed 1 -> 1.4
+            Vector2 speed = octopus.getComponent(MazeCombatStatsComponent.class).getBaseSpeed().scl(1 + 0.4f / (MiniGameConstants.MAZE_GOLD_THRESHOLD - 1) * score);
+            octopus.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(speed);
         }
 
         // spawn some extra jellyfish each time
