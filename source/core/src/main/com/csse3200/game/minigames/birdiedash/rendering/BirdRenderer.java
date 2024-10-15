@@ -20,7 +20,7 @@ public class BirdRenderer implements MinigameRenderable {
     private float stateTime; // To track animation time
     private boolean isFlapping; // To track if the bird is flapping
     private float flapTimeRemaining; // Time left for flapping
-    private final float flapDuration = 0.45f; // Flap duration (1 seconds)
+    private final static float flapDuration = 0.45f; // Flap duration (1 seconds)
 
     public BirdRenderer(Bird bird, MinigameRenderer renderer) {
         this.bird = bird;

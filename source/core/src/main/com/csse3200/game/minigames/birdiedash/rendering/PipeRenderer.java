@@ -21,7 +21,7 @@ public class PipeRenderer implements MinigameRenderable {
     private TextureRegion pipeBody;
     private final List<Pipe> pipes;
     private final MinigameRenderer renderer;
-    private final float pipeHeadHeight = 200;
+    private final static float pipeHeadHeight = 200;
     public PipeRenderer(List<Pipe> pipes, MinigameRenderer renderer) {
         this.pipes = pipes;
         this.renderer = renderer;
