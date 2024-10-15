@@ -18,6 +18,7 @@ import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.minigames.MiniGameNames;
 import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
+import com.csse3200.game.components.login.PlayFab;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputComponent;
@@ -191,6 +192,8 @@ public class MazeGameScreen extends PausableScreen {
     private void endGame(int score) {
         this.EndScore = score;
         GameState.minigame.addHighScore("maze", score);
+        PlayFab.submitScore("Fish", score);
+//        logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
         SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
     }
 

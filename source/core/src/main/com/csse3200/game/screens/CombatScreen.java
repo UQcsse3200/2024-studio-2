@@ -209,7 +209,7 @@ public class CombatScreen extends ResizableScreen {
   private void checkEnemyDeath() {
     if (enemyCombatStats.getHealth() <= 0) {
       logger.debug("Enemy has been defeated, transitioning to EnemyTransitionCutSceneScreen screen.");
-      game.setScreen(new EnemyTransitionCutSceneScreen(game)); // Transition to EnemyTransitionCutSceneScreen
+      game.setScreen(new EnemyTransitionCutSceneScreen(game, this.enemy)); // Transition to EnemyTransitionCutSceneScreen
     }
   }
 
