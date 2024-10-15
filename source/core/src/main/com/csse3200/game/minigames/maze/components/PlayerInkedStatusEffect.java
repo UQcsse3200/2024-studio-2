@@ -10,7 +10,7 @@ import com.csse3200.game.services.ServiceLocator;
  * When active, will show a black ink spill that covers the screen
  */
 public class PlayerInkedStatusEffect implements StatusEffect {
-    private static final float INK_TIME = 4f;
+    private static final float inktime = 4f;
     private float timeLeft;
     Entity player;
     Entity ink;
@@ -37,7 +37,7 @@ public class PlayerInkedStatusEffect implements StatusEffect {
     public void start() {
         alphaComponent.setAlpha(1);
         ink.setScale(4, 4);
-        timeLeft = INK_TIME;
+        timeLeft = inktime;
     }
 
     /** Stop the effects of this status immediately. This can be called at any time. */
@@ -54,7 +54,7 @@ public class PlayerInkedStatusEffect implements StatusEffect {
     @Override
     public void update() {
         timeLeft -= ServiceLocator.getTimeSource().getDeltaTime();
-        float interpX = timeLeft / INK_TIME;
+        float interpX = timeLeft / inktime;
         if (interpX < .5f) {
             alphaComponent.setAlpha(Math.max(alphaComponent.getAlpha() * 4*interpX*interpX, 0));
         }
