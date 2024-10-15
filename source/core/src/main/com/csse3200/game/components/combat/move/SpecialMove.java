@@ -13,13 +13,13 @@ public abstract class SpecialMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(SpecialMove.class);
 
     /**
-     * Constructs a SpecialMove with the specified name and stamina cost.
+     * Constructs a SpecialMove with the specified name and hunger cost.
      *
      * @param moveName    the name of the special move.
-     * @param staminaCost the stamina cost required to perform the special move.
+     * @param hungerCost the hunger cost required to perform the special move.
      */
-    public SpecialMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public SpecialMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**
@@ -82,7 +82,7 @@ public abstract class SpecialMove extends CombatMove {
             }
 
             applyBuffs(attackerStats);
-            attackerStats.addStamina(-getStaminaCost());
+            attackerStats.addHunger(-getHungerCost());
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }

@@ -5,19 +5,19 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Disposable;
 
 public class InventoryUtils {
-    public InventoryUtils() throws InstantiationException {
-        throw new InstantiationException("Do not instantiate static util class (InventoryUtils)");
+    private InventoryUtils() throws InstantiationException {
+        throw new InstantiationException("Do not instantiate static util class!");
     }
 
     public static void disposeGroupRecursively(Group group) {
         for (Actor child : group.getChildren()) {
             // Dispose if child implements Disposable
-            if (child instanceof Disposable) {
-                ((Disposable) child).dispose();
+            if (child instanceof Disposable c) {
+                c.dispose();
             }
             // If the child is a Group (including Table), dispose of its children as well
-            if (child instanceof Group) {
-                disposeGroupRecursively((Group) child);
+            if (child instanceof Group g) {
+                disposeGroupRecursively(g);
             }
         }
         group.clearChildren(); // Remove all children from the group

@@ -7,20 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.ui.UIComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Displays two buttons during combat to exit the Main Game screen and return to the Main Menu screen.
  * One button allows for an "instant kill" win, and the other triggers a loss, simulating the player losing the combat.
  */
 public class CombatExitDisplay extends UIComponent {
-  private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
-  private Entity enemy;
+  private final Entity enemy;
 
   public CombatExitDisplay(Entity enemy) {
     this.enemy = enemy;

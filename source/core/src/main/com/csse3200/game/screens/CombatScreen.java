@@ -1,30 +1,22 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
-import com.csse3200.game.components.inventory.CombatInventoryDisplay;
-import com.csse3200.game.components.inventory.InventoryComponent;
-import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.combat.*;
 import com.csse3200.game.areas.combat.CombatArea;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.combat.CombatExitDisplay;
-import com.csse3200.game.components.combat.CombatStatsDisplay;
-import com.csse3200.game.components.combat.CombatActions;
+import com.csse3200.game.components.combat.*;
+import com.csse3200.game.components.inventory.CombatInventoryDisplay;
+import com.csse3200.game.components.inventory.InventoryComponent;
+import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
-import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.*;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
@@ -36,7 +28,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
  */
-public class CombatScreen extends ScreenAdapter {
+public class CombatScreen extends ResizableScreen {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] combatTextures = {
           "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
@@ -48,7 +40,6 @@ public class CombatScreen extends ScreenAdapter {
   };
   private boolean isPaused = false;
   private final GdxGame game;
-  private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private final Screen oldScreen;
   private final ServiceContainer oldScreenServices;
@@ -59,6 +50,8 @@ public class CombatScreen extends ScreenAdapter {
   private final CombatArea combatArea;
 
   public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+    super();
+    
     this.game = game;
     this.oldScreen = screen;
     this.oldScreenServices = container;
@@ -75,9 +68,6 @@ public class CombatScreen extends ScreenAdapter {
     physicsEngine = physicsService.getPhysics();
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
-    ServiceLocator.registerEntityService(new EntityService());
-    ServiceLocator.registerRenderService(new RenderService());
-    renderer = RenderFactory.createRenderer();
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     // Load the DialogueBoxService Into Stage
@@ -97,20 +87,16 @@ public class CombatScreen extends ScreenAdapter {
   @Override
   public void render(float delta) {
     if (!isPaused){
-    physicsEngine.update();
-    ServiceLocator.getEntityService().update();
-    checkEnemyDeath(); // Checking if enemy died
-    renderer.render();
+      physicsEngine.update();
+      super.render(delta);
+      checkEnemyDeath(); // Checking if enemy died
     }
-
   }
 
   @Override
   public void resize(int width, int height) {
-    renderer.resize(width, height);
+    super.resize(width, height);
     combatArea.spawnTerrain();
-
-    logger.trace("Resized renderer: ({} x {})", width, height);
   }
 
   /** Pause the game, eventually will need to pause music
@@ -133,13 +119,10 @@ public class CombatScreen extends ScreenAdapter {
   public void dispose() {
     logger.debug("Disposing main game screen");
 
-    renderer.dispose();
     unloadAssets();
-
-    ServiceLocator.getEntityService().dispose();
-    ServiceLocator.getRenderService().dispose();
     ServiceLocator.getResourceService().dispose();
-    ServiceLocator.clear();
+    
+    super.dispose();
   }
 
   private void loadAssets() {

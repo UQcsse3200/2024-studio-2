@@ -16,6 +16,6 @@ public class CatSoundPlayer {
         if (meowSound != null) {
             meowSound.play(volume);
         }
-        logger.info("Meow sound played with volume: " + volume);
+        logger.info(String.format("Meow sound played with volume: %.2f", volume));
     }
 }

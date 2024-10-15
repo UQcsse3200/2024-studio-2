@@ -38,9 +38,11 @@ class CombatInventoryDisplayTest {
     @Test
     void testInitialisation() {
         // Should throw error since 7 does not divide 9
+        Inventory inv1 = new Inventory(9);
+        Inventory inv2 = new Inventory(10);
         assertThrows(IllegalArgumentException.class,
-                () -> new CombatInventoryDisplay(new Inventory(9), 7, 1));
-        assertThrows(IllegalArgumentException.class, () -> new CombatInventoryDisplay(new Inventory(10), 0, 1));
+                () -> new CombatInventoryDisplay(inv1, 7, 1));
+        assertThrows(IllegalArgumentException.class, () -> new CombatInventoryDisplay(inv2, 0, 1));
 
         // Shouldn't throw error since 3 divides 12
         new CombatInventoryDisplay(new Inventory(9), 3, 3);

@@ -1,0 +1,50 @@
+MonkeySprite.png
+size: 1296, 168 
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+monkey1
+  rotate: false
+  xy: 0, 0
+  size: 216, 168
+  orig: 216, 168
+  offset: 0, 0
+  index: -1
+monkey2
+  rotate: false
+  xy: 216, 0
+  size: 216, 168
+  orig: 216, 168
+  offset: 0, 0
+  index: -1
+monkey3
+  rotate: false
+  xy: 432, 0
+  size: 216, 168
+  orig: 216, 168
+  offset: 0, 0
+  index: -1
+monkey4
+  rotate: false
+  xy: 648, 0
+  size: 216, 168
+  orig: 216, 168
+  offset: 0, 0
+  index: -1
+monkey5
+  rotate: false
+  xy: 864, 0
+  size: 216, 168
+  orig: 216, 168
+  offset: 0, 0
+  index: -1
+monkey6
+  rotate: false
+  xy: 1080, 0
+  size: 216, 168
+  orig: 216, 168
+  offset: 0, 0
+  index: -1
+
+
+

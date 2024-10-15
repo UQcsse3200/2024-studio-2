@@ -319,10 +319,10 @@ public class CombatStatsDisplay extends UIComponent {
      */
     public void updateHungerUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
         logger.trace("Detected hunger change in combat and is updating UI");
-        int playerCurHunger = playerStats.getStamina();
-        int playerMaxHunger = playerStats.getMaxStamina();
-        int enemyCurHunger = enemyStats.getStamina();
-        int enemyMaxHunger = enemyStats.getMaxStamina();
+        int playerCurHunger = playerStats.getHunger();
+        int playerMaxHunger = playerStats.getMaxHunger();
+        int enemyCurHunger = enemyStats.getHunger();
+        int enemyMaxHunger = enemyStats.getMaxHunger();
         CharSequence playerText = String.format("HGR: %d/%d", playerCurHunger, playerMaxHunger);
         CharSequence enemyText = String.format("HGR: %d/%d", enemyCurHunger, enemyMaxHunger);
         playerHungerLabel.setText(playerText);
