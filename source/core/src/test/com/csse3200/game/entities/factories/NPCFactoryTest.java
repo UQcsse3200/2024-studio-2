@@ -214,7 +214,7 @@ class NPCFactoryTest {
     void TestBearHasCorrectSoundPath() {
         String[] sound = configs.friendlyBear.getSoundPath();
         Assertions.assertNotNull(sound);
-        Assertions.assertArrayEquals(new String[]{"sounds/tiger-roar.wav"}, sound);
+        Assertions.assertArrayEquals(new String[]{"sounds/bear.wav"}, sound);
     }
 
     /**
@@ -303,7 +303,7 @@ class NPCFactoryTest {
     void TestChickenHasCorrectBaseHint() {
         String[][] baseHint = configs.friendlyChicken.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!","I am Charlie the Chicken."}},
+        Assertions.assertArrayEquals(new String[][]{{"Welcome to Animal Kingdom!","I am Charles the Chicken."}},
                 baseHint);
     }
 
