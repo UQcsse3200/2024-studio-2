@@ -74,7 +74,6 @@ public class AchievementPopup extends UIComponent {
         popup.addActor(book);
         popup.addActor(popupImage);
 
-
         // Calculate and position the popup
         float screenHeight = Gdx.graphics.getHeight();
         float screenWidth = Gdx.graphics.getWidth();

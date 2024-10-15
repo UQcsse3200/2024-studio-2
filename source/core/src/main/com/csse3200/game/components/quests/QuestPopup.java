@@ -19,7 +19,7 @@ public class QuestPopup extends UIComponent {
 
     private Label questDetails;
     /** Scale of font size. */
-    private static final float FONTSCALE = 2f;
+    private static final float FONTSCALE = 1.5f;
 
     /**
      * Adds the listener for the label to trigger the popup.
@@ -54,8 +54,8 @@ public class QuestPopup extends UIComponent {
     public void draw(SpriteBatch batch) {
         if(showing) {
             //create the label
-            questCompleted = new Label("Quest Completed!", skin,"title",Color.GOLD);
-            questDetails = new Label("See quest log for more details", skin,"title",Color.GOLD);
+            questCompleted = new Label("Quest Completed!", skin,"title",Color.WHITE);
+            questDetails = new Label("See quest log for more details", skin,"title",Color.WHITE);
             questCompleted.setFontScale(FONTSCALE);
             stage.addActor(questCompleted);
             stage.addActor(questDetails);
@@ -66,7 +66,7 @@ public class QuestPopup extends UIComponent {
             float displayX = (screenWidth / 2) - (questCompleted.getWidth() * FONTSCALE / 2);
             float displayY = (screenHeight / 2) - (questCompleted.getHeight() * FONTSCALE / 2);
             float detailX = (screenWidth / 2) - (questDetails.getWidth() / 2);
-            float detailY = (screenHeight / 2) - (questDetails.getHeight() * FONTSCALE / 2) - questCompleted.getHeight();
+            float detailY = (screenHeight / 2) - (questDetails.getHeight() / 2) - questCompleted.getHeight();
             questCompleted.setPosition(displayX, displayY);
             questDetails.setPosition(detailX, detailY);
 
