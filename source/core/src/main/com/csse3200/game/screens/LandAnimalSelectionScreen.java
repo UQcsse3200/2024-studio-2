@@ -3,8 +3,8 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
 import com.csse3200.game.components.animal.AnimalRouletteActions1;
+import com.csse3200.game.components.animal.AnimalRouletteDisplay1;
 import com.csse3200.game.components.animal.LandAnimalSelectionDisplay;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 
@@ -22,7 +22,7 @@ public class LandAnimalSelectionScreen extends AnimalRouletteScreen1 {
     protected void createUI(Skin skin) {
         super.createUI(skin);
 
-        getLandAnimalsButton().setVisible(false);
+        //getLandAnimalsButton().setVisible(false);
     }
 
     @Override

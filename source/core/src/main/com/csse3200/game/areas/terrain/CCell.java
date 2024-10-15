@@ -15,7 +15,6 @@ public class CCell extends Cell {
     private BitSet possibleRight;
 
     private boolean isCollapsed;
-    //private BitSet options;
 
     public CCell() {
         super();
@@ -24,9 +23,6 @@ public class CCell extends Cell {
         this.possibleLeft = new BitSet();
         this.possibleRight = new BitSet();
         this.isCollapsed = false;
-
-        //this.options = new BitSet(TerrainResource.TILE_SIZE);
-        //this.options.set(0, TerrainResource.TILE_SIZE, true);
     }
 
     /**
@@ -75,7 +71,6 @@ public class CCell extends Cell {
      */
     public CCell setTile(Tile tile, TerrainResource terrainResource) {
         super.setTile(new TerrainTile(tile.getTexture()));
-        //terrainResource.getTilebyName(tile.getName());
 
         this.possibleUp = tile.getUp();
         this.possibleDown = tile.getDown();

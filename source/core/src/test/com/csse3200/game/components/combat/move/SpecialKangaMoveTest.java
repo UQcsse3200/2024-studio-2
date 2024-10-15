@@ -1,8 +1,10 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 
 import static org.mockito.Mockito.*;
@@ -12,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for the SpecialKangaMove class.
  * These tests use Mockito to mock the behaviour of dependent components (e.g., CombatStatsComponent).
  */
+@ExtendWith(GameExtension.class)
 class SpecialKangaMoveTest {
 
     private SpecialKangaMove specialKangaMove;
@@ -24,7 +27,7 @@ class SpecialKangaMoveTest {
      */
     @BeforeEach
     void setUp() {
-        // Create an instance of SpecialKangaMove with a mock move name and stamina cost.
+        // Create an instance of SpecialKangaMove with a mock move name and hunger cost.
         specialKangaMove = new SpecialKangaMove("Kanga Rage", 20);
 
         // Mock the target and attacker stats (CombatStatsComponent).

@@ -97,7 +97,7 @@ class InventoryTest {
     @Test
     void testBasicAddAndDelete() {
         // Check add and delete works with a single items
-        assertTrue(test1.add(items[0]) != -1);
+        assertNotEquals(-1, test1.add(items[0]));
         assertTrue(test1.hasItem(items[0].getItemCode()));
         assertEquals(0, test1.getIndex(items[0].getItemCode()));
         assertEquals(0, test1.getIndex(items[0].getName()));
@@ -112,7 +112,7 @@ class InventoryTest {
     void testComplexAddAndDelete() {
         // Fill up inventory with items
         for (int i = 0; i < 3; i++) {
-            assertTrue(test2.add(items[i]) != -1);
+            assertNotEquals(-1, test2.add(items[i]));
         }
         assertTrue(test2.hasItem(items[2].getItemCode()));
         assertFalse(test2.hasItem(items[3].getItemCode()));
@@ -120,13 +120,13 @@ class InventoryTest {
         assertTrue(test2.isFull());
 
         // Check adding a new item now does nothing.
-        assertTrue(test2.add(items[3]) == -1);
+        assertEquals(-1, test2.add(items[3]));
         assertFalse(test2.hasItem(items[3].getItemCode()));
 
         // Check deleting then adding an item works
         test2.deleteItem(items[0].getItemCode());
         assertFalse(test2.hasItem(items[0].getItemCode()));
-        assertTrue(test2.add(items[3]) != -1);
+        assertNotEquals(-1, test2.add(items[3]));
         assertTrue(test2.hasItem(items[3].getItemCode()));
 
         // Check replacing an item at an index works.
@@ -147,14 +147,14 @@ class InventoryTest {
     @Test
     void testBasicAddAndUse() {
         // Add to inventory with single index, use it twice - check it has gone.
-        assertTrue(test1.add(items[0]) != -1);
+        assertNotEquals(-1, test1.add(items[0]));
         test1.useItemAt(0, context);
         assertTrue(test1.hasItem(items[0].getItemCode()));
 
         // Add an extra test item and use once, and check it is added to the same slot
         TestableItem item = new TestableItem("test_" + 0, 0);
         item.useItem(context);
-        assertTrue(test1.add(item) != -1);
+        assertNotEquals(-1, test1.add(item));
         test1.useItemAt(0, context);
 
         test1.useItem(items[0].getItemCode(), context);
@@ -165,8 +165,8 @@ class InventoryTest {
     void testComplexAddAndUse() {
         // Add multiple to inventory with multiple indexes, use varying number of times and check
         // whether items are gone or not
-        assertTrue(test2.add(items[0]) != -1);
-        assertTrue(test2.add(items[1]) != -1);
+        assertNotEquals(-1, test2.add(items[0]));
+        assertNotEquals(-1, test2.add(items[1]));
         test2.useItem(items[0].getItemCode(), context);
         assertTrue(test2.hasItem(items[0].getItemCode()));
         assertTrue(test2.hasItem(items[1].getItemCode()));
@@ -178,8 +178,8 @@ class InventoryTest {
         TestableItem x1 = new TestableItem("test", 0);
         TestableItem x2 = new TestableItem("test", 0);
         test2.clearInventory();
-        assertTrue(test2.add(x1) != -1);
-        assertTrue(test2.add(x2) != -1);
+        assertNotEquals(-1, test2.add(x1));
+        assertNotEquals(-1, test2.add(x2));
 
         // Check using second item doesn't affect first
         test2.useItemAt(1, context);

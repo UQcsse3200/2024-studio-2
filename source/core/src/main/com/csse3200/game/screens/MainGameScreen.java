@@ -1,40 +1,39 @@
 package com.csse3200.game.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.Component;
-import com.csse3200.game.components.maingame.TimeDisplay;
-import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.areas.MiniMap.MiniMapDisplay;
+import com.csse3200.game.components.Component;
+import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.maingame.MainGameActions;
+import com.csse3200.game.components.maingame.MainGameExitDisplay;
+import com.csse3200.game.components.maingame.TimeDisplay;
+import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.lighting.DayNightCycle;
-import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.*;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
-import com.csse3200.game.components.maingame.MainGameExitDisplay;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.csse3200.game.areas.MiniMapDisplay;
 
 /**
  * The game screen containing the main game.
@@ -78,6 +77,7 @@ public class MainGameScreen extends PausableScreen {
   private final PhysicsEngine physicsEngine;
   private final LightingEngine lightingEngine;
   private final DayNightCycle dayNightCycle;
+  private final MiniMapDisplay miniMapDisplay;
 
   /**
    * The game area containing the main game.
@@ -105,13 +105,16 @@ public class MainGameScreen extends PausableScreen {
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
 
+      // Register InGameTime
+      ServiceLocator.registerInGameTime(new InGameTime());
+
     // register the EntityChatService
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     lightingEngine = new LightingEngine(physicsEngine.getWorld(),
-            renderer.getCamera().getCamera());
+            (OrthographicCamera) renderer.getCamera().getCamera());
 
     lightingEngine.getRayHandler().setAmbientLight(new Color(0.5f, 0.45f, 0.3f, 0.6f));
 
@@ -120,9 +123,14 @@ public class MainGameScreen extends PausableScreen {
     ServiceLocator.registerLightingService(new LightingService(lightingEngine));
 
     dayNightCycle = new DayNightCycle(lightingEngine.getRayHandler());
+    // Register the DayNightCycle instance
+    ServiceLocator.registerDayNightCycle(dayNightCycle);
+    ServiceLocator.registerParticleService(new ParticleService());
 
     loadAssets();
     this.gameArea = MapHandler.createNewMap(MapHandler.MapType.FOREST, renderer, this.game);
+    miniMapDisplay = new MiniMapDisplay(gameArea);
+
     createUI();
     logger.debug("Initialising main game screen entities");
 
@@ -137,7 +145,7 @@ public class MainGameScreen extends PausableScreen {
    * @param mapType The map type to set the map to.
    */
   public void setMap(MapHandler.MapType mapType) {
-    this.gameArea = MapHandler.switchMapTo(mapType, renderer, game, true);
+    this.gameArea = MapHandler.switchMapTo(mapType, renderer, game);
   }
 
   /**
@@ -171,7 +179,9 @@ public class MainGameScreen extends PausableScreen {
   @Override
   public void pause() {
       isPaused = true;
+      System.out.println("paused");
       gameArea.pauseMusic();
+      ServiceLocator.getInGameTime().pause(); // Pause the in-game time
       logger.info("Game paused");
   }
   
@@ -182,10 +192,12 @@ public class MainGameScreen extends PausableScreen {
   public void resume() {
       isPaused = false;
       KeyboardPlayerInputComponent inputComponent = gameArea.getPlayer().getComponent(KeyboardPlayerInputComponent.class);
+      miniMapDisplay.updateAllPoints();
       inputComponent.resetVelocity();
       if (!resting) {
           gameArea.playMusic();
       }
+      ServiceLocator.getInGameTime().resume(); // Resume the in-game time
       logger.info("Game resumed");
   }
   
@@ -245,7 +257,7 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new Terminal())
               .addComponent(inputComponent)
               .addComponent(new TerminalDisplay())
-              .addComponent(new MiniMapDisplay(gameArea))
+              .addComponent(miniMapDisplay)
               .addComponent(new TimeDisplay());
       
       ServiceLocator.getEntityService().register(ui);

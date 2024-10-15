@@ -1,5 +1,6 @@
 package com.csse3200.game.rendering.Minigames.Snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
 import com.csse3200.game.minigames.snake.Snake;
 import com.csse3200.game.minigames.snake.SnakeGrid;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.csse3200.game.minigames.MinigameRenderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,6 +17,7 @@ import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
+@ExtendWith(GameExtension.class)
 class SnakeRendererTest {
 
     private SnakeRenderer renderer;
@@ -29,6 +32,7 @@ class SnakeRendererTest {
         Texture snakeBodyHorizontalTexture = mock(Texture.class);
         Texture snakeBodyVerticalTexture = mock(Texture.class);
         Texture snakeBodyBentTexture = mock(Texture.class);
+        Texture snakeTailTexture = mock(Texture.class);
         MinigameRenderer minigameRenderer = mock(MinigameRenderer.class);
 
         // Initialising the SnakeRenderer with mocked dependencies
@@ -37,6 +41,7 @@ class SnakeRendererTest {
                 snakeBodyHorizontalTexture,
                 snakeBodyVerticalTexture,
                 snakeBodyBentTexture,
+                snakeTailTexture,
                 minigameRenderer
         );
     }

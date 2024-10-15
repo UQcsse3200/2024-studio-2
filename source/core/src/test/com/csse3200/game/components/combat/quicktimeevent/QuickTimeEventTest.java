@@ -87,7 +87,7 @@ class QuickTimeEventTest {
         ui.getEvents().trigger("start");
         ui.update();
         // label should no longer be empty
-        assertNotEquals(display.getLabel().getText().toString(), "");
+        assertNotEquals("", display.getLabel().getText().toString());
         int startCount = parseLabelTextToInt();
         // make 1 second pass
         when(gameTime.getTimeSince(0L)).thenReturn(1000L);
@@ -118,7 +118,7 @@ class QuickTimeEventTest {
         }
         assertTrue(i < LOOP_TIME_OUT);
         // quick-time event should have triggered
-        assertEquals(ui.getEvents().getLastTriggeredEvent(), "startQuickTime");
+        assertEquals("startQuickTime", ui.getEvents().getLastTriggeredEvent());
     }
 
     /**

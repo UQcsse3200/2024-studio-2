@@ -14,13 +14,13 @@ public class SpecialAirMove extends SpecialMove {
     private static final Logger logger = LoggerFactory.getLogger(SpecialAirMove.class);
 
     /**
-     * Constructs the SpecialAirMove with the given move name and stamina cost.
+     * Constructs the SpecialAirMove with the given move name and hunger cost.
      *
      * @param moveName    the name of the special move.
-     * @param staminaCost the stamina cost required to perform the special move.
+     * @param hungerCost the hunger cost required to perform the special move.
      */
-    public SpecialAirMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public SpecialAirMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**

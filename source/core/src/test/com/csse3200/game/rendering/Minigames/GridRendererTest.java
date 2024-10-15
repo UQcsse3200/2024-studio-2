@@ -5,16 +5,19 @@ import static org.mockito.Mockito.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.MinigameRenderer;
 import com.csse3200.game.minigames.snake.SnakeGrid;
 import com.csse3200.game.minigames.snake.rendering.GridRenderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
+@ExtendWith(GameExtension.class)
 class GridRendererTest {
 
     // mocks the SnakeGrid to control its behaviour in the tests

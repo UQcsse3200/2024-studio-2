@@ -2,21 +2,24 @@ package com.csse3200.game.minigames.snake;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-class SnakeGridTest {
+@ExtendWith(GameExtension.class)
+public class SnakeGridTest {
 
     // it initialises the SnakeGrid instance before each test
     private SnakeGrid snakeGrid;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         snakeGrid = new SnakeGrid();
     }
 
     @Test
-    void testDefaultDimensions() {
+    public void testDefaultDimensions() {
         // the expected width and height for the grid class.
         int expectedWidth = 20;
         int expectedHeight = 20;
