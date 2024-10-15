@@ -1,6 +1,7 @@
 package com.csse3200.game.minigames.maze.areas;
 
 import box2dLight.RayHandler;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +16,7 @@ import com.csse3200.game.input.InputService;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
@@ -61,7 +63,7 @@ public class MazeGameAreaTest {
         ServiceLocator.registerInputService(new InputService());
 
         RayHandler rayHandler = mock(RayHandler.class);
-        LightingEngine engine = new LightingEngine(rayHandler, camComponent.getCamera());
+        LightingEngine engine = new LightingEngine(rayHandler, (OrthographicCamera) camComponent.getCamera());
         LightingService mockLightingService = mock(LightingService.class);
         when(mockLightingService.getLighting()).thenReturn(engine);
         ServiceLocator.registerLightingService(mockLightingService);
@@ -94,6 +96,7 @@ public class MazeGameAreaTest {
         when(terrainFactory.createTerrain()).thenReturn(terrainComp);
 
         ServiceLocator.registerTimeSource(mock(GameTime.class));
+        ServiceLocator.registerParticleService(new ParticleService());
 
         return spy(new MazeGameArea(terrainFactory));
     }
@@ -105,7 +108,7 @@ public class MazeGameAreaTest {
     }
 
     @Test
-    public void testCreate() {
+    void testCreate() {
         assertEquals(MazeGameArea.NUM_JELLYFISH * 2, gameArea.getEnemies(Entity.EnemyType.MAZE_JELLYFISH).size());
         assertEquals(MazeGameArea.NUM_ANGLERS, gameArea.getEnemies(Entity.EnemyType.MAZE_ANGLER).size());
         assertEquals(MazeGameArea.NUM_EELS, gameArea.getEnemies(Entity.EnemyType.MAZE_EEL).size());
@@ -119,7 +122,7 @@ public class MazeGameAreaTest {
     }
 
     @Test
-    public void testUnload() {
+    void testUnload() {
         gameArea.unloadAssets();
         assertFalse(
                 ServiceLocator.getResourceService().containsAsset(
@@ -127,7 +130,7 @@ public class MazeGameAreaTest {
     }
 
     @Test
-    public void testDispose() {
+    void testDispose() {
         gameArea.dispose();
         assertFalse(
                 ServiceLocator.getResourceService().containsAsset(
@@ -135,17 +138,17 @@ public class MazeGameAreaTest {
     }
 
     @Test
-    public void testGetBosses() {
+    void testGetBosses() {
         assertThrows(UnsupportedOperationException.class, () -> gameArea.getBosses());
     }
 
     @Test
-    public void testGetFriendlyNPCs() {
+    void testGetFriendlyNPCs() {
         assertThrows(UnsupportedOperationException.class, () -> gameArea.getFriendlyNPCs());
     }
 
     @Test
-    public void testGetMinigameNPCs() {
+    void testGetMinigameNPCs() {
         assertThrows(UnsupportedOperationException.class, () -> gameArea.getMinigameNPCs());
     }
 }

@@ -17,8 +17,12 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.food.Foods;
+import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.lighting.components.FadeLightsDayTimeComponent;
 import com.csse3200.game.lighting.components.LightingComponent;
+import com.csse3200.game.particles.ParticleService;
+import com.csse3200.game.particles.components.FireFlyComponent;
+import com.csse3200.game.particles.components.ParticleEffectComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.configs.*;
 import com.csse3200.game.files.FileLoader;
@@ -414,6 +418,13 @@ public class NPCFactory {
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
+  }
+
+  public static Entity createFirefly() {
+      return new Entity()
+              .addComponent(new ParticleEffectComponent(ParticleService.ParticleType.FIREFLY))
+              .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(4f, Color.YELLOW)))
+              .addComponent(new FireFlyComponent());
   }
 
   private NPCFactory() {
