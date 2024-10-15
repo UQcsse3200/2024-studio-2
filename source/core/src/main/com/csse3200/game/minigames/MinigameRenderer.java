@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class to help render minigame things. Includes spritebatch and camera.
+ * Class to help render minigame things for snake and birdie dash. Includes spritebatch and camera.
  * The camera allows resizing to be done easily.
  */
 public class MinigameRenderer {
@@ -28,10 +28,17 @@ public class MinigameRenderer {
         this.background = new Texture("images/minigames/Background.png");
     }
 
+    /**
+     * Add a thing to render (class that implements MinigameRenderable with render method)
+     * @param renderable class to render
+     */
     public void addRenderable(MinigameRenderable renderable) {
         renderables.add(renderable);
     }
 
+    /**
+     * Render all classes
+     */
     public void render() {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
@@ -41,6 +48,9 @@ public class MinigameRenderer {
         sb.end();
     }
 
+    /**
+     * Render background for sprite batch
+     */
     public void renderBackground() {
         if(background != null) {
             sb.begin();
@@ -49,6 +59,11 @@ public class MinigameRenderer {
         }
     }
 
+    /**
+     * Resize the screen
+     * @param width new width of the screen
+     * @param height new height of the screen
+     */
     public void resize(int width, int height) {
         float aspectRatio = (float) width / height;
         float viewportWidth = 800;
@@ -59,14 +74,25 @@ public class MinigameRenderer {
         renderBackground();
     }
 
+    /**
+     * Getter for the sprite batch
+     * @return the sprite batch
+     */
     public SpriteBatch getSb() {
         return this.sb;
     }
 
+    /**
+     * Getter for the camera
+     * @return the camera
+     */
     public OrthographicCamera getCam() {
         return this.cam;
     }
 
+    /**
+     * Dispose of the sprite batch
+     */
     public void dispose() {
         sb.dispose();
     }
