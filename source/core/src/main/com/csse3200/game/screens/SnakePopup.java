@@ -2,7 +2,6 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -12,10 +11,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.services.ServiceLocator;
-// import com.csse3200.game.overlays.Overlay; // Commented out for now
+
 
 public class SnakePopup {
 
@@ -23,11 +20,10 @@ public class SnakePopup {
     private final Skin skin;
     private final Window window;
     private final Texture texture;
-    private final int windowWidth = 800;
-    private final int windowHeight = 600;
+    private final int windowWidth = 1000;
+    private final int windowHeight = 800;
     private boolean isVisible = false;
     private final TextButton continueButton;
-    // private final Entity ui; // Commented out for now
 
     public SnakePopup(PausableScreen screen, String texturePath) {
         this(texturePath);
