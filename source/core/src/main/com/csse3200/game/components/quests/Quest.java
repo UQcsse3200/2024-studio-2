@@ -7,8 +7,7 @@ import java.util.List;
 /** A basic Quest class that stores quest and subtask progression (# of
  * subtasks completed), descriptions and hints. **/
 public class Quest {
-    /** A basic constructor class for basic quests that covers achievements, hidden quests, dialogue
-     *  and completion triggers (messages to send on completion). */
+
     /**
      * The name of the quest.
      * */
@@ -175,9 +174,19 @@ public class Quest {
         return isActive;
     }
 
+    /**
+     * Sets the active state of the quest.
+     * @param active a boolean value indicating whether the quest is active or not.
+     */
     public void setActive(boolean active) { this.isActive = active; }
 
+    /**
+     * Retrieves the list of dialogue keys associated with the quest.
+     */
     public List<DialogueKey> getQuestDialogue() { return questDialogue; }
 
+    /**
+     * Retrieves the follow-up quests related to this quest.
+     */
     public String[] getFollowQuests() { return followQuests; }
 }
