@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 
 
 public class SnakePopup {
@@ -23,7 +24,7 @@ public class SnakePopup {
     private final float windowWidth = 1000;
     private final float windowHeight = 800;
     private boolean isVisible = false;
-    private final TextButton continueButton;
+    private final CustomButton continueButton;
 
     public SnakePopup(PausableScreen screen, String texturePath) {
         this(texturePath);
@@ -49,35 +50,12 @@ public class SnakePopup {
         Image image = new Image(texture);
         window.add(image).fill();
 
-        continueButton = new TextButton("Continue", skin);
+        continueButton = new CustomButton("Continue", skin);
 
         window.row();
-        window.add(continueButton).padTop(10);
+        window.add(continueButton).width(150).height(50).padTop(10);
 
         stage.addActor(window);
-
-
-    }
-
-    public SnakePopup(GdxGame game, String texturePath, String gameType) {
-        this(texturePath);
-        continueButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                switch (gameType) {
-                    case "Snake":
-                        game.enterSnakeScreen();
-                        break;
-                    case "Maze":
-                        game.enterMazeGameScreen();
-                        break;
-                    case "Birdie":
-                        game.enterBirdieDashScreen();
-                        break;
-                }
-                hide();
-            }
-        });
     }
 
     public void show() {
@@ -96,7 +74,6 @@ public class SnakePopup {
     }
 
     public void resize(int width, int height) {
-
         stage.getViewport().update(width, height, true);
         window.setPosition((width - windowWidth) / 2, (height - windowHeight) / 2);
     }
