@@ -54,9 +54,6 @@ public class CombatAnimationDisplay extends UIComponent {
 
     /**
      * Resolves how to animation combat based on player and enemy action and which one is faster
-     * @param playerAction
-     * @param enemyAction
-     * @param playerFaster
      */
     public void animateCombat(CombatManager.Action playerAction, CombatManager.Action enemyAction, Boolean playerFaster) {
         // At least one of the entities has attacked

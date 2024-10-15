@@ -6,7 +6,6 @@ import com.csse3200.game.overlays.CombatAnimationDisplay;
 import com.csse3200.game.services.AudioManager;
 
 public class CombatMoveAudio {
-
     /**
      * Plays the sound for combat based on the moves of the enemy and player
      */
@@ -59,6 +58,7 @@ public class CombatMoveAudio {
     private void raiseGuard() {
         AudioManager.playSound("sounds/combat/guard.wav");
     }
+
 
     /**
      * Plays the start of the attack sound and the hut sound if the enemy uses any moves except guard
