@@ -582,6 +582,9 @@ public class ForestGameArea extends GameArea {
         // Magpie
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
         spawnMinigameNPC(generator, ForestSpawnConfig.NUM_MAGPIES, TileLocation.AIR);
+
+        generator = NPCFactory::createFirefly;
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_FIREFLIES, TileLocation.FOREST);
     }
 
     /**
@@ -589,32 +592,49 @@ public class ForestGameArea extends GameArea {
      *
      * @param defeatedEnemy the entity that has been defeated in combat
      */
-    @Override
-    public void spawnConvertedNPCs(Entity defeatedEnemy) {
-        loadAssets();
-        if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
-            logger.warn("Attempted to convert null entity or entity with null enemy type");
-            return;
-        }
-
-        Vector2 pos = calculateSpawnPosition(defeatedEnemy);
-        Entity convertedNPC; // defaults to null
-
-        switch (defeatedEnemy.getEnemyType()) {
-            case CHICKEN:
-                convertedNPC = NPCFactory.createChicken(player, this.enemies);
+	@Override
+	public void spawnConvertedNPCs(Entity defeatedEnemy) {
+		loadAssets();
+		if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
+			logger.warn("Attempted to convert null entity or entity with null enemy type");
+			return;
+		}
+		
+		Vector2 pos = calculateSpawnPosition(defeatedEnemy);
+		Entity convertedNPC; // defaults to null
+		
+		switch (defeatedEnemy.getEnemyType()) {
+			case CHICKEN:
+				convertedNPC = NPCFactory.createChicken(player, this.enemies);
+				break;
+			case FROG:
+				convertedNPC = NPCFactory.createFrog(player, this.enemies);
+				break;
+			case MONKEY:
+				convertedNPC = NPCFactory.createMonkey(player, this.enemies);
+				break;
+			case BEAR:
+				convertedNPC = NPCFactory.createBear(player, this.enemies);
+				break;
+            case EEL:
+                convertedNPC = NPCFactory.createEel(player, this.enemies);
                 break;
-            case FROG:
-                convertedNPC = NPCFactory.createFrog(player, this.enemies);
+            case OCTOPUS:
+                convertedNPC = NPCFactory.createOctopus(player, this.enemies);
                 break;
-            case MONKEY:
-                convertedNPC = NPCFactory.createMonkey(player, this.enemies);
+            case BEE:
+                convertedNPC = NPCFactory.createBee(player, this.enemies);
                 break;
-            case BEAR:
-                convertedNPC = NPCFactory.createBear(player, this.enemies);
+            case PIGEON:
+                convertedNPC = NPCFactory.createPigeon(player, this.enemies);
                 break;
-            // Add other enemy types as needed
-            default:
+            case BIGSAWFISH:
+                convertedNPC = NPCFactory.createBigsawfish(player, this.enemies);
+                break;
+            case MACAW:
+                convertedNPC = NPCFactory.createMacaw(player, this.enemies);
+                break;
+			default:
                 return;
         }
 

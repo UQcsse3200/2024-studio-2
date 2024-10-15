@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,6 +29,7 @@ import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.minigames.maze.components.MazePlayerScoreDisplay;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -103,11 +105,13 @@ public class MazeGameScreen extends PausableScreen {
 
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-        LightingEngine lightingEngine = new LightingEngine(physicsEngine.getWorld(), camComponent.getCamera());
+        LightingEngine lightingEngine = new LightingEngine(physicsEngine.getWorld(), (OrthographicCamera) camComponent.getCamera());
 
         ServiceLocator.getRenderService().register(lightingEngine);
 
         ServiceLocator.registerLightingService(new LightingService(lightingEngine));
+
+        ServiceLocator.registerParticleService(new ParticleService());
 
         // Make stage to load elements on to
         this.stage = ServiceLocator.getRenderService().getStage();

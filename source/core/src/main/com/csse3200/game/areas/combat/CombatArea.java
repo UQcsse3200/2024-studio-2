@@ -75,7 +75,6 @@ public class CombatArea extends GameArea {
             case OCTOPUS -> spawnOctopus();
             case BIGSAWFISH -> spawnBigSawfish();
             case MACAW -> spawnMacaw();
-            case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         playMusic();
     }
