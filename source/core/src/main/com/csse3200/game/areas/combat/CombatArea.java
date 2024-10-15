@@ -380,7 +380,7 @@ public class CombatArea extends GameArea {
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
+        ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC,
                 Music.class).stop();
         this.unloadAssets();
     }
