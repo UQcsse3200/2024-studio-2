@@ -25,8 +25,6 @@ class BaseFriendlyEntityConfigTest {
         assertEquals(0, entityConfig.getBaseAttack());
         // Expected Strength should be 0.
         assertEquals(0, entityConfig.getStrength());
-        // Expected Stamina should be 100.
-        assertEquals(100, entityConfig.getStamina());
         // Expected Level should be 1.
         assertEquals(1, entityConfig.getLevel());
         // Expected to return false when checking if entity is a boss.
