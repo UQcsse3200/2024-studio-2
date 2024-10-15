@@ -17,9 +17,15 @@ import static com.csse3200.game.minigames.snake.AssetPaths.IMAGES;
 public class SnakeGameRenderer {
 
     private final ScoreBoard scoreBoard;
-    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
-            snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture, grassTexture,
-            grassLightTexture, grassDarkTexture;
+    private Texture appleTexture ;
+    private Texture snakeBodyHorizontalTexture;
+    private Texture snakeBodyBentTexture;
+    private Texture snakeTailTexture;
+    private Texture grassTexture;
+    private Texture grassLightTexture;
+    private Texture grassDarkTexture;
+    private Texture snakeTexture;
+    private Texture snakeBodyVerticalTexture;
     private final MinigameRenderer renderer;
 
     /**
