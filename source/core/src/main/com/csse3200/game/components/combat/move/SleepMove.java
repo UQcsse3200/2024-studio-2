@@ -31,18 +31,19 @@ public class SleepMove extends CombatMove {
     public StatsChange[] execute(CombatStatsComponent attackerStats) {
         StatsChange[] statsChanges = new StatsChange[1];
         if (attackerStats != null) {
-            int currentHunger = attackerStats.getHunger();
-            int currentHealth = attackerStats.getHealth();
-            attackerStats.addHunger((int) (0.25 * attackerStats.getMaxHunger()));
-            if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
-                attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
-            }
+            int initialHunger = attackerStats.getHunger();
+            int initialHealth = attackerStats.getHealth();
+            attackerStats.addHunger((int) (Math.max(0.25 * attackerStats.getMaxHunger(), 1)));
+            // Healing from Sleep is disabled when Poisoned
+            int healthChange = (attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) ?
+                    0 : (int) (0.1 * attackerStats.getMaxHealth());
+            attackerStats.addHealth(healthChange);
             logger.info("{} sleeps: increased hunger to {} and health to {}.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                     attackerStats.getHunger(),
                     attackerStats.getHealth());
-            statsChanges[0] = new StatsChange(attackerStats.getHealth() - currentHealth,
-                    attackerStats.getHunger() - currentHunger);
+            statsChanges[0] = new StatsChange(Math.min(healthChange, attackerStats.getMaxHealth() - initialHealth),
+                    attackerStats.getHunger() - initialHunger);
         } else {
             logger.error("Entity does not have CombatStatsComponent");
         }

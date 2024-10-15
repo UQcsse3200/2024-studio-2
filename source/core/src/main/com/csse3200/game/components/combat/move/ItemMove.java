@@ -36,7 +36,7 @@ public class ItemMove extends CombatMove {
                     this.getHungerCost());
 
             attackerStats.addHunger(-(this.getHungerCost()));
-            statsChanges[0] = new StatsChange(0, attackerStats.getHunger());
+            statsChanges[0] = new StatsChange(0, -(this.getHungerCost()));
         } else {
             logger.error("Entity does not have CombatStatsComponent.");
         }

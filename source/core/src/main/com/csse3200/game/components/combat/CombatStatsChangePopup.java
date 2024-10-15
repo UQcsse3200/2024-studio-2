@@ -29,17 +29,14 @@ public class CombatStatsChangePopup extends UIComponent {
     private static final float MIN_Y = 0.5f;
     private static final float MAX_Y = 0.6f;
 
-    private int playerPopupsCount = 0;
-    private int enemyPopupsCount = 0;
-
     /**
      * Adds the listener for the label to trigger the popup.
      */
     private void addActors() {
-        entity.getEvents().addListener("playerHealthStatsDiffPopup", statsDiff -> createHealthStatsDiffPopup((int) statsDiff, true));
-        entity.getEvents().addListener("enemyHealthStatsDiffPopup", statsDiff -> createHealthStatsDiffPopup((int) statsDiff, false));
-        entity.getEvents().addListener("playerHungerStatsDiffPopup", statsDiff -> createHungerStatsDiffPopup((int) statsDiff, true));
-        entity.getEvents().addListener("enemyHungerStatsDiffPopup", statsDiff -> createHungerStatsDiffPopup((int) statsDiff, false));
+        entity.getEvents().addListener("playerHealthStatsChangePopup", statsDiff -> createHealthStatsChangePopup((int) statsDiff, true));
+        entity.getEvents().addListener("enemyHealthStatsChangePopup", statsDiff -> createHealthStatsChangePopup((int) statsDiff, false));
+        entity.getEvents().addListener("playerHungerStatsChangePopup", statsDiff -> createHungerStatsChangePopup((int) statsDiff, true));
+        entity.getEvents().addListener("enemyHungerStatsChangePopup", statsDiff -> createHungerStatsChangePopup((int) statsDiff, false));
     }
 
     /**
@@ -57,11 +54,12 @@ public class CombatStatsChangePopup extends UIComponent {
      * @param statsDiff the numeric change in stats
      * @param isPlayer whether to display the stats changes around the player or enemy
      */
-    public void createHealthStatsDiffPopup(int statsDiff, boolean isPlayer) {
+    public void createHealthStatsChangePopup(int statsDiff, boolean isPlayer) {
         if (statsDiff == 0) return;
         String statsDiffText = (statsDiff > 0) ? "+" + statsDiff : Integer.toString(statsDiff);
         CharSequence popupText = String.format("HP%s", statsDiffText);
-        createStatsDiffPopup(popupText, (statsDiff > 0) ? Color.FOREST : Color.RED, isPlayer);
+        // Swap health change isPlayer because target applies damage to itself
+        createStatsChangePopup(popupText, (statsDiff > 0) ? Color.FOREST : Color.RED, (statsDiff > 0) == isPlayer);
     }
 
     /**
@@ -69,11 +67,11 @@ public class CombatStatsChangePopup extends UIComponent {
      * @param statsDiff the numeric change in stats
      * @param isPlayer whether to display the stats changes around the player or enemy
      */
-    private void createHungerStatsDiffPopup(int statsDiff, boolean isPlayer) {
+    private void createHungerStatsChangePopup(int statsDiff, boolean isPlayer) {
         if (statsDiff == 0) return;
         String statsDiffText = (statsDiff > 0) ? "+" + statsDiff : Integer.toString(statsDiff);
         CharSequence popupText = String.format("HGR%s", statsDiffText);
-        createStatsDiffPopup(popupText, Color.ORANGE, isPlayer);
+        createStatsChangePopup(popupText, Color.ORANGE, isPlayer);
     }
 
     /**
@@ -82,12 +80,12 @@ public class CombatStatsChangePopup extends UIComponent {
      * @param textColor The text color to display
      * @param isPlayer whether to display the stats changes around the player or enemy
      */
-    private void createStatsDiffPopup(CharSequence popupText, Color textColor, boolean isPlayer) {
+    private void createStatsChangePopup(CharSequence popupText, Color textColor, boolean isPlayer) {
         // Create the label
-        Label statsDiffPopup = new Label(popupText, skin, "title", textColor);
-        statsDiffPopup.setFontScale(Math.max(Gdx.graphics.getHeight() / 1000f, 1f));
-        statsChangePopups.add(statsDiffPopup);
-        stage.addActor(statsDiffPopup);
+        Label statsChangePopup = new Label(popupText, skin, "title", textColor);
+        statsChangePopup.setFontScale(Math.max(Gdx.graphics.getHeight() / 1000f, 1f));
+        statsChangePopups.add(statsChangePopup);
+        stage.addActor(statsChangePopup);
 
         // Randomize position within defined boundaries
         float randomX, randomY;
@@ -97,32 +95,28 @@ public class CombatStatsChangePopup extends UIComponent {
         } else {
             randomX = MathUtils.random(ENEMY_MIN_X, ENEMY_MAX_X);
         }
-        statsDiffPopup.setPosition(randomX * Gdx.graphics.getWidth(), randomY * Gdx.graphics.getHeight());
+        statsChangePopup.setPosition(randomX * Gdx.graphics.getWidth(), randomY * Gdx.graphics.getHeight());
 
-        if (isPlayer) {
-            playerPopupsCount += 1;
-        } else {
-            enemyPopupsCount += 1;
-        }
+        float staggerDelay = 0.5f * statsChangePopups.size();
 
         // Label animations
-        statsDiffPopup.addAction(Actions.sequence(
+        statsChangePopup.addAction(Actions.sequence(
                 Actions.hide(),
-                Actions.delay((float) 0.3 * (isPlayer ? playerPopupsCount : enemyPopupsCount)),
+                Actions.delay(staggerDelay),
                 Actions.show(),
                 Actions.moveBy(0, 50, 1f),
                 Actions.fadeOut(1f),
-                Actions.run(() -> disposePopup(statsDiffPopup))
+                Actions.run(() -> disposePopup(statsChangePopup))
         ));
     }
 
     /**
      * Disposes of the specified popup message.
-     * @param statsDiffPopup The popup to dispose.
+     * @param statsChangePopup The popup to dispose.
      */
-    private void disposePopup(Label statsDiffPopup) {
-        statsDiffPopup.remove();
-        statsChangePopups.remove(statsDiffPopup);
+    private void disposePopup(Label statsChangePopup) {
+        statsChangePopup.remove();
+        statsChangePopups.remove(statsChangePopup);
     }
 
     /**

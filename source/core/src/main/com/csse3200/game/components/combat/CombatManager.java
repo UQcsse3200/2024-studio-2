@@ -368,7 +368,6 @@ public class CombatManager extends Component {
         enemyMoves.append("");
         return enemyMoves;
     }
-    
 
     /**
      * Executes the player's and enemy's selected moves in combination based on their respective actions.
@@ -467,14 +466,14 @@ public class CombatManager extends Component {
         displayCombatResults();
         initStatsCopies();
 
-        for (CombatMove.StatsChange s : playerStatsChanges) {
-            entity.getEvents().trigger("playerHungerStatsDiffPopup", s.getHungerChange());
-            entity.getEvents().trigger("playerHealthStatsDiffPopup", s.getHealthChange());
+        // Trigger stats change popup animations
+        for (CombatMove.StatsChange statsChange : enemyStatsChanges) {
+            entity.getEvents().trigger("enemyHungerStatsChangePopup", statsChange.getHungerChange());
+            entity.getEvents().trigger("enemyHealthStatsChangePopup", statsChange.getHealthChange());
         }
-
-        for (CombatMove.StatsChange s : enemyStatsChanges) {
-            entity.getEvents().trigger("enemyHungerStatsDiffPopup", s.getHungerChange());
-            entity.getEvents().trigger("enemyHealthStatsDiffPopup", s.getHealthChange());
+        for (CombatMove.StatsChange statsChange : playerStatsChanges) {
+            entity.getEvents().trigger("playerHungerStatsChangePopup", statsChange.getHungerChange());
+            entity.getEvents().trigger("playerHealthStatsChangePopup", statsChange.getHealthChange());
         }
     }
 

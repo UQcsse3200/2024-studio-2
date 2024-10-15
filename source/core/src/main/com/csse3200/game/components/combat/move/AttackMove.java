@@ -78,12 +78,10 @@ public class AttackMove extends CombatMove {
                         attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                         damage);
                 targetStats.setHealth(targetStats.getHealth() - damage);
-                int hungerChange = 0;
-                if (hitNumber == 0) {
-                    hungerChange = -this.getHungerCost();
-                }
+                // For multi-hit attacks, only consume hunger once
+                int hungerChange = (hitNumber == 0) ? this.getHungerCost() : 0;
                 attackerStats.addHunger(hungerChange);
-                statsChanges[hitNumber] = new StatsChange(-damage, hungerChange);
+                statsChanges[hitNumber] = new StatsChange(-damage, -hungerChange);
             } else {
                 logger.error("Either attacker or target does not have CombatStatsComponent.");
             }

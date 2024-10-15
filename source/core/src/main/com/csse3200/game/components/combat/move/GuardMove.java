@@ -34,9 +34,9 @@ public class GuardMove extends CombatMove {
             logger.info("{} guard using {} hunger.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                     this.getHungerCost());
-            int currentHunger = attackerStats.getHunger();
+            int initialHunger = attackerStats.getHunger();
             attackerStats.addHunger(-(this.getHungerCost()));
-            statsChanges[0] = new StatsChange(0, attackerStats.getHunger() - currentHunger);
+            statsChanges[0] = new StatsChange(0, attackerStats.getHunger() - initialHunger);
         } else {
             logger.error("Entity does not have CombatStatsComponent.");
         }
