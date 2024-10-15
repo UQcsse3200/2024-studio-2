@@ -16,7 +16,6 @@ import com.csse3200.game.rendering.TextureRenderComponent;
  * It does not actively chase or attack the player.
  */
 public class FishEgg extends Entity {
-
     /**
      * Constructs a FishEgg entity with the given configuration.
      */

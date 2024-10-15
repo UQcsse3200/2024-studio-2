@@ -58,5 +58,4 @@ class MazeCombatStatsComponentTest {
         player.setBaseAttack(-5); // Should not allow negative attack values
         assertEquals(20, player.getBaseAttack(), "Base attack should remain 20 after trying to set a negative value");
     }
-
 }

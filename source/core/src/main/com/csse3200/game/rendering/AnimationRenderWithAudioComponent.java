@@ -56,3 +56,5 @@ public class AnimationRenderWithAudioComponent extends AnimationRenderComponent 
     lastIndex = index;
   }
 }
+
+

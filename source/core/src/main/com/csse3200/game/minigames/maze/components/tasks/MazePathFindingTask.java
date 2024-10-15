@@ -52,6 +52,7 @@ public class MazePathFindingTask extends DefaultTask {
 
     /**
      * Gets the next move in the path computed
+     *
      * @return the next movement
      */
     private Vector2 getNextMovement() {

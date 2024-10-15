@@ -71,7 +71,6 @@ public class MazePlayer extends Entity {
                 .addComponent(new MazeDifficultyIncrease(gameArea))
                 .addComponent(new ParticleEffectComponent(ParticleService.ParticleType.BUBBLES));
 
-
         // Adjust physical properties
         this.getComponent(ColliderComponent.class).setDensity(3f);
 

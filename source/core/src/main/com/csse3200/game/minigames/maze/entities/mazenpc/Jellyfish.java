@@ -42,7 +42,6 @@ public class Jellyfish extends MazeEntity {
         this.addComponent(new MazeCombatStatsComponent(config.health, config.baseAttack, config.speed))
                 .addComponent(animator)
                 .addComponent(new MazeEntityAnimationController())
-
                 .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(.5f, new Color(0.6f, 0.3f, 1f, 1f))))
                 .addComponent(aiComponent);
 

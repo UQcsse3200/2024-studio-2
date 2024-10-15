@@ -219,7 +219,6 @@ public class MazeGameScreen extends PausableScreen {
      */
     private void createUI() {
         logger.debug("Creating ui");
-
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForTerminal();
 

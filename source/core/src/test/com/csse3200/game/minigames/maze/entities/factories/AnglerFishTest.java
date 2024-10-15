@@ -95,7 +95,6 @@ class AnglerFishTest {
         assertNotNull(combatStats, "AnglerFish should have a MazeCombatStatsComponent");
         assertEquals(100, combatStats.getHealth(), "Health should be set from config");
         assertEquals(20, combatStats.getBaseAttack(), "Base attack should be set from config");
-
         assertEquals(new Vector2(0.6f, 0.6f), combatStats.getBaseSpeed(), "Base speed should be " +
                 "set" +
                 " " +
