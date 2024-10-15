@@ -99,7 +99,6 @@ public class SnakeScreen extends PausableScreen {
         ServiceLocator.getResourceService().loadAll();
         AudioManager.playMusic("sounds/minigames/snake-bg.mp3", true);
 
-        //setupExitButton();
         createUI();
     }
 
@@ -173,7 +172,6 @@ public class SnakeScreen extends PausableScreen {
             scale = 1;
             ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
         }
-        //setupExitButton();
         snakeRenderer.resize(width, height);
     }
 
