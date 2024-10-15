@@ -31,4 +31,17 @@ public class KeyboardBirdInputComponent extends InputComponent {
             default -> false;
         };
     }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        entity.getEvents().trigger("flap");
+        return true;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        entity.getEvents().trigger("flap");
+        return true;
+    }
+
 }
