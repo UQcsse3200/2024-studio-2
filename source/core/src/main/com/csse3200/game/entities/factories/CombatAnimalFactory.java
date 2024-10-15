@@ -78,11 +78,16 @@ public class CombatAnimalFactory {
      * Creates frog enemy as NPC entity for static combat
      * */
     public static Entity createFrogCombatEnemy() {
+//        System.out.println("here");
+//        BaseEnemyEntityConfig config = configs.frog;
+//        Entity frogEnemy = createCombatBaseEnemy(config, Entity.EnemyType.FROG);
+//        frogEnemy.setScale(120.0f, 90.0f); // 120, 90
+//        //frogEnemy.scaleHeight(180f);
+//        frogEnemy.scaleHeight(80f);
+//        return frogEnemy;
         BaseEnemyEntityConfig config = configs.frog;
         Entity frogEnemy = createCombatBaseEnemy(config, Entity.EnemyType.FROG);
-        frogEnemy.setScale(120.0f, 90.0f); // 120, 90
-        //frogEnemy.scaleHeight(180f);
-        frogEnemy.scaleHeight(80f);
+        frogEnemy.setScale(120.0f, 90.0f);
         return frogEnemy;
     }
 

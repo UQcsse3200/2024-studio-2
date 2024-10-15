@@ -72,6 +72,7 @@ public class CombatAreaConfig {
             "images/land_background.png",
             "images/water_background.png",
             "images/rock.png",
+            "images/enemy-frog.png",
     };
 
     static final String[] forestTextureAtlases = {

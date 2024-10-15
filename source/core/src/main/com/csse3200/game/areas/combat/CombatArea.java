@@ -81,7 +81,6 @@ public class CombatArea extends GameArea {
             // case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         spawnPlayer();
-        System.out.println(enemy.getEnemyType().toString());
         playMusic();
     }
 
@@ -146,8 +145,8 @@ public class CombatArea extends GameArea {
                 playerSpawn = new GridPoint2(380, 340);
                 newPlayer.scaleHeight(180f);
             } else if (kingdomType == KINGDOM.AIR) {
-                playerSpawn = new GridPoint2(337, 200);
-                newPlayer.scaleHeight(100);
+                playerSpawn = new GridPoint2(337, 220);
+                newPlayer.scaleHeight(160);
             } else {
                 playerSpawn = new GridPoint2(350, 200);
                 newPlayer.scaleHeight(200);
@@ -156,6 +155,7 @@ public class CombatArea extends GameArea {
         spawnEntityAt(newPlayer, playerSpawn, true, true);
     }
 
+    /** Spawns an invisible entity to set the camera at the centre of the screen without having to
     /** Spawns an invisible entity to set the camera at the centre of the screen without having to
      * attach the camera to the real player entity. This entity should be ignored, and it's
      * health/stats etc.
@@ -216,7 +216,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnFrog() {
         Entity newEnemy = CombatAnimalFactory.createFrogCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(1250, 250), true, true); // 800, 311
+        spawnEntityAt(newEnemy, new GridPoint2(785, 320), true, true);
         this.enemyDisplay = newEnemy;
     }
 
