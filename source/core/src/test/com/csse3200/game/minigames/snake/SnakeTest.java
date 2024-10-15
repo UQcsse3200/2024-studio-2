@@ -1,24 +1,27 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
 import com.csse3200.game.minigames.Grid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SnakeTest {
+@ExtendWith(GameExtension.class)
+class SnakeTest {
     private Grid grid;
     private Snake snake;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         grid = new Grid(10, 10); // Example grid size
         snake = new Snake(grid, 5, 5, Direction.RIGHT, 3, 1.0f);
     }
 
     @Test
-    public void testInitialSnakeState() {
+    void testInitialSnakeState() {
         assertEquals(5, snake.getX());
         assertEquals(5, snake.getY());
         assertEquals(Direction.RIGHT, snake.getDirection());
@@ -26,13 +29,13 @@ public class SnakeTest {
     }
 
     @Test
-    public void testSetDirection() {
+    void testSetDirection() {
         snake.setDirection(Direction.UP);
         assertEquals(Direction.UP, snake.getDirection());
     }
 
     @Test
-    public void testMoveSnake() {
+    void testMoveSnake() {
         snake.move(Direction.RIGHT);
         assertEquals(6, snake.getX());
         assertEquals(5, snake.getY());
@@ -43,7 +46,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void testUpdateDirectionOnInput() {
+    void testUpdateDirectionOnInput() {
         snake.updateDirectionOnInput(Direction.LEFT);
         assertEquals(Direction.RIGHT, snake.getDirection()); // Shouldn't change to opposite direction
 
@@ -53,7 +56,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void testGrowSnake() {
+    void testGrowSnake() {
         int originalLength = snake.getLength();
         snake.grow();
         assertEquals(originalLength + 1, snake.getLength());
@@ -67,7 +70,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void testSnakeBodySegments() {
+    void testSnakeBodySegments() {
         snake.move(Direction.RIGHT);
         assertEquals(1, snake.getBodySegments().size());
         Snake.Segment lastSegment = snake.getBodySegments().get(0);
@@ -75,7 +78,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void testMovePeriod() {
+    void testMovePeriod() {
         assertEquals(1.0f, snake.getMovePeriod());
         snake.updateMovePeriod(2.0f);
         assertEquals(2.0f, snake.getMovePeriod());

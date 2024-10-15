@@ -1,9 +1,13 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.snake.controller.Events;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.Assert.*;
 
+@ExtendWith(GameExtension.class)
 public class EventsTest {
 
     @Test
