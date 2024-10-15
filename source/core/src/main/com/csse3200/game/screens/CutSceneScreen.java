@@ -73,7 +73,7 @@ public class CutSceneScreen extends ScreenAdapter {
     private void loadAssets() {
         logger.debug("Loading CutScene assets");
         resourceService.loadAll();
-        cutSceneTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
+        cutSceneTexture = new Texture(Gdx.files.internal("images/SplashScreen/MainSplash.png"));
     }
 
     /**
