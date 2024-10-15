@@ -18,7 +18,7 @@ public class MinigameRenderer {
     private final SpriteBatch sb;
     private final OrthographicCamera cam;
     private final List<MinigameRenderable> renderables = new ArrayList<>();
-    private Texture background;
+    private final Texture background;
 
     public MinigameRenderer() {
         this.sb = new SpriteBatch();

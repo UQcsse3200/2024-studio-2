@@ -1,13 +1,8 @@
 package com.csse3200.game.minigames.maze.components;
 
-import box2dLight.PositionalLight;
-import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.lighting.components.LightingComponent;
-import com.csse3200.game.minigames.maze.components.player.MazePlayerActions;
 import com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils;
 import com.csse3200.game.minigames.maze.rendering.AlphaTextureRenderComponent;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
 /**

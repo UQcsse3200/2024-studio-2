@@ -1,13 +1,16 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Grid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(GameExtension.class)
 class AppleTest {
 
     private Grid mockGrid;

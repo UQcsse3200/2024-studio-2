@@ -1,8 +1,12 @@
 package com.csse3200.game.minigames;
 
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.Assert.*;
 
+@ExtendWith(GameExtension.class)
 public class GridTest {
 
     @Test
