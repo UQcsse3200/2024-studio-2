@@ -11,6 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.gamearea.PerformanceDisplay;
+import com.csse3200.game.components.login.PlayFab;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.entities.EntityService;
+import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
@@ -26,11 +32,6 @@ import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
@@ -52,7 +53,7 @@ public class BirdieDashScreen extends PausableScreen {
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
     private TextButton helpButton;
-    private SnakePopup snakePopup;
+    private final SnakePopup snakePopup;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Entity ui;
@@ -148,6 +149,8 @@ public class BirdieDashScreen extends PausableScreen {
             dispose();
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
+                PlayFab.submitScore("Bird", birdGame.getScore());
+//                logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
             }
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
             SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);

@@ -16,6 +16,7 @@ import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
@@ -66,7 +67,7 @@ class ElectricEelTest {
         resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
 
-        ElectricEel.resetParticlePool();
+        ServiceLocator.registerParticleService(mock(ParticleService.class));
 
         target = mock(Entity.class);
         config = new MazeEntityConfig();

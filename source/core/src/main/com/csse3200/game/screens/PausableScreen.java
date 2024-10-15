@@ -96,6 +96,13 @@ public class PausableScreen extends ScreenAdapter {
     public void rest() {
         logger.info("Screen is resting");
         resting = true;
+        // Pause the InGameTime and DayNightCycle
+        if (ServiceLocator.getInGameTime() != null) {
+            ServiceLocator.getInGameTime().pause();
+        }
+        if (ServiceLocator.getDayNightCycle() != null) {
+            ServiceLocator.getDayNightCycle().pause();
+        }
         ServiceLocator.getEntityService().restWholeScreen();
     }
 
@@ -105,6 +112,15 @@ public class PausableScreen extends ScreenAdapter {
     public void wake() {
         logger.info("Screen is Awake");
         resting = false;
+
+        // Resume the InGameTime and DayNightCycle
+        if (ServiceLocator.getInGameTime() != null) {
+            ServiceLocator.getInGameTime().resume();
+        }
+        if (ServiceLocator.getDayNightCycle() != null) {
+            ServiceLocator.getDayNightCycle().resume();
+        }
+
         ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }

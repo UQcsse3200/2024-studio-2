@@ -1,15 +1,20 @@
 package com.csse3200.game;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.Achievements;
 import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.screens.*;
+import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.InGameTime;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -26,6 +31,8 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class GdxGame extends Game {
     private static final Logger logger = LoggerFactory.getLogger(GdxGame.class);
+    
+    private boolean enemyWasBeaten = false;
 
     @Override
     public void create() {
@@ -40,7 +47,7 @@ public class GdxGame extends Game {
 
         // Assign the game to a singleton
         ServiceLocator.setGame(this);
-
+        
         // Sets background to light yellow
         Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
@@ -55,6 +62,34 @@ public class GdxGame extends Game {
         UserSettings.Settings settings = UserSettings.get();
         UserSettings.applySettings(settings);
     }
+
+    public void initializeServices() {
+        // Register GameTime
+        try {
+            ServiceLocator.getTimeSource();
+        } catch (IllegalStateException e) {
+            ServiceLocator.registerTimeSource(new GameTime());
+        }
+
+        // Register InGameTime
+        try {
+            ServiceLocator.getInGameTime();
+        } catch (IllegalStateException e) {
+            ServiceLocator.registerInGameTime(new InGameTime());
+        }
+        // Register InGameTime
+        try {
+            ServiceLocator.getDayNightCycle();
+        } catch (IllegalStateException e) {
+            // Initialize RayHandler (or mock if necessary)
+            RayHandler rayHandler = new RayHandler(null); // Pass appropriate argument
+            ServiceLocator.registerDayNightCycle(new DayNightCycle(rayHandler));
+        }
+
+        // Register other services as needed
+        // e.g., EntityService, RenderService, etc.
+    }
+
 
     /**
      * Sets the game's screen to a new screen of the provided type.
@@ -90,6 +125,9 @@ public class GdxGame extends Game {
         ServiceLocator.registerRenderService(container.getRenderService());
         ServiceLocator.registerDialogueBoxService(container.getDialogueBoxService());
         ServiceLocator.registerLightingService(container.getLightingService());
+        ServiceLocator.registerInGameTime(container.getInGameTime());
+        ServiceLocator.registerDayNightCycle(container.getDayNightCycle());
+        ServiceLocator.registerParticleService(container.getParticleService());
         screen.resume();
     }
 
@@ -109,14 +147,17 @@ public class GdxGame extends Game {
     }
 
     public void enterSnakeScreen() {
+        initializeServices();
         addScreen(ScreenType.SNAKE_MINI_GAME, getScreen(), null, null);
     }
 
     public void enterBirdieDashScreen() {
+        initializeServices();
         addScreen(ScreenType.BIRD_MINI_GAME, getScreen(), null, null);
     }
 
     public void enterMazeGameScreen() {
+        initializeServices();
         addScreen(ScreenType.MAZE_MINI_GAME, getScreen(), null, null);
     }
 
@@ -165,7 +206,10 @@ public class GdxGame extends Game {
 
     public void returnFromCombat (Screen screen, ServiceContainer container, Entity enemy) {
         setOldScreen(screen, container);
-        ((MainGameScreen)screen).getGameArea().spawnConvertedNPCs(enemy);
+        if (enemyWasBeaten) {
+            ((MainGameScreen) screen).getGameArea().spawnConvertedNPCs(enemy);
+            enemyWasBeaten = false;
+        }
         List<Entity> enemies = ((MainGameScreen) screen).getGameArea().getEnemies();
         for (Entity e : enemies) {
             if (e.equals(enemy)) {
@@ -235,5 +279,9 @@ public class GdxGame extends Game {
      */
     public void exit() {
         app.exit();
+    }
+    
+    public void setEnemyWasBeaten(boolean value) {
+        this.enemyWasBeaten = value;
     }
 }

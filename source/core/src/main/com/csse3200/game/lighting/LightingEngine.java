@@ -1,7 +1,7 @@
 package com.csse3200.game.lighting;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
@@ -13,16 +13,16 @@ import com.csse3200.game.rendering.Renderable;
 public class LightingEngine implements Disposable, Renderable {
     private static final int RAY_COUNT = 128;
     private final RayHandler rayHandler;
-    private final Camera camera;
+    private final OrthographicCamera camera;
     public static final int LIGHTING_LAYER = 3;
 
-    public LightingEngine(RayHandler rayHandler, Camera camera) {
+    public LightingEngine(RayHandler rayHandler, OrthographicCamera camera) {
         this.camera = camera;
         this.rayHandler = rayHandler;
         RayHandler.useDiffuseLight(true);
     }
 
-    public LightingEngine(World world, Camera camera) {
+    public LightingEngine(World world, OrthographicCamera camera) {
         this(new RayHandler(world), camera);
     }
 
@@ -38,7 +38,7 @@ public class LightingEngine implements Disposable, Renderable {
      * Render the lighting effects.
      */
     public void render(){
-        rayHandler.setCombinedMatrix(camera.combined);
+        rayHandler.setCombinedMatrix(camera);
         rayHandler.updateAndRender();
     }
 
