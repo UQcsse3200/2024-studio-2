@@ -63,9 +63,6 @@ public class PausableScreen extends ScreenAdapter {
     }
     public void addSnakePopupOverlay(String texturePath) {
         addOverlay(Overlay.OverlayType.SNAKE_POPUP_OVERLAY);
-        SnakePopupOverlay snakePopupOverlay = new SnakePopupOverlay(game, texturePath);
-        enabledOverlays.addFirst(snakePopupOverlay);
-        snakePopupOverlay.show();
     }
 
 

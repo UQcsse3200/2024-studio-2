@@ -74,7 +74,7 @@ public class SnakeScreen extends PausableScreen {
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.ui = new Entity();
-        this.snakePopup = new SnakePopup(game, "images/minigames/snakePopUp.png", "Snake");
+        this.snakePopup = new SnakePopup(this, "images/minigames/snakePopUp.png");
         this.backgroundTexture = new  Texture(Gdx.files.internal("images/minigames/Background.png"));
 
         this.spriteBatch = new SpriteBatch();
