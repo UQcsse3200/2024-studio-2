@@ -20,8 +20,8 @@ public class SnakePopup {
     private final Skin skin;
     private final Window window;
     private final Texture texture;
-    private final int windowWidth = 1000;
-    private final int windowHeight = 800;
+    private final float windowWidth = 1000;
+    private final float windowHeight = 800;
     private boolean isVisible = false;
     private final TextButton continueButton;
 
@@ -96,6 +96,7 @@ public class SnakePopup {
     }
 
     public void resize(int width, int height) {
+
         stage.getViewport().update(width, height, true);
         window.setPosition((width - windowWidth) / 2, (height - windowHeight) / 2);
     }
