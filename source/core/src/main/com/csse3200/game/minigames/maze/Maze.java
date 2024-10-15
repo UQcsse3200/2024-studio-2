@@ -74,7 +74,6 @@ public class Maze {
         return isWall(new GridPoint2(x, y), direction);
     }
 
-
     /**
      * Method to check if moving 1 cell in a given direction from a grid cell will
      * run into a wall.
