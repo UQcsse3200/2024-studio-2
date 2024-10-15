@@ -1,7 +1,7 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
 import box2dLight.RayHandler;
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
@@ -11,6 +11,7 @@ import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
 import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
 import com.csse3200.game.minigames.maze.entities.mazenpc.Jellyfish;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ResourceService;
@@ -46,10 +47,10 @@ class MazeNPCFactoryTest {
     RayHandler rayHandler;
 
     @Mock
-    Camera camera;
+    OrthographicCamera camera;
 
     @BeforeEach
-    public void setUp() throws IllegalAccessException {
+    void setUp() throws IllegalAccessException {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         LightingService mockLightingService = mock(LightingService.class);
         when(mockLightingService.getLighting()).thenReturn(engine);
@@ -67,6 +68,8 @@ class MazeNPCFactoryTest {
         resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
 
+        ServiceLocator.registerParticleService(mock(ParticleService.class));
+
         // mock needs to at least add lights to an internal light list
         Field field = ReflectionUtils
                 .findFields(RayHandler.class, f -> f.getName().equals("lightList"),
@@ -83,9 +86,6 @@ class MazeNPCFactoryTest {
 
         field.setAccessible(true);
         field.set(rayHandler, new Array<>());
-
-        ElectricEel.resetParticlePool();
-        FishEgg.resetParticlePool();
     }
 
     @Test

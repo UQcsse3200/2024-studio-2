@@ -84,7 +84,7 @@
   },
   "friendlyChicken": {
     "baseHint": [
-      ["Welcome to Animal Kingdom!","I am Charlie the Chicken."]
+      ["Welcome to Animal Kingdom!","I am Charles the Chicken."]
     ],
     "spritePath": "images/chicken.atlas",
     "animationSpeed": 0.2,
@@ -118,8 +118,68 @@
     ],
     "spritePath": "images/bear.atlas",
     "animationSpeed": 0.2,
-    "soundPath": ["sounds/tiger-roar.wav"],
+    "soundPath": ["sounds/bear.wav"],
     "animalName": "Bear",
+    "itemProbability": 0.0
+  },
+  "friendlyEel": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Eric the Eel."]
+    ],
+    "spritePath": "images/friendly-eel.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/eel_octopus.wav"],
+    "animalName": "Eel",
+    "itemProbability": 0.0
+  },
+  "friendlyOctopus": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Oswald the Octopus."]
+    ],
+    "spritePath": "images/friendly-octopus.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/eel_octopus.wav"],
+    "animalName": "Octopus",
+    "itemProbability": 0.0
+  },
+  "friendlyBee": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Beatrice the Bee."]
+    ],
+    "spritePath": "images/friendly-bee.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/bee.wav"],
+    "animalName": "Bee",
+    "itemProbability": 0.0
+  },
+  "friendlyPigeon": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Penny the Pigeon."]
+    ],
+    "spritePath": "images/friendly-pigeon.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/pigeon.wav"],
+    "animalName": "Pigeon",
+    "itemProbability": 0.0
+  },
+  "friendlyBigsawfish": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am Biggie Smalls the Bigsawfish."]
+    ],
+    "spritePath": "images/bigsawfish.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/bigsawfish.wav"],
+    "animalName": "Bigsawfish",
+    "itemProbability": 0.0
+  },
+  "friendlyMacaw": {
+    "baseHint": [
+      ["Welcome to Animal Kingdom!","I am McDonald the Macaw."]
+    ],
+    "spritePath": "images/friendly-macaw.atlas",
+    "animationSpeed": 0.2,
+    "soundPath": ["sounds/macaw.wav"],
+    "animalName": "Macaw",
     "itemProbability": 0.0
   }
 }

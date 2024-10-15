@@ -3,6 +3,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.mainmenu.ChatbotUI;
 import com.csse3200.game.components.mainmenu.MainMenuActions;
 import com.csse3200.game.components.mainmenu.MainMenuDisplay;
 import com.csse3200.game.entities.Entity;
@@ -21,6 +22,7 @@ public class MainMenuScreen extends ResizableScreen {
   private final GdxGame game;
   private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
   private MainMenuDisplay mainMenuDisplay;
+  private ChatbotUI chatbotUI;
 
   public MainMenuScreen(GdxGame game) {
     super();
@@ -38,11 +40,12 @@ public class MainMenuScreen extends ResizableScreen {
   @Override
   public void resize(int width, int height) {
     super.resize(width, height);
-    mainMenuDisplay.updateUserTable();
-    //mainMenuDisplay.updateSettingMenu();
     mainMenuDisplay.updateLoginRegisterTable();
     mainMenuDisplay.updateMenuButtonLayout();
-    mainMenuDisplay.updateChatbotDialogPosition();
+    mainMenuDisplay.updateLeaderboardTable();
+    mainMenuDisplay.updateTopLeftToggle();
+    chatbotUI = mainMenuDisplay.getChatbotUI();
+    chatbotUI.updateChatbotDialogPosition();
   }
 
   @Override
