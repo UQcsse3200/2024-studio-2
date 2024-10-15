@@ -116,4 +116,90 @@ public class Foods {
             this.setDescription("This is Sushi. Increases Hunger by 40.");
         }
     }
+
+    /**
+     * FriedFish class manages the fried fish fields inherited from AbstractFood
+     */
+    public static class FriedFish extends AbstractFood {
+        private static final String PATH = "images/foodtextures/oceanfoodtextures/fried-fish.png";
+
+        /**
+         * Constructs a FriedFish class with while assigning fields with set values.
+         */
+        public FriedFish(int quantity) {
+            super("FriedFish", 18, 1, quantity, 10);
+            this.setTexturePath(PATH);
+            this.setDescription("This is FriedFish");
+        }
+    }
+
+    /**
+     * Shrimp class manages the shrimp fields inherited from AbstractFood
+     */
+    public static class Shrimp extends AbstractFood {
+        private static final String PATH = "images/foodtextures/oceanfoodtextures/shrimp.png";
+
+        /**
+         * Constructs a Sushi class with while assigning fields with set values.
+         */
+        public Shrimp(int quantity) {
+            super("Shrimp", 19, 1, quantity, 10);
+            this.setTexturePath(PATH);
+            this.setDescription("This is Shrimp");
+        }
+    }
+
+    /**
+     * CloudCookie class manages the cloud cookies fields inherited from AbstractFood
+     */
+    public static class CloudCookie extends AbstractFood {
+        private static final String PATH = "images/foodtextures/airfoodtextures/cloud-cookie.png";
+
+        /**
+         * Constructs a Sushi class with while assigning fields with set values.
+         */
+        public CloudCookie(int quantity) {
+            super("CloudCookie", 10, 1, quantity, 10);
+            this.setTexturePath(PATH);
+            this.setDescription("This is CloudCookie");
+        }
+    }
+
+    /**
+     * CloudCupcake class manages the cloud cookies fields inherited from AbstractFood
+     */
+    public static class CloudCupcake extends AbstractFood {
+        private static final String PATH = "images/foodtextures/airfoodtextures/cloudCupcake.png";
+
+        /**
+         * Constructs a Sushi class with while assigning fields with set values.
+         */
+        public CloudCupcake(int quantity) {
+            super("CloudCupcake", 21, 1, quantity, 20);
+            this.setTexturePath(PATH);
+            this.setDescription("This is CloudCupcake");
+        }
+    }
+
+    /**
+     * CottonCloud class manages the cloud cookies fields inherited from AbstractFood
+     */
+    public static class CottonCloud extends AbstractFood {
+        private static final String PATH = "images/foodtextures/airfoodtextures/cotton-cloud.png";
+
+        /**
+         * Constructs a Sushi class with while assigning fields with set values.
+         */
+        public CottonCloud(int quantity) {
+            super("CottonCloud", 22, 1, quantity, 10);
+            this.setTexturePath(PATH);
+            this.setDescription("This is CottonCloud");
+        }
+    }
+
+
+
+
+
+
 }
