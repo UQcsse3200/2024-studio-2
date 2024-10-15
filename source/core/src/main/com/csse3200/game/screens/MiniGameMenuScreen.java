@@ -204,7 +204,7 @@ public class MiniGameMenuScreen implements Screen {
      */
     @Override
     public void resume() {
-        // Need as from super class, screen cannot be resumed
+        Gdx.input.setInputProcessor(stage);
     }
 
     /**
