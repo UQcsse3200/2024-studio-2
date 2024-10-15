@@ -212,7 +212,9 @@ public class SnakeScreen extends PausableScreen {
         stage.getViewport().update(width, height, true);
         if (scale == 0) {  // Screen has been minimised
             scale = 1;
-            ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            if (!resting) {
+                ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            }
         }
         //setupExitButton();
         snakeRenderer.resize(width, height);

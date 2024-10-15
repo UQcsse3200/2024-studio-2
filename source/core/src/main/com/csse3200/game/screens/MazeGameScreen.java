@@ -279,7 +279,9 @@ public class MazeGameScreen extends PausableScreen {
      */
     private void restMenu() {
         logger.info("Sending Pause");
-        addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
+        if (!resting) {
+            addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
+        }
     }
 
     /**

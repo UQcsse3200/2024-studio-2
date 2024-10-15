@@ -184,7 +184,9 @@ public class BirdieDashScreen extends PausableScreen {
         scale = Math.min(scaleWidth, scaleHeight);
         if (scale == 0) {  // Screen has been minimised
             scale = 1;
-            ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            if (!resting) {
+                ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            }
         }
         //setupExitButton();
         scoreBoard.resize();
