@@ -86,6 +86,7 @@ public class SnakeScreen extends PausableScreen {
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
+
         ServiceLocator.registerTimeSource(new GameTime());
 
         renderer = RenderFactory.createRenderer();
@@ -114,6 +115,7 @@ public class SnakeScreen extends PausableScreen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+                game.initializeServices();
                 addSnakePopupOverlay("images/minigames/SnakePopup.png");
                 snakePopup.show();
             }
@@ -214,6 +216,7 @@ public class SnakeScreen extends PausableScreen {
         }
         //setupExitButton();
         snakeRenderer.resize(width, height);
+        snakePopup.resize(width, height);
     }
 
     /**

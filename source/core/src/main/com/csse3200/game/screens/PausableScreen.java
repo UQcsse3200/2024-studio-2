@@ -1,8 +1,11 @@
 package com.csse3200.game.screens;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.ScreenAdapter;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.overlays.*;
+import com.csse3200.game.services.InGameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,8 @@ public class PausableScreen extends ScreenAdapter {
 
     public PausableScreen(GdxGame game) {
         this.game = game;
+        ServiceLocator.registerInGameTime(new InGameTime());
+
     }
 
 

@@ -174,6 +174,7 @@ public class MazeGameScreen extends PausableScreen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+                game.initializeServices();
                 addSnakePopupOverlay("images/minigames/MazePopUp.png");
                 snakePopup.show();
             }

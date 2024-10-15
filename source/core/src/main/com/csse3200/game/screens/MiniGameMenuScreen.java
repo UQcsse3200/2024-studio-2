@@ -35,6 +35,7 @@ public class MiniGameMenuScreen implements Screen {
     public MiniGameMenuScreen(GdxGame game) {
         this.game = game;
         this.scale = 1;
+
     }
 
     /**

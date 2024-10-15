@@ -98,6 +98,7 @@ public class BirdieDashScreen extends PausableScreen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+                game.initializeServices();
                 addSnakePopupOverlay("images/minigames/SnakePopup.png");
                 snakePopup.show();
             }
