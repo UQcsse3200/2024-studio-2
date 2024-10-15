@@ -29,8 +29,9 @@ public abstract class SpecialMove extends CombatMove {
      * @param attackerStats the combat stats of the attacker.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
         logger.error("Special move needs more arguments.");
+        return new StatsChange[0];
     }
 
     /**
@@ -42,8 +43,8 @@ public abstract class SpecialMove extends CombatMove {
      * @param targetStats   the combat stats of the target.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats, targetStats, false);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -55,9 +56,9 @@ public abstract class SpecialMove extends CombatMove {
      * @param numHitsLanded   the number of hits landed (not used in this implementation).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats, targetStats, false);
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -69,7 +70,8 @@ public abstract class SpecialMove extends CombatMove {
      * @param targetIsGuarded whether the target is guarded.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        StatsChange[] statsChanges = new StatsChange[1];
         if (attackerStats != null && targetStats != null) {
             logger.info("{} used a special move.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY");
@@ -83,9 +85,11 @@ public abstract class SpecialMove extends CombatMove {
 
             applyBuffs(attackerStats);
             attackerStats.addHunger(-getHungerCost());
+            statsChanges[0] = new StatsChange(0, -getHungerCost());
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }
+        return statsChanges;
     }
 
     /**

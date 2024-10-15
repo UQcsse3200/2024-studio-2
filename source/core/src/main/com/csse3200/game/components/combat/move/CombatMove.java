@@ -1,6 +1,7 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.stats.Stat;
 
 /**
  * Represents an abstract combat move in the game. Concrete implementations of this class
@@ -26,7 +27,7 @@ public abstract class CombatMove {
      *
      * @param attackerStats the combat stats of the attacker.
      */
-    public abstract void execute(CombatStatsComponent attackerStats);
+    public abstract StatsChange[] execute(CombatStatsComponent attackerStats);
 
     /**
      * Executes the move with both the attacker's and the target's combat stats.
@@ -34,7 +35,7 @@ public abstract class CombatMove {
      * @param attackerStats the combat stats of the attacker.
      * @param targetStats   the combat stats of the target.
      */
-    public abstract void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats);
+    public abstract StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats);
 
     /**
      * Executes the move with both the attacker's and the target's combat stats,
@@ -44,7 +45,7 @@ public abstract class CombatMove {
      * @param targetStats     the combat stats of the target.
      * @param targetIsGuarded whether the target is guarding, reducing the effectiveness of the attack.
      */
-    public abstract void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded);
+    public abstract StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded);
 
     /**
      * Executes the move with both the attacker's and the target's combat stats,
@@ -55,7 +56,7 @@ public abstract class CombatMove {
      * @param targetIsGuarded whether the target is guarding, reducing the effectiveness of the attack.
      * @param numHitsLanded   the number of hits landed during a multi-hit attack.
      */
-    public abstract void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded, int numHitsLanded);
+    public abstract StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded, int numHitsLanded);
 
     /**
      * Gets the name of the move.
@@ -73,5 +74,23 @@ public abstract class CombatMove {
      */
     public int getHungerCost() {
         return hungerCost;
+    }
+
+    public static class StatsChange {
+        private int healthChange = 0;
+        private int hungerChange = 0;
+
+        public StatsChange(int healthChange, int hungerChange) {
+            this.healthChange = healthChange;
+            this.hungerChange = hungerChange;
+        }
+
+        public int getHealthChange() {
+            return healthChange;
+        }
+
+        public int getHungerChange() {
+            return hungerChange;
+        }
     }
 }

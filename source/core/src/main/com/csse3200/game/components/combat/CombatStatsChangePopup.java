@@ -29,6 +29,9 @@ public class CombatStatsChangePopup extends UIComponent {
     private static final float MIN_Y = 0.5f;
     private static final float MAX_Y = 0.6f;
 
+    private int playerPopupsCount = 0;
+    private int enemyPopupsCount = 0;
+
     /**
      * Adds the listener for the label to trigger the popup.
      */
@@ -96,8 +99,17 @@ public class CombatStatsChangePopup extends UIComponent {
         }
         statsDiffPopup.setPosition(randomX * Gdx.graphics.getWidth(), randomY * Gdx.graphics.getHeight());
 
+        if (isPlayer) {
+            playerPopupsCount += 1;
+        } else {
+            enemyPopupsCount += 1;
+        }
+
         // Label animations
         statsDiffPopup.addAction(Actions.sequence(
+                Actions.hide(),
+                Actions.delay((float) 0.3 * (isPlayer ? playerPopupsCount : enemyPopupsCount)),
+                Actions.show(),
                 Actions.moveBy(0, 50, 1f),
                 Actions.fadeOut(1f),
                 Actions.run(() -> disposePopup(statsDiffPopup))

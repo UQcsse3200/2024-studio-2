@@ -1,6 +1,7 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.stats.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +29,9 @@ public class AttackMove extends CombatMove {
      * @param attackerStats combat stats of the attacker.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
         logger.error("Attack move needs more arguments.");
+        return new StatsChange[0];
     }
 
     /**
@@ -39,8 +41,8 @@ public class AttackMove extends CombatMove {
      * @param targetStats   combat stats of the target.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats, targetStats, false);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -52,8 +54,8 @@ public class AttackMove extends CombatMove {
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats, targetStats, targetIsGuarded, 1);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats, targetStats, targetIsGuarded, 1);
     }
 
     /**
@@ -66,8 +68,9 @@ public class AttackMove extends CombatMove {
      * @param numHitsLanded   the number of hits that successfully land during a multi-hit attack.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
+        StatsChange[] statsChanges = new StatsChange[numHitsLanded];
         for (int hitNumber = 0; hitNumber < numHitsLanded; hitNumber++) {
             if (attackerStats != null && targetStats != null) {
                 int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded, hitNumber);
@@ -75,11 +78,17 @@ public class AttackMove extends CombatMove {
                         attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                         damage);
                 targetStats.setHealth(targetStats.getHealth() - damage);
-                attackerStats.addHunger(-(this.getHungerCost()));
+                int hungerChange = 0;
+                if (hitNumber == 0) {
+                    hungerChange = -this.getHungerCost();
+                }
+                attackerStats.addHunger(hungerChange);
+                statsChanges[hitNumber] = new StatsChange(-damage, hungerChange);
             } else {
                 logger.error("Either attacker or target does not have CombatStatsComponent.");
             }
         }
+        return statsChanges;
     }
 
     /**

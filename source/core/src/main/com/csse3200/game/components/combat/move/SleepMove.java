@@ -28,8 +28,11 @@ public class SleepMove extends CombatMove {
      * @param attackerStats the combat stats of the entity performing the sleep move.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
+        StatsChange[] statsChanges = new StatsChange[1];
         if (attackerStats != null) {
+            int currentHunger = attackerStats.getHunger();
+            int currentHealth = attackerStats.getHealth();
             attackerStats.addHunger((int) (0.25 * attackerStats.getMaxHunger()));
             if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
                 attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
@@ -38,9 +41,12 @@ public class SleepMove extends CombatMove {
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                     attackerStats.getHunger(),
                     attackerStats.getHealth());
+            statsChanges[0] = new StatsChange(attackerStats.getHealth() - currentHealth,
+                    attackerStats.getHunger() - currentHunger);
         } else {
             logger.error("Entity does not have CombatStatsComponent");
         }
+        return statsChanges;
     }
 
     /**
@@ -50,8 +56,8 @@ public class SleepMove extends CombatMove {
      * @param targetStats   the combat stats of the target (ignored for sleep moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats);
     }
 
     /**
@@ -62,8 +68,8 @@ public class SleepMove extends CombatMove {
      * @param targetIsGuarded whether the target is guarding (ignored for sleep moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats);
     }
 
     /**
@@ -75,8 +81,8 @@ public class SleepMove extends CombatMove {
      * @param numHitsLanded   the number of hits landed (ignored for sleep moves).
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats);
+        return execute(attackerStats);
     }
 }

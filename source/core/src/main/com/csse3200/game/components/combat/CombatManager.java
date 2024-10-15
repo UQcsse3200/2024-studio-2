@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.combat.move.CombatMove;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -389,30 +390,32 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
+        CombatMove.StatsChange[] playerStatsChanges;
+        CombatMove.StatsChange[] enemyStatsChanges;
         switch (playerAction) {
             case ATTACK -> {
                 combatAnimationDisplay.initiateAnimation(Action.ATTACK);
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
-                            playerMove.executeMove(playerAction, enemyStats);
-                            enemyMove.executeMove(enemyAction, playerStats);
+                            playerStatsChanges = playerMove.executeMove(playerAction, enemyStats);
+                            enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats);
                         } else {
-                            enemyMove.executeMove(enemyAction, playerStats);
-                            playerMove.executeMove(playerAction, enemyStats);
+                            enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats);
+                            playerStatsChanges = playerMove.executeMove(playerAction, enemyStats);
                         }
                     }
                     case GUARD -> {
-                        enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, true);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats, true);
                     }
                     case SLEEP -> {
-                        enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
                     }
                     case SPECIAL -> {
-                        enemyMove.executeMove(enemyAction, playerStats, false);
-                        playerMove.executeMove(playerAction, enemyStats);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false);
+                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -421,12 +424,12 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction, playerStats, true);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, true);
                     }
                     case GUARD, SLEEP -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -435,16 +438,16 @@ public class CombatManager extends Component {
                 combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
                     }
                     case GUARD, SLEEP -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
                     }
                     case SPECIAL -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction, playerStats, false);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
@@ -452,8 +455,9 @@ public class CombatManager extends Component {
             case ITEM -> {
                 // Player's move is using an item in the CombatInventoryDisplay.
                 entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
-                enemyMove.executeMove(enemyAction);
+                enemyStatsChanges = enemyMove.executeMove(enemyAction);
                 entity.getEvents().trigger("useItem", playerStats, enemyStats);
+                playerStatsChanges = new CombatMove.StatsChange[0];
             }
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
         }
@@ -462,6 +466,16 @@ public class CombatManager extends Component {
         logger.info("(AFTER) ENEMY: health {}, hunger {}", enemyStats.getHealth(), enemyStats.getHunger());
         displayCombatResults();
         initStatsCopies();
+
+        for (CombatMove.StatsChange s : playerStatsChanges) {
+            entity.getEvents().trigger("playerHungerStatsDiffPopup", s.getHungerChange());
+            entity.getEvents().trigger("playerHealthStatsDiffPopup", s.getHealthChange());
+        }
+
+        for (CombatMove.StatsChange s : enemyStatsChanges) {
+            entity.getEvents().trigger("enemyHungerStatsDiffPopup", s.getHungerChange());
+            entity.getEvents().trigger("enemyHealthStatsDiffPopup", s.getHealthChange());
+        }
     }
 
     /**
@@ -583,11 +597,6 @@ public class CombatManager extends Component {
 
         statChanges[0] = playerStatsDetails;
         statChanges[1] = enemyStatsDetails;
-
-        entity.getEvents().trigger("playerHealthStatsDiffPopup", playerStats.getHealth() - copyPlayerStats.getHealth());
-        entity.getEvents().trigger("playerHungerStatsDiffPopup", playerStats.getHunger() - copyPlayerStats.getHunger());
-        entity.getEvents().trigger("enemyHealthStatsDiffPopup", enemyStats.getHealth() - copyEnemyStats.getHealth());
-        entity.getEvents().trigger("enemyHungerStatsDiffPopup", enemyStats.getHunger() - copyEnemyStats.getHunger());
 
         return statChanges;
     }
