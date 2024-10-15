@@ -86,8 +86,9 @@ public class MazeTouchAttackComponent extends Component {
             } else if (targetEntity instanceof ElectricEel) {
                 stunDuration = 2.8f;
                 ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE5, meEntity.getCenterPosition());
-            //} else if (targetEntity instanceof Octopus){ TODO add when merged with minigame updates
-            //    ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE15, meEntity.getCenterPosition());
+            } else if (targetEntity instanceof Octopus){
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE15, meEntity.getCenterPosition());
+                stunDuration = 1.4f;
             } else {
                 ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, meEntity.getCenterPosition());
             }
@@ -98,6 +99,11 @@ public class MazeTouchAttackComponent extends Component {
         if (meEntity instanceof ElectricEel && targetEntity instanceof MazePlayer) {
             targetEntity.getComponent(StatusEffectComponent.class).setExpiryIfInactive("stun", 2f);
             AudioManager.playSound("sounds/minigames/eel-zap.mp3");
+        }
+
+        if (meEntity instanceof Octopus && targetEntity instanceof MazePlayer) {
+            targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("ink", 3.5f);
+            AudioManager.playSound("sounds/minigames/ink-splat.mp3");
         }
 
         // Change to maze combat stats
@@ -114,7 +120,6 @@ public class MazeTouchAttackComponent extends Component {
             Body targetBody = physicsComponent.getBody();
             Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
             // Knockback can be changed. tried doing velocity instead of impulse for more consistency
-            // I imagine we also give the player invincibility for a few seconds after getting hit
             Vector2 knockbackVelocity = direction.scl(knockbackForce);
             targetBody.setLinearVelocity(knockbackVelocity);
         }

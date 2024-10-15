@@ -50,7 +50,7 @@ class MazeNPCFactoryTest {
     OrthographicCamera camera;
 
     @BeforeEach
-    public void setUp() throws IllegalAccessException {
+    void setUp() throws IllegalAccessException {
         LightingEngine engine = new LightingEngine(rayHandler, camera);
         LightingService mockLightingService = mock(LightingService.class);
         when(mockLightingService.getLighting()).thenReturn(engine);

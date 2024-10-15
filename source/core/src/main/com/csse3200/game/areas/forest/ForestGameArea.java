@@ -361,7 +361,7 @@ public class ForestGameArea extends GameArea {
         if (!kangarooBossSpawned) {
             Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
             kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
-            spawnEntityOnMap(kangarooBoss);
+            spawnBossOnMap(kangarooBoss);
             bosses.add(kangarooBoss);
             kangarooBossSpawned = true;
         }
@@ -371,7 +371,7 @@ public class ForestGameArea extends GameArea {
         if (!waterBossSpawned) {
             Entity waterBoss = BossFactory.createWaterBossEntity(player);
             waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
-            spawnEntityOnMap(waterBoss);
+            spawnBossOnMap(waterBoss);
             bosses.add(waterBoss);
             waterBossSpawned = true;
         }
@@ -381,23 +381,44 @@ public class ForestGameArea extends GameArea {
         if (!airBossSpawned) {
             Entity airBoss = BossFactory.createAirBossEntity(player);
             airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
-            spawnEntityOnMap(airBoss);
+            spawnBossOnMap(airBoss);
             bosses.add(airBoss);
             airBossSpawned = true;
         }
     }
 
-    private void spawnEntityOnMap(Entity entity) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 15, PLAYER_SPAWN.y - 15);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 15, PLAYER_SPAWN.y + 15);
+    private void spawnBossOnMap(Entity entity) {
+        GridPoint2 minPos = null;
+        GridPoint2 maxPos = null;
 
-        GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-        // Prevent spawn camping
-        while (Math.abs(randomPos.x - PLAYER_SPAWN.x) <= 5 && Math.abs(randomPos.y - PLAYER_SPAWN.y) <= 5) {
-            randomPos = RandomUtils.random(minPos, maxPos);
+        float tileSize = terrain.getTileSize();
+        GridPoint2 tileBounds = terrain.getMapBounds(0);
+        Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+
+        int minGateX = (int) (worldBounds.x / 2) - 5;
+        int maxGateX = (int) (worldBounds.x / 2) + 5;
+
+        // Define spawn areas based on the boss type
+        if (entity.getEnemyType() == Entity.EnemyType.KANGAROO) {
+            // Spawn near the first barrier
+            minPos = new GridPoint2(minGateX, (MAP_SIZE.y / 3 )- 10);
+            maxPos = new GridPoint2(maxGateX, (MAP_SIZE.y / 3) - 5);
+        } else if (entity.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            // Spawn near the second barrier
+            minPos = new GridPoint2(minGateX, (MAP_SIZE.y / 3 * 2) - 10);
+            maxPos = new GridPoint2(maxGateX, (MAP_SIZE.y / 3 * 2) - 5);
+        } else if (entity.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            // Spawn at the top of the map
+            minPos = new GridPoint2(minGateX, MAP_SIZE.y - 20);
+            maxPos = new GridPoint2(maxGateX, MAP_SIZE.y - 15);
         }
 
-        spawnEntityAt(entity, randomPos, true, true);
+        if (minPos != null) {
+            // Generate a random position within the range
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            // Spawn the entity at the calculated random position
+            spawnEntityAt(entity, randomPos, true, true);
+        }
     }
 
     /**
@@ -785,7 +806,7 @@ public class ForestGameArea extends GameArea {
 
             GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
 
-            spawnEntityAt(joey, spawnPos, true, false);
+            spawnEntityAt(joey, spawnPos, true, true);
             enemies.add(joey);
         }
     }
@@ -814,25 +835,6 @@ public class ForestGameArea extends GameArea {
 
             spawnEntityAtVector(windGust, pos);
         }
-    }
-
-    /**
-     * Static method to play the background music
-     */
-    public static void pMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC,
-                Music.class);
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
-    }
-
-    /**
-     * Static method to pause the background music
-     */
-    public static void puMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC, Music.class);
-        music.pause();
     }
 
     public void loadAssets() {
