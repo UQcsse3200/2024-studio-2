@@ -5,6 +5,7 @@ com.csse3200.game.areas
 com.csse3200.game.areas.combat
 com.csse3200.game.areas.FogGameAreaConfigs
 com.csse3200.game.areas.forest
+com.csse3200.game.areas.MiniMap
 com.csse3200.game.areas.OceanGameAreaConfigs
 com.csse3200.game.areas.terrain
 com.csse3200.game.areas.terrain.enums
