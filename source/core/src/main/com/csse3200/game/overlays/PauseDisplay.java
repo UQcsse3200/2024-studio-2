@@ -1,5 +1,6 @@
 package com.csse3200.game.overlays;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,15 +56,14 @@ public class PauseDisplay extends UIComponent {
 
     private void addActors() {
         // Title label
-        Label title = new Label("Attack On Animals", skin, "title");
-        title.setColor(Color.RED);
+        Label title = new Label(" Game Paused", skin, "title", Color.WHITE);
         Image titleBackGround = new Image(ServiceLocator.getResourceService().getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
         // Create tables
         Table menuBtns = makeMenuBtns();
         // Root table that holds everything
         rootTable = new Table();
         rootTable.setFillParent(true);
-        rootTable.add(titleBackGround).size(titleBackGround.getWidth() * 0.75f, titleBackGround.getHeight() * 0.75f).center();
+        rootTable.add(titleBackGround).width(Gdx.graphics.getWidth() * 0.3f).height(Gdx.graphics.getHeight() * 0.1f).center();
         rootTable.row();
         rootTable.add(title).center().padTop(-titleBackGround.getHeight() * 0.75f);
         // Buttons Here
@@ -80,11 +81,16 @@ public class PauseDisplay extends UIComponent {
      */
     private Table makeMenuBtns() {
         // Create buttons
-        TextButton resumeBtn = new TextButton("Resume", skin);
-        TextButton questsBtn = new TextButton("Quest Tracker", skin);
-        TextButton settingsBtn = new TextButton("Settings", skin);
-        TextButton saveBtn = new TextButton("Save Game", skin);
-        TextButton mainMenuBtn = new TextButton("Return to Main Menu", skin);
+        CustomButton resumeBtn = new CustomButton("Resume", skin);
+        resumeBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        CustomButton questsBtn = new CustomButton("Quest Tracker", skin);
+        questsBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        CustomButton settingsBtn = new CustomButton("Settings", skin);
+        settingsBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        CustomButton saveBtn = new CustomButton("Save Game", skin);
+        saveBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        CustomButton mainMenuBtn = new CustomButton("Return to Main Menu", skin);
+        mainMenuBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
 
         // Add listeners for buttons
         resumeBtn.addListener(new ChangeListener() {
@@ -133,13 +139,9 @@ public class PauseDisplay extends UIComponent {
         // Layout buttons in a table
         Table table = new Table();
         Actor[] actors = {questsBtn, resumeBtn,settingsBtn, saveBtn, mainMenuBtn};
-        for ( Actor button : actors){
-            Image buttonBackground = new Image(
-                    ServiceLocator.getResourceService()
-                            .getAsset(BUTTONTEXTURE, Texture.class));
-            table.add(buttonBackground).size(buttonBackground.getWidth() * 0.75f, buttonBackground.getHeight() * 0.75f).center();
+        for (Actor button : actors){
             table.row();
-            table.add(button).center().padTop(-buttonBackground.getHeight()*0.75f);
+            table.add(button).center().width(500f).height(70f);
             table.row().padTop(10f);
         }
 

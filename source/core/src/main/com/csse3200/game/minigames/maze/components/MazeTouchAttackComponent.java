@@ -6,14 +6,14 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.MazePlayer;
-import com.csse3200.game.minigames.maze.entities.mazenpc.AnglerFish;
-import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
-import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.minigames.maze.entities.mazenpc.*;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.BodyUserData;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.services.AudioManager;
+import com.csse3200.game.services.ServiceLocator;
 
 /**
  * When this entity touches a valid enemy's hitbox, deal damage to them and apply a knockback.
@@ -75,14 +75,22 @@ public class MazeTouchAttackComponent extends Component {
             // Increment score if collision with fish eggs
             if (targetEntity instanceof FishEgg) {
                 meEntity.getComponent(MazeGameManagerComponent.class).setLastFishEgg(targetEntity);
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.SCORE1, meEntity.getCenterPosition());
                 AudioManager.playSound("sounds/minigames/collect-fishegg.mp3");
                 return;
             }
             float stunDuration = 0.8f;
             if (targetEntity instanceof AnglerFish) {
                 stunDuration = 1;
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE20, meEntity.getCenterPosition());
             } else if (targetEntity instanceof ElectricEel) {
                 stunDuration = 2.8f;
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE5, meEntity.getCenterPosition());
+            } else if (targetEntity instanceof Octopus){
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE15, meEntity.getCenterPosition());
+                stunDuration = 1.4f;
+            } else {
+                ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, meEntity.getCenterPosition());
             }
             targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);
             AudioManager.playSound("sounds/minigames/maze-hit.mp3");
@@ -91,6 +99,11 @@ public class MazeTouchAttackComponent extends Component {
         if (meEntity instanceof ElectricEel && targetEntity instanceof MazePlayer) {
             targetEntity.getComponent(StatusEffectComponent.class).setExpiryIfInactive("stun", 2f);
             AudioManager.playSound("sounds/minigames/eel-zap.mp3");
+        }
+
+        if (meEntity instanceof Octopus && targetEntity instanceof MazePlayer) {
+            targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("ink", 3.5f);
+            AudioManager.playSound("sounds/minigames/ink-splat.mp3");
         }
 
         // Change to maze combat stats
@@ -107,7 +120,6 @@ public class MazeTouchAttackComponent extends Component {
             Body targetBody = physicsComponent.getBody();
             Vector2 direction = targetEntity.getCenterPosition().sub(entity.getCenterPosition());
             // Knockback can be changed. tried doing velocity instead of impulse for more consistency
-            // I imagine we also give the player invincibility for a few seconds after getting hit
             Vector2 knockbackVelocity = direction.scl(knockbackForce);
             targetBody.setLinearVelocity(knockbackVelocity);
         }

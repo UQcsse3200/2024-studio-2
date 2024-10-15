@@ -1,0 +1,82 @@
+pigeon2.png
+size: 559, 446
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+float
+  rotate: false
+  xy: 0, 0
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 0
+float
+  rotate: false
+  xy: 186, 0
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 1
+float
+  rotate: false
+  xy: 372, 0
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 2
+float
+  rotate: false
+  xy: 0, 148
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 3
+float
+  rotate: false
+  xy: 186, 148
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 4
+float
+  rotate: false
+  xy: 372, 148
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 5
+float
+  rotate: false
+  xy: 0, 296
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 6
+float
+  rotate: false
+  xy: 186, 296
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 7
+float
+  rotate: false
+  xy: 372, 296
+  size: 186, 148
+  orig: 186, 148
+  offset: 0, 0
+  index: 8
+spawn
+  rotate: false
+  xy: 0, 0
+  size: 186,148
+  orig: 186, 148
+  offset: 0, 0
+  index: 0
+default
+  rotate: false
+  xy: 0, 0
+  size: 186,148
+  orig: 186, 148
+  offset: 0, 0
+  index: 0

@@ -12,17 +12,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.csse3200.game.components.mainmenu.MainMenuDisplay;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.utils.StringDecorator;
+import com.sun.tools.javac.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SettingsMenu extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
-
     private Window settingsWindow;
     private TextField fpsText;
     private CheckBox fullScreenCheck;
@@ -34,9 +34,11 @@ public class SettingsMenu extends UIComponent {
     private SelectBox<String> musicSelectBox;
     private Skin skin;
     private Texture backgroundTexture;
+    private MainMenuDisplay mainMenuDisplay;
 
-    public SettingsMenu() {
+    public SettingsMenu(MainMenuDisplay mainMenuDisplay) {
         super();
+        this.mainMenuDisplay = mainMenuDisplay;
     }
 
     @Override
@@ -63,7 +65,7 @@ public class SettingsMenu extends UIComponent {
         // Add the "Settings" heading at the top
         Label titleLabel = new Label("Settings", skin, "title");
         Table titleTable = new Table();
-        titleTable.add(titleLabel).center().padTop(50f).expandX();  // Center the title and add padding
+        titleTable.add(titleLabel).center().padTop(30f).expandX();  // Center the title and add padding
         settingsWindow.add(titleTable).expandX().top().row();  // Add the title table
         settingsWindow.row();
 
@@ -92,6 +94,7 @@ public class SettingsMenu extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 applyChanges();
+                mainMenuDisplay.setMenuTouchable();
                 hideSettingsMenu();  // Hide the settings menu when the close button is clicked
             }
         });
@@ -179,14 +182,15 @@ public class SettingsMenu extends UIComponent {
         Table bottomTable = new Table();
 
         CustomButton applyButton = new CustomButton("Apply", skin);
-        applyButton.setButtonSize(Math.min(1000f, Gdx.graphics.getWidth() - 100) * 0.25f, 50f);  // Set button to 20% width, 50px height
-        bottomTable.add(applyButton).right().size(Math.min(1000f, Gdx.graphics.getWidth() - 100) * 0.25f, 50f).pad(10f);  // Position at the bottom right
+        applyButton.setButtonSize(Math.min(1000f, Gdx.graphics.getWidth() - 100f) * 0.25f, 50f);  // Set button to 20% width, 50px height
+        bottomTable.add(applyButton).right().size(Math.min(1000f, Gdx.graphics.getWidth() - 100f) * 0.25f, 50f).pad(10f);  // Position at the bottom right
 
         // Apply button listener
         applyButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 applyChanges();  // Apply the changes
+                mainMenuDisplay.setMenuTouchable();
                 hideSettingsMenu();  // Hide the settings menu after applying
             }
         });

@@ -22,7 +22,7 @@ public class WaterAnimalSelectionScreen1 extends AnimalRouletteScreen1 {
     protected void createUI(Skin skin) {
         super.createUI(skin);
 
-        getWaterAnimalsButton().setVisible(false);
+        //getWaterAnimalsButton().setVisible(false);
     }
 
     @Override
