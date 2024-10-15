@@ -61,7 +61,6 @@ public class CombatArea extends GameArea {
         loadAssets();
         displayUI();
         spawnTerrain();
-        // spawnPlayer();
         // get the enemy type player collided into for combat and spawn that
         switch (enemy.getEnemyType()) {
             case MONKEY -> {spawnMonkey(); kingdomType = KINGDOM.LAND;}
