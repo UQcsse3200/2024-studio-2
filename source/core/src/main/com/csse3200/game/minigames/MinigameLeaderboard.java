@@ -10,11 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.PlayFab;
 import com.csse3200.game.components.mainmenu.MainMenuDisplay;
-import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
-import com.sun.tools.javac.Main;
-import org.lwjgl.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,22 +33,22 @@ public class MinigameLeaderboard extends UIComponent {
     private Label warningLabel;
     private Label gameTitle;
 
-    private ArrayList<String> playerNames;
-    private ArrayList<String> playerScores;
+    private ArrayList<String> userNames;
+    private ArrayList<String> highScores;
 
-    private ArrayList<Label> usernames;
-    private ArrayList<Label> highscores;
+    private ArrayList<Label> userNameLabels;
+    private ArrayList<Label> highScoreLabel;
     private Button closeButton;
     private CustomButton refreshButton;
-    private Texture backgroundTexture;
-    private Texture closeButtonTexture;
-    private PlayFab playFab;
-    private ArrayList<String> gameName;
+    Texture backgroundTexture;
+    Texture closeButtonTexture;
+    PlayFab playFab;
+    ArrayList<String> gameName;
+    int currentIdx;
 
     private CustomButton snakeButton;
     private CustomButton birdButton;
     private CustomButton fishButton;
-    private int currentIdx;
     private MainMenuDisplay mainMenuDisplay;
     /**
      * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
@@ -85,7 +82,7 @@ public class MinigameLeaderboard extends UIComponent {
     /**
      * Loads the necessary textures for the UI components.
      */
-    private void loadTextures() {
+    void loadTextures() {
         backgroundTexture = new Texture("images/backgrounds/LeaderboardBackground.png");
         closeButtonTexture = new Texture("images/CloseButton.png");
     }
@@ -105,24 +102,25 @@ public class MinigameLeaderboard extends UIComponent {
         warningLabel = new Label("You need to login to see the leaderboard", skin, "large-white");
         warningLabel.setWrap(true);
         warningLabel.setAlignment(Align.center);
-        usernames = new ArrayList<>();
-        highscores = new ArrayList<>();
+        userNameLabels = new ArrayList<>();
+        highScoreLabel = new ArrayList<>();
     }
-    private void updateLeaderboard() {
-        playerNames = playFab.getUsernames();
-        playerScores = playFab.getHighscores();
-        usernames.clear();
-        highscores.clear();
+    public void updateLeaderboard() {
+        userNames = playFab.getUsernames();
+        highScores = playFab.getHighscores();
+
+        userNameLabels.clear();
+        highScoreLabel.clear();
 
 
-        for (int i = 0; i < playerNames.size(); i++) {
-            Label newPlayerName = new Label(playerNames.get(i), skin, "default");
-            usernames.add(newPlayerName);
+        for (int i = 0; i < userNames.size(); i++) {
+            Label newPlayerName = new Label(userNames.get(i), skin, "default");
+            userNameLabels.add(newPlayerName);
         }
 
-        for (int i = 0; i < playerScores.size(); i++) {
-            Label newPlayerScore= new Label(playerScores.get(i), skin, "default");
-            highscores.add(newPlayerScore);
+        for (int i = 0; i < highScores.size(); i++) {
+            Label newPlayerScore= new Label(highScores.get(i), skin, "default");
+            highScoreLabel.add(newPlayerScore);
         }
     }
 
@@ -162,7 +160,7 @@ public class MinigameLeaderboard extends UIComponent {
             currentIdx = gameName.indexOf(name);
         }
         PlayFab.submitScore(gameName.get(currentIdx), 0);
-        PlayFab.getLeaderboard(gameName.get(currentIdx));
+        PlayFab.updateLeaderboard(gameName.get(currentIdx));
         updateLeaderboard();
         updateUI();
     }
@@ -186,9 +184,9 @@ public class MinigameLeaderboard extends UIComponent {
             contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).right().top();
 
             contentTable.row();
-            for (int i = 0; i < usernames.size(); i++) {
-                contentTable.add(usernames.get(i)).padRight(30f).expandX().left();  // Username in left column
-                contentTable.add(highscores.get(i)).padLeft(30f).expandX().right();  // Score in right column
+            for (int i = 0; i < userNameLabels.size(); i++) {
+                contentTable.add(userNameLabels.get(i)).padRight(30f).expandX().left();  // Username in left column
+                contentTable.add(highScoreLabel.get(i)).padLeft(30f).expandX().right();  // Score in right column
                 contentTable.row();
             }
 
@@ -212,6 +210,14 @@ public class MinigameLeaderboard extends UIComponent {
             table.row();
             table.add(refreshButton).size(200, 40).expandX().bottom().padBottom(50);
         }
+    }
+
+    public ArrayList<String> getUsernames() {
+        return userNames;
+    }
+
+    public ArrayList<String> getHighscores() {
+        return highScores;
     }
 
     @Override
