@@ -1,4 +1,6 @@
+/*
 package com.csse3200.game.components.login;
+
 
 import com.csse3200.game.extensions.GameExtension;
 import com.playfab.PlayFabClientAPI;
@@ -7,6 +9,8 @@ import com.playfab.PlayFabErrors.PlayFabResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,7 +24,7 @@ class PlayFabLoginRegisterTest {
     }
 
     // Since sprint 3, this test has created 2k5 new users, so we decided to mark this test as a comment.
-    /*
+
     @Test
     void testRegisterUserSuccess() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -37,7 +41,7 @@ class PlayFabLoginRegisterTest {
 
         assertEquals("test" + random, result.Result.Username);
     }
-    */
+
 
     // RequireBothUsernameAndEmail is set to true, and not include email field.
     // Total 4 cases.
@@ -47,7 +51,7 @@ class PlayFabLoginRegisterTest {
      * - Existing username is used.
      * - Password is valid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testExistingUsernameValidPasswordRequireBothTrue() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -68,7 +72,7 @@ class PlayFabLoginRegisterTest {
      * - New username is used
      * - Password is valid
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameValidPasswordRequireBothTrue() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -88,7 +92,7 @@ class PlayFabLoginRegisterTest {
      * - New username is used
      * - Password is invalid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameInvalidPasswordRequireBothTrue() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -109,7 +113,7 @@ class PlayFabLoginRegisterTest {
      * - Existing username is used
      * - Password is invalid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameInvalidPasswordRequireBothTrue() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -132,7 +136,7 @@ class PlayFabLoginRegisterTest {
      * - Existing username is used
      * - Password is valid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameValidPasswordRequireBothFalse() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -153,7 +157,7 @@ class PlayFabLoginRegisterTest {
      * - Existing username is used
      * - Password is invalid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameInvalidPasswordRequireBothFalse() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -174,7 +178,7 @@ class PlayFabLoginRegisterTest {
      * - New username is used
      * - Password is invalid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameInvalidPasswordRequireBothFalse() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -197,7 +201,7 @@ class PlayFabLoginRegisterTest {
      * - Password is invalid.
      * - RequireBothUsernameAndEmail is set to false.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameExistingEmailInvalidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -221,7 +225,7 @@ class PlayFabLoginRegisterTest {
      * - Password is invalid.
      * - RequireBothUsernameAndEmail is set to false.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameNewEmailInvalidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -245,7 +249,7 @@ class PlayFabLoginRegisterTest {
      * - Password is invalid.
      * - RequireBothUsernameAndEmail is set to false.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameExistingEmailInvalidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -268,7 +272,7 @@ class PlayFabLoginRegisterTest {
      * - Password is valid.
      * - RequireBothUsernameAndEmail is set to false.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameExistingEmailValidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -290,7 +294,7 @@ class PlayFabLoginRegisterTest {
      * - Password is valid.
      * - RequireBothUsernameAndEmail is set to false.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameNewEmailValidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -313,7 +317,7 @@ class PlayFabLoginRegisterTest {
      * - Password is valid.
      * - RequireBothUsernameAndEmail is set to false.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameExistingEmailValidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -337,7 +341,7 @@ class PlayFabLoginRegisterTest {
      * - Existing username is used
      * - Password is valid
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameValidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -356,7 +360,7 @@ class PlayFabLoginRegisterTest {
      * - Existing username is used
      * - Password is invalid
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameInvalidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -376,7 +380,7 @@ class PlayFabLoginRegisterTest {
      * - New username is used
      * - Password is valid
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameValidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -396,7 +400,7 @@ class PlayFabLoginRegisterTest {
      * - New username is used
      * - Password is invalid
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameInvalidPasswordNotRequireBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -420,7 +424,7 @@ class PlayFabLoginRegisterTest {
      * - Existing email is used.
      * - Password is valid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameExistingEmailValidPasswordNotDeclareBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -442,7 +446,7 @@ class PlayFabLoginRegisterTest {
      * - New email is used.
      * - Password is valid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameNewEmailValidPasswordNotDeclareBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -464,7 +468,7 @@ class PlayFabLoginRegisterTest {
      * - Existing email is used.
      * - Password is valid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameExistingEmailValidPasswordNotDeclareBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -486,7 +490,7 @@ class PlayFabLoginRegisterTest {
      * - Existing email is used.
      * - Password is invalid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterNewUsernameExistingEmailInvalidPasswordNotDeclareBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -509,7 +513,7 @@ class PlayFabLoginRegisterTest {
      * - New email is used.
      * - Password is invalid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameNewEmailInvalidPasswordNotDeclareBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -530,7 +534,7 @@ class PlayFabLoginRegisterTest {
      * - Existing email is used.
      * - Password is invalid.
      * The registration fails and returns an appropriate error message.</p>
-     */
+      
     @Test
     void testRegisterExistingUsernameExistingEmailInvalidPasswordNotDeclareBoth() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -548,3 +552,4 @@ class PlayFabLoginRegisterTest {
     // However, it will cause throttling when we run the test multiple times within a short period of time.
 
 }
+*/
