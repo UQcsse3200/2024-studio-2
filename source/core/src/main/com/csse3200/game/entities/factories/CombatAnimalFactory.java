@@ -171,7 +171,7 @@ public class CombatAnimalFactory {
     public static Entity createKangaBossCombatEntity() {
         BaseEnemyEntityConfig config = configs.kangarooBoss;
         Entity kangarooBoss = createCombatBaseEnemy(config, Entity.EnemyType.KANGAROO);
-        kangarooBoss.scaleHeight(120.0f);
+        kangarooBoss.scaleHeight(200.0f);
         return kangarooBoss;
     }
 
@@ -183,7 +183,7 @@ public class CombatAnimalFactory {
     public static Entity createWaterBossCombatEntity() {
         BaseEnemyEntityConfig config = configs.waterBoss;
         Entity waterBoss = createCombatBaseEnemy(config, Entity.EnemyType.WATER_BOSS);
-        waterBoss.scaleHeight(120.0f);
+        waterBoss.scaleHeight(300.0f);
         return waterBoss;
     }
 
@@ -195,7 +195,7 @@ public class CombatAnimalFactory {
     public static Entity createAirBossCombatEntity() {
         BaseEnemyEntityConfig config = configs.airBoss;
         Entity airBoss = createCombatBaseEnemy(config, Entity.EnemyType.AIR_BOSS);
-        airBoss.scaleHeight(120.0f);
+        airBoss.scaleHeight(300.0f);
         return airBoss;
     }
 

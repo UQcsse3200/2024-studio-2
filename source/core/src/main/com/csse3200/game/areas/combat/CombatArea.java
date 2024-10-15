@@ -145,21 +145,21 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
         Entity newEnemy = CombatAnimalFactory.createKangaBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 380), true, true);
         this.enemyDisplay = newEnemy;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnWaterBoss() {
         Entity newEnemy = CombatAnimalFactory.createWaterBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 380), true, true);
         this.enemyDisplay = newEnemy;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnAirBoss() {
         Entity newEnemy = CombatAnimalFactory.createAirBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 380), true, true);
         this.enemyDisplay = newEnemy;
     }
 
