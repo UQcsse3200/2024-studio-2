@@ -67,7 +67,8 @@ public class CombatAreaConfig {
             "images/flipped_fireball.png",
             "images/enemy-chicken.png",
             "images/frog.png",
-            "images/bear.png"
+            "images/bear.png",
+            "images/enemy-bear.png"
     };
 
     static final String[] forestTextureAtlases = {
@@ -79,12 +80,11 @@ public class CombatAreaConfig {
             "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
             "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/bee.atlas",
-            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas"
+            "images/bigsawfish.atlas", "images/macaw.atlas", "images/eel.atlas", "images/pigeon.atlas", "images/enemy-bear.atlas"
     };
 
     static final String[] questSounds = {"sounds/QuestComplete.wav"};
     static final String[] forestSounds = {"sounds/Impact4.ogg"};
-    static final String HEARTBEAT = "sounds/heartbeat.mp3";
     static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
     static final String[] forestMusic = {BACKGROUND_MUSIC};
 

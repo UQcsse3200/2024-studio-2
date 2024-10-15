@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.areas.terrain.TerrainComponent;
+import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
@@ -106,7 +107,7 @@ public class PlayerActions extends Component {
    */
   private void switchMap() {
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
-    if (MapHandler.getUnlockedOcean()) {
+    if (MapHandler.getUnlockStatus(MapType.WATER)) {
       mainGameScreen.setMap(MapHandler.MapType.WATER);
     } else {
       mainGameScreen.setMap(MapHandler.MapType.FOG);
