@@ -35,7 +35,6 @@ public class PausableScreen extends ScreenAdapter {
 
     public PausableScreen(GdxGame game) {
         this.game = game;
-        ServiceLocator.registerInGameTime(new InGameTime());
 
     }
 

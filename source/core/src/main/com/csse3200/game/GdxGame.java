@@ -68,22 +68,29 @@ public class GdxGame extends Game {
         try {
             ServiceLocator.getTimeSource();
         } catch (IllegalStateException e) {
-            ServiceLocator.registerTimeSource(new GameTime());
+            if (ServiceLocator.getTimeSource() == null) {
+                ServiceLocator.registerTimeSource(new GameTime());
+            }
         }
 
         // Register InGameTime
         try {
             ServiceLocator.getInGameTime();
         } catch (IllegalStateException e) {
-            ServiceLocator.registerInGameTime(new InGameTime());
+            if (ServiceLocator.getInGameTime() == null) {
+                ServiceLocator.registerInGameTime(new InGameTime());
+            }
         }
         // Register InGameTime
         try {
             ServiceLocator.getDayNightCycle();
         } catch (IllegalStateException e) {
             // Initialize RayHandler (or mock if necessary)
-            RayHandler rayHandler = new RayHandler(null); // Pass appropriate argument
-            ServiceLocator.registerDayNightCycle(new DayNightCycle(rayHandler));
+            if (ServiceLocator.getDayNightCycle() == null) {
+                // Initialize RayHandler (or mock if necessary)
+                RayHandler rayHandler = new RayHandler(null); // Pass appropriate argument
+                ServiceLocator.registerDayNightCycle(new DayNightCycle(rayHandler));
+            }
         }
 
         // Register other services as needed
