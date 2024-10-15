@@ -93,14 +93,20 @@ public class CutSceneScreen extends ScreenAdapter {
         labelStyle.font = font;
 
         // Create the label with text
-        label = new Label("Hi", labelStyle);
+        label = new Label("Once upon a time, after humans mysteriously vanished, the animal kingdoms rose again!  \n With nature reclaiming the land, every creature big and small is determined to rule it all!\\n\" +\n" +
+                "                \"In this exciting adventure, you are one of them! Choose your animal wisely, gather resources, and grow your strength. +\\n\" Will you lead your kingdom to victory and conquer them all?\\n\" +\n" +
+                "                \"From the peaceful forests to the deep oceans and beyond, other animal kingdoms are standing in your way! +\\n\"But be warned... +\\n\" the final challenge lies with the last remnants of humanity. \\n\" +\n" +
+                "                \"It’s time to unite the wild!  Let the battle for the kingdoms begin", labelStyle);
         label.setFontScale(2); // Set the font size
         label.setAlignment(Align.center);
 
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(label).expandX().padTop(50);
+        table.top().padTop(20);
+
+        // Add the label to the table
+        table.add(label).expandX().align(Align.top).padTop(100);
 
         stage.addActor(table);
     }
