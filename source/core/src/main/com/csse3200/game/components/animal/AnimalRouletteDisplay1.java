@@ -23,7 +23,7 @@ public class AnimalRouletteDisplay1 {
 
         this.leftButton = new CustomButton("<", skin);
         this.rightButton = new CustomButton(">", skin);
-        this.backButton = new CustomButton("Go Back", skin);
+        this.backButton = new CustomButton("Go Back to Main Menu", skin);
 
         initializeDisplay();
     }
@@ -38,7 +38,7 @@ public class AnimalRouletteDisplay1 {
 
         Table animalTable = new Table();
         animalTable.add(leftButton).size(50, 50).padRight(20);
-        animalTable.add(animalImage).size(300, 300);
+        animalTable.add(animalImage).size(700, 700);
         animalTable.add(rightButton).size(50, 50).padLeft(20);
 
         mainTable.add(animalTable).expand().center();
