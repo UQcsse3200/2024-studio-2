@@ -1,0 +1,33 @@
+Dog.png
+size: 688, 120 
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dog1
+  rotate: false
+  xy: 0, 0
+  size: 172, 120
+  orig: 172, 120
+  offset: 0, 0
+  index: -1
+dog2
+  rotate: false
+  xy: 172, 0
+  size: 172, 120
+  orig: 172, 120
+  offset: 0, 0
+  index: -1
+dog3
+  rotate: false
+  xy: 344, 0
+  size: 172, 120
+  orig: 172, 120
+  offset: 0, 0
+  index: -1
+dog4
+  rotate: false
+  xy: 516, 0
+  size: 172, 120
+  orig: 172, 120
+  offset: 0, 0
+  index: -1

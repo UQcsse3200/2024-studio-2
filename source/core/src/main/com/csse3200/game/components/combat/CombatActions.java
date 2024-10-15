@@ -19,14 +19,13 @@ import java.util.Objects;
  */
 public class CombatActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatActions.class);
-  private GdxGame game;
+  private final GdxGame game;
   private final CombatManager manager;
   private final Screen previousScreen;
   private final ServiceContainer previousServices;
 
   public CombatActions(GdxGame game, CombatManager manager, Screen previousScreen, ServiceContainer previousServices) {
     this.game = game;
-    //this.enemy = enemy;
     this.manager = manager;
     this.previousServices = previousServices;
     this.previousScreen = previousScreen;
@@ -59,25 +58,39 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Entity enemy) {
     logger.debug("Returning to main game screen after combat win.");
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    game.setEnemyWasBeaten(true);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
+
+    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
+    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
+
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());
 
     // For CombatButtonDisplay DialogueBox
     entity.getEvents().trigger("endOfCombatDialogue", enemy, true);
-    int enemyExp = enemy.getComponent(CombatStatsComponent.class).getExperience();
-    manager.getPlayer().getComponent(CombatStatsComponent.class).addExperience(enemyExp);
   }
 
   /**
    * Swaps from combat screen to Game Over screen upon the event that the player is defeated in battle.
+   * Also handles the consequences of losing (inventory and experience loss)
    */
   private void onCombatLoss(Entity enemy) {
     logger.debug("Returning to main game screen after combat loss.");
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
+    int lossExp = 0;
+    int maxPlayerHealth = manager.getPlayerStats().getMaxHealth();
+    int maxPlayerHunger = manager.getPlayerStats().getMaxHunger();
+    int statusRestoreMult = 2;
+    // Clear the player inventory and wipe their current experience progress
+    manager.getPlayerStats().setExperience(lossExp);
+    this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).clearInventory();
+    this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
+
+    // Reset player health and hunger back to half
+    manager.getPlayerStats().setHealth(maxPlayerHealth/statusRestoreMult);
+    manager.getPlayerStats().setHunger(maxPlayerHunger/statusRestoreMult);
+
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatLoss", manager.getPlayerStats());
 
@@ -104,8 +117,6 @@ public class CombatActions extends Component {
       entity.getEvents().trigger("airBossDefeated");
     }
 
-    // Reset player's stamina.
-    manager.getPlayer().getComponent(CombatStatsComponent.class).setStamina(100);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     // For CombatStatsDisplay to update
     entity.getEvents().trigger("onCombatWin", manager.getPlayerStats());

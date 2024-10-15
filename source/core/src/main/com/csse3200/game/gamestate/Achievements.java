@@ -2,8 +2,7 @@ package com.csse3200.game.gamestate;
 
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.data.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 /**
  * A data struct that contains other data structs to be saved to JSONs by SaveHandler.

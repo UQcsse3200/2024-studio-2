@@ -22,7 +22,7 @@ public class AirAnimalSelectionScreen1 extends AnimalRouletteScreen1 {
     protected void createUI(Skin skin) {
         super.createUI(skin);
 
-        getAirAnimalsButton().setVisible(false);
+        //getAirAnimalsButton().setVisible(false);
     }
 
     protected AnimalRouletteActions1 createActions(AnimalRouletteDisplay1 display, PopUpHelper dialogHelper, GdxGame game) {

@@ -27,9 +27,7 @@ public class ObstacleFactory {
         new Entity()
             .addComponent(new TextureRenderComponent("images/tree.png"))
             .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-            .addComponent(new LightingComponent().attach(LightingComponent.createConeLight(2.4f, -90, 45, Color.YELLOW)))
-            .addComponent(new FadeLightsDayTimeComponent());
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();

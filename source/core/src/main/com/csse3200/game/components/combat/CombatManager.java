@@ -119,21 +119,19 @@ public class CombatManager extends Component {
     private void initStatsCopies() {
         this.copyPlayerStats = new CombatStatsComponent(playerStats.getMaxHealth(), playerStats.getMaxHunger(),
                 playerStats.getStrength(), playerStats.getDefense(), playerStats.getSpeed(),
-                playerStats.getMaxExperience(), playerStats.getMaxStamina(), playerStats.isPlayer(),
+                playerStats.getMaxExperience(), playerStats.isPlayer(),
                 playerStats.isBoss(), playerStats.getLevel());
         copyPlayerStats.setHealth(playerStats.getHealth());
         copyPlayerStats.setExperience(playerStats.getExperience());
         copyPlayerStats.setHunger(playerStats.getHunger());
-        copyPlayerStats.setStamina(playerStats.getStamina());
         copyPlayerStats.setLevel(playerStats.getLevel());
 
         this.copyEnemyStats = new CombatStatsComponent(enemyStats.getMaxHealth(), enemyStats.getMaxHunger(),
                 enemyStats.getStrength(), enemyStats.getDefense(), enemyStats.getSpeed(),
-                enemyStats.getMaxExperience(), enemyStats.getMaxStamina(), enemyStats.isPlayer(), enemyStats.isBoss(), enemyStats.getLevel());
+                enemyStats.getMaxExperience(), enemyStats.isPlayer(), enemyStats.isBoss(), enemyStats.getLevel());
         copyEnemyStats.setHealth(enemyStats.getHealth());
         copyEnemyStats.setExperience(enemyStats.getExperience());
         copyEnemyStats.setHunger(enemyStats.getHunger());
-        copyEnemyStats.setStamina(enemyStats.getStamina());
         copyEnemyStats.setLevel(enemyStats.getLevel());
 
     }
@@ -156,8 +154,8 @@ public class CombatManager extends Component {
 
         handlePlayerConfusion();
 
-        logger.info("(BEFORE) PLAYER {}: health {}, stamina {}", playerAction, playerStats.getHealth(), playerStats.getStamina());
-        logger.info("(BEFORE) ENEMY {}: health {}, stamina {}", enemyAction, enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(BEFORE) PLAYER {}: health {}, hunger {}", playerAction, playerStats.getHealth(), playerStats.getHunger());
+        logger.info("(BEFORE) ENEMY {}: health {}, hunger {}", enemyAction, enemyStats.getHealth(), enemyStats.getHunger());
 
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
@@ -181,7 +179,7 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Process Special Move status effects on the Player by reducing Player health and/or stamina.
+     * Process Special Move status effects on the Player by reducing Player health and/or hunger.
      * Updates the statusEffectDuration and removes expired effects. Confusion only lasts 1 round and is always removed.
      */
     public void handleStatusEffects() {
@@ -209,10 +207,10 @@ public class CombatManager extends Component {
         if (statusEffectDuration == 0) {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.BLEEDING);
         } else {
-            // Bleeding reduces health and stamina by 9%, 6%, and 3% respectively each round.
+            // Bleeding reduces health and hunger by 9%, 6%, and 3% respectively each round.
             double reductionMultiplier = (double) (-3 * statusEffectDuration) / 100;
             playerStats.addHealth((int) (reductionMultiplier * playerStats.getMaxHealth()));
-            playerStats.addStamina((int) (reductionMultiplier * playerStats.getMaxStamina()));
+            playerStats.addHunger((int) (reductionMultiplier * playerStats.getMaxHunger()));
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
             }
@@ -223,8 +221,8 @@ public class CombatManager extends Component {
         if (statusEffectDuration == 0) {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.POISONED);
         } else {
-            // Poison reduces stamina by 30% each round.
-            playerStats.addStamina((int) (-0.3 * playerStats.getMaxStamina()));
+            // Poison reduces hunger by 30% each round.
+            playerStats.addHunger((int) (-0.3 * playerStats.getMaxHunger()));
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.POISONED);
             }
@@ -251,7 +249,7 @@ public class CombatManager extends Component {
     private Action selectEnemyMove() {
         Action action;
 
-        if (enemyStats.getStamina() < 25) {
+        if (enemyStats.getHunger() < 25) {
             updateEnemyMoveStore(Action.SLEEP);
             return Action.SLEEP;
         }
@@ -456,12 +454,13 @@ public class CombatManager extends Component {
                 // Player's move is using an item in the CombatInventoryDisplay.
                 entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
                 enemyMove.executeMove(enemyAction);
+                entity.getEvents().trigger("useItem", playerStats, enemyStats);
             }
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
         }
 
-        logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
-        logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(AFTER) PLAYER: health {}, hunger {}", playerStats.getHealth(), playerStats.getHunger());
+        logger.info("(AFTER) ENEMY: health {}, hunger {}", enemyStats.getHealth(), enemyStats.getHunger());
         displayCombatResults();
         initStatsCopies();
     }
@@ -486,7 +485,7 @@ public class CombatManager extends Component {
                 GameState.resetState();
                 SaveHandler.delete(GameState.class, "saves", FileLoader.Location.LOCAL);
             } else {
-                this.getEntity().getEvents().trigger("combatLoss");
+                this.getEntity().getEvents().trigger("combatLoss", enemy);
                 //Clear inventory/other normal death events
             }
             // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
@@ -559,12 +558,12 @@ public class CombatManager extends Component {
             playerStatsDetails += String.format("You lost %dHP. ", copyPlayerStats.getHealth() - playerStats.getHealth());
         }
 
-        if (playerStats.getStamina() > copyPlayerStats.getStamina()) {
-            playerStatsDetails += String.format("You gained %d stamina. ", playerStats.getStamina() -
-                    copyPlayerStats.getStamina());
-        } else if (playerStats.getStamina() < copyPlayerStats.getStamina()) {
-            playerStatsDetails += String.format("You lost %d stamina. ", copyPlayerStats.getStamina() -
-                    playerStats.getStamina());
+        if (playerStats.getHunger() > copyPlayerStats.getHunger()) {
+            playerStatsDetails += String.format("You gained %d hunger. ", playerStats.getHunger() -
+                    copyPlayerStats.getHunger());
+        } else if (playerStats.getHunger() < copyPlayerStats.getHunger()) {
+            playerStatsDetails += String.format("You lost %d hunger. ", copyPlayerStats.getHunger() -
+                    playerStats.getHunger());
         }
 
         if (playerStats.getStrength() > copyPlayerStats.getStrength()) {

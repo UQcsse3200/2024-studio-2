@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.GdxGameManager;
 import com.csse3200.game.minigames.MiniGameNames;
 import static com.csse3200.game.minigames.MiniGameNames.*;
 
@@ -22,13 +21,13 @@ import static com.csse3200.game.minigames.MiniGameNames.*;
  * and allows navigation between them using forward and backward buttons.
  */
 public class DialogueBox {
-
     // Static resources
     private static final Skin SKIN = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
     private static final Texture BACKGROUND_TEXTURE = new Texture(Gdx.files.internal("images/blue-bar.png"));
     private static final Texture BUTTON_IMAGE_TEXTURE = new Texture(Gdx.files.internal("images/blue-button.png"));
     private static final Texture BUTTON_HOVER_TEXTURE = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
 
+    private static GdxGame game;
     private final Stage stage;
     private Label label;
     private Image backgroundImage;
@@ -50,6 +49,19 @@ public class DialogueBox {
     public DialogueBox(Stage stage) {
         this.stage = stage;
         dialogueBoxInitialisation(true);
+    }
+
+    /**
+     * Sets the GdxGame for any services that require it (should not be used unless necessary).
+     * Errors if the game is set twice
+     * @param g the instance of GdxGame that is running
+     */
+    public static void setGame(GdxGame g) {
+        if (game != null) {
+            throw new IllegalArgumentException(
+                    "The GdxGame for the DialogueBox should be set only once!");
+        }
+        game = g;
     }
 
     public void dialogueBoxInitialisation(boolean hide) {
@@ -229,7 +241,7 @@ public class DialogueBox {
 
     /**
      * Creates the optionButton.
-     * @param index
+     * @param index the option index
      * @return the optionButton instance.
      */
     public TextButton createOptionButton(int index) {
@@ -290,14 +302,18 @@ public class DialogueBox {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 hideDialogueBox(); // hides dialogue when player returns to the screen
                 if (playButton != null) playButton.setVisible(false);
-                GdxGame gdxGame = GdxGameManager.getInstance();
                 // Could potentially override snake hints here for post game messages
+                if (game == null) {
+                    throw new IllegalArgumentException(
+                            "Something went seriously wrong! The GdxGame instance was not set!");
+                }
+
                 if (currentMinigame == SNAKE) {
-                    gdxGame.enterSnakeScreen();
+                    game.enterSnakeScreen();
                 } else if (currentMinigame == BIRD) {
-                    gdxGame.enterBirdieDashScreen();
+                    game.enterBirdieDashScreen();
                 } else if (currentMinigame == MAZE) {
-                    gdxGame.enterMazeGameScreen();
+                    game.enterMazeGameScreen();
                 }
                 return true;
             }
@@ -604,6 +620,16 @@ public class DialogueBox {
         }
         if (label != null) this.label.setVisible(true);
         showAppropriateButtons();
+    }
+
+    /**
+     * Hides or removes the "Continue" button (forward button) from the dialogue box.
+     */
+    public void removeContinueButton() {
+        if (forwardButton != null) {
+            forwardButton.setVisible(false);  // Hide the button
+            //forwardButton.remove();  // Optionally remove it from the stage completely
+        }
     }
 
     /**

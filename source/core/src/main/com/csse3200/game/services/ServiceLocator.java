@@ -1,11 +1,15 @@
 package com.csse3200.game.services;
 
 import com.badlogic.gdx.Gdx;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.LightingService;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.areas.GameArea;
@@ -28,8 +32,28 @@ public class ServiceLocator {
   private static ResourceService resourceService;
   private static DialogueBoxService dialogueBoxService;
   private static LightingService lightingService;
+  private static ParticleService particleService;
   // static field for GameArea
   private static GameArea gameArea;
+  private static GdxGame game;
+  private static DayNightCycle dayNightCycle;
+  private static InGameTime inGameTime;
+
+
+  /**
+   * Sets the GdxGame for any services that require it (should not be used unless necessary).
+   * Errors if the game is set twice
+   * @param g the instance of GdxGame that is running
+   */
+  public static void setGame(GdxGame g) {
+    if (game != null) {
+      throw new IllegalArgumentException("The GdxGame instance should be set only once!");
+    }
+    game = g;
+
+    // Provide GdxGame instance to services which require it:
+    DialogueBox.setGame(game);
+  }
 
   public static DialogueBoxService getDialogueBoxService() {
     return dialogueBoxService;
@@ -61,6 +85,10 @@ public class ServiceLocator {
 
   public static LightingService getLightingService() {
     return lightingService;
+  }
+
+  public static ParticleService getParticleService() {
+    return particleService;
   }
 
   // Getter for GameArea
@@ -115,16 +143,57 @@ public class ServiceLocator {
     lightingService = source;
   }
 
+  public static void registerParticleService(ParticleService source) {
+    logger.debug("Registering particle service {}", source);
+    particleService = source;
+  }
+
   public static void clear() {
     entityService = null;
     renderService = null;
     physicsService = null;
     lightingService = null;
+    particleService = null;
     timeSource = null;
     inputService = null;
     resourceService = null;
     dialogueBoxService = null;
     gameArea = null;
+    dayNightCycle = null;
+    inGameTime = null;
+  }
+
+  // Getter for DayNightCycle
+  public static DayNightCycle getDayNightCycle() {
+    if (dayNightCycle == null) {
+      throw new IllegalStateException("DayNightCycle has not been registered yet!");
+    }
+    return dayNightCycle;
+  }
+
+  // Registration method for DayNightCycle
+  public static void registerDayNightCycle(DayNightCycle dayNightCycle) {
+    logger.debug("Registering DayNightCycle {}", dayNightCycle);
+    if (ServiceLocator.dayNightCycle != null) {
+      throw new IllegalStateException("DayNightCycle has already been registered!");
+    }
+    ServiceLocator.dayNightCycle = dayNightCycle;
+  }
+
+
+  public static void registerInGameTime(InGameTime inGameTime) {
+    logger.debug("Registering InGameTime {}", inGameTime);
+    if (ServiceLocator.inGameTime != null) {
+      throw new IllegalStateException("InGameTime has already been registered!");
+    }
+    ServiceLocator.inGameTime = inGameTime;
+  }
+
+  public static InGameTime getInGameTime() {
+    if (inGameTime == null) {
+      throw new IllegalStateException("InGameTime has not been registered yet!");
+    }
+    return inGameTime;
   }
 
   private ServiceLocator() {

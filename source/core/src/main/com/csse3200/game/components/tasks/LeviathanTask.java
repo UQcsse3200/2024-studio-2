@@ -1,24 +1,25 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.areas.forest.ForestGameArea;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 /**
  * A task that allows an entity to chase the player and fire projectiles at the player when within range.
- * The Leviathan will play a heartbeat sound to create tension while chasing the player.
  */
 public class LeviathanTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(LeviathanTask.class);
@@ -49,10 +50,6 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
 
     // Movement task for chasing
     private MovementTask movementTask;
-
-    // Heartbeat sound for tension
-    private Music heartbeatSound;
-    private static final String HEARTBEAT = "sounds/heartbeat.mp3";
 
     // Speed of the Leviathan
     private final Vector2 bossSpeed;
@@ -93,7 +90,7 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
         movementTask.create(owner);
         movementTask.start();
 
-        playTensionSound();
+        playTensionMusic();
         target.getEvents().trigger("startHealthBarBeating");
 
         // Trigger chase direction
@@ -134,7 +131,7 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
         super.stop();
         movementTask.stop();
 
-        stopTensionSound();
+        stopTensionMusic();
         target.getEvents().trigger("stopHealthBarBeating");
     }
 
@@ -192,7 +189,7 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
 
         // If there is an obstacle in the path to the player, not visible.
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
+            debugRenderer.drawLine(from, hit.getPoint());
             return false;
         }
         debugRenderer.drawLine(from, to);
@@ -210,27 +207,29 @@ public class LeviathanTask extends DefaultTask implements PriorityTask {
     }
 
     /**
-     * Plays the tension sound to enhance the experience during the chase.
+     * Plays the tension music to enhance the experience during the chase.
      */
-    private void playTensionSound() {
-        if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
-            heartbeatSound = ServiceLocator.getResourceService().getAsset(HEARTBEAT, Music.class);
-            heartbeatSound.setLooping(true);
-            heartbeatSound.setVolume(1.0f);
-        }
-        if (heartbeatSound != null) {
-            ForestGameArea.puMusic();
-            heartbeatSound.play();
-        }
+    void playTensionMusic() {
+        // Play the music using AudioManager
+        AudioManager.stopMusic();
+        AudioManager.playMusic("sounds/tension-water-boss.mp3", true);
     }
 
     /**
-     * Stops playing the tension sound.
+     * Stops playing the tension music and play the background music.
      */
-    private void stopTensionSound() {
-        if (heartbeatSound != null) {
-            ForestGameArea.pMusic();
-            heartbeatSound.stop();
+    void stopTensionMusic() {
+        // Stop the music using AudioManager
+        AudioManager.stopMusic();
+
+        // Get the selected music track from the user settings
+        UserSettings.Settings settings = UserSettings.get();
+        String selectedTrack = settings.selectedMusicTrack; // This will be "Track 1" or "Track 2"
+
+        if (Objects.equals(selectedTrack, "Track 1")) {
+            AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+        } else if (Objects.equals(selectedTrack, "Track 2")) {
+            AudioManager.playMusic("sounds/track_2.mp3", true);
         }
     }
 }

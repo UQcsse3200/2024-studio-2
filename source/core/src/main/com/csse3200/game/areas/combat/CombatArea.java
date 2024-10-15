@@ -77,7 +77,7 @@ public class CombatArea extends GameArea {
             case OCTOPUS -> {spawnOctopus(); kingdomType = KINGDOM.WATER;}
             case BIGSAWFISH -> {spawnBigSawfish(); kingdomType = KINGDOM.WATER;}
             case MACAW -> {spawnMacaw(); kingdomType = KINGDOM.AIR;}
-            // case null, default -> spawnCombatEnemy(); // Combat Enemy
+            case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         spawnPlayer();
         playMusic();
@@ -155,7 +155,6 @@ public class CombatArea extends GameArea {
     }
 
     /** Spawns an invisible entity to set the camera at the centre of the screen without having to
-    /** Spawns an invisible entity to set the camera at the centre of the screen without having to
      * attach the camera to the real player entity. This entity should be ignored, and it's
      * health/stats etc.
      * are NOT to be used for combat logic or anywehre else
@@ -177,8 +176,8 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
-        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
-        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 146), true, true);
+        Entity combatEnemyNPC = CombatAnimalFactory.createJoeyCombatEnemy();
+        spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
@@ -334,9 +333,6 @@ public class CombatArea extends GameArea {
      *
      */
     public void playMusic() {
-//        Music music =
-//                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
-//                Music.class);
         Music music = ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -397,6 +393,24 @@ public class CombatArea extends GameArea {
 
     @Override
     public List<Entity> getEnemies() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
+    }
+
+    @Override
+    public List<Entity> getBosses() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
+    }
+
+    @Override
+    public List<Entity> getFriendlyNPCs() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
+    }
+
+    @Override
+    public List<Entity> getMinigameNPCs() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
     }

@@ -25,15 +25,15 @@ import org.slf4j.LoggerFactory;
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
 public class CombatButtonDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
+    private static final Logger logger = LoggerFactory.getLogger(CombatButtonDisplay.class);
     private static final float Z_INDEX = 1f;
     private Table table;
     private final Screen screen;
     private final ServiceContainer container;
-    TextButton AttackButton;
-    TextButton GuardButton;
-    TextButton SleepButton;
-    TextButton ItemsButton;
+    TextButton attackButton;
+    TextButton guardButton;
+    TextButton sleepButton;
+    TextButton itemsButton;
     ChangeListener dialogueBoxListener;
     CombatArea combatArea;
     // Create a Table to hold the hover text with a background
@@ -101,8 +101,8 @@ public class CombatButtonDisplay extends UIComponent {
      * Create a text box pop up to provide the user with description on moves when hovering over with mouse upon
      */
     private void createTextForHints() {
-        hoverTextLabel = new Label("", SKIN, "default-white");
-        hoverTextTable = new Table(SKIN);
+        hoverTextLabel = new Label("", skin, "default-white");
+        hoverTextTable = new Table(skin);
         hoverTextTable.clear();
         hoverTextTable.setBackground("white");  // Set a white background (ensure you have this drawable in your skin)
         hoverTextTable.add(hoverTextLabel).pad(10f);  // Add padding around the text
@@ -150,12 +150,12 @@ public class CombatButtonDisplay extends UIComponent {
         table.bottom();
         table.setFillParent(true);
 
-        AttackButton = new TextButton("Attack", skin);
-        GuardButton = new TextButton("Guard", skin);
-        SleepButton = new TextButton("Sleep", skin);
-        ItemsButton = new TextButton("Items", skin);
+        attackButton = new TextButton("Attack", skin);
+        guardButton = new TextButton("Guard", skin);
+        sleepButton = new TextButton("Sleep", skin);
+        itemsButton = new TextButton("Items", skin);
 
-        AttackButton.addListener(
+        attackButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -163,11 +163,11 @@ public class CombatButtonDisplay extends UIComponent {
                         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
-        AttackButton.addListener(new InputListener() {
+        attackButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over attack button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Lower enemy HP but drains stamina!");
+                setTextForCombatHint("Lower enemy HP but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the attack button
@@ -178,7 +178,7 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        GuardButton.addListener(
+        guardButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -186,11 +186,11 @@ public class CombatButtonDisplay extends UIComponent {
                         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
-        GuardButton.addListener(new InputListener() {
+        guardButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over guard button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Reduces damage of the next attack but drains stamina!");
+                setTextForCombatHint("Reduces damage of the next attack but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the guard button
@@ -201,7 +201,7 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        SleepButton.addListener(
+        sleepButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -209,10 +209,10 @@ public class CombatButtonDisplay extends UIComponent {
                         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
-        SleepButton.addListener(new InputListener() {
+        sleepButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Recover health and stamina but potentially take more damage!");
+                setTextForCombatHint("Recover health and hunger but potentially take more damage!");
                 return true;
             }
 
@@ -222,7 +222,7 @@ public class CombatButtonDisplay extends UIComponent {
                 backgroundImage.setVisible(false);
             }
         });
-        ItemsButton.addListener(
+        itemsButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -231,10 +231,10 @@ public class CombatButtonDisplay extends UIComponent {
                         hideButtons();
                     }
                 });
-        ItemsButton.addListener(new InputListener() {
+        itemsButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Access items to either buff yourself or debuff the enemy");
+                setTextForCombatHint("Access items to either buff yourself or de-buff the enemy");
                 return true;
             }
 
@@ -246,10 +246,10 @@ public class CombatButtonDisplay extends UIComponent {
         });
 
         // Position the button on the central bottom part and make them a lil bigger
-        table.add(AttackButton).padBottom(50).width(300).height(60).padLeft(10f);
-        table.add(GuardButton).padBottom(50).width(300).height(60).padLeft(10f);
-        table.add(SleepButton).padBottom(50).width(300).height(60).padLeft(10f);
-        table.add(ItemsButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(attackButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(guardButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(sleepButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(itemsButton).padBottom(50).width(300).height(60).padLeft(10f);
 
         stage.addActor(table);
     }
@@ -290,8 +290,7 @@ public class CombatButtonDisplay extends UIComponent {
         if (winStatus) {
             endText = new String[][]{{"You tamed the wild animal. Say hi to your new friend!"}};
         } else {
-            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
-                    "before battling again."}};
+            endText = new String[][]{{"You lost. Try leveling up, and try again."}};
         }
         ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }

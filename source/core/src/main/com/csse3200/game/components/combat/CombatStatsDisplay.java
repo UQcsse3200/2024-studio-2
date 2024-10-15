@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
  * Displays the stats bars of both the player and the enemy on the CombatScreen.
  */
 public class CombatStatsDisplay extends UIComponent {
-    private CombatStatsComponent playerStats;
-    private CombatStatsComponent enemyStats;
+    private final CombatStatsComponent playerStats;
+    private final CombatStatsComponent enemyStats;
     private Image playerHealthImage;
     private Image playerHungerImage;
     private Image enemyHealthImage;
@@ -34,7 +34,6 @@ public class CombatStatsDisplay extends UIComponent {
     private Label enemyHealthLabel;
     private Label experienceLabel;
     private Label statusEffectLabel;
-    private TextureAtlas[] textureAtlas;
     private static Animation<TextureRegion> playerHealthBarAnimation;
     private static Animation<TextureRegion> enemyHealthBarAnimation;
     private static Animation<TextureRegion> playerHungerBarAnimation;
@@ -73,11 +72,10 @@ public class CombatStatsDisplay extends UIComponent {
         entity.getEvents().addListener("onSleep", this::updateHealthUI);
         entity.getEvents().addListener("onSleep", this::updatePlayerHungerUI);
         entity.getEvents().addListener("onCombatWin", this::updatePlayerExperienceUI);
+        entity.getEvents().addListener("onCombatLoss", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("useItem", this::updateHealthUI);
         entity.getEvents().addListener("useItem", this::updatePlayerHungerUI);
-        entity.getEvents().addListener("statusEffectAdded", (CombatStatsComponent.StatusEffect statusEffect) -> {
-            updateStatusEffectUI(statusEffect);
-        });
+        entity.getEvents().addListener("statusEffectAdded", this::updateStatusEffectUI);
         entity.getEvents().addListener("statusEffectRemoved", this::removeStatusUI);
 
         createBackgroundForHints();
@@ -125,8 +123,8 @@ public class CombatStatsDisplay extends UIComponent {
         xpImage = new Image(ServiceLocator.getResourceService().getAsset("images/xp_bar.png", Texture.class));
         playerHungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png",
                 Texture.class));
-        barImageWidth = (float) (playerHealthImage.getWidth() * barWidthScaling);
-        barImageHeight = (float) (playerHealthImage.getHeight() * barHeightScaling);
+        barImageWidth = (playerHealthImage.getWidth() * barWidthScaling);
+        barImageHeight = (playerHealthImage.getHeight() * barHeightScaling);
 
         // Aligning the bars one below the other and adding them to table
         playerTable.add(playerHealthImage).size(barImageWidth, barImageHeight).pad(barLabelGap);
@@ -135,7 +133,7 @@ public class CombatStatsDisplay extends UIComponent {
         playerTable.add(playerHungerImage).size(barImageWidth, barImageHeight * barLabelGap).pad(barLabelGap);
         playerTable.add(playerHungerLabel).align(Align.left);
         playerTable.row();
-        playerTable.add(xpImage).size(barImageWidth, (float) (barImageHeight * xpHeightScaling)).pad(barLabelGap);
+        playerTable.add(xpImage).size(barImageWidth, (barImageHeight * xpHeightScaling)).pad(barLabelGap);
         playerTable.add(experienceLabel).align(Align.left);
 
         return playerTable;
@@ -174,7 +172,7 @@ public class CombatStatsDisplay extends UIComponent {
 
     /**
      * Initializes the animations for the health, hunger, and experience bars.
-     * Each bar's animation consist of series of consecutive frames from a texture atlas given in the assets folder.
+     * Each bar's animation consist of series of consecutive frames from a texture atlas given in the asset folder.
      * The animations reflect the current status of the player's health, hunger, and experience.
      */
     public void initBarAnimations() {
@@ -183,7 +181,7 @@ public class CombatStatsDisplay extends UIComponent {
         int numberOfAtlases = 3;
 
         // Initialise textureAtlas for 2 bars
-        textureAtlas = new TextureAtlas[numberOfAtlases];
+        TextureAtlas[] textureAtlas = new TextureAtlas[numberOfAtlases];
         // HealthBar initialisation
         textureAtlas[0] = new TextureAtlas("spriteSheets/healthBars.txt");
         TextureRegion[] healthBarFrames = new TextureRegion[totalFrames];
@@ -244,6 +242,9 @@ public class CombatStatsDisplay extends UIComponent {
         stage.addActor(enemyTable);
 
         initBarAnimations();
+        updateHealthUI(playerStats, enemyStats);
+        updatePlayerExperienceUI(playerStats);
+        updatePlayerHungerUI(playerStats, enemyStats);
     }
 
     /**
@@ -259,8 +260,8 @@ public class CombatStatsDisplay extends UIComponent {
         int enemyCurHealth = enemyStats.getHealth();
         int enemyMaxHealth = enemyStats.getMaxHealth();
 
-        CharSequence playerText = String.format("HP: %d", playerCurHealth);
-        CharSequence enemyText = String.format("HP: %d", enemyCurHealth);
+        CharSequence playerText = String.format("HP: %d/%d", playerCurHealth, playerMaxHealth);
+        CharSequence enemyText = String.format("HP: %d/%d", enemyCurHealth, enemyMaxHealth);
 
         // Adjusts position as lists start at index 0
         int indexAdjustment = totalFrames - 1;
@@ -289,7 +290,7 @@ public class CombatStatsDisplay extends UIComponent {
         logger.trace("Detected experience change in combat and is updating UI");
         int experience = playerStats.getExperience();
         int maxExperience = playerStats.getMaxExperience();
-        CharSequence text = String.format("EXP: %d", experience);
+        CharSequence text = String.format("EXP: %d/%d", experience, maxExperience);
         experienceLabel.setText(text);
 
         int frameIndex = totalFrames - 1 - (int) ((float) experience / maxExperience * (totalFrames - 1));
@@ -302,13 +303,12 @@ public class CombatStatsDisplay extends UIComponent {
      * Updates the hunger bar animation of the player
      *
      * @param playerStats The CombatStatsComponent of the player
-     *                    THE HUNGER BAR IS USED TEMPORARILY FOR DISPLAYING THE PLAYER'S STAMINA
      */
     public void updatePlayerHungerUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
-        logger.trace("Detected stamina change in combat and is updating UI");
-        int hunger = playerStats.getStamina();
-        int maxHunger = playerStats.getMaxStamina();
-        CharSequence text = String.format("Stamina: %d", hunger);
+        logger.trace("Detected hunger change in combat and is updating UI");
+        int hunger = playerStats.getHunger();
+        int maxHunger = playerStats.getMaxHunger();
+        CharSequence text = String.format("Hunger: %d/%d", hunger, maxHunger);
         playerHungerLabel.setText(text);
 
         int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
@@ -360,7 +360,7 @@ public class CombatStatsDisplay extends UIComponent {
      * Method to remove the status effect bar and text from the combat screen
      */
     private void removeStatusUI() {
-        logger.trace("Removing status bar assest in CombatStatsDisplay");
+        logger.trace("Removing status bar asset in CombatStatsDisplay");
         statusTable.remove();
     }
 
@@ -390,11 +390,11 @@ public class CombatStatsDisplay extends UIComponent {
     private void setTextForStatusEffectHint() {
         String effectDescription = "";
         if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
-            effectDescription = "While bleeding, your GUARDs are less effective.";
+            effectDescription = "While bleeding, your GUARDS are less effective.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)) {
-            effectDescription = "While shocked, Your ATTACKs are weakened.";
+            effectDescription = "While shocked, Your ATTACKS are weakened.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
-            effectDescription = "While poisoned, SLEEPing won't heal you.";
+            effectDescription = "While poisoned, SLEEPING won't heal you.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.CONFUSED)) {
             effectDescription = "While confused, your animal might make a wrong move.";
         }
@@ -416,11 +416,7 @@ public class CombatStatsDisplay extends UIComponent {
 
     @Override
     public void draw(SpriteBatch batch) {
-        int screenHeight = Gdx.graphics.getHeight();
-        float offsetX = 10f;
-        float offsetY = 30f;
 
-        //title.setPosition(offsetX, screenHeight - offsetY);
     }
 
     @Override

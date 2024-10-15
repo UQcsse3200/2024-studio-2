@@ -27,7 +27,8 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
      * updates the potions effects if in or out of combat
      */
     public void updatePotions(ItemUsageContext context) {
-        if (this.potions == null) { return;}
+        //unsure if this is intended behaviour but previous behaviour could only be false.
+        if (potions.isEmpty()) { return;}
 
         Deque<Integer> removals = new ArrayDeque<>();
 
@@ -104,5 +105,13 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
             return;
         }
         super.consumeItem(item, context, index);
+    }
+
+    /**
+     * Clears the inventory of the player (used to empty inventory when loss condition satisfied in combat)
+     */
+    public void clearInventory() {
+        this.inventory.clearInventory();
+        potions.clear();
     }
 }
