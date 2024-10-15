@@ -3,6 +3,7 @@ package com.csse3200.game.areas.combat;
 import java.util.List;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.services.AudioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -329,23 +330,19 @@ public class CombatArea extends GameArea {
         }
     }
 
-    /** Play the music for combat
-     *
+    /**
+     * Play the music for combat
      */
     public void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
+        AudioManager.stopMusic();
+        AudioManager.playMusic(CombatAreaConfig.COMBATBACKGROUND_MUSIC, true);
     }
 
     /** Pause the music for combat. Will be finalised and used when
      * combat pause is implemented
      */
     public void pauseMusic() {
-        Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
-        music.pause();
+        AudioManager.stopMusic();
     }
 
     private void loadAssets() {
