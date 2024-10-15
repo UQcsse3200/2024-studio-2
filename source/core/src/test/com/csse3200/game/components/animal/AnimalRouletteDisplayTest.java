@@ -30,7 +30,7 @@ class AnimalRouletteDisplayTest {
     @Mock GdxGame game;
     @Mock Viewport viewport;
     @Mock SpriteBatch spriteBatch;
-    @Spy AnimalRouletteDisplay1 display;
+    @Spy AnimalRouletteDisplay display;
 
     @BeforeEach
     void beforeEach() {
@@ -45,7 +45,7 @@ class AnimalRouletteDisplayTest {
 
         // create ui
         ui = new Entity();
-        display = Mockito.spy(new AnimalRouletteDisplay1());
+        display = Mockito.spy(new AnimalRouletteDisplay());
         ui.addComponent(display);
         ServiceLocator.getEntityService().register(ui);
 
