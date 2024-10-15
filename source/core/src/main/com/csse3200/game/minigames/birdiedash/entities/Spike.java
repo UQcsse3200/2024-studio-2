@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
  * Class for the spikes in the birdie dash game
  */
 public class Spike {
-    private final float WIDTH = 100;
-    private final float HEIGHT = 1200;
+    private final static float width = 100;
+    private final static float height = 1200;
     private final Vector2 position;
     private final Rectangle spikeBoundary;
 
@@ -16,8 +16,8 @@ public class Spike {
         this.position = new Vector2(position, 0);
         this.spikeBoundary = new Rectangle(0,
                 0,
-                WIDTH,
-                HEIGHT);
+                width,
+                height);
     }
 
     /**
@@ -33,7 +33,7 @@ public class Spike {
      * @return the spikes width
      */
     public float getWidth() {
-        return WIDTH;
+        return width;
     }
 
     /**
@@ -41,7 +41,7 @@ public class Spike {
      * @return the spikes height
      */
     public float getHeight() {
-        return HEIGHT;
+        return height;
     }
 
     /**

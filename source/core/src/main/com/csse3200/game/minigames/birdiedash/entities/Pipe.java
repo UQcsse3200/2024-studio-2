@@ -13,26 +13,26 @@ public class Pipe{
     private Vector2 bottomPosition;
 
     // Set width of pipe
-    private final float width = 150;
+    private final static float width = 150;
     private float height;
-    private final float PIPE_GAP = 300;
-    private final float MIN_HEIGHT = 50;
-    private final float MAX_HEIGHT = 850;
+    private final static float pipeGap = 300;
+    private final static float minHeight = 50;
+    private final static float maxHeight = 850;
 
     // Game physics
-    private final float start_speed;
+    private final float startSpeed;
 
     // Collision rectangles
     private final Rectangle bottomPipe;
     private final Rectangle topPipe;
     private final Random random;
 
-    public Pipe(float start, float start_speed){
+    public Pipe(float start, float startSpeed){
         this.random = new Random();
-        this.height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
+        this.height = random.nextFloat(minHeight, maxHeight);
         this.bottomPosition = new Vector2(start,0);
-        this.topPosition=new Vector2(start, height + PIPE_GAP);
-        this.start_speed = start_speed;
+        this.topPosition=new Vector2(start, height + pipeGap);
+        this.startSpeed = startSpeed;
         this.bottomPipe = new Rectangle(bottomPosition.x, bottomPosition.y, width, height);
         this.topPipe = new Rectangle(topPosition.x, topPosition.y, width, getHeightTop());
     }
@@ -42,7 +42,7 @@ public class Pipe{
      * @param dt the time since it last changed
      */
     public void changePosition(float dt){
-        dt = dt * start_speed;
+        dt = dt * startSpeed;
         this.bottomPosition.sub(dt,0);
         this.topPosition.sub(dt,0);
         setRectangles();
@@ -55,10 +55,10 @@ public class Pipe{
      * spawns a pipe
      */
     public void respawnPipe() {
-        height = random.nextFloat(MIN_HEIGHT,MAX_HEIGHT);
-        int GAME_WIDTH = 1920;
-        this.bottomPosition = new Vector2(GAME_WIDTH - width/2 + 960, 0);
-        this.topPosition=new Vector2(GAME_WIDTH - width/2 + 960, height + PIPE_GAP);
+        height = random.nextFloat(minHeight, maxHeight);
+        int gameWidth = 1920;
+        this.bottomPosition = new Vector2(gameWidth - width/2 + 960, 0);
+        this.topPosition=new Vector2(gameWidth - width/2 + 960, height + pipeGap);
         setRectangles();
     }
 
@@ -90,8 +90,8 @@ public class Pipe{
      * Get the pipes width
      * @return the pipe width
      */
-    public float getWidth(){
-        return this.width;
+    public float getWidth() {
+        return width;
     }
 
     /**
@@ -107,8 +107,8 @@ public class Pipe{
      * @return the pipe height
      */
     public float getHeightTop(){
-        int GAME_HEIGHT = 1200;
-        return GAME_HEIGHT - height -PIPE_GAP;
+        int gameHeight = 1200;
+        return gameHeight - height - pipeGap;
     }
 
     /**
@@ -142,7 +142,7 @@ public class Pipe{
      */
     public void setPosition(float x) {
         this.bottomPosition.set(x, 0);
-        this.topPosition.set(x, height + PIPE_GAP);
+        this.topPosition.set(x, height + pipeGap);
         setRectangles();
     }
 }
