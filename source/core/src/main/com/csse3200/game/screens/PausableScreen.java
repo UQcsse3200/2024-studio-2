@@ -55,11 +55,19 @@ public class PausableScreen extends ScreenAdapter {
             case PAUSE_OVERLAY -> enabledOverlays.addFirst(new PauseOverlay(this, game));
             case PLAYER_STATS_OVERLAY -> enabledOverlays.addFirst(new PlayerStatsOverlay(this));
             case SETTINGS_OVERLAY -> enabledOverlays.addFirst(new SettingsOverlay(this));
+            case SNAKE_POPUP_OVERLAY -> enabledOverlays.addFirst(new SnakePopupOverlay(game, "images/minigames/snakehead.png"));
             default -> logger.warn("Unknown Overlay type: {}", overlayType);
         }
         logger.info("Added {} Overlay", overlayType);
         activeOverlayTypes.put(overlayType,true);
     }
+    public void addSnakePopupOverlay(String texturePath) {
+        addOverlay(Overlay.OverlayType.SNAKE_POPUP_OVERLAY);
+        SnakePopupOverlay snakePopupOverlay = new SnakePopupOverlay(game, texturePath);
+        enabledOverlays.addFirst(snakePopupOverlay);
+        snakePopupOverlay.show();
+    }
+
 
     /**
      * Removes the topmost overlay from the screen.

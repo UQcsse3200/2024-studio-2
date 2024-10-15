@@ -74,7 +74,7 @@ public class SnakeScreen extends PausableScreen {
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.ui = new Entity();
-        this.snakePopup = new SnakePopup(game, "images/minigames/snakehead.png", "Snake");
+        this.snakePopup = new SnakePopup(game, "images/minigames/snakePopUp.png", "Snake");
         this.backgroundTexture = new  Texture(Gdx.files.internal("images/minigames/Background.png"));
 
         this.spriteBatch = new SpriteBatch();
@@ -115,15 +115,17 @@ public class SnakeScreen extends PausableScreen {
         helpButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                // Call the function to add the Snake popup overlay
+                addSnakePopupOverlay("images/minigames/SnakePopup.png");
                 snakePopup.show();
             }
         });
 
-
         helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
         stage.addActor(helpButton);
     }
+
+
 
     /**
      * Renders the Snake game screen, including the grid and the apple.
@@ -143,7 +145,7 @@ public class SnakeScreen extends PausableScreen {
         if (!snakeGame.getIsGameOver()) {
             snakeRenderer.render(snakeGame.getScore());
         }
-
+        snakePopup.render();
         stage.act(delta);
         stage.draw();
     }

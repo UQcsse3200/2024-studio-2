@@ -92,11 +92,11 @@ public class SnakePopup {
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        window.setPosition((width - windowWidth) / 2, (height - windowHeight) / 2); // Adjust window position accordingly
+        window.setPosition((width - windowWidth) / 2, (height - windowHeight) / 2);
     }
 
     public void render() {
-        if (isVisible) { // Only render if visible
+        if (isVisible) {
             stage.act(Gdx.graphics.getDeltaTime());
             stage.draw();
         }
