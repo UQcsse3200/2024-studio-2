@@ -237,6 +237,36 @@ public class NPCFactory {
     BaseFriendlyEntityConfig config = configs.friendlyBear;
     return createFriendlyNPC(target, enemies, config);
   }
+  
+  public static Entity createEel(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyEel;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createOctopus(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyOctopus;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createBee(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyBee;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createPigeon(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyPigeon;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createBigsawfish(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyBigsawfish;
+    return createFriendlyNPC(target, enemies, config);
+  }
+  
+  public static Entity createMacaw(Entity target, List<Entity> enemies) {
+    BaseFriendlyEntityConfig config = configs.friendlyMacaw;
+    return createFriendlyNPC(target, enemies, config);
+  }
 
   /**
    * Initializes an animation renderer for a friendly NPC entity based on its configuration.
