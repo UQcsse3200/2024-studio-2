@@ -53,7 +53,7 @@ public class BirdieDashScreen extends PausableScreen {
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
     private TextButton helpButton;
-    private final SnakePopup snakePopup;
+    private final SnakePopup birdPopup;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Entity ui;
@@ -62,7 +62,7 @@ public class BirdieDashScreen extends PausableScreen {
         super(game);
         this.scale = 1;
         this.oldScreen = screen;
-        this.snakePopup = new SnakePopup(this, "images/minigames/BirdieDashPopUp.jpg");
+        this.birdPopup = new SnakePopup(this, "images/minigames/BirdieDashPopUp.png");
         this.oldScreenServices = container;
         this.birdGame = new BirdieDashGame();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -100,10 +100,14 @@ public class BirdieDashScreen extends PausableScreen {
             public void run() {
                 game.initializeServices();
                 addSnakePopupOverlay("images/minigames/BirdieDashPopUp.jpg");
-                snakePopup.show();
+                birdPopup.show();
             }
         }, 0.01f);
     }
+
+    /**
+     * Makes a help button for Mini-game Pop up
+     */
     private void createHelpButton() {
         // Create the help button
         helpButton = new TextButton("Help", skin);
@@ -113,13 +117,14 @@ public class BirdieDashScreen extends PausableScreen {
             public void clicked(InputEvent event, float x, float y) {
                 // Call the function to add the Snake popup overlay
                 addSnakePopupOverlay("images/minigames/BirdieDashPopUp.png");
-                snakePopup.show();
+                birdPopup.show();
             }
         });
 
         helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
         stage.addActor(helpButton);
     }
+
     /**
      * Renders the game
      * @param delta The time in seconds since the last render.
@@ -139,7 +144,7 @@ public class BirdieDashScreen extends PausableScreen {
         scoreBoard.updateScore(birdGame.getScore());
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
-        snakePopup.render();
+        birdPopup.render();
     }
 
     /**

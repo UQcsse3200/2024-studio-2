@@ -70,7 +70,7 @@ public class MazeGameScreen extends PausableScreen {
     private final Stage stage;
     private final Skin skin;
     private TextButton helpButton;
-    private SnakePopup snakePopup;
+    private SnakePopup mazePopup;
 
     // Scale for resizing the screen
     private float scale;
@@ -82,7 +82,7 @@ public class MazeGameScreen extends PausableScreen {
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
         this.oldScreen = screen;
-        this.snakePopup = new SnakePopup(this, "images/minigames/MazePopUp.png");
+        this.mazePopup = new SnakePopup(this, "images/minigames/MazePopUp.png");
         this.oldScreenServices = container;
         this.scale = 1;
 
@@ -124,7 +124,7 @@ public class MazeGameScreen extends PausableScreen {
         loadAssets();
         createUI();
         createHelpButton();
-        // setupExitButton();
+//        setupExitButton();
 
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
@@ -153,7 +153,7 @@ public class MazeGameScreen extends PausableScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
             restartGame();
         }
-        snakePopup.render();
+        mazePopup.render();
     }
 
     private void createHelpButton() {
@@ -164,8 +164,8 @@ public class MazeGameScreen extends PausableScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Call the function to add the Snake popup overlay
-                addSnakePopupOverlay("images/minigames/MazePopUp.jpg");
-                snakePopup.show();
+                addSnakePopupOverlay("images/minigames/MazePopUp.png");
+                mazePopup.show();
             }
         });
 
@@ -176,7 +176,7 @@ public class MazeGameScreen extends PausableScreen {
             public void run() {
                 game.initializeServices();
                 addSnakePopupOverlay("images/minigames/MazePopUp.jpg");
-                snakePopup.show();
+                mazePopup.show();
             }
         }, 0.01f);
     }
