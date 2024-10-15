@@ -330,15 +330,12 @@ public class CombatArea extends GameArea {
         }
     }
 
-    /** Play the music for combat
-     *
+    /**
+     * Play the music for combat
      */
     public void playMusic() {
-//        Music music = ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
-//        music.setLooping(true);
-//        music.setVolume(0.5f);
-//        music.play();
-        AudioManager.playMusic("sounds/combat_track1.mp3", true);
+        AudioManager.stopMusic();
+        AudioManager.playMusic(CombatAreaConfig.COMBATBACKGROUND_MUSIC, true);
     }
 
     /** Pause the music for combat. Will be finalised and used when
