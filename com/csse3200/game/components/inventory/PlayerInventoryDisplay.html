@@ -148,31 +148,36 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enterSlot(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">enterSlot</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#exitSlot(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">exitSlot</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#regenerateDisplay()" class="member-name-link">regenerateDisplay</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearInventory()" class="member-name-link">clearInventory</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Clears the inventory of the player (used to empty inventory when loss condition satisfied in combat)</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enterSlot(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">enterSlot</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#exitSlot(com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">exitSlot</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#regenerateDisplay()" class="member-name-link">regenerateDisplay</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Regenerates the entire inventory and hotBar display (recreates every image)
  This should only be used if the inventory has been changed (ie after
  sorting or loading).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggleMsg()" class="member-name-link">toggleMsg</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePotions(com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">updatePotions</a><wbr>(<a href="../../inventory/items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggleMsg()" class="member-name-link">toggleMsg</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePotions(com.csse3200.game.inventory.items.ItemUsageContext)" class="member-name-link">updatePotions</a><wbr>(<a href="../../inventory/items/ItemUsageContext.html" title="class in com.csse3200.game.inventory.items">ItemUsageContext</a>&nbsp;context)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">updates the potions effects if in or out of combat</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItem(com.csse3200.game.inventory.items.AbstractItem,int)" class="member-name-link">useItem</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItem(com.csse3200.game.inventory.items.AbstractItem,int)" class="member-name-link">useItem</a><wbr>(<a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item,
  int&nbsp;index)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -284,6 +289,13 @@ loadScripts(document, 'script');</script>
 <dt>Overrides:</dt>
 <dd><code><a href="InventoryDisplay.html#regenerateDisplay()">regenerateDisplay</a></code>&nbsp;in class&nbsp;<code><a href="InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></code></dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="clearInventory()">
+<h3>clearInventory</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clearInventory</span>()</div>
+<div class="block">Clears the inventory of the player (used to empty inventory when loss condition satisfied in combat)</div>
 </section>
 </li>
 </ul>
