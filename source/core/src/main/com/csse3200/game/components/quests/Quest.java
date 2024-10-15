@@ -175,9 +175,19 @@ public class Quest {
         return isActive;
     }
 
+    /**
+     * Sets the active state of the quest.
+     * @param active a boolean value indicating whether the quest is active or not.
+     */
     public void setActive(boolean active) { this.isActive = active; }
 
+    /**
+     * Retrieves the list of dialogue keys associated with the quest.
+     */
     public List<DialogueKey> getQuestDialogue() { return questDialogue; }
 
+    /**
+     * Retrieves the follow-up quests related to this quest.
+     */
     public String[] getFollowQuests() { return followQuests; }
 }
