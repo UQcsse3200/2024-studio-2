@@ -135,21 +135,21 @@ class EnemyFactoryTest {
      */
     @Test
     void TestMonkeyStats() {
-        assertTrue((monkey.getComponent(CombatStatsComponent.class).getHealth() > 8)
-                        && (monkey.getComponent(CombatStatsComponent.class).getHealth() < 12),
-                "Monkey should have between 9 and 11 HP inclusive.");
-        assertTrue((monkey.getComponent(CombatStatsComponent.class).getStrength() > 22)
-                        && (monkey.getComponent(CombatStatsComponent.class).getStrength() < 29),
-                "Monkey should have between 23 and 28 attack inclusive.");
-        assertTrue((monkey.getComponent(CombatStatsComponent.class).getDefense() > 6)
-                        && (monkey.getComponent(CombatStatsComponent.class).getDefense() < 10),
+        assertTrue((monkey.getComponent(CombatStatsComponent.class).getHealth() > 12)
+                        && (monkey.getComponent(CombatStatsComponent.class).getHealth() < 18),
+                "Monkey should have between 12 and 18 HP inclusive.");
+        assertTrue((monkey.getComponent(CombatStatsComponent.class).getStrength() > 32)
+                        && (monkey.getComponent(CombatStatsComponent.class).getStrength() < 38),
+                "Monkey should have between 32 and 38 attack inclusive.");
+        assertTrue((monkey.getComponent(CombatStatsComponent.class).getDefense() > 17)
+                        && (monkey.getComponent(CombatStatsComponent.class).getDefense() < 23),
                 "Monkey should have defense between 7 and 9 inclusive.");
-        assertEquals(150,
+        assertEquals(75,
                 monkey.getComponent(CombatStatsComponent.class).getSpeed(),
-                "monkey should have 150 speed.");
-        assertEquals(25,
+                "monkey should have 75 speed.");
+        assertEquals(80,
                 monkey.getComponent(CombatStatsComponent.class).getExperience(),
-                "monkey should have 25 experience.");
+                "monkey should have 80 experience.");
     }
 
     /**
@@ -220,21 +220,21 @@ class EnemyFactoryTest {
      */
     @Test
     void TestChickenStats() {
-        assertTrue((chicken.getComponent(CombatStatsComponent.class).getHealth() > 3)
-                        && (chicken.getComponent(CombatStatsComponent.class).getHealth() < 7),
-                "chicken should have between 4 and 6 HP.");
-        assertTrue((chicken.getComponent(CombatStatsComponent.class).getStrength() >= 0)
-                        && (chicken.getComponent(CombatStatsComponent.class).getStrength() < 5),
-                "chicken should have between 0 and 4 attack.");
-        assertTrue((chicken.getComponent(CombatStatsComponent.class).getDefense() > 0)
-                        && (chicken.getComponent(CombatStatsComponent.class).getDefense() < 4),
-                "chicken should have between 1 and 3 defense.");
-        assertEquals(200,
+        assertTrue((chicken.getComponent(CombatStatsComponent.class).getHealth() > 7)
+                        && (chicken.getComponent(CombatStatsComponent.class).getHealth() < 13),
+                "chicken should have between 8 and 12 HP.");
+        assertTrue((chicken.getComponent(CombatStatsComponent.class).getStrength() > 17)
+                        && (chicken.getComponent(CombatStatsComponent.class).getStrength() < 23),
+                "chicken should have between 17 and 23 attack.");
+        assertTrue((chicken.getComponent(CombatStatsComponent.class).getDefense() > 13)
+                        && (chicken.getComponent(CombatStatsComponent.class).getDefense() < 17),
+                "chicken should have between 13 and 17 defense.");
+        assertEquals(100,
                 chicken.getComponent(CombatStatsComponent.class).getSpeed(),
-                "chicken should have 200 speed.");
-        assertEquals(10,
+                "chicken should have 100 speed.");
+        assertEquals(40,
                 chicken.getComponent(CombatStatsComponent.class).getExperience(),
-                "chicken should have 10 experience.");
+                "chicken should have 40 experience.");
     }
 
     /**
@@ -301,9 +301,9 @@ class EnemyFactoryTest {
         assertTrue((frog.getComponent(CombatStatsComponent.class).getDefense() > 0)
                         && (frog.getComponent(CombatStatsComponent.class).getDefense() < 3),
                 "frog should have between 1 and 2 defense.");
-        assertEquals(50,
+        assertEquals(25,
                 (frog.getComponent(CombatStatsComponent.class).getSpeed()),
-                "frog should have 50 speed.");
+                "frog should have 25 speed.");
         assertEquals(20,
                 (frog.getComponent(CombatStatsComponent.class).getExperience()),
                 "frog should have 20 experience.");
@@ -364,18 +364,18 @@ class EnemyFactoryTest {
      */
     @Test
     void TestBearStats() {
-        assertTrue((bear.getComponent(CombatStatsComponent.class).getHealth() > 12)
-                        && (bear.getComponent(CombatStatsComponent.class).getHealth() < 18),
-                "bear should have between 13 and 17 HP.");
-        assertTrue((bear.getComponent(CombatStatsComponent.class).getStrength() > 7)
-                        && (bear.getComponent(CombatStatsComponent.class).getStrength() < 14),
-                "bear should have between 8 and 13 Attack.");
-        assertTrue((bear.getComponent(CombatStatsComponent.class).getDefense() > 12)
-                        && (bear.getComponent(CombatStatsComponent.class).getDefense() < 18),
-                "bear should have between 13 and 17 defense.");
-        assertEquals(75,
+        assertTrue((bear.getComponent(CombatStatsComponent.class).getHealth() > 27)
+                        && (bear.getComponent(CombatStatsComponent.class).getHealth() < 33),
+                "bear should have between 28 and 32 HP.");
+        assertTrue((bear.getComponent(CombatStatsComponent.class).getStrength() > 72)
+                        && (bear.getComponent(CombatStatsComponent.class).getStrength() < 78),
+                "bear should have between 67 and 73 Attack.");
+        assertTrue((bear.getComponent(CombatStatsComponent.class).getDefense() > 22)
+                        && (bear.getComponent(CombatStatsComponent.class).getDefense() < 28),
+                "bear should have between 23 and 27 defense.");
+        assertEquals(37,
                 bear.getComponent(CombatStatsComponent.class).getSpeed(),
-                "bear should have 75 speed.");
+                "bear should have 37 speed.");
         assertEquals(85,
                 bear.getComponent(CombatStatsComponent.class).getExperience(),
                 "bear should have 85 experience.");

@@ -452,7 +452,7 @@ public class EnemyFactory {
                         .addComponent(new CombatStatsComponent(config.getHealth() + (int)(MathUtils.random() * 2) - 1,
                                 config.getHunger(), Math.max(0,
                                 config.getBaseAttack() + (int)(MathUtils.random() * 5) - 2),
-                                config.getDefense() + (int)(MathUtils.random() * 2), config.getSpeed(),
+                                config.getDefense() + (int)(MathUtils.random() * 2), config.getSpeed()/2,
                                 config.getExperience(), false, false, 1))
                         .addComponent(new CombatMoveComponent(moveSet))
                         .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))

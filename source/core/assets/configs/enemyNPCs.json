@@ -1,11 +1,11 @@
 {
   "chicken": {
     "spritePath": "images/enemy-chicken.atlas",
-    "health": 5,
-    "baseAttack": 1,
-    "defense": 2,
+    "health": 10,
+    "baseAttack": 20,
+    "defense": 15,
     "speed": 200,
-    "experience": 10,
+    "experience": 40,
     "isEnemy": 1
   },
   "frog": {
@@ -19,20 +19,20 @@
   },
   "monkey": {
     "spritePath": "images/enemy-monkey.atlas",
-    "health": 10,
-    "baseAttack": 25,
-    "defense": 8,
+    "health": 15,
+    "baseAttack": 35,
+    "defense": 20,
     "speed": 150,
-    "experience": 25,
+    "experience": 80,
     "isEnemy": 1
   },
   "bear": {
     "spritePath": "images/enemy-bear.atlas",
-    "health": 15,
-    "baseAttack": 10,
-    "defense": 15,
+    "health": 30,
+    "baseAttack": 75,
+    "defense": 25,
     "speed": 75,
-    "experience": 100,
+    "experience": 200,
     "isEnemy": 1
   },
   "eel" : {

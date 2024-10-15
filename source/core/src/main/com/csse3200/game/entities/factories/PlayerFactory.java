@@ -69,11 +69,11 @@ public class PlayerFactory {
         // Set different stats for each animal type
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(30, 100, 65, 45, 60, 0, true, false, 1));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(35, 100, 70, 50, 30, 0, true, false, 1));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(30, 100, 45, 45, 100, 0, true, false, 1));
             default ->
                     player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
 
