@@ -201,7 +201,6 @@ public class MazeGameArea extends GameArea {
             spawnEntityAt(angler, maze.getNextStartLocation(), true, true);
             angler.getComponent(AITaskComponent.class).addTask(
                     new MazeHuntTask(player, maze, 2));
-
             getEnemies(Entity.EnemyType.MAZE_ANGLER).add(angler);
         }
     }
@@ -293,9 +292,7 @@ public class MazeGameArea extends GameArea {
         for (int i = 0; i < MazeGameArea.NUM_EELS; i++) {
             Entity eel = MazeNPCFactory.createEel(player);
             spawnEntityAt(eel, getSimpleStartLocation(3f), true, true);
-
             getEnemies(Entity.EnemyType.MAZE_EEL).add(eel);
-
         }
     }
 
@@ -323,7 +320,6 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
-     * Playes backgroun music for the maze mini-game
      * Plays background music for the maze mini-game
      */
     @Override
