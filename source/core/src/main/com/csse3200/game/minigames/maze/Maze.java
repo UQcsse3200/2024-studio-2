@@ -25,7 +25,6 @@ public class Maze {
         this(size.x, size.y);
     }
 
-    //TODO can we fix this warning?
     public Maze(int width, int height) {
         this.width = width;
         this.height = height;

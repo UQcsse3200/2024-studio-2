@@ -16,12 +16,6 @@ public class AlphaTextureRenderComponent extends TextureRenderComponent {
         super(texturePath);
     }
 
-    /** @param texture Static texture to render. Will be scaled to the entity's scale. */
-    //TODO: Can we delete this?
-    public AlphaTextureRenderComponent(Texture texture) {
-        super(texture);
-    }
-
     public void setAlpha(float alpha) {
         this.alpha = alpha;
     }
