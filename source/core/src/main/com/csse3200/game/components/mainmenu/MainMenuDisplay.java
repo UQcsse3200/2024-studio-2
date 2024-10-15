@@ -1,6 +1,7 @@
 package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -20,8 +21,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenu;
+import com.csse3200.game.input.InputService;
 import com.csse3200.game.minigames.MinigameLeaderboard;
 import com.csse3200.game.services.NotifManager;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -94,13 +98,10 @@ public class MainMenuDisplay extends UIComponent {
     private Button dayNightBtn;
     private Button profileBtn;
     private Button trophyBtn;
-    ServiceLocator.getResourceService().loadAsset("sounds/mainmenusound.wav", Music.class);
-    public void show() {
-        if (ServiceLocator.getResourceService().isFinishedLoading()) {
-            // Play the main menu music, loop it
-            AudioManager.playMusic("audio/menu_music.mp3", true);
-        }
 
+    public static final String[] MUSIC = {
+            "sounds/mainmenu/mainmenusound.wav"
+    };
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -110,7 +111,6 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Creating MainMenuDisplay");
         this.loadTextures();  // Load textures for the mute button
         logger.info("Background texture loaded");
-        AudioManager.playMusic("sounds/mainmenusound.wav", true);  // Play and loop the music
 
         this.setupCustomCursor();
         this.addDog();
@@ -143,7 +143,14 @@ public class MainMenuDisplay extends UIComponent {
         dayBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png"); // Day Background Texture
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
+
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadMusic(MUSIC);
+        ServiceLocator.getResourceService().loadAll();
+        AudioManager.playMusic("sounds/mainmenu/mainmenusound.wav", true);  // Play and loop the music
     }
+
+
 
 
     /**
