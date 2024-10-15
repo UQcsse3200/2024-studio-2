@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.*;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -214,16 +215,13 @@ public abstract class InventoryDisplay extends UIComponent {
         }
 
         // Add sort button:
-        TextButton sortButton = new TextButton("Sort", skin);
-        sortButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                inventory.sortByCode();
-                regenerateDisplay();
-            }
+        CustomButton sortButton = new CustomButton("Sort", skin);
+        sortButton.addClickListener(() -> {
+            inventory.sortByCode();
+            regenerateDisplay();
         });
         table.row();
-        table.add(sortButton);
+        table.add(sortButton).size(100, 50);
 
         // Add the table to the window
         mainInventoryDisplay.add(table).expand().fill();

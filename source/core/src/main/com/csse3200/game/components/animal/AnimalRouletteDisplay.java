@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 
 public class AnimalRouletteDisplay extends UIComponent {
@@ -14,8 +15,8 @@ public class AnimalRouletteDisplay extends UIComponent {
             "images/croc.png",
             "images/bird.png"};
     private int currentAnimalIndex = 0;
-    private TextButton leftButton;
-    private TextButton rightButton;
+    private CustomButton leftButton;
+    private CustomButton rightButton;
 
     @Override
     public void create() {
@@ -34,25 +35,25 @@ public class AnimalRouletteDisplay extends UIComponent {
         animalImage = new Image(new Texture(animalImages[currentAnimalIndex]));
 
         // Add left and right buttons for navigation
-        leftButton = new TextButton("<", skin);
-        rightButton = new TextButton(">", skin);
+        leftButton = new CustomButton("<", skin);
+        leftButton.setButtonStyle(CustomButton.Style.SMALL, skin);
+        rightButton = new CustomButton(">", skin);
+        rightButton.setButtonStyle(CustomButton.Style.SMALL, skin);
 
-        leftButton.addListener(event -> {
+        leftButton.addClickListener(() -> {
             currentAnimalIndex = (currentAnimalIndex - 1 + animalImages.length) % animalImages.length;
             animalImage.setDrawable(new TextureRegionDrawable(new Texture(animalImages[currentAnimalIndex])));
-            return true;
         });
 
-        rightButton.addListener(event -> {
+        rightButton.addClickListener(() -> {
             currentAnimalIndex = (currentAnimalIndex + 1) % animalImages.length;
             animalImage.setDrawable(new TextureRegionDrawable(new Texture(animalImages[currentAnimalIndex])));
-            return true;
         });
 
         // Set up layout
-        table.add(leftButton).expandX().left();
+        table.add(leftButton).size(80, 40).expandX().left();
         table.add(animalImage).center();
-        table.add(rightButton).expandX().right();
+        table.add(rightButton).size(80, 40).expandX().right();
 
         stage.addActor(table);
     }
@@ -75,8 +76,8 @@ public class AnimalRouletteDisplay extends UIComponent {
      *
      * @return the left button
      */
-    public TextButton getLeftButton() {
-        return this.leftButton;
+    public CustomButton getLeftButton() {
+        return leftButton;
     }
 
     /**
@@ -84,8 +85,8 @@ public class AnimalRouletteDisplay extends UIComponent {
      *
      * @return the right button
      */
-    public TextButton getRightButton() {
-        return this.rightButton;
+    public CustomButton getRightButton() {
+        return rightButton;
     }
 
 }

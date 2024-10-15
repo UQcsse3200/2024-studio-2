@@ -203,6 +203,9 @@ public class CustomButton extends Stack{
     public Button getButton() {
         return button;
     }
+    public Label getLabel() {
+        return label;
+    }
 
     /**
      * Disposes of any additional resources if needed (textures are static and should not be disposed here).

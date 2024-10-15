@@ -7,13 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.minigames.MiniGameNames;
+import com.csse3200.game.ui.CustomButton;
+
 import static com.csse3200.game.minigames.MiniGameNames.*;
 
 /**
@@ -31,14 +32,14 @@ public class DialogueBox {
     private final Stage stage;
     private Label label;
     private Image backgroundImage;
-    private TextButton forwardButton;
-    private TextButton backwardButton;
-    private TextButton playButton;
+    private CustomButton forwardButton;
+    private CustomButton backwardButton;
+    private CustomButton playButton;
     private String[][] hints;
     private int currentHint;
     private int currentHintLine;
     private MiniGameNames currentMinigame;
-    private TextButton[] optionButtons;
+    private CustomButton[] optionButtons;
     private int screenWidth = Gdx.graphics.getWidth();
     private int screenHeight = Gdx.graphics.getHeight();
     private boolean isVisible;
@@ -77,9 +78,9 @@ public class DialogueBox {
         createPlayButton();
 
         int totalOptions = 5;
-        optionButtons = new TextButton[totalOptions];
+        optionButtons = new CustomButton[totalOptions];
         for (int i = 0; i < optionButtons.length; i++) {
-            optionButtons[i] = createOptionButton(i); // Call createOptionButton with the index i
+            optionButtons[i] = new CustomButton("Option" + i, SKIN); // Call createOptionButton with the index i
         }
 
         if (hide) {
@@ -94,14 +95,14 @@ public class DialogueBox {
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
         stage.addActor(playButton);
-        for (TextButton button : optionButtons) {
+        for (CustomButton button : optionButtons) {
             stage.addActor(button);
         }
 
         addButtonListeners();
 
         playButton.setVisible(false);
-        for (TextButton button : optionButtons) {
+        for (CustomButton button : optionButtons) {
             button.setVisible(false);
         }
     }
@@ -199,13 +200,10 @@ public class DialogueBox {
     private void createForwardButton() {
         float desiredHeight = screenHeight * 0.05f;  // button image height
         float newWidth = screenWidth * 0.10f;  // button image width
-
-        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        forwardButton = new TextButton("Continue", buttonStyle);
+        forwardButton = new CustomButton("Continue", SKIN);
 
         forwardButton.setSize(newWidth, desiredHeight);
         forwardButton.setPosition(((float) screenWidth / 2) + screenWidth * 0.1f, screenHeight * 0.03f);
-        forwardButton.getLabel().setAlignment(Align.center);
     }
 
     /**
@@ -216,21 +214,17 @@ public class DialogueBox {
         float desiredHeight = screenHeight * 0.05f;  // button image height
         float newWidth = screenWidth * 0.10f;  // button image width
 
-        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        backwardButton = new TextButton("Back", buttonStyle);
+        backwardButton = new CustomButton("Back", SKIN);
 
         backwardButton.setSize(newWidth, desiredHeight);
         backwardButton.setPosition(((float) screenWidth / 2) - screenWidth * 0.1f - backwardButton.getPrefWidth(), screenHeight * 0.03f);
-        backwardButton.getLabel().setAlignment(Align.center);
     }
 
     /**
      * Creates the playButton for booting up mini-games
      */
     public void createPlayButton() {
-        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        playButton = new TextButton("Play Game", buttonStyle);
-        playButton.getLabel().setAlignment(Align.center);
+        playButton = new CustomButton("Play Game", SKIN);
         float buttonWidth = playButton.getWidth();
         float buttonHeight = playButton.getHeight();
         float centerX = (screenWidth - buttonWidth) / 2;
@@ -240,60 +234,16 @@ public class DialogueBox {
     }
 
     /**
-     * Creates the optionButton.
-     * @param index the option index
-     * @return the optionButton instance.
-     */
-    public TextButton createOptionButton(int index) {
-        TextButton.TextButtonStyle buttonStyle = createButtonStyle();
-        TextButton optionButton = new TextButton("Option" + Integer.toString(index), buttonStyle);
-        optionButton.getLabel().setAlignment(Align.center);
-        optionButton.setWidth(400);
-        float buttonWidth = optionButton.getWidth();
-        float buttonHeight = optionButton.getHeight();
-        float centerX = (screenWidth - buttonWidth) / 2 + 400;
-        float centerY = (screenHeight - buttonHeight - index * 75) / 2 - 200;
-
-        optionButton.setPosition(centerX, centerY);
-        return optionButton;
-    }
-
-    /**
-     * Creates a style for the buttons.
-     *
-     * @return The TextButtonStyle instance.
-     */
-    private TextButton.TextButtonStyle createButtonStyle() {
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = SKIN.getFont("button");
-        buttonStyle.fontColor = SKIN.getColor("white");
-        buttonStyle.downFontColor = SKIN.getColor("white");
-        buttonStyle.overFontColor = SKIN.getColor("black");
-        buttonStyle.up = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
-        buttonStyle.down = new TextureRegionDrawable(BUTTON_IMAGE_TEXTURE);
-        buttonStyle.over = new TextureRegionDrawable(BUTTON_HOVER_TEXTURE);
-        return buttonStyle;
-    }
-
-    /**
      * Adds listeners to the forward, backward and play buttons.
      */
     private void addButtonListeners() {
-        forwardButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleForwardButtonClick(); // Handle forward button click
-                return true;
-            }
+        forwardButton.addClickListener(() -> {
+            handleForwardButtonClick(); // Handle forward button click
         });
 
 
-        backwardButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                handleBackwardButtonClick();
-                return true;
-            }
+        backwardButton.addClickListener(() -> {
+            handleBackwardButtonClick();
         });
 
         // Listener for the playButton, will boot up a specific mini-game
@@ -321,12 +271,8 @@ public class DialogueBox {
 
         for (int i = 0; i <= optionButtons.length - 1; i++) {
             final int iteration = i;
-            optionButtons[iteration].addListener(new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    handleOptionButtonClick(iteration);
-                    return true;
-                }
+            optionButtons[iteration].addClickListener(() -> {
+                handleOptionButtonClick(iteration);
             });
         }
     }
@@ -344,7 +290,7 @@ public class DialogueBox {
      * Gets the option buttons.
      * @return the array of option buttons.
      */
-    public TextButton[] getOptionButtons() {
+    public CustomButton[] getOptionButtons() {
         return optionButtons;
     }
 
@@ -380,7 +326,7 @@ public class DialogueBox {
      * Updates the label text to the next hint in the array and repositions the label.
      */
     public void handleForwardButtonClick() {
-        for (TextButton button : optionButtons) {
+        for (CustomButton button : optionButtons) {
             if (button != null) button.setVisible(false);
         }
 
@@ -404,7 +350,7 @@ public class DialogueBox {
      * Updates the label text to the previous hint in the array and repositions the label.
      */
     public void handleBackwardButtonClick() {
-        for (TextButton button : optionButtons) {
+        for (CustomButton button : optionButtons) {
             if (button != null) button.setVisible(false);
         }
         currentHint = (currentHint - 1 + hints[currentHintLine].length) % hints[currentHintLine].length;
@@ -422,7 +368,7 @@ public class DialogueBox {
     public void resizeOptionButtons() {
         // Determine the number of visible buttons (i.e., buttons that have been set to visible in optionsCheck)
         int visibleButtonCount = 0;
-        for (TextButton button : optionButtons) {
+        for (CustomButton button : optionButtons) {
             if (button.isVisible()) {
                 visibleButtonCount++;
             }
@@ -447,7 +393,7 @@ public class DialogueBox {
 
         // Resize and reposition each visible button
         int buttonIndex = 0;
-        for (TextButton optionButton : optionButtons) {
+        for (CustomButton optionButton : optionButtons) {
             if (optionButton.isVisible()) {
                 // Set the new width for the button
                 optionButton.setWidth(buttonWidth);
@@ -499,7 +445,7 @@ public class DialogueBox {
      * Updates the label text to the certain hint in the array and repositions the label.
      */
     public void handleOptionButtonClick(int index) {
-        for (TextButton button : optionButtons) {
+        for (CustomButton button : optionButtons) {
             if (button != null) button.setVisible(false);
         }
         currentHintLine = (currentHintLine + index + 1) % hints.length;
@@ -554,14 +500,14 @@ public class DialogueBox {
         if (hints[currentHintLine][currentHint].startsWith("/c")) {
             String[] options = text.split("/s");
             for (int i = 1; i < options.length; i++) {
-                optionButtons[i - 1].setText(options[i].substring(2));
+                optionButtons[i - 1].setLabelText(options[i].substring(2));
                 optionButtons[i - 1].setVisible(true);
             }
 
             resizeOptionButtons();
             return options[0].substring(2);
         } else {
-            for (TextButton button : optionButtons) {
+            for (CustomButton button : optionButtons) {
                 if (button != null) button.setVisible(false);
             }
             return text;
@@ -578,7 +524,7 @@ public class DialogueBox {
         if (forwardButton != null) forwardButton.setVisible(false);
         if (backwardButton != null) backwardButton.setVisible(false);
         if (playButton != null) playButton.setVisible(false);
-        for (TextButton button : optionButtons) {
+        for (CustomButton button : optionButtons) {
             if (button != null) button.setVisible(false);
         }
     }
@@ -645,20 +591,20 @@ public class DialogueBox {
     }
 
     /**
-     * Returns the TextButton instance used for the "Continue" (forward) action.
+     * Returns the CustomButton instance used for the "Continue" (forward) action.
      *
-     * @return The TextButton instance for the forward button.
+     * @return The CustomButton instance for the forward button.
      */
-    public TextButton getForwardButton() {
+    public CustomButton getForwardButton() {
         return forwardButton;
     }
 
     /**
-     * Returns the TextButton instance used for the "Back" (backward) action.
+     * Returns the CustomButton instance used for the "Back" (backward) action.
      *
-     * @return The TextButton instance for the backward button.
+     * @return The CustomButton instance for the backward button.
      */
-    public TextButton getBackwardButton() {
+    public CustomButton getBackwardButton() {
         return backwardButton;
     }
 

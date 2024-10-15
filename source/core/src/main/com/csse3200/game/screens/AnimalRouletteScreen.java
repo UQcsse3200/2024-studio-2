@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +40,10 @@ public class AnimalRouletteScreen extends ScreenAdapter {
     private PopUpHelper popUpHelper;
 
     // UI elements for dynamic positioning
-    private TextButton leftButton;
-    private TextButton rightButton;
-    private TextButton continueButton;
-    private TextButton backButton;
+    private CustomButton leftButton;
+    private CustomButton rightButton;
+    private CustomButton continueButton;
+    private CustomButton backButton;
     private TextButton waterAnimalsButton;
     private TextButton airAnimalsButton;
 
@@ -73,10 +74,10 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         stage.addActor(animalImage);
 
         // Create buttons
-        leftButton = new TextButton("<", skin);
-        rightButton = new TextButton(">", skin);
-        continueButton = new TextButton("Continue", skin);
-        backButton = new TextButton("Go Back", skin);
+        leftButton = new CustomButton("<", skin);
+        rightButton = new CustomButton(">", skin);
+        continueButton = new CustomButton("Continue", skin);
+        backButton = new CustomButton("Go Back", skin);
 
         // Add actors to stage
         stage.addActor(leftButton);
@@ -92,34 +93,24 @@ public class AnimalRouletteScreen extends ScreenAdapter {
     }
 
     private void addListeners() {
-        leftButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                currentAnimalIndex = (currentAnimalIndex - 1 + animalImages.length) % animalImages.length;
-                updateAnimalImage();
-            }
+        leftButton.addClickListener(() -> {
+            currentAnimalIndex = (currentAnimalIndex - 1 + animalImages.length) % animalImages.length;
+            updateAnimalImage();
         });
 
-        rightButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                currentAnimalIndex = (currentAnimalIndex + 1) % animalImages.length;
-                updateAnimalImage();
-            }
+        rightButton.addClickListener(() -> {
+            currentAnimalIndex = (currentAnimalIndex + 1) % animalImages.length;
+            updateAnimalImage();
         });
 
-        continueButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showAnimalStats();
-            }
+        continueButton.addClickListener(() -> {
+            showAnimalStats();
+
         });
 
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-            }
+        backButton.addClickListener(() -> {
+            game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+
         });
     }
 

@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -266,15 +267,11 @@ public class StatDisplay extends UIComponent {
      * @return The Table showing the exit button.
      */
     private Table makeMenuBtns() {
-        TextButton exitBtn = new TextButton("Exit", skin);
+        CustomButton exitBtn = new CustomButton("Exit", skin);
 
-        exitBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
+        exitBtn.addClickListener(() -> {
                         logger.debug("Exit button clicked");
                         exitMenu();
-                    }
                 });
 
 

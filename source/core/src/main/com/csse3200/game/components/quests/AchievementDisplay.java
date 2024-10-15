@@ -20,6 +20,7 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.Achievements;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,17 +164,12 @@ public class AchievementDisplay extends UIComponent {
      */
     private Table makeClearButton() {
         Table table = new Table();
-        TextButton button = new TextButton("Clear", skin);
-        addButtonElevationEffect(button);
-        button.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("clear button clicked");
-                        clearAchievements();
-                    }
-                });
-        table.add(button);
+        CustomButton button = new CustomButton("Clear", skin);
+        button.addClickListener(() -> {
+            logger.debug("clear button clicked");
+            clearAchievements();
+        });
+        table.add(button).size(150, 50);
         return table;
     }
 

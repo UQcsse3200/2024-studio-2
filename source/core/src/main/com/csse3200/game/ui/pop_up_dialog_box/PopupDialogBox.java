@@ -3,10 +3,9 @@ package com.csse3200.game.ui.pop_up_dialog_box;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.ui.CustomButton;
 
 /**
  * A customizable popup dialog box that displays animal information and health bars.
@@ -15,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 public class PopupDialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
-    private final TextButton nextButton;
-    private final TextButton backButton;
+    private final CustomButton nextButton;
+    private final CustomButton backButton;
     private final Image animalImage;
     private Table statsTable;
     private Runnable callback;
@@ -75,8 +74,8 @@ public class PopupDialogBox extends Dialog {
         contentLabel = new Label(content[currentIndex], skin);
         contentLabel.setWrap(true);
 
-        nextButton = new TextButton("Confirm and Start game", skin);
-        backButton = new TextButton("Back", skin);
+        nextButton = new CustomButton("Confirm", skin);
+        backButton = new CustomButton("Back", skin);
         addActionListeners();
         createDialogLayout();
     }
@@ -88,22 +87,18 @@ public class PopupDialogBox extends Dialog {
      * Adds action listeners to the buttons in the dialog.
      */
     private void addActionListeners() {
-        nextButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                hide();
-                if (callback != null) {
-                    callback.run();
-                }
+        nextButton.addClickListener(() -> {
+            hide();
+            if (callback != null) {
+                callback.run();
             }
+
         });
 
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                hide(); // Hide the dialog
-                // You can add additional logic here if needed when going back
-            }
+        backButton.addClickListener(() -> {
+            hide(); // Hide the dialog
+            // You can add additional logic here if needed when going back
+
         });
     }
 
@@ -138,10 +133,13 @@ public class PopupDialogBox extends Dialog {
 
         // Add inner table and next button to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(nextButton).padTop(20);
-        contentTable.add(backButton).padTop(10);
 
-        getContentTable().add(contentTable).expand().center();
+        Table bottomTable = new Table();
+        bottomTable.add(backButton).size(150, 50).left().padLeft(150);
+        bottomTable.add(nextButton).size(150, 50).right().padRight(150);
+        getContentTable().add(contentTable).center();
+        getContentTable().row();
+        getContentTable().add(bottomTable).expand().bottom().padBottom(50);
 
         // Set the size and position of the dialog box
         setSize(dialogWidth, dialogHeight);

@@ -3,26 +3,29 @@ package com.csse3200.game.components.animal;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
+import com.csse3200.game.ui.CustomButton;
 
 public abstract class AnimalRouletteDisplay1 {
     protected Image[] animalImages;
-    protected TextButton[] animalButtons;
+    protected CustomButton[] animalButtons;
     private final Stage stage;
     private final Skin skin;
     private Image animalImage;
-    private final TextButton selectButton;
-    private final TextButton backButton;
-    private final TextButton leftButton;
-    private final TextButton rightButton;
+    private final CustomButton selectButton;
+    private final CustomButton backButton;
+    private final CustomButton leftButton;
+    private final CustomButton rightButton;
 
     public AnimalRouletteDisplay1(Stage stage, Skin skin) {
         this.stage = stage;
         this.skin = skin;
 
-        this.selectButton = new TextButton("Ready?", skin);
-        this.backButton = new TextButton("Go Back", skin);
-        this.leftButton = new TextButton("<", skin);
-        this.rightButton = new TextButton(">", skin);
+        this.selectButton = new CustomButton("Ready?", skin);
+        this.backButton = new CustomButton("Go Back", skin);
+        this.leftButton = new CustomButton("<", skin);
+        leftButton.setButtonStyle(CustomButton.Style.SMALL, skin);
+        this.rightButton = new CustomButton(">", skin);
+        rightButton.setButtonStyle(CustomButton.Style.SMALL, skin);
 
         initializeDisplay();
     }
@@ -41,9 +44,9 @@ public abstract class AnimalRouletteDisplay1 {
         animalImage = new Image(new Texture(animalImagePaths[0]));
 
         Table animalTable = new Table();
-        animalTable.add(leftButton).padRight(20);
+        animalTable.add(leftButton).size(50, 50).padRight(20);
         animalTable.add(animalImage).size(300, 300);
-        animalTable.add(rightButton).padLeft(20);
+        animalTable.add(rightButton).size(50, 50).padLeft(20);
 
         mainTable.add(animalTable).expand().center();
         mainTable.row();
@@ -62,11 +65,11 @@ public abstract class AnimalRouletteDisplay1 {
     protected void initializeAnimalImagesAndButtons() {
         String[] imagePaths = getAnimalImagePaths();
         animalImages = new Image[imagePaths.length];
-        animalButtons = new TextButton[imagePaths.length];
+        animalButtons = new CustomButton[imagePaths.length];
         
         for (int i = 0; i < imagePaths.length; i++) {
             animalImages[i] = new Image(new Texture(imagePaths[i]));
-            animalButtons[i] = new TextButton(getAnimalType(i), getSkin());
+            animalButtons[i] = new CustomButton(getAnimalType(i), getSkin());
         }
     }
     
@@ -96,19 +99,19 @@ public abstract class AnimalRouletteDisplay1 {
         return animalImage;
     }
 
-    public TextButton getSelectButton() {
+    public CustomButton getSelectButton() {
         return selectButton;
     }
 
-    public TextButton getBackButton() {
+    public CustomButton getBackButton() {
         return backButton;
     }
 
-    public TextButton getLeftButton() {
+    public CustomButton getLeftButton() {
         return leftButton;
     }
 
-    public TextButton getRightButton() {
+    public CustomButton getRightButton() {
         return rightButton;
     }
 
@@ -125,7 +128,7 @@ public abstract class AnimalRouletteDisplay1 {
         return animalImages;
     }
     
-    public TextButton[] getAnimalButtons() {
+    public CustomButton[] getAnimalButtons() {
         return animalButtons;
     }
 }

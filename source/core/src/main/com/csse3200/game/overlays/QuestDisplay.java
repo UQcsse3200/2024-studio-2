@@ -12,6 +12,7 @@ import com.csse3200.game.components.quests.Task;
 
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 
 import java.util.ArrayList;
@@ -210,50 +211,41 @@ public class QuestDisplay extends UIComponent {
 
     private Table makeMenuBtns() {
 
-        TextButton exitBtn = new TextButton("Leave Menu", skin);
-        TextButton nextPage = new TextButton("Next Page", skin);
-        TextButton prevPage = new TextButton("Prev Page", skin);
+        CustomButton exitBtn = new CustomButton("Leave Menu", skin);
+        CustomButton nextPage = new CustomButton("Next Page", skin);
+        CustomButton prevPage = new CustomButton("Prev Page", skin);
 
 
-        exitBtn.getLabel().setFontScale(0.8f);
-        nextPage.getLabel().setFontScale(0.8f);
-        prevPage.getLabel().setFontScale(0.8f);
+        //exitBtn.getLabel().setFontScale(0.8f);
+        //nextPage.getLabel().setFontScale(0.8f);
+        //prevPage.getLabel().setFontScale(0.8f);
 
 
-        exitBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
+        exitBtn.addClickListener(() -> {
                 exitMenu();
-            }
         });
 
 
-        nextPage.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
+        nextPage.addClickListener(() -> {
                 if ((currPage + 1) * NUM_QUESTS_PER_PAGE < listOfQuests.size()) {
                     currPage++;
                     refreshTheUI();
                 }
-            }
         });
 
 
-        prevPage.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
+        prevPage.addClickListener(() -> {
                 if (currPage > 0) {
                     currPage--;
                     refreshTheUI();
                 }
-            }
         });
 
 
         Table table = new Table();
-        table.add(prevPage).expandX().left().padRight(10f);
-        table.add(exitBtn).expandX().center().padRight(10f);
-        table.add(nextPage).expandX().right().padLeft(10f);
+        table.add(prevPage).size(250, 50).expandX().left().padRight(10f);
+        table.add(exitBtn).size(250, 50).expandX().center().padRight(10f);
+        table.add(nextPage).size(250, 50).expandX().right().padLeft(10f);
 
         table.padTop(10f);
 

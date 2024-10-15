@@ -1,9 +1,11 @@
 package com.csse3200.game.components.animal;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.Entity;
@@ -11,6 +13,7 @@ import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -68,24 +71,30 @@ class AnimalRouletteDisplayTest {
      */
     @Test
     void leftButtonShouldCycleACW() {
-        TextButton leftButton = display.getLeftButton();
+        CustomButton leftButton = display.getLeftButton();
+        // Create a touchDown event to simulate pressing the button
+        InputEvent touchDownEvent = new InputEvent();
+        touchDownEvent.setType(InputEvent.Type.touchDown);
 
-        // Set up button touch event
-        InputEvent touchEvent = new InputEvent();
-        touchEvent.setType(InputEvent.Type.touchDown);
+        // Create a touchUp event to simulate releasing the button
+        InputEvent touchUpEvent = new InputEvent();
+        touchUpEvent.setType(InputEvent.Type.touchUp);
 
-        // Press button (should now be bird)
-        leftButton.fire(touchEvent);
+        // Fire the touchUp event
+        leftButton.getButton().fire(touchDownEvent);
+        leftButton.getButton().fire(touchUpEvent);
         assertEquals( "images/bird.png", display.getSelectedAnimal());
         assertEquals(2, display.getCurrentAnimalIndex());
 
         // Press button again (should now be croc)
-        leftButton.fire(touchEvent);
+        leftButton.getButton().fire(touchDownEvent);
+        leftButton.getButton().fire(touchUpEvent);
         assertEquals("images/croc.png", display.getSelectedAnimal());
         assertEquals(1, display.getCurrentAnimalIndex());
 
         // Press button again (should now be dog again)
-        leftButton.fire(touchEvent);
+        leftButton.getButton().fire(touchDownEvent);
+        leftButton.getButton().fire(touchUpEvent);
         assertEquals("images/dog.png", display.getSelectedAnimal());
         assertEquals(0, display.getCurrentAnimalIndex());
     }
@@ -96,24 +105,31 @@ class AnimalRouletteDisplayTest {
      */
     @Test
     void rightButtonShouldCycleCW() {
-        TextButton rightButton = display.getRightButton();
+        CustomButton rightButton = display.getRightButton();
 
-        // Set up button touch event
-        InputEvent touchEvent = new InputEvent();
-        touchEvent.setType(InputEvent.Type.touchDown);
+        // Create a touchDown event to simulate pressing the button
+        InputEvent touchDownEvent = new InputEvent();
+        touchDownEvent.setType(InputEvent.Type.touchDown);
+
+        // Create a touchUp event to simulate releasing the button
+        InputEvent touchUpEvent = new InputEvent();
+        touchUpEvent.setType(InputEvent.Type.touchUp);
 
         // Press button (should now be croc)
-        rightButton.fire(touchEvent);
+        rightButton.getButton().fire(touchDownEvent);
+        rightButton.getButton().fire(touchUpEvent);
         assertEquals("images/croc.png", display.getSelectedAnimal());
         assertEquals(1, display.getCurrentAnimalIndex());
 
         // Press button again (should now be bird)
-        rightButton.fire(touchEvent);
+        rightButton.getButton().fire(touchDownEvent);
+        rightButton.getButton().fire(touchUpEvent);
         assertEquals("images/bird.png", display.getSelectedAnimal());
         assertEquals(2, display.getCurrentAnimalIndex());
 
         // Press button again (should now be dog again)
-        rightButton.fire(touchEvent);
+        rightButton.getButton().fire(touchDownEvent);
+        rightButton.getButton().fire(touchUpEvent);
         assertEquals("images/dog.png", display.getSelectedAnimal());
         assertEquals(0, display.getCurrentAnimalIndex());
     }

@@ -4,15 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,16 +89,13 @@ public class CutSceneScreen extends ScreenAdapter {
         logger.debug("Creating Continue button");
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
-        TextButton continueButton = new TextButton("Continue", skin);
+        CustomButton continueButton = new CustomButton("Continue", skin);
         continueButton.setSize(200, 60);
         continueButton.setPosition(stage.getWidth() / 2 - continueButton.getWidth() / 2, 30);
 
-        continueButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                logger.debug("Continue button clicked");
-                game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
-            }
+        continueButton.addClickListener(() -> {
+            logger.debug("Continue button clicked");
+            game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
         });
 
         stage.addActor(continueButton);

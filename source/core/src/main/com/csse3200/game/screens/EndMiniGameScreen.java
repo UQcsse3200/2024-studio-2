@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -30,6 +29,7 @@ import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -258,45 +258,32 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     private void makeButtons() {
         // Make try again button
-        TextButton tryAgainButton = new TextButton("Try Again", skin);
-        tryAgainButton.getLabel().setFontScale(scale);
-        tryAgainButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setGameScreen();
-            }
+        CustomButton tryAgainButton = new CustomButton("Try Again", skin);
+        tryAgainButton.addClickListener(() -> {
+            setGameScreen();
         });
 
         // Make Mini-Game Menu Button
-        TextButton menuButton = new TextButton("Main Menu", skin);
-        menuButton.getLabel().setFontScale(scale);
-        menuButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-            }
+        CustomButton menuButton = new CustomButton("Main Menu", skin);
+        menuButton.addClickListener(() -> {
+            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+            game.setScreen(GdxGame.ScreenType.MAIN_MENU);
         });
 
         // Make either "Return to Game" or "Mini_Game Menu" button (where the player came from)
-        TextButton oldScreenButton;
+        CustomButton oldScreenButton;
         if (oldScreen instanceof MainGameScreen) {
-            oldScreenButton = new TextButton("Return to Game", skin);
+            oldScreenButton = new CustomButton("Return to Game", skin);
         } else {
-            oldScreenButton = new TextButton("Mini-Game Menu", skin);
+            oldScreenButton = new CustomButton("Mini-Game Menu", skin);
         }
-
-        oldScreenButton.getLabel().setFontScale(scale);
-        oldScreenButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    giveLootBox();
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                game.setOldScreen(oldScreen, oldScreenServices);
+        oldScreenButton.addClickListener(() -> {
+            try {
+                giveLootBox();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
+            game.setOldScreen(oldScreen, oldScreenServices);
         });
 
         // Align buttons in 1 row

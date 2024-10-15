@@ -3,10 +3,10 @@ package com.csse3200.game.components.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 
 /**
@@ -41,40 +41,34 @@ public class CombatExitDisplay extends UIComponent {
     table.setFillParent(true); // Ensure the table fills the parent container
 
     // Create a button for instantly defeating the enemy
-    TextButton win = new TextButton("Insta-kill enemy", skin);
+    CustomButton win = new CustomButton("Insta-kill enemy", skin);
+    win.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
 
     // Create a button for triggering a combat loss
-    TextButton lose = new TextButton("Exiting - lose", skin);
+    CustomButton lose = new CustomButton("Exiting - lose", skin);
+    lose.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
 
     // Listener for the "win" button, triggers the combatWin event when clicked
-    win.addListener(
-            new ChangeListener() {
-        @Override
-        public void changed(ChangeEvent changeEvent, Actor actor) {
-          if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
-            entity.getEvents().trigger("bossCombatWin", enemy);
-          } else {
-            entity.getEvents().trigger("combatWin", enemy);
-          }
-        }
-      });
+    win.addClickListener(() -> {
+      if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+        entity.getEvents().trigger("bossCombatWin", enemy);
+      } else {
+        entity.getEvents().trigger("combatWin", enemy);
+      }
+    });
 
     // Listener for the "lose" button, triggers the combatLoss event when clicked
-    lose.addListener(
-            new ChangeListener() {
-              @Override
-              public void changed(ChangeEvent changeEvent, Actor actor) {
-          if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
-            entity.getEvents().trigger("bossCombatLoss", enemy);
-          } else {
-            entity.getEvents().trigger("combatLoss", enemy);
-          }
-        }
-      });
+    lose.addClickListener(() -> {
+      if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
+        entity.getEvents().trigger("bossCombatLoss", enemy);
+      } else {
+        entity.getEvents().trigger("combatLoss", enemy);
+      }
+    });
 
     // Add the buttons to the table with padding for layout spacing
-    table.add(win).padTop(10f).padRight(10f);
-    table.add(lose).padTop(10f).padRight(10f);
+    table.add(win).size(300, 50).padTop(10f).padRight(10f);
+    table.add(lose).size(300, 50).padTop(10f).padRight(10f);
 
     // Add the table (with the buttons) to the stage
     stage.addActor(table);

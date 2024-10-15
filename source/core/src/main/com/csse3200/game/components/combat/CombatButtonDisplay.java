@@ -17,6 +17,7 @@ import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +31,10 @@ public class CombatButtonDisplay extends UIComponent {
     private Table table;
     private final Screen screen;
     private final ServiceContainer container;
-    TextButton attackButton;
-    TextButton guardButton;
-    TextButton sleepButton;
-    TextButton itemsButton;
+    CustomButton attackButton;
+    CustomButton guardButton;
+    CustomButton sleepButton;
+    CustomButton itemsButton;
     ChangeListener dialogueBoxListener;
     CombatArea combatArea;
     // Create a Table to hold the hover text with a background
@@ -150,19 +151,15 @@ public class CombatButtonDisplay extends UIComponent {
         table.bottom();
         table.setFillParent(true);
 
-        attackButton = new TextButton("Attack", skin);
-        guardButton = new TextButton("Guard", skin);
-        sleepButton = new TextButton("Sleep", skin);
-        itemsButton = new TextButton("Items", skin);
+        attackButton = new CustomButton("Attack", skin);
+        guardButton = new CustomButton("Guard", skin);
+        sleepButton = new CustomButton("Sleep", skin);
+        itemsButton = new CustomButton("Items", skin);
 
-        attackButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        entity.getEvents().trigger("Attack", screen, container);
-                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-                    }
-                });
+        attackButton.addClickListener(()-> {
+            entity.getEvents().trigger("Attack", screen, container);
+            combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
+        });
         attackButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over attack button
             @Override
@@ -178,13 +175,10 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        guardButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        entity.getEvents().trigger("Guard", screen, container);
-                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-                    }
+        guardButton.addClickListener(()-> {
+                    entity.getEvents().trigger("Guard", screen, container);
+                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
+
                 });
         guardButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over guard button
@@ -201,13 +195,10 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        sleepButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
+        sleepButton.addClickListener(()-> {
                         entity.getEvents().trigger("Sleep", screen, container);
                         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-                    }
+
                 });
         sleepButton.addListener(new InputListener() {
             @Override
@@ -222,14 +213,10 @@ public class CombatButtonDisplay extends UIComponent {
                 backgroundImage.setVisible(false);
             }
         });
-        itemsButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
+        itemsButton.addClickListener(()-> {
                         entity.getEvents().trigger("Items", screen, container);
                         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                         hideButtons();
-                    }
                 });
         itemsButton.addListener(new InputListener() {
             @Override

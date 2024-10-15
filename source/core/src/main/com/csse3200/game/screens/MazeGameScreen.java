@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraComponent;
@@ -39,6 +38,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
@@ -264,15 +264,10 @@ public class MazeGameScreen extends PausableScreen {
      */
     private void setupExitButton() {
 
-        TextButton exitButton = new TextButton("Exit", skin);
-        // Scale the button's font
-        exitButton.getLabel().setFontScale(scale);
+        CustomButton exitButton = new CustomButton("Exit", skin);
 
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+        exitButton.addClickListener(() -> {
                 exitGame();
-            }
         });
 
         // Set up the table for UI layout
