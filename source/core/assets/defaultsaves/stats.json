@@ -57,36 +57,36 @@
       "type": "ITEM"
     },
     {
-      "statName": "KANGAROO Boss Defeated",
-      "statDescription": "Kangaroo boss Defeated by player",
-      "statCurrent": 0,
+      "statName": "KANGAROO Defeated",
+      "statDescription": "Kanga Kill",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "ENEMY"
     },
     {
-      "statName": "Water Boss Defeated",
-      "statDescription": "Water boss Defeated by player",
-      "statCurrent": 0,
+      "statName": "WATER_BOSS Defeated",
+      "statDescription": "Abbysdrake Kill",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "ENEMY"
     },
     {
-      "statName": "Air Boss Defeated",
-      "statDescription": "Air boss Defeated by player",
+      "statName": "AIR_BOSS Defeated",
+      "statDescription": "Skylash Kill",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "ENEMY"
     },
     {
-      "statName": "Chicken Defeated",
-      "statDescription": "Kangaroo boss Defeated by player",
+      "statName": "CHICKEN Defeated",
+      "statDescription": "Chicken Kills",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "ENEMY"
     }
   ]
 }

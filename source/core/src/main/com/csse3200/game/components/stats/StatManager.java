@@ -36,6 +36,7 @@ public class StatManager extends Component {
     void setupStats() {
         // Event for defeating an enemy
         player.getEvents().addListener("addItem", this::handleCollection);
+        player.getEvents().addListener("defeatedEnemy", this::handleCombatWin);
         for (Stat stat : stats) {
             subscribeToStatEvents(stat);
         }
@@ -46,6 +47,15 @@ public class StatManager extends Component {
      */
     void handleCollection(AbstractItem item){
         player.getEvents().trigger(item.getName() + " Collected");
+    }
+
+    /**
+     * Subscribes to combat win triggers and sends it as a specific stat collection trigger.
+     */
+    void handleCombatWin(Entity enemy){
+        player.getEvents().trigger(enemy.getEnemyType().toString() + " Defeated");
+        logger.info("enemy type {}", enemy.getEnemyType().toString());
+
     }
 
     /**

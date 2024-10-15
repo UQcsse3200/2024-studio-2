@@ -83,10 +83,10 @@ public class StatDisplay extends UIComponent {
         Table itemsTable = makeLogbookTable(Stat.StatType.ITEM);
 
         Table enemiesTable = makeLogbookTable(Stat.StatType.ENEMY);
-        enemiesTable.add(new Label("Content for Tab 2", skin));
+        //enemiesTable.add(new Label("Content for Tab 2", skin));
 
         Table playerTable = makeLogbookTable(Stat.StatType.PLAYER);
-        playerTable.add(new Label("Content for Tab 3", skin));
+        //playerTable.add(new Label("Content for Tab 3", skin));
 
         Table tabs = makeTabs(itemsTable, enemiesTable, playerTable);
 
@@ -95,8 +95,8 @@ public class StatDisplay extends UIComponent {
         tabContentStack.add(enemiesTable);
         tabContentStack.add(playerTable);
 
-        itemsTable.setVisible(true);
-        enemiesTable.setVisible(false);
+        itemsTable.setVisible(false);
+        enemiesTable.setVisible(true);
         playerTable.setVisible(false);
 
         rootTable.add(tabs).fillX().row();
@@ -213,7 +213,7 @@ public class StatDisplay extends UIComponent {
 
 
     /**
-     * Creates the Table for the visual representation of completed stats.
+     * Creates the Table for the visual representation of end game statistics.
      * @return The Table showing stats.
      */
     private Table makeLogbookTable(Stat.StatType type) {
