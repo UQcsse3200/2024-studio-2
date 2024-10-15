@@ -94,6 +94,12 @@ public class MainMenuDisplay extends UIComponent {
     private Button dayNightBtn;
     private Button profileBtn;
     private Button trophyBtn;
+    ServiceLocator.getResourceService().loadAsset("sounds/mainmenusound.wav", Music.class);
+    public void show() {
+        if (ServiceLocator.getResourceService().isFinishedLoading()) {
+            // Play the main menu music, loop it
+            AudioManager.playMusic("audio/menu_music.mp3", true);
+        }
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -104,6 +110,8 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Creating MainMenuDisplay");
         this.loadTextures();  // Load textures for the mute button
         logger.info("Background texture loaded");
+        AudioManager.playMusic("sounds/mainmenusound.wav", true);  // Play and loop the music
+
         this.setupCustomCursor();
         this.addDog();
         this.addMonkey();
@@ -194,6 +202,8 @@ public class MainMenuDisplay extends UIComponent {
         // Create all main menu buttons
         startBtn = createMenuButton("Start", () -> {
             logger.info("Start button clicked");
+            AudioManager.stopMusic();  // Stop the music
+
             entity.getEvents().trigger("start");
         });
 
