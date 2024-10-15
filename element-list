@@ -73,6 +73,8 @@ com.csse3200.game.minigames.snake
 com.csse3200.game.minigames.snake.controller
 com.csse3200.game.minigames.snake.rendering
 com.csse3200.game.overlays
+com.csse3200.game.particles
+com.csse3200.game.particles.components
 com.csse3200.game.physics
 com.csse3200.game.physics.components
 com.csse3200.game.physics.raycast
