@@ -70,7 +70,7 @@ public class MazeGameScreen extends PausableScreen {
     private final Stage stage;
     private final Skin skin;
     private TextButton helpButton;
-    private SnakePopup mazePopup;
+    private final SnakePopup mazePopup;
 
     // Scale for resizing the screen
     private float scale;

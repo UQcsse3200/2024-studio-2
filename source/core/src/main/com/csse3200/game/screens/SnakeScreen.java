@@ -63,7 +63,7 @@ public class SnakeScreen extends PausableScreen {
     private final SpriteBatch spriteBatch;
     private final Entity ui;
     private TextButton helpButton;
-    private SnakePopup snakePopup;
+    private final SnakePopup snakePopup;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
