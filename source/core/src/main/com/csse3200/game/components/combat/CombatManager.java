@@ -687,17 +687,19 @@ public class CombatManager extends Component {
                 Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
                 String currentText = String.valueOf(db.getText());
 
-                //            TODO: replace Label code with code below due in next PR
-                //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
-                //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
-                //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
-                //            String currentText = String.valueOf(fullText[index][index2]);
+//                if (currentText.equals("The enemy decided to ATTACK")){
+//                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
+//                } else if (currentText.equals("The enemy decided to SLEEP")){
+//                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
+//                } else if (currentText.equals("The enemy decided to GUARD")){
+//                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
+//                }
 
-                if (currentText.equals("The enemy decided to ATTACK")){
+                if (currentText.equals("The enemy used their ATTACK!")){
                     combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-                } else if (currentText.equals("The enemy decided to SLEEP")){
+                } else if (currentText.equals("The enemy decided to SLEEP!")){
                     combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-                } else if (currentText.equals("The enemy decided to GUARD")){
+                } else if (currentText.equals("The enemy decided to GUARD!")){
                     combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
                 }
 
