@@ -113,7 +113,9 @@ public class ParticleEffectRenderer implements Renderable, Disposable {
      */
     @Override
     public void dispose() {
-        pooledEffect.free();
+        if (isValid()) {
+            pooledEffect.free();
+        }
         ServiceLocator.getRenderService().unregister(this);
         pooledEffect = null;
     }
