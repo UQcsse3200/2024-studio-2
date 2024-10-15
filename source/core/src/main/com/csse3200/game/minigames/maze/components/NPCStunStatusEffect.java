@@ -36,8 +36,10 @@ public class NPCStunStatusEffect implements StatusEffect {
     }
 
     /**
-     * Stun only needs to do stuff at start and stop so can ignore update.
+     * Update status effect.
      */
     @Override
-    public void update() {}
+    public void update() {
+        // Stun only needs to do stuff at start and stop so can ignore update.
+    }
 }
