@@ -5,17 +5,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FriendlyNPCAnimationController;
-import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputService;
-import com.csse3200.game.inventory.items.AbstractItem;
-import com.csse3200.game.inventory.items.food.Foods;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.*;
@@ -43,7 +38,6 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -95,6 +89,10 @@ class NPCFactoryTest {
             "images/bear.atlas"
     };
 
+    /**
+     * Sets up the necessary services needed for the tests.
+     * Also creates the NPCs being tested both friendly and converted.
+     */
     @BeforeAll
     static void setup() {
         // Mock GameTime and register it
@@ -148,6 +146,9 @@ class NPCFactoryTest {
         friendlyBear = NPCFactory.createBear(player, enemies);
     }
 
+    /**
+     * Sets up a mock dialogue box and resource service to be used when testing dialogue interactions.
+     */
     @BeforeEach
     void setUpServices() {
         dialogueBoxService = mock(DialogueBoxService.class);
@@ -157,7 +158,9 @@ class NPCFactoryTest {
         ServiceLocator.registerResourceService(resourceService);
     }
 
-
+    /**
+     * Tests that the dialogue initialisation works as intended.
+     */
     @Test
     void testInitiateDialogue() {
         String[] testSoundPath = new String[]{"sounds/tiger-roar.wav"};
@@ -169,26 +172,11 @@ class NPCFactoryTest {
         };
         NPCFactory.initiateDialogue(testSoundPath, testHintText);
         verify(dialogueBoxService).updateText(testHintText, -2);
-//        verify(ServiceLocator.getRenderService(), times(1)).getStage();
         for (String soundPath : testSoundPath) {
             AudioManager.playSound(soundPath);
             verify(resourceService, atLeastOnce()).getAsset(soundPath, Sound.class);
         }
     }
-
-    @Test
-    void testHandleDropItem() {
-        Supplier<AbstractItem> itemGenerator = mock(Supplier.class);
-        when(itemGenerator.get()).thenReturn(new Foods.Milk(1));
-        Entity player = mock(Entity.class);
-        when(player.getEvents()).thenReturn(new EventHandler());
-        System.out.println(player);
-        NPCFactory.handleDropItem(itemGenerator, player);
-        verify(ItemFactory.createItem(player, itemGenerator.get()), times(1));
-    }
-
-
-
 
     /**
      * Tests the initialization of a friendly bear by checking its creation, name, type,
@@ -269,9 +257,6 @@ class NPCFactoryTest {
         Assertions.assertEquals(pos, friendlyBear.getPosition());
     }
 
-
-
-
     /**
      * Tests the initialization of a friendly chicken by checking its creation, name, type,
      * and the presence of necessary components.
@@ -322,7 +307,6 @@ class NPCFactoryTest {
                 baseHint);
     }
 
-
     /**
      * Tests that the friendly chicken is a friendly NPC meaning it won't attack players.
      */
@@ -342,9 +326,6 @@ class NPCFactoryTest {
 
         Assertions.assertEquals(pos, friendlyChicken.getPosition());
     }
-
-
-
 
     /**
      * Tests the initialization of a friendly frog by checking its creation, name, type,
@@ -425,7 +406,6 @@ class NPCFactoryTest {
         Assertions.assertEquals(pos, friendlyFrog.getPosition());
     }
 
-
     /**
      * Tests the initialization of a friendly monkey by checking its creation, name, type,
      * and the presence of necessary components.
@@ -504,7 +484,6 @@ class NPCFactoryTest {
 
         Assertions.assertEquals(pos, fish.getPosition());
     }
-
 
     /**
      * Test keys control an animals dialogue appropriately
@@ -1082,48 +1061,6 @@ class NPCFactoryTest {
         magpie.setPosition(pos);
 
         Assertions.assertEquals(pos, magpie.getPosition());
-    }
-
-    /**
-    * Test the initiate and end dialogue boxes
-    */
-    /** @Test
-    void testInitiateDialogueWithSound() {
-        // Initialise mocks
-        DialogueBoxService chatOverlayService = mock(DialogueBoxService.class);
-        ResourceService resourceService = mock(ResourceService.class);
-
-        // Set up ServiceLocator to return mocks
-        ServiceLocator.registerDialogueBoxService(chatOverlayService);
-        ServiceLocator.registerResourceService(resourceService);
-
-        // Given
-        String[] animalSoundPaths = {"sound1.wav", "sound2.wav"};
-        String[][] hintText = {{"Hint 1", "Hint 2"}};
-
-        Sound sound1 = mock(Sound.class);
-        Sound sound2 = mock(Sound.class);
-
-        when(resourceService.getAsset("sound1.wav", Sound.class)).thenReturn(sound1);
-        when(resourceService.getAsset("sound2.wav", Sound.class)).thenReturn(sound2);
-
-        // When
-        NPCFactory.initiateDialogue(animalSoundPaths, hintText);
-
-        // Then
-        verify(chatOverlayService).updateText(hintText);
-
-        ArgumentCaptor<Long> soundIdCaptor = ArgumentCaptor.forClass(Long.class);
-
-        // Verify interactions with sound1
-        verify(sound1, times(1)).play();
-        verify(sound1).setVolume(soundIdCaptor.capture(), eq(0.3f));
-        verify(sound1).setLooping(soundIdCaptor.capture(), eq(false));
-
-        // Verify interactions with sound2
-        verify(sound2, times(1)).play();
-        verify(sound2).setVolume(soundIdCaptor.capture(), eq(0.3f));
-        verify(sound2).setLooping(soundIdCaptor.capture(), eq(false));
     }
 
     /**

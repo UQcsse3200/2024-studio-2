@@ -1,33 +1,12 @@
 package com.csse3200.game.entities.configs;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.*;
-import com.csse3200.game.files.FileLoader;
-import com.csse3200.game.input.InputService;
-import com.csse3200.game.lighting.LightingEngine;
-import com.csse3200.game.lighting.LightingService;
-import com.csse3200.game.physics.PhysicsService;
-import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.services.DialogueBoxService;
-import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyFloat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class BaseFriendlyEntityConfigTest {
     private BaseFriendlyEntityConfig entityConfig;
@@ -37,72 +16,86 @@ class BaseFriendlyEntityConfigTest {
         entityConfig = new BaseFriendlyEntityConfig();
     }
 
+    /**
+     * Tests that the base friendly entity has the correct default values.
+     */
     @Test
     void testDefaultValues() {
+        // Expected Base Attack should be 0.
         assertEquals(0, entityConfig.getBaseAttack());
+        // Expected Strength should be 0.
         assertEquals(0, entityConfig.getStrength());
+        // Expected Stamina should be 100.
         assertEquals(100, entityConfig.getStamina());
+        // Expected Level should be 1.
         assertEquals(1, entityConfig.getLevel());
+        // Expected to return false when checking if entity is a boss.
         assertFalse(entityConfig.isBoss());
+        // Expected health should be 100.
         assertEquals(100, entityConfig.getHealth());
+        // Expected hunger should be 100.
         assertEquals(100, entityConfig.getHunger());
+        // Expected Item Probability should be 0.0f.
         assertEquals(0.0f, entityConfig.getItemProbability());
+        // Expected to not have a name as they are defined in NPCs.json.
         assertEquals("", entityConfig.getAnimalName());
+        // Expected Animation Speed should be 0.1f.
         assertEquals(0.1f, entityConfig.getAnimationSpeed());
+        // Expected to have null base hint as hints are defined in NPCs.json.
         assertNull(entityConfig.getBaseHint());
+        // Expected to have null sound path as it is defined in NPCs.json.
         assertNull(entityConfig.getSoundPath());
+        // Expected to have null sprite path as it is defined in NPCs.json.
         assertNull(entityConfig.getSpritePath());
     }
 
+    /**
+     * Tests that the get and set methods of each attribute in the config.
+     */
     @Test
     void testSettersAndGetters() {
+        // Should set base attack to 10 and return 10 when the getter is called.
         entityConfig.setBaseAttack(10);
         assertEquals(10, entityConfig.getBaseAttack());
-
-        entityConfig.setStrength(5);
-        assertEquals(5, entityConfig.getStrength());
-
-        entityConfig.setStamina(80);
-        assertEquals(80, entityConfig.getStamina());
-
-        entityConfig.setLevel(2);
-        assertEquals(2, entityConfig.getLevel());
-
-        entityConfig.setHealth(150);
-        assertEquals(150, entityConfig.getHealth());
-
-        entityConfig.setHunger(50);
-        assertEquals(50, entityConfig.getHunger());
-
-        entityConfig.setSpritePath("path/to/sprite");
-        assertEquals("path/to/sprite", entityConfig.getSpritePath());
-
+        // Should set strength to 10 and return 10 when the getter is called.
+        entityConfig.setStrength(10);
+        assertEquals(10, entityConfig.getStrength());
+        // Should set stamina to 10 and return 10 when the getter is called.
+        entityConfig.setStamina(10);
+        assertEquals(10, entityConfig.getStamina());
+        // Should set level to 10 and return 10 when the getter is called.
+        entityConfig.setLevel(10);
+        assertEquals(10, entityConfig.getLevel());
+        // Should set health to 10 and return 10 when the getter is called.
+        entityConfig.setHealth(10);
+        assertEquals(10, entityConfig.getHealth());
+        // Should set hunger to 10 and return 10 when the getter is called.
+        entityConfig.setHunger(10);
+        assertEquals(10, entityConfig.getHunger());
+        // Should set sprite path to test/spritePath and return accordingly when the getter is called.
+        entityConfig.setSpritePath("test/spitePath");
+        assertEquals("test/spritePath", entityConfig.getSpritePath());
+        // Should set sound paths to test sounds and return accordingly when the getter is called.
         String[] soundPaths = {"sound1.mp3", "sound2.mp3"};
         entityConfig.setSoundPath(soundPaths);
         assertArrayEquals(soundPaths, entityConfig.getSoundPath());
-
+        // Should set item probability to 0.5f and return 0.5f when the getter is called.
         entityConfig.setItemProbability(0.5f);
         assertEquals(0.5f, entityConfig.getItemProbability());
-
-        entityConfig.setStrength(10);
-        assertEquals(10, entityConfig.getStrength());
-
+        // Should set defense to 10 and return 10 when the getter is called.
         entityConfig.setDefense(10);
         assertEquals(10, entityConfig.getDefense());
-
-        entityConfig.setSpeed(5);
-        assertEquals(5, entityConfig.getSpeed());
-
-        entityConfig.setExperience(100);
-        assertEquals(100, entityConfig.getExperience());
-
-        entityConfig.setStamina(90);
-        assertEquals(90, entityConfig.getStamina());
-
-        entityConfig.setLevel(3);
-        assertEquals(3, entityConfig.getLevel());
+        // Should set speed to 10 and return 10 when the getter is called.
+        entityConfig.setSpeed(10);
+        assertEquals(10, entityConfig.getSpeed());
+        // Should set experience to 10 and return 10 when the getter is called.
+        entityConfig.setExperience(10);
+        assertEquals(10, entityConfig.getExperience());
     }
 
+    /**
+     * Tests that the hint system is functional and restart current hint also works.
+     */
     @Test
     void testRestartCurrentHint() {
         entityConfig.restartCurrentHint();
@@ -118,6 +111,10 @@ class BaseFriendlyEntityConfigTest {
         entityConfig.restartCurrentHint();
         assertEquals(0, entityConfig.currentHint);
     }
+
+    /**
+     * Tests that setting an entity to a boss functions as intended.
+     */
     @Test
     void testIsBoss() {
         assertFalse(entityConfig.isBoss());

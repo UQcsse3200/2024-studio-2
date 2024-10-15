@@ -21,6 +21,10 @@ import static org.mockito.Mockito.*;
 class DialogueBoxServiceTest {
     private DialogueBoxService entityChatService;
     Stage stage;
+    /**
+     * Sets up the necessary services needed for the tests.
+     * Also creates the NPCs being tested both friendly and converted.
+     */
     @BeforeEach
     void beforeEach() {
         EntityService entityService = new EntityService();
@@ -47,6 +51,9 @@ class DialogueBoxServiceTest {
         ServiceLocator.registerDialogueBoxService(entityChatService);
     }
 
+    /**
+     * Tests that the dialogue box is visible when it exists.
+     */
     @Test
     void shouldReturnCorrectVisibilityBoolean() {
         DialogueBox mockCurrentOverlay = mock(DialogueBox.class);
@@ -57,6 +64,9 @@ class DialogueBoxServiceTest {
         Assertions.assertFalse(mockCurrentOverlay.getIsVisible());
     }
 
+    /**
+     * Tests that the NPC is highlighted when interacting with the player.
+     */
     @Test
     void shouldHighlightEntitySprite() {
         String[][] text = {{"Test 1"}, {"Test 2"}};
@@ -72,6 +82,9 @@ class DialogueBoxServiceTest {
 
     }
 
+    /**
+     * Tests that the NPC is no longer highlighted when the player is not interacting with them.
+     */
     @Test
     void shouldUnhighlightEntitySprite() {
         String[][] oldText = {{"Old Test"}};
@@ -88,6 +101,9 @@ class DialogueBoxServiceTest {
         verify(mockAnimator).startAnimation("float");
     }
 
+    /**
+     * Tests that the NPC does not become unhighlighted when there are no other entities around.
+     */
     @Test
     void shouldNotStartFloatAnimationIfNoPreviousEntity() {
         String[][] oldText = {{"Old Test"}};
@@ -102,6 +118,10 @@ class DialogueBoxServiceTest {
         verify(mockAnimator, never()).startAnimation("float");
     }
 
+    /**
+     * Tests that the NPC should be unhighlighted and the new NPC will be highlighted.
+     * This imitates the end of interaction with one and the start of another interaction with another NPC.
+     */
     @Test
     void shouldUnhighlightEntitySpriteAndHighlightNewEntity() {
         String[][] oldText = {{"Test 1"}, {"Test 2"}};
@@ -123,7 +143,9 @@ class DialogueBoxServiceTest {
         Assertions.assertArrayEquals(newText, entityChatService.getHints());
     }
 
-
+    /**
+     * Tests that the animation for the NPCs start when interacting with the player, given there is an animation.
+     */
     @Test
     void shouldStartAnimationWhenAnimatorIsNotNull() {
         AnimationRenderComponent mockAnimator = mock(AnimationRenderComponent.class);
@@ -136,8 +158,9 @@ class DialogueBoxServiceTest {
         verify(mockAnimator).startAnimation("selected");
     }
 
-
-
+    /**
+     * Tests that the dialogue box is hidden when entityChatService.hideCurrentOverlay() is called.
+     */
     @Test
     void hideChatBox() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
@@ -153,6 +176,9 @@ class DialogueBoxServiceTest {
         Assertions.assertFalse(entityChatService.getCurrentOverlay().getLabel().isVisible());
     }
 
+    /**
+     * Tests that the dialogue box is created when an NPC is interacting with the player.
+     */
     @Test
     void shouldCreateEntityChat() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
@@ -160,6 +186,20 @@ class DialogueBoxServiceTest {
         Assertions.assertArrayEquals(new String[][] {{"1", "2"}}, entityChatService.getHints());
     }
 
+    /**
+     * Tests that the buttons to cycle the hints exist.
+     */
+    @Test
+    void buttonsExist() {
+        entityChatService.updateText(new String[][] {{"This is a test 1 String", "This is a test 2 String"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getForwardButton());
+        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getBackwardButton());
+    }
+
+    /**
+     * Tests that the buttons work aas intended, cycling through the hints that the NPC has.
+     */
     @Test
     void testButtonPresses() {
         Assertions.assertNotNull(entityChatService.getCurrentOverlay());
@@ -170,6 +210,9 @@ class DialogueBoxServiceTest {
         Assertions.assertEquals("1", entityChatService.getCurrentOverlay().getLabel().getText().toString());
     }
 
+    /**
+     * Tests that the dialogue cycles through different lists when a different option buttion is pressed.
+     */
     @Test
     void testOptionButtonPresses() {
         String[][] dialogueOptions = new String[][] {{"/cOptions Dialogue/s01option1/s02option2/s03option3"},
@@ -191,6 +234,9 @@ class DialogueBoxServiceTest {
         Assertions.assertEquals("5", entityChatService.getCurrentOverlay().getLabel().getText().toString());
     }
 
+    /**
+     * Tests that the disposal of a dialogue overlay will remove it entirely.
+     */
     @Test
     void shouldRemoveEntityChat() {
         entityChatService.updateText(new String[][] {{"1", "2"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
@@ -199,12 +245,18 @@ class DialogueBoxServiceTest {
         Assertions.assertNull(entityChatService.getCurrentOverlay());
     }
 
+    /**
+     * Tests that trying to dispose of an overlay that's already disposed will do nothing.
+     */
     @Test
     void illegalDispose() {
         entityChatService.disposeCurrentOverlay();
         Assertions.assertNull(entityChatService.getCurrentOverlay());
     }
 
+    /**
+     * Tests that the texts should be updated accordingly and the text shown matches.
+     */
     @Test
     void shouldUpdateEntityChat() {
         entityChatService.updateText(new String[][] {{"This is a test 1 String", "This is a test 2 String"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
@@ -216,13 +268,5 @@ class DialogueBoxServiceTest {
         String hint1 = chatOverlay.getHints()[chatOverlay.getCurrentHintLine()][chatOverlay.getCurrentHint()];
         Assertions.assertEquals("This is a test 1 String", page1);
         Assertions.assertEquals("This is a test 1 String", hint1);
-    }
-
-    @Test
-    void buttonsExist() {
-        entityChatService.updateText(new String[][] {{"This is a test 1 String", "This is a test 2 String"}}, DialogueBoxService.DialoguePriority.NONEDEFAULT);
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay());
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getForwardButton());
-        Assertions.assertNotNull(entityChatService.getCurrentOverlay().getBackwardButton());
     }
 }
