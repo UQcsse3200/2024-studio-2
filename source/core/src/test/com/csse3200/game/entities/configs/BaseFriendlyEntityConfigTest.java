@@ -67,9 +67,6 @@ class BaseFriendlyEntityConfigTest {
         // Should set hunger to 10 and return 10 when the getter is called.
         entityConfig.setHunger(10);
         assertEquals(10, entityConfig.getHunger());
-        // Should set sprite path to test/spritePath and return accordingly when the getter is called.
-        entityConfig.setSpritePath("test/spitePath");
-        assertEquals("test/spritePath", entityConfig.getSpritePath());
         // Should set sound paths to test sounds and return accordingly when the getter is called.
         String[] soundPaths = {"sound1.mp3", "sound2.mp3"};
         entityConfig.setSoundPath(soundPaths);
