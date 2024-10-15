@@ -5,33 +5,32 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
+import com.csse3200.game.minigames.birdiedash.BirdieDashGame;
+import com.csse3200.game.minigames.birdiedash.controller.KeyboardBirdInputComponent;
+import com.csse3200.game.input.InputComponent;
+import com.csse3200.game.input.InputDecorator;
+import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.rendering.Renderer;
+import com.csse3200.game.services.AudioManager;
+import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.ui.minigames.ScoreBoard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.factories.RenderFactory;
-import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
-import com.csse3200.game.minigames.KeyboardMiniGameInputComponent;
-import com.csse3200.game.minigames.birdieDash.BirdieDashGame;
-import com.csse3200.game.minigames.birdieDash.controller.KeyboardBirdInputComponent;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.rendering.Renderer;
-import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.minigames.ScoreBoard;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 
@@ -46,20 +45,20 @@ public class BirdieDashScreen extends PausableScreen {
     private final Skin skin;
     private final Stage stage;
     private float scale;
-    private final Table exitButtonTable;
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
+    private final Entity ui;
 
     public BirdieDashScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
         this.scale = 1;
-        this.exitButtonTable = new Table();
         this.oldScreen = screen;
         this.oldScreenServices = container;
         this.birdGame = new BirdieDashGame();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+        this.ui = new Entity();
         logger.debug("Initialising birdie dash screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerEntityService(new EntityService());
@@ -83,7 +82,7 @@ public class BirdieDashScreen extends PausableScreen {
         ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/bird-bg.mp3"});
         ServiceLocator.getResourceService().loadAll();
 
-        setupExitButton();
+        //setupExitButton();
         createUI();
 
         AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
@@ -102,7 +101,7 @@ public class BirdieDashScreen extends PausableScreen {
         }
 
         clearBackground();
-        birdGame.render(delta);
+        birdGame.render();
         isGameOver();
 
         scoreBoard.updateScore(birdGame.getScore());
@@ -117,11 +116,11 @@ public class BirdieDashScreen extends PausableScreen {
     private void isGameOver() {
         if (birdGame.getIsGameOver()) {
             dispose();
-            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
-                logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
             }
+            game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
+            SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
         }
     }
 
@@ -141,12 +140,14 @@ public class BirdieDashScreen extends PausableScreen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        float baseWidth = 1920;
-        float baseHeight = 1200;
-        float scaleWidth = width / baseWidth;
-        float scaleHeight = height / baseHeight;
+        float scaleWidth = width / 1920f;
+        float scaleHeight = height / 1200f;
         scale = Math.min(scaleWidth, scaleHeight);
-        setupExitButton();
+        if (scale == 0) {  // Screen has been minimised
+            scale = 1;
+            ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+        }
+        //setupExitButton();
         scoreBoard.resize();
     }
 
@@ -170,28 +171,6 @@ public class BirdieDashScreen extends PausableScreen {
     }
 
     /**
-     * Set up the exit button in the top right
-     */
-    private void setupExitButton() {
-        exitButtonTable.clear();
-        TextButton exitButton = new TextButton("Exit", skin);
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                exitGame();
-            }
-        });
-
-        exitButtonTable.setFillParent(true);
-        exitButtonTable.top().right();
-        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-        stage.addActor(exitButtonTable);
-    }
-
-    /**
      * set up ui for key inputs
      */
     private void createUI() {
@@ -199,7 +178,6 @@ public class BirdieDashScreen extends PausableScreen {
         Stage uiStage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = new KeyboardBirdInputComponent();
 
-        Entity ui = new Entity();
         ui
                 .addComponent(new InputDecorator(uiStage, 10))
                 .addComponent(new PerformanceDisplay())

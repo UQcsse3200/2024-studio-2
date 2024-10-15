@@ -75,7 +75,6 @@ public class CombatArea extends GameArea {
             case OCTOPUS -> spawnOctopus();
             case BIGSAWFISH -> spawnBigSawfish();
             case MACAW -> spawnMacaw();
-            case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         playMusic();
     }
@@ -139,7 +138,7 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
-        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
+        Entity combatEnemyNPC = CombatAnimalFactory.createJoeyCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
 

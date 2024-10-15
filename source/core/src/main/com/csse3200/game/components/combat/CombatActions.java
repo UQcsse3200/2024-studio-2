@@ -59,6 +59,7 @@ public class CombatActions extends Component {
    */
   private void onCombatWin(Entity enemy) {
     logger.debug("Returning to main game screen after combat win.");
+    game.setEnemyWasBeaten(true);
     this.manager.getPlayer().getEvents().trigger("defeatedEnemy",this.manager.getEnemy());
     this.manager.getPlayer().getComponent(PlayerInventoryDisplay.class).regenerateDisplay();
 

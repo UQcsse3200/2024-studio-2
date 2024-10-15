@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,21 +12,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraComponent;
+import com.csse3200.game.files.FileLoader;
+import com.csse3200.game.gamestate.GameState;
+import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.minigames.MiniGameNames;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
-import com.csse3200.game.minigames.MiniGameNames;
-import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.minigames.maze.areas.terrain.MazeTerrainFactory;
 import com.csse3200.game.minigames.maze.components.MazePlayerScoreDisplay;
 import com.csse3200.game.minigames.maze.components.player.MazePlayerStatsDisplay;
 import com.csse3200.game.overlays.Overlay;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.RenderService;
@@ -101,11 +105,13 @@ public class MazeGameScreen extends PausableScreen {
 
         renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
-        LightingEngine lightingEngine = new LightingEngine(physicsEngine.getWorld(), camComponent.getCamera());
+        LightingEngine lightingEngine = new LightingEngine(physicsEngine.getWorld(), (OrthographicCamera) camComponent.getCamera());
 
         ServiceLocator.getRenderService().register(lightingEngine);
 
         ServiceLocator.registerLightingService(new LightingService(lightingEngine));
+
+        ServiceLocator.registerParticleService(new ParticleService());
 
         // Make stage to load elements on to
         this.stage = ServiceLocator.getRenderService().getStage();
@@ -185,7 +191,7 @@ public class MazeGameScreen extends PausableScreen {
     private void endGame(int score) {
         this.EndScore = score;
         GameState.minigame.addHighScore("maze", score);
-        logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
+        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
     }
 
     /**
@@ -287,17 +293,22 @@ public class MazeGameScreen extends PausableScreen {
     public void resize(int width, int height) {
         renderer.resize(width, height);
         logger.trace("Resized renderer: ({} x {})", width, height);
-        // Update the stage viewport
-        stage.getViewport().update(width, height, true);
         float baseWidth = 1920f;
         float baseHeight = 1200f;
         float scaleWidth = width / baseWidth;
         float scaleHeight = height / baseHeight;
         scale = Math.min(scaleWidth, scaleHeight);
-        stage.clear();  // Clears exit button, title, health and score
-        mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
-        mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
-        mazeGameArea.displayUI();  // Reloads Title
-        setupExitButton();
+        if (scale == 0) {  // Screen has been minimised
+            restMenu();
+        } else {
+            stage.clear();
+            if (resting) {
+                removeOverlay();
+                restMenu();
+            }
+            mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
+            mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
+            mazeGameArea.displayUI();  // Reloads Title
+        }
     }
 }
