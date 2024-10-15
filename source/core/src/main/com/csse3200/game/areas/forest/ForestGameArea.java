@@ -251,17 +251,11 @@ public class ForestGameArea extends GameArea {
     }
 
     private void handleItems() {
-        // Spawn items on new chunks
-//        for (GridPoint2 pos : terrain.getNewChunks()) {
-        spawnForestItems();
-        // if (!terrain.getMap().getLayers().get(ocean).isVisible()){
-        spawnOceanItems();
-        //}
-        //if (!terrain.getMap().getLayers().get(air).isVisible()){
-        spawnAirItems();
-        //}
-//        }
 
+        spawnForestItems();
+        spawnOceanItems();
+
+        spawnAirItems();
 
         // TODO: De-spawn items on old chunks:
         List<Integer> removals = new ArrayList<>();
@@ -509,7 +503,7 @@ public class ForestGameArea extends GameArea {
 
     /**
      * Spawns the ocean items on the map. Each item will have different spawning rate depending on
-     * how useful their effects are.
+     * how effective their effects are. M
      */
     private void spawnOceanItems() {
         Supplier<Entity> generator;
@@ -557,6 +551,10 @@ public class ForestGameArea extends GameArea {
         }
     }
 
+    /**
+     * Spawns the forest items on the map. Each item will have different spawning rate depending on
+     * how effective their effects are.
+     */
     private void spawnForestItems() {
         Supplier<Entity> generator;
 
@@ -627,10 +625,9 @@ public class ForestGameArea extends GameArea {
         spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MONKEYS, 0.04, 1);
 
         // Pigeon
-//        if (!terrain.getMap().getLayers().get(air).isVisible()) {
         generator = () -> EnemyFactory.createPigeon(player);
         spawnRandomEnemy(generator, ForestSpawnConfig.NUM_PIGEONS, 0.06, 3);
-//        }
+
 
         // Frog
         generator = () -> EnemyFactory.createFrog(player);
@@ -645,27 +642,21 @@ public class ForestGameArea extends GameArea {
         spawnRandomEnemy(generator, ForestSpawnConfig.NUM_BEES, 0.1, 3);
 
         //Eel
-//        if (!terrain.getMap().getLayers().get(ocean).isVisible()) {
         generator = () -> EnemyFactory.createEel(player);
         spawnShooterEnemy(generator, ForestSpawnConfig.NUM_EELS, 0.1, 2);
-        //   }
+
         //Octopus
-        // if (!terrain.getMap().getLayers().get(ocean).isVisible()) {
         generator = () -> EnemyFactory.createOctopus(player);
         spawnRandomEnemy(generator, ForestSpawnConfig.NUM_OCTOPUS, 0.06, 2);
         //   }
 
         //Big saw fish
-        //  if (!terrain.getMap().getLayers().get(ocean).isVisible()) {
         generator = () -> EnemyFactory.createBigsawfish(player);
         spawnShooterEnemy(generator, ForestSpawnConfig.NUM_BIGSAWFISH, 0.1, 2);
-        //}
 
         //Macaw
-        //if (!terrain.getMap().getLayers().get(air).isVisible()) {
         generator = () -> EnemyFactory.createMacaw(player);
         spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MACAW, 0.1, 3);
-        //}
 
         //Hive
         generator = () -> ProjectileFactory.createHive(player);
@@ -769,7 +760,13 @@ public class ForestGameArea extends GameArea {
     }
 
     /**
-     * Spawns the items randomly at a fixed position across the map
+     * Spawns the items randomly at a fixed position across the map. This function ensures the items from specific
+     * regions are seperated by their given zone. Zone 1 is the forest, Zone 2 is the ocean and Zone 3 is the AIR
+     * The maximum amount of spawns in each region are
+     * 50 items
+     * @param creator the supplier entity to spawn the items
+     * @param numItems number of items to spawn
+     * @param zone the area region of the map
      */
     private void spawnFixedItems(Supplier<Entity> creator, int numItems, int zone) {
         if (zone == 1 && totalForestItems < 50) {
