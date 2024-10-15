@@ -48,6 +48,7 @@ public class MinigameLeaderboardTest {
         when(mockPlayFab.getHighscores()).thenReturn(mockHighscores);
 
         PlayFab.updateLeaderboard(anyString());
+        
 
     }
 
