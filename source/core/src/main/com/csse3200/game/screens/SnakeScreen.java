@@ -215,10 +215,17 @@ public class SnakeScreen extends PausableScreen {
             if (!resting) {
                 ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
             }
+        } else {
+            stage.clear();
+            if (resting) {
+                removeOverlay();
+                ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            }
+            createHelpButton();
+            snakeRenderer.resize(width, height);
+            snakePopup.resize(width, height);
         }
         //setupExitButton();
-        snakeRenderer.resize(width, height);
-        snakePopup.resize(width, height);
     }
 
     /**
