@@ -6,26 +6,13 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
 
-//TODO: James can you add methods comments pls
+/**
+ * Useful utility functions for physics in the maze mini-game.
+ */
 public class MazePhysicsUtils {
 
     private MazePhysicsUtils() {
         throw new IllegalStateException("Instantiating static util class");
-    }
-
-    /**
-     * Set the collider to the base of the entity, scaled relative to the entity size.
-     * @param entity the entitie to set the collider for
-     * @param scaleX the x scale
-     * @param scaleY the y scale
-     */
-    // Is not used at the moment
-    //TODO: can we delete this?
-    public static void setScaledCollider(Entity entity, float scaleX, float scaleY) {
-        Vector2 boundingBox = entity.getScale().cpy().scl(scaleX, scaleY);
-        entity
-                .getComponent(ColliderComponent.class)
-                .setAsBox(boundingBox);
     }
 
     /**
