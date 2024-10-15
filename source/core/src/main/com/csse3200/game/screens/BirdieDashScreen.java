@@ -53,7 +53,7 @@ public class BirdieDashScreen extends PausableScreen {
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
     private TextButton helpButton;
-    private final SnakePopup birdPopup;
+    private SnakePopup birdPopup;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Entity ui;
