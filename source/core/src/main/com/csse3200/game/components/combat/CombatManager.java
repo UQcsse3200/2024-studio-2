@@ -663,15 +663,4 @@ public class CombatManager extends Component {
 
         entity.getEvents().trigger("displayCombatResults");
     }
-
-    /**
-     * Remove the input listener for the continue button of the dialogue box used to
-     * sync the animations of enemy players with when continue button was clicked
-     */
-    private void nullifyCombatDialogueListener(){
-        if (dialogueBoxCombatListener != null) {
-            contButton.removeListener(dialogueBoxCombatListener);
-            dialogueBoxCombatListener = null;
-        }
-    }
 }
