@@ -5,11 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.gamearea.PerformanceDisplay;
 import com.csse3200.game.components.login.PlayFab;
@@ -31,11 +32,6 @@ import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.csse3200.game.GdxGame;
-import com.csse3200.game.components.gamearea.PerformanceDisplay;
-import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.EntityService;
-import com.csse3200.game.entities.factories.RenderFactory;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
@@ -56,6 +52,8 @@ public class BirdieDashScreen extends PausableScreen {
     private float scale;
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
+    private TextButton helpButton;
+    private final SnakePopup snakePopup;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Entity ui;
@@ -64,6 +62,7 @@ public class BirdieDashScreen extends PausableScreen {
         super(game);
         this.scale = 1;
         this.oldScreen = screen;
+        this.snakePopup = new SnakePopup(this, "images/minigames/BirdieDashPopUp.jpg");
         this.oldScreenServices = container;
         this.birdGame = new BirdieDashGame();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -93,10 +92,34 @@ public class BirdieDashScreen extends PausableScreen {
 
         //setupExitButton();
         createUI();
+        createHelpButton();
 
         AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                game.initializeServices();
+                addSnakePopupOverlay("images/minigames/BirdieDashPopUp.jpg");
+                snakePopup.show();
+            }
+        }, 0.01f);
     }
+    private void createHelpButton() {
+        // Create the help button
+        helpButton = new TextButton("Help", skin);
+        helpButton.getLabel().setFontScale(scale);
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Call the function to add the Snake popup overlay
+                addSnakePopupOverlay("images/minigames/BirdieDashPopUp.png");
+                snakePopup.show();
+            }
+        });
 
+        helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
+        stage.addActor(helpButton);
+    }
     /**
      * Renders the game
      * @param delta The time in seconds since the last render.
@@ -114,9 +137,9 @@ public class BirdieDashScreen extends PausableScreen {
         isGameOver();
 
         scoreBoard.updateScore(birdGame.getScore());
-
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
+        snakePopup.render();
     }
 
     /**

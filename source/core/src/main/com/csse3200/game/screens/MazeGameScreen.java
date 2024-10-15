@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.files.FileLoader;
@@ -68,6 +69,8 @@ public class MazeGameScreen extends PausableScreen {
     // Used for putting elements on the screen
     private final Stage stage;
     private final Skin skin;
+    private TextButton helpButton;
+    private SnakePopup snakePopup;
 
     // Scale for resizing the screen
     private float scale;
@@ -79,6 +82,7 @@ public class MazeGameScreen extends PausableScreen {
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
         super(game);
         this.oldScreen = screen;
+        this.snakePopup = new SnakePopup(this, "images/minigames/MazePopUp.png");
         this.oldScreenServices = container;
         this.scale = 1;
 
@@ -119,7 +123,8 @@ public class MazeGameScreen extends PausableScreen {
 
         loadAssets();
         createUI();
-        setupExitButton();
+        createHelpButton();
+        // setupExitButton();
 
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
@@ -148,6 +153,32 @@ public class MazeGameScreen extends PausableScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
             restartGame();
         }
+        snakePopup.render();
+    }
+
+    private void createHelpButton() {
+        // Create the help button
+        helpButton = new TextButton("Help", skin);
+        helpButton.getLabel().setFontScale(scale);
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Call the function to add the Snake popup overlay
+                addSnakePopupOverlay("images/minigames/MazePopUp.jpg");
+                snakePopup.show();
+            }
+        });
+
+        helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
+        stage.addActor(helpButton);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                game.initializeServices();
+                addSnakePopupOverlay("images/minigames/MazePopUp.jpg");
+                snakePopup.show();
+            }
+        }, 0.01f);
     }
 
     /**
