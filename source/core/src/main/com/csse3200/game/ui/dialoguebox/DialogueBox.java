@@ -10,10 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.minigames.MiniGameNames;
+
 import static com.csse3200.game.minigames.MiniGameNames.*;
 
 /**
@@ -301,15 +303,19 @@ public class DialogueBox {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 hideDialogueBox(); // hides dialogue when player returns to the screen
-                if (playButton != null) playButton.setVisible(false);
+                if (playButton != null) {
+
+                    playButton.setVisible(false);
+                }
                 // Could potentially override snake hints here for post game messages
                 if (game == null) {
                     throw new IllegalArgumentException(
                             "Something went seriously wrong! The GdxGame instance was not set!");
                 }
-
+                ServiceLocator.getEntityService().getEntity(QuestManager.class).getEvents().trigger("complete" + currentMinigame);
                 if (currentMinigame == SNAKE) {
                     game.enterSnakeScreen();
+
                 } else if (currentMinigame == BIRD) {
                     game.enterBirdieDashScreen();
                 } else if (currentMinigame == MAZE) {

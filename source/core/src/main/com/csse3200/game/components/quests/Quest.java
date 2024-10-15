@@ -116,7 +116,7 @@ public class Quest {
     public boolean progressQuest(Entity player) {
         boolean questCompletionTrack = false;
         if (!isQuestCompleted() && !isFailed) {
-            if(taskCompletionTriggers!=null){
+            if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
                 player.getEvents().trigger(taskCompletionTriggers[currentTaskIndex]);
             }
             currentTaskIndex++;

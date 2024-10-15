@@ -106,11 +106,11 @@
 			questDescription: Play the minigame to gain skills.
 			tasks: [
 				{
-					taskName: playSnakeMinigame
+					taskName: completeSNAKE
 					description: Play the Snake Minigame
 					hint: Complete the minigame to retrieve the Eucalyptus sword.
 					requiredTriggers: 1
-					triggerCount: 1
+					triggerCount: 0
 					completed: false
 					failed: false
 				}
@@ -294,7 +294,7 @@
 			questDescription: Win a flappy game medal
 			tasks: [
 				{
-					taskName: completeFlappyMinigame
+					taskName: completeBIRD,
 					description: Complete the minigame
 					hint: Complete the Flappy Bird-inspired minigame to unlock the next stage of your quest!
 					requiredTriggers: 1
@@ -479,7 +479,7 @@
 			questDescription: Complete the Maze Minigame to unlock the next stage of your journey
 			tasks: [
 				{
-					taskName: completeGame
+					taskName: completeMAZE
 					description: Calm the UnderWater Minigame
 					hint: Complete the minigame to go onto your next quest!
 					requiredTriggers: 1
