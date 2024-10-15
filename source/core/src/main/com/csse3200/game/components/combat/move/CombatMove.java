@@ -1,7 +1,6 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.stats.Stat;
 
 /**
  * Represents an abstract combat move in the game. Concrete implementations of this class

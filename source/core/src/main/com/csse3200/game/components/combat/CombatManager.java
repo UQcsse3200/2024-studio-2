@@ -77,8 +77,6 @@ public class CombatManager extends Component {
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
 
-        initStatsCopies();
-
         this.playerAction = null;
         this.enemyAction = null;
 
@@ -112,29 +110,6 @@ public class CombatManager extends Component {
         this.playerItemContext = context;
 
         onPlayerActionSelected("ITEM");
-    }
-
-    /**
-     * Initialises copies of the CombatStatsComponents of the player and enemy for DialogueBox use
-     */
-    private void initStatsCopies() {
-        this.copyPlayerStats = new CombatStatsComponent(playerStats.getMaxHealth(), playerStats.getMaxHunger(),
-                playerStats.getStrength(), playerStats.getDefense(), playerStats.getSpeed(),
-                playerStats.getMaxExperience(), playerStats.isPlayer(),
-                playerStats.isBoss(), playerStats.getLevel());
-        copyPlayerStats.setHealth(playerStats.getHealth());
-        copyPlayerStats.setExperience(playerStats.getExperience());
-        copyPlayerStats.setHunger(playerStats.getHunger());
-        copyPlayerStats.setLevel(playerStats.getLevel());
-
-        this.copyEnemyStats = new CombatStatsComponent(enemyStats.getMaxHealth(), enemyStats.getMaxHunger(),
-                enemyStats.getStrength(), enemyStats.getDefense(), enemyStats.getSpeed(),
-                enemyStats.getMaxExperience(), enemyStats.isPlayer(), enemyStats.isBoss(), enemyStats.getLevel());
-        copyEnemyStats.setHealth(enemyStats.getHealth());
-        copyEnemyStats.setExperience(enemyStats.getExperience());
-        copyEnemyStats.setHunger(enemyStats.getHunger());
-        copyEnemyStats.setLevel(enemyStats.getLevel());
-
     }
 
     /**
@@ -464,7 +439,6 @@ public class CombatManager extends Component {
         logger.info("(AFTER) PLAYER: health {}, hunger {}", playerStats.getHealth(), playerStats.getHunger());
         logger.info("(AFTER) ENEMY: health {}, hunger {}", enemyStats.getHealth(), enemyStats.getHunger());
         displayCombatResults();
-        initStatsCopies();
 
         // Trigger stats change popup animations
         for (CombatMove.StatsChange statsChange : enemyStatsChanges) {
@@ -555,67 +529,20 @@ public class CombatManager extends Component {
     }
 
     /**
-     * A function used to calculate and construct the strings describing player and enemy changes
-     * @return A string array containing the stat change details of the player and enemy
-     */
-    private String[] calculateStatChanges () {
-        int arraySize = 2;
-        String[] statChanges = new String[arraySize];
-        String playerStatsDetails = "";
-        String enemyStatsDetails = "";
-
-        if (playerStats.getHealth() > copyPlayerStats.getHealth()) {
-            playerStatsDetails += String.format("You gained %dHP. ", playerStats.getHealth() - copyPlayerStats.getHealth());
-        } else if (playerStats.getHealth() < copyPlayerStats.getHealth()) {
-            playerStatsDetails += String.format("You lost %dHP. ", copyPlayerStats.getHealth() - playerStats.getHealth());
-        }
-
-        if (playerStats.getHunger() > copyPlayerStats.getHunger()) {
-            playerStatsDetails += String.format("You gained %d hunger. ", playerStats.getHunger() -
-                    copyPlayerStats.getHunger());
-        } else if (playerStats.getHunger() < copyPlayerStats.getHunger()) {
-            playerStatsDetails += String.format("You lost %d hunger. ", copyPlayerStats.getHunger() -
-                    playerStats.getHunger());
-        }
-
-        if (playerStats.getStrength() > copyPlayerStats.getStrength()) {
-            playerStatsDetails += String.format("You gained %d strength. ", playerStats.getStrength() -
-                    copyPlayerStats.getStrength());
-        }
-
-        if (playerStats.getDefense() > copyPlayerStats.getDefense()) {
-            playerStatsDetails += String.format("You gained %d defense. ", playerStats.getDefense() -
-                    copyPlayerStats.getDefense());
-        }
-
-        if (enemyStats.getHealth() > copyEnemyStats.getHealth()) {
-            enemyStatsDetails += String.format("The enemy gained %dHP. ", enemyStats.getHealth() - copyEnemyStats.getHealth());
-        } else if (enemyStats.getHealth() < copyEnemyStats.getHealth()) {
-            enemyStatsDetails += String.format("The enemy lost %dHP. ", copyEnemyStats.getHealth() - enemyStats.getHealth());
-        }
-
-        statChanges[0] = playerStatsDetails;
-        statChanges[1] = enemyStatsDetails;
-
-        return statChanges;
-    }
-
-    /**
      * A function used to construct the strings describing Status Effects applied to the Player
      * @return A string array containing the details of status effects (Bleeding, Shocked, or Poisoned).
      */
     private String playerStatusEffects() {
         String effectDetails = "";
         if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING) && statusEffectDuration == 0) {
-            effectDetails += "You're bleeding! Your GUARDs will be less effective.";
+            effectDetails += "The Kanga's claws have left their mark. Watch your step...";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)
                 && statusEffectDuration == 0) {
-            effectDetails += "You've been poisoned! SLEEPing won't heal you.";
+            effectDetails += "Leviathan venom courses through your veins. It's a slow, creeping dread.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)
                 && statusEffectDuration == 0) {
-            effectDetails += "You've been shocked! Your ATTACKs will be weakened.";
+            effectDetails += "A jolt from the Griffin lingers, sparking a twitch in your muscles.";
         }
-
         return effectDetails;
     }
 
@@ -626,23 +553,9 @@ public class CombatManager extends Component {
         List<String> moveTextList = new ArrayList<>();
         String playerMoveDetails = playerAction.name();
         String enemyMoveDetails = enemyAction.name();
-        boolean playerStatChange = false;
-        boolean enemyStatChange = false;
-
-        String[] entityStatChanges = calculateStatChanges();
-
-        if (!entityStatChanges[0].isEmpty()) {
-            playerStatChange = true;
-        }
-        if (!entityStatChanges[1].isEmpty()) {
-            enemyStatChange = true;
-        }
-        logger.info(entityStatChanges[1]);
-        logger.info("The enemyStat change value is {}", enemyStatChange);
-
 
         if (moveChangedByConfusion) {
-            moveTextList.add(String.format("The enemy confused you into %sing!", playerMoveDetails));
+            moveTextList.add(String.format("Your mind is foggy, and you find yourself %sing.", playerMoveDetails));
         } else if (playerMoveDetails.equals("ITEM")) {
             moveTextList.add(String.format("You decided to use an %s.", playerMoveDetails));
         } else {
@@ -652,13 +565,6 @@ public class CombatManager extends Component {
             moveTextList.add(String.format("The enemy decided to %s!", enemyMoveDetails));
         } else {
             moveTextList.add(String.format("The enemy used their %s!", enemyMoveDetails));
-        }
-
-        if (playerStatChange) {
-            moveTextList.add(entityStatChanges[0]);
-        }
-        if (enemyStatChange) {
-            moveTextList.add(entityStatChanges[1]);
         }
 
         String statusEffects = playerStatusEffects();
@@ -704,11 +610,11 @@ public class CombatManager extends Component {
                 //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
                 //            String currentText = String.valueOf(fullText[index][index2]);
 
-                if (currentText.equals("The enemy decided to ATTACK")){
+                if (currentText.equals("The enemy used their ATTACK!")){
                     combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-                } else if (currentText.equals("The enemy decided to SLEEP")){
+                } else if (currentText.equals("The enemy decided to SLEEP!")){
                     combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-                } else if (currentText.equals("The enemy decided to GUARD")){
+                } else if (currentText.equals("The enemy decided to GUARD!")){
                     combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
                 }
 
