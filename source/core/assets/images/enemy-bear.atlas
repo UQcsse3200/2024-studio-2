@@ -1,4 +1,4 @@
-bear.png
+enemy-bear.png
 size: 621, 380
 format: RGBA8888
 filter: Nearest,Nearest
@@ -129,73 +129,73 @@ default
   orig: 77, 53
   offset: 0, 0
   index: 0
- combat_idle
-   rotate: false
-   xy: 354, 76
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 0
- combat_idle
-   rotate: false
-   xy: 444, 76
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 1
- combat_move
-   rotate: false
-   xy: 14, 208
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 0
- combat_move
-   rotate: false
-   xy: 93, 208
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 1
- combat_move
-   rotate: false
-   xy: 180, 208
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 2
- combat_move
-   rotate: false
-   xy: 260, 208
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 3
- combat_move
-   rotate: false
-   xy: 350, 208
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 4
- combat_move
-   rotate: false
-   xy: 440, 208
-   size: 90, 63
-   orig: 90, 63
-   offset: 0, 0
-   index: 5
- alert
-   rotate: false
-   xy: 343, 296
-   size: 77, 80
-   orig: 77, 53
-   offset: 0, 0
-   index: 0
- alert
-   rotate: false
-   xy: 427, 322
-   size: 77, 53
-   orig: 77, 53
-   offset: 0, 0
-   index: 1
+combat_idle
+  rotate: false
+  xy: 354, 76
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 444, 76
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 14, 208
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 93, 208
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 180, 208
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 260, 208
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 350, 208
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 440, 208
+  size: 90, 63
+  orig: 90, 63
+  offset: 0, 0
+  index: 5
+alert
+  rotate: false
+  xy: 343, 296
+  size: 77, 80
+  orig: 77, 53
+  offset: 0, 0
+  index: 0
+alert
+  rotate: false
+  xy: 427, 322
+  size: 77, 53
+  orig: 77, 53
+  offset: 0, 0
+  index: 1

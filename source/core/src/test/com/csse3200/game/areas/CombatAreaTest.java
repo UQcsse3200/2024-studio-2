@@ -5,6 +5,7 @@ import com.csse3200.game.GdxGame;
 import com.csse3200.game.areas.combat.CombatArea;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +25,7 @@ class CombatAreaTest {
     private CombatTerrainFactory terrainFactory;
     private ResourceService resourceService;
     private MockedStatic<ServiceLocator> serviceLocatorMock;
-
+    private AudioManager audioManager;
     @BeforeEach
     void setUp() {
         player = mock(Entity.class);
@@ -32,6 +33,7 @@ class CombatAreaTest {
         game = mock(GdxGame.class);
         terrainFactory = mock(CombatTerrainFactory.class);
         resourceService = mock(ResourceService.class);
+        audioManager = mock(AudioManager.class);
 
         // Mock static ServiceLocator calls
         serviceLocatorMock = mockStatic(ServiceLocator.class);
