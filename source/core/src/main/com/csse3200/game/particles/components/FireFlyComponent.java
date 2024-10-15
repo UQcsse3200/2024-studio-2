@@ -4,14 +4,9 @@ import box2dLight.Light;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.components.LightingComponent;
-import com.csse3200.game.particles.ParticleService;
 
 /**
- * Component that fades out . Assumes the entity only has one light source attached and this light
- * source is not removed while the entity exists.
- * Note: this component changes the distance of light sources.
- * The maximum distance the light source will reach is the distance of the light when this component
- * is created.
+ * Component for firefly visual effects. Firefly lighting and particles should only visible during night time.
  */
 public class FireFlyComponent extends Component {
     private float maxDistance;
@@ -34,6 +29,9 @@ public class FireFlyComponent extends Component {
         update();
     }
 
+    /**
+     * Updates the visual effects of the firefly using the current time of day from the DayNightCycle.
+     */
     @Override
     public void update() {
         float timeOfDay = DayNightCycle.getTimeOfDay();
