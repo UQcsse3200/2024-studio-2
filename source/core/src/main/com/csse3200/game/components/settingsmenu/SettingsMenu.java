@@ -190,6 +190,7 @@ public class SettingsMenu extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 applyChanges();  // Apply the changes
+                mainMenuDisplay.setMenuTouchable();
                 hideSettingsMenu();  // Hide the settings menu after applying
             }
         });

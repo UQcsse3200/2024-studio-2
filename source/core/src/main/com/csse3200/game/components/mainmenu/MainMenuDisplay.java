@@ -91,7 +91,9 @@ public class MainMenuDisplay extends UIComponent {
     private float timer;
     private float owlTimer;
     private Image titleAniImage;
-
+    private Button dayNightBtn;
+    private Button profileBtn;
+    private Button trophyBtn;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -150,6 +152,7 @@ public class MainMenuDisplay extends UIComponent {
     private void addActors() {
         initializeTables();
         initializeMenuButtons();
+        initializeTopLeftButtons();
         stage.addActor(NotifManager.addNotificationTable());
 
         addTopLeftToggle();
@@ -158,6 +161,13 @@ public class MainMenuDisplay extends UIComponent {
         addLoginRegisterTable();
         addLeaderboardTable();
     }
+
+    private void initializeTopLeftButtons() {
+        dayNightBtn = new Button(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
+        profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
+        trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
+    }
+
     /**
      * Initialize all tables in the main menu
      */
@@ -463,11 +473,7 @@ public class MainMenuDisplay extends UIComponent {
         topLeftTable.top().left();
         topLeftTable.setFillParent(true);
 
-        Button toggleImage = new Button(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
-        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
-        Button trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
-
-        toggleImage.addListener(new ClickListener() {
+        dayNightBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 isNightMode = !isNightMode;
@@ -502,7 +508,7 @@ public class MainMenuDisplay extends UIComponent {
         });
 
         // Add the image to the top left corner
-        topLeftTable.add(toggleImage).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.add(dayNightBtn).size(100, 100).pad(10); // Adjust the size as needed
         topLeftTable.row();
         // Add the image to the top left corner
         topLeftTable.add(profileBtn).size(100, 100).pad(10); // Adjust the size as needed
@@ -513,6 +519,19 @@ public class MainMenuDisplay extends UIComponent {
 
         // Add the table to the stage
         stage.addActor(topLeftTable);
+    }
+
+    public void updateTopLeftToggle() {
+        float iconSize = 100f;
+
+        // Adjust size percentages based on fullscreen or windowed mode
+        float sizePercentage = Gdx.graphics.isFullscreen() ? 1 : 1f;
+
+        float newIconSize = iconSize * sizePercentage;
+
+        dayNightBtn.setSize(newIconSize, newIconSize);
+        profileBtn.setSize(newIconSize, newIconSize);
+        trophyBtn.setSize(newIconSize, newIconSize);
     }
 
     /**
