@@ -201,4 +201,9 @@ public class StealTask extends DefaultTask implements PriorityTask {
         currentTask = newTask;
         currentTask.start();
     }
+
+    public Task getCurrentTask() {
+        return currentTask;
+    }
+
 }
