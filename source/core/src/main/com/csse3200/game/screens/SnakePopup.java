@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.ServiceLocator;
+// import com.csse3200.game.overlays.Overlay; // Commented out for now
 
 public class SnakePopup {
 
@@ -23,6 +26,8 @@ public class SnakePopup {
     private final String gameType;
     private final int windowWidth = 800;
     private final int windowHeight = 600;
+    private boolean isVisible = false;
+    // private final Entity ui; // Commented out for now
 
     public SnakePopup(GdxGame game, String texturePath, String gameType) {
         this.game = game;
@@ -34,14 +39,11 @@ public class SnakePopup {
 
         window = new Window("Help", skin);
         window.setSize(windowWidth, windowHeight);
-       // window.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-       // window.setPosition(0, 0);
         window.setModal(true);
         window.setPosition((Gdx.graphics.getWidth() - windowWidth) / 2, (Gdx.graphics.getHeight() - windowHeight) / 2);
 
         Image image = new Image(texture);
         window.add(image).fill();
-
 
         TextButton continueButton = new TextButton("Continue", skin);
         continueButton.addListener(new ClickListener() {
@@ -66,24 +68,38 @@ public class SnakePopup {
         window.add(continueButton).padTop(10);
 
         stage.addActor(window);
+
+        // Initialize the UI Entity for overlay management
+        // ui = new Entity();
+        // ui.getEvents().addListener("addOverlay", this::show);
+        // ui.getEvents().addListener("removeOverlay", this::hide);
+        // ServiceLocator.getEntityService().register(ui);
     }
 
     public void show() {
+        isVisible = true;
         window.setVisible(true);
         Gdx.input.setInputProcessor(stage);
+        // ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
     }
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-        window.setPosition((width - windowWidth) / 2, (height - windowHeight) / 2); // Adjust window size accordingly
-    }
+
     public void hide() {
+        isVisible = false;
         window.setVisible(false);
         Gdx.input.setInputProcessor(null);
+        // ui.getEvents().trigger("removeOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+    }
+
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+        window.setPosition((width - windowWidth) / 2, (height - windowHeight) / 2); // Adjust window position accordingly
     }
 
     public void render() {
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        if (isVisible) { // Only render if visible
+            stage.act(Gdx.graphics.getDeltaTime());
+            stage.draw();
+        }
     }
 
     public void dispose() {
