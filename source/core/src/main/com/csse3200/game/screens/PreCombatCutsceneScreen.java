@@ -31,8 +31,8 @@ import org.slf4j.LoggerFactory;
  */
 public class PreCombatCutsceneScreen extends ResizableScreen {
   private static final float CUTSCENE_DURATION = 3.0f; // Cutscene lasts for 3 seconds
-  private int labelBuffer;
-  private int imageBuffer;
+  private int labelBuffer = 0;
+  private int imageBuffer = 0;
   private float timeElapsed = 0;
   private boolean transition;
 
@@ -149,16 +149,10 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Load background texture and create Image actor
     Texture backgroundTexture;
     switch (enemy.getEnemyType()) {
-      case WATER_BOSS:
-        backgroundTexture = new Texture("images/Water_Transition.jpg"); // Water boss background
-        break;
-      case AIR_BOSS:
-        backgroundTexture = new Texture("images/Air_Transition.jpg"); // Air boss background
-        break;
-      case KANGAROO:
-      default:
-        backgroundTexture = new Texture("images/transitionBg.jpg"); // Default background
-        break;
+      case MONKEY, CHICKEN, BEAR, JOEY, KANGAROO -> backgroundTexture = new Texture("images/transitionBg.jpg");
+      case FROG, EEL, OCTOPUS, BIGSAWFISH, WATER_BOSS -> backgroundTexture = new Texture("images/Water_Transition.jpg");
+      case BEE, PIGEON, MACAW, AIR_BOSS -> backgroundTexture = new Texture("images/Air_Transition.jpg");
+      default -> backgroundTexture = new Texture("images/transitionBg.jpg"); // Default background
     }
     Image backgroundImage = new Image(backgroundTexture);
 
@@ -189,6 +183,46 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
 
     // Select enemy image and name based on enemy type
     switch (enemy.getEnemyType()) {
+      case CHICKEN:
+        enemyImageTexture = new Texture("images/chicken_idle.png");
+        enemyNameLabel = new Label("Chicken", labelStyle);
+        break;
+      case FROG:
+        enemyImageTexture = new Texture("images/frog_idle.png");
+        enemyNameLabel = new Label("Frog", labelStyle);
+        break;
+      case MONKEY:
+        enemyImageTexture = new Texture("images/monkey_idle.png");
+        enemyNameLabel = new Label("Monkey", labelStyle);
+        break;
+      case BEAR:
+        enemyImageTexture = new Texture("images/bear_idle.png");
+        enemyNameLabel = new Label("Bear", labelStyle);
+        break;
+      case BEE:
+        enemyImageTexture = new Texture("images/bee_idle.png");
+        enemyNameLabel = new Label("Bee", labelStyle);
+        break;
+      case PIGEON:
+        enemyImageTexture = new Texture("images/pigeon_idle.png");
+        enemyNameLabel = new Label("Pigeon", labelStyle);
+        break;
+      case EEL:
+        enemyImageTexture = new Texture("images/eel_idle.png");
+        enemyNameLabel = new Label("Eel", labelStyle);
+        break;
+      case OCTOPUS:
+        enemyImageTexture = new Texture("images/octopus_idle.png");
+        enemyNameLabel = new Label ("Octopus", labelStyle);
+        break;
+      case BIGSAWFISH:
+        enemyImageTexture = new Texture("images/bigsawfish_idle.png");
+        enemyNameLabel = new Label("Bigsawfish", labelStyle);
+        break;
+      case MACAW:
+        enemyImageTexture = new Texture("images/macaw_idle.png");
+        enemyNameLabel = new Label("Macaw", labelStyle);
+        break;
       case JOEY:
         enemyImageTexture = new Texture("images/joey_idle.png");
         enemyNameLabel = new Label("Joey", labelStyle);
@@ -216,11 +250,9 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Create labels for stats
     CombatStatsComponent stats = enemy.getComponent(CombatStatsComponent.class);
     Label healthLabel = new Label("Health: " + stats.getHealth() + "/" + stats.getMaxHealth(), labelStyle);
-    Label hungerLabel = new Label("Hunger: " + stats.getHunger() + "/" + stats.getMaxHunger(), labelStyle);
     Label strengthLabel = new Label("Strength: " + stats.getStrength(), labelStyle);
     Label defenseLabel = new Label("Defense: " + stats.getDefense(), labelStyle);
     Label speedLabel = new Label("Speed: " + stats.getSpeed(), labelStyle);
-    Label experienceLabel = new Label("Experience: " + stats.getExperience() + "/" + stats.getMaxExperience(), labelStyle);
 
     // Table layout for positioning
     Table table = new Table();
@@ -234,15 +266,11 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     table.row();
     table.add(healthLabel).padBottom(5);
     table.row();
-    table.add(hungerLabel).padBottom(5);
-    table.row();
     table.add(strengthLabel).padBottom(5);
     table.row();
     table.add(defenseLabel).padBottom(5);
     table.row();
     table.add(speedLabel).padBottom(5);
-    table.row();
-    table.add(experienceLabel).padBottom(5);
 
     // Add table to the stage
     stage.addActor(table);
@@ -317,6 +345,15 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
 
   public void setLabelBuffer(Entity.EnemyType enemy) {
     switch (enemy) {
+      case FROG -> this.labelBuffer =  220;
+      case BEAR -> {
+        this.labelBuffer = 220;
+        this.imageBuffer = -55;
+      }
+      case EEL -> {
+        this.labelBuffer = 230;
+        this.imageBuffer = -30;
+      }
       default -> {
         this.labelBuffer =  200;
         this.imageBuffer = 0;
