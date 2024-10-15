@@ -77,7 +77,7 @@ public class CombatArea extends GameArea {
             case OCTOPUS -> {spawnOctopus(); kingdomType = KINGDOM.WATER;}
             case BIGSAWFISH -> {spawnBigSawfish(); kingdomType = KINGDOM.WATER;}
             case MACAW -> {spawnMacaw(); kingdomType = KINGDOM.AIR;}
-            case null, default -> spawnCombatEnemy(); // Combat Enemy
+            // case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         spawnPlayer();
         playMusic();
