@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.files.FileLoader;
@@ -158,13 +159,20 @@ public class MazeGameScreen extends PausableScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Call the function to add the Snake popup overlay
-                addSnakePopupOverlay("images/minigames/SnakePopup.png");
+                addSnakePopupOverlay("images/minigames/MazePopUp.png");
                 snakePopup.show();
             }
         });
 
         helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
         stage.addActor(helpButton);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                addSnakePopupOverlay("images/minigames/MazePopUp.png");
+                snakePopup.show();
+            }
+        }, 0.01f);
     }
 
     /**

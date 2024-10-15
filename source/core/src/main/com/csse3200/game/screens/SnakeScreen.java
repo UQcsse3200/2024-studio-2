@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
@@ -107,6 +108,16 @@ public class SnakeScreen extends PausableScreen {
         //setupExitButton();
         createUI();
         createHelpButton();
+
+        // Add a slight delay before adding the overlay
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                addSnakePopupOverlay("images/minigames/SnakePopup.png");
+                snakePopup.show();
+            }
+        }, 0.01f);
+
     }
     private void createHelpButton() {
         // Create the help button

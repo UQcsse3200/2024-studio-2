@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
@@ -93,6 +94,13 @@ public class BirdieDashScreen extends PausableScreen {
         createHelpButton();
 
         AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                addSnakePopupOverlay("images/minigames/SnakePopup.png");
+                snakePopup.show();
+            }
+        }, 0.01f);
     }
     private void createHelpButton() {
         // Create the help button
@@ -102,7 +110,7 @@ public class BirdieDashScreen extends PausableScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Call the function to add the Snake popup overlay
-                addSnakePopupOverlay("images/minigames/SnakePopup.png");
+                addSnakePopupOverlay("images/minigames/BirdieDashPopUp.png");
                 snakePopup.show();
             }
         });
