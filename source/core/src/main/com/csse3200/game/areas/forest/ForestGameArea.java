@@ -731,6 +731,7 @@ public class ForestGameArea extends GameArea {
 
     public void playMusic() {
         // Get the selected music track from the user settings
+
         UserSettings.Settings settings = UserSettings.get();
         String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
 

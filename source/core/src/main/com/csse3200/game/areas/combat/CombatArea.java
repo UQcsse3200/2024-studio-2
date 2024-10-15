@@ -3,6 +3,7 @@ package com.csse3200.game.areas.combat;
 import java.util.List;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.services.AudioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -183,7 +184,7 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
         Entity newEnemy = CombatAnimalFactory.createKangaBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 146), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 200), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -197,7 +198,7 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnAirBoss() {
         Entity newEnemy = CombatAnimalFactory.createAirBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 146), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 217), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -333,19 +334,21 @@ public class CombatArea extends GameArea {
      *
      */
     public void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
+//        Music music = ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
+//        music.setLooping(true);
+//        music.setVolume(0.5f);
+//        music.play();
+        AudioManager.playMusic("sounds/combat_track1.mp3", true);
     }
 
     /** Pause the music for combat. Will be finalised and used when
      * combat pause is implemented
      */
     public void pauseMusic() {
-        Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
-        music.pause();
+//        Music music =
+//                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
+//        music.pause();
+        AudioManager.stopMusic();
     }
 
     private void loadAssets() {
