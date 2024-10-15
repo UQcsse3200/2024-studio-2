@@ -100,6 +100,7 @@ public class Snake {
             case LEFT -> this.x -= 1;
             case UP -> this.y += 1;
             case DOWN -> this.y -= 1;
+            default -> throw new IllegalArgumentException("Unknown direction");
         }
         if (snakeBody.size() >= length) {
             Segment removed = snakeBody.removeFirst();

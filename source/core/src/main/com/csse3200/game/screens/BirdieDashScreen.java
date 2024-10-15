@@ -114,7 +114,7 @@ public class BirdieDashScreen extends PausableScreen {
      * Detect if the game is over
      */
     private void isGameOver() {
-        if (birdGame.getIsGameOver()) {
+        if (Boolean.TRUE.equals(birdGame.getIsGameOver())) {
             dispose();
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());

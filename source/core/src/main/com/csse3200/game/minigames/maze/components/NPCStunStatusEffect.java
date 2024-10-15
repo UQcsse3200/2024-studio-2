@@ -39,5 +39,7 @@ public class NPCStunStatusEffect implements StatusEffect {
      * unused at the moment
      */
     @Override
-    public void update() {}
+    public void update() {
+        //TODO: Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.
+    }
 }

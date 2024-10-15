@@ -7,7 +7,6 @@ import com.csse3200.game.minigames.MiniGameNames;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.csse3200.game.minigames.MiniGameNames.*;
 
 public class MinigameHighscore implements Json.Serializable {
 
@@ -38,6 +37,7 @@ public class MinigameHighscore implements Json.Serializable {
         return highscores.getOrDefault(gameToString(minigameName), 0);
     }
 
+    //TODO: add comment here
     @Override
     public void write(Json json) {
         json.writeObjectStart("highScores");
@@ -47,6 +47,7 @@ public class MinigameHighscore implements Json.Serializable {
         json.writeObjectEnd();
     }
 
+    //TODO: add comment ehre
     @Override
     public void read(Json json, JsonValue jsonData) {
         JsonValue highScoresData = jsonData.get("highScores");
@@ -74,26 +75,12 @@ public class MinigameHighscore implements Json.Serializable {
      * @return the minigame name as a string
      */
     private String gameToString(MiniGameNames gameName) {
-        String result = "";
+        String result;
         switch (gameName) {
             case SNAKE -> result = "snake";
             case MAZE -> result = "maze";
             case BIRD -> result = "bird";
-        }
-        return result;
-    }
-
-    /**
-     * Takes a game name as a string and converts it to a MiniGameName COnstant
-     * @param gameName the string to eb converted
-     * @return the MiniGameName constant
-     */
-    private MiniGameNames stringtoGame(String gameName) {
-        MiniGameNames result = null;
-        switch (gameName) {
-            case "snake" -> result = SNAKE;
-            case "maze" -> result = MAZE;
-            case "bird" -> result = BIRD;
+            default -> throw new IllegalArgumentException("unknown Minigame to track highscore");
         }
         return result;
     }
