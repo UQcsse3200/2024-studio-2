@@ -135,9 +135,9 @@ public class BirdieDashScreen extends PausableScreen {
         isGameOver();
 
         scoreBoard.updateScore(birdGame.getScore());
-        snakePopup.render();
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
+        snakePopup.render();
     }
 
     /**
