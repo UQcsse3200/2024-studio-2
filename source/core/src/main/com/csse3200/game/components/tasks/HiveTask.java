@@ -3,8 +3,13 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
+import com.csse3200.game.utils.math.RandomUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 
 /**
@@ -13,9 +18,12 @@ import java.util.ArrayList;
  * Requires an entity with a PhysicsMovementComponent.
  */
 public class HiveTask extends DefaultTask implements PriorityTask {
-    WaitTask waitTask;
+    private static final Logger logger = LoggerFactory.getLogger(HiveTask.class);
+
+    private WaitTask waitTask;
     private final Entity target;
-    ArrayList<Entity> bees;
+    private final ArrayList<Entity> bees;
+    private int maxBees = 3;  // The number of bees to spawn
 
     /**
      * Creates a new HiveTask for the specified target entity.
@@ -25,14 +33,27 @@ public class HiveTask extends DefaultTask implements PriorityTask {
      */
     public HiveTask(Entity target) {
         this.target = target;
-        bees = new ArrayList<>();
+        this.bees = new ArrayList<>();
     }
-    
+
+    /**
+     * Creates a new HiveTask for the specified target entity.
+     * Initializes the list of bees and the target as well as setting max bees to spawn.
+     *
+     * @param target The entity that the bees will target.
+     * @param maxBees the maximum number of bees that can be spawned at once.
+     */
+    public HiveTask(Entity target, int maxBees) {
+        this.target = target;
+        this.bees = new ArrayList<>();
+        this.maxBees = maxBees;
+    }
+
     @Override
     public int getPriority() {
         return 11; // Low priority task
     }
-    
+
     /**
      * Checks if the entity has spawned yet, if not waits, else it wanders
      */
@@ -47,36 +68,47 @@ public class HiveTask extends DefaultTask implements PriorityTask {
      * Begins the waiting process for the hive to spawn bees.
      */
     private void startWaiting() {
-        waitTask = new WaitTask(1.0f);
-        waitTask.create(owner);
-        waitTask.start();
+        if (waitTask == null || waitTask.getStatus() != Status.ACTIVE) {
+            waitTask = new WaitTask(1.0f);
+            waitTask.create(owner);
+            waitTask.start();
+        }
     }
 
     /**
-     * Updates the task, checking if any bees need to be spawned.
-     * If no bees exist and the waiting task is active, it stops the waiting task and spawns a bee.
+     * Updates the task, checking if any bees need to be spawned or respawned.
+     * If less than maxBees exist and the waiting task is active, it stops the waiting task and spawns a bee.
      * Otherwise, it starts a new waiting task.
      */
     @Override
     public void update() {
-        if (bees.isEmpty() && waitTask.getStatus() == Status.ACTIVE) {
+        // Remove any bees that have died or are no longer valid
+        bees.removeIf(bee -> bee == null || bee.getComponent(CombatStatsComponent.class).getHealth() <= 0);
+
+        // Check if we need to spawn more bees
+        if (bees.size() < maxBees && waitTask != null && waitTask.getStatus() == Status.ACTIVE) {
             waitTask.stop();
             spawnBee();
-        } else{
-            // Ensure some condition to stop waiting or spawn more bees
+        } else {
             startWaiting();
         }
     }
 
     /**
-     * Spawns a new bee entity at the hive's position and adds it to the list of bees.
-     * The bee is created via the EnemyFactory, and an event is triggered to spawn it at the hive's location.
+     * Spawns a new bee entity at a randomized position near the hive's location
+     * and adds it to the list of bees. The bee is created via the EnemyFactory, and
+     * an event is triggered to spawn it at the hive's location.
      */
     private void spawnBee() {
         Entity bee = EnemyFactory.createBee(target);
         bees.add(bee);
-        Vector2 pos = new Vector2(owner.getEntity().getPosition().x + 1, owner.getEntity().getPosition().y);
-        this.owner.getEntity().getEvents().trigger("spawnBee", bee, pos);
-        startWaiting();
+
+        // Randomize the spawn position slightly around the hive
+        Vector2 hivePos = owner.getEntity().getPosition();
+        Vector2 spawnPos = RandomUtils.random(new Vector2(hivePos.x - 2, hivePos.y - 2), new Vector2(hivePos.x + 2, hivePos.y + 2));
+
+        this.owner.getEntity().getEvents().trigger("spawnBee", bee, spawnPos);
+
+        logger.info("Bee spawned targeting: " + target + " at position: " + spawnPos);
     }
 }
