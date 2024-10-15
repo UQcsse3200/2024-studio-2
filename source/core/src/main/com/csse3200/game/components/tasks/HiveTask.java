@@ -1,11 +1,13 @@
 package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
+import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
+import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,7 @@ public class HiveTask extends DefaultTask implements PriorityTask {
     private final Entity target;
     private final ArrayList<Entity> bees;
     private int maxBees = 3;  // The number of bees to spawn
+    private int friendlyBee = 0;
 
     /**
      * Creates a new HiveTask for the specified target entity.
@@ -80,16 +83,32 @@ public class HiveTask extends DefaultTask implements PriorityTask {
      * If less than maxBees exist and the waiting task is active, it stops the waiting task and spawns a bee.
      * Otherwise, it starts a new waiting task.
      */
+
     @Override
     public void update() {
-        // Remove any bees that have died or are no longer valid
-        bees.removeIf(bee -> bee == null || bee.getComponent(CombatStatsComponent.class).getHealth() <= 0);
+        // Reset friendlyBee to recount "friendly" bees in the current update cycle
+        friendlyBee = 0;
 
-        // Check if we need to spawn more bees
-        if (bees.size() < maxBees && waitTask != null && waitTask.getStatus() == Status.ACTIVE) {
-            waitTask.stop();
-            spawnBee();
-        } else {
+        // Loop through each bee and check if it has the ChaseTask
+        for (Entity bee : bees) {
+            // check if bee has been defeated
+        }
+
+        // Check if all bees are now friendly
+        if (friendlyBee == maxBees) {
+            owner.getEntity().getComponent(AnimationRenderComponent.class).dispose();
+            this.stop(); // Stop the task
+            owner.getEntity().dispose(); // Dispose of the owner entity
+        }
+        // Check if there are fewer bees than maxBees and no friendly bees
+        else if (bees.size() < maxBees && friendlyBee == 0) {
+            if (waitTask != null && waitTask.getStatus() == Status.ACTIVE) {
+                waitTask.stop(); // Stop the wait task if active
+            }
+            spawnBee(); // Spawn a new bee
+        }
+        // Start a new waiting task if the current waitTask is finished
+        else if (waitTask != null && waitTask.getStatus() == Status.FINISHED) {
             startWaiting();
         }
     }
@@ -109,6 +128,6 @@ public class HiveTask extends DefaultTask implements PriorityTask {
 
         this.owner.getEntity().getEvents().trigger("spawnBee", bee, spawnPos);
 
-        logger.info("Bee spawned targeting: " + target + " at position: " + spawnPos);
+        logger.info("Bee spawned targeting: {} at position: {}", target, spawnPos);
     }
 }
