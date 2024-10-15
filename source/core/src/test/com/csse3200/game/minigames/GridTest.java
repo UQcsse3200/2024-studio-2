@@ -1,6 +1,5 @@
 package com.csse3200.game.minigames;
 
-import com.csse3200.game.minigames.Grid;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

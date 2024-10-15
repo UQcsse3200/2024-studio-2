@@ -24,7 +24,7 @@ import box2dLight.PointLight;
 import org.mockito.MockedConstruction;
 
 @ExtendWith(GameExtension.class)
-public class AnglerFishTest {
+class AnglerFishTest {
 
     private AnglerFish anglerFish;
     private static final String[] TEXTURE_ATLASES = {"images/minigames/angler.atlas"};

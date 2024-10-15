@@ -75,7 +75,6 @@ public class CombatArea extends GameArea {
             case OCTOPUS -> spawnOctopus();
             case BIGSAWFISH -> spawnBigSawfish();
             case MACAW -> spawnMacaw();
-            case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
         playMusic();
     }
@@ -139,7 +138,7 @@ public class CombatArea extends GameArea {
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnCombatEnemy() {
-        Entity combatEnemyNPC = BossFactory.createKangaBossCombatEntity();
+        Entity combatEnemyNPC = CombatAnimalFactory.createJoeyCombatEnemy();
         spawnEntityAt(combatEnemyNPC, new GridPoint2(800, 346), true, true);
     }
 
@@ -354,6 +353,24 @@ public class CombatArea extends GameArea {
 
     @Override
     public List<Entity> getEnemies() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
+    }
+
+    @Override
+    public List<Entity> getBosses() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
+    }
+
+    @Override
+    public List<Entity> getFriendlyNPCs() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
+    }
+
+    @Override
+    public List<Entity> getMinigameNPCs() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEnemies'");
     }

@@ -1,9 +1,10 @@
 package com.csse3200.game.components.combat.move;
 
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.mockito.Mockito.*;
 
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.*;
  * Unit tests for the abstract SpecialMove class. A concrete implementation
  * of SpecialMove is used for testing purposes.
  */
+@ExtendWith(GameExtension.class)
 class SpecialMoveTest {
 
     private SpecialMove specialMove;
@@ -22,8 +24,8 @@ class SpecialMoveTest {
      * This allows us to instantiate the abstract class and test its behaviour.
      */
     class TestSpecialMove extends SpecialMove {
-        public TestSpecialMove(String moveName, int staminaCost) {
-            super(moveName, staminaCost);
+        public TestSpecialMove(String moveName, int hungerCost) {
+            super(moveName, hungerCost);
         }
 
         @Override
@@ -61,7 +63,7 @@ class SpecialMoveTest {
 
         // Assert: Verify that the error message is logged.
         // We are assuming that the logger is logging an error for missing arguments.
-        verify(mockAttackerStats, never()).addStamina(anyInt());  // No stamina should be deducted.
+        verify(mockAttackerStats, never()).addHunger(anyInt());  // No hunger should be deducted.
     }
 
     /**
@@ -78,7 +80,7 @@ class SpecialMoveTest {
         // Assert: Verify that debuffs are applied to the target and buffs are applied to the attacker.
         verify(mockTargetStats, times(1)).addStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
         verify(mockAttackerStats, times(1)).addStrength(10);
-        verify(mockAttackerStats, times(1)).addStamina(-20); // Ensure stamina is deducted correctly.
+        verify(mockAttackerStats, times(1)).addHunger(-20); // Ensure hunger is deducted correctly.
     }
 
     /**
@@ -95,7 +97,7 @@ class SpecialMoveTest {
         // Assert: Verify that no debuffs are applied, but buffs are still applied to the attacker.
         verify(mockTargetStats, never()).addStatusEffect(any());  // No debuffs should be applied.
         verify(mockAttackerStats, times(1)).addStrength(10);
-        verify(mockAttackerStats, times(1)).addStamina(-20); // Ensure stamina is deducted correctly.
+        verify(mockAttackerStats, times(1)).addHunger(-20); // Ensure hunger is deducted correctly.
     }
 
     /**
@@ -108,13 +110,13 @@ class SpecialMoveTest {
 
         // Assert: Verify that the error is logged and no further actions are taken.
         verify(mockTargetStats, never()).addStatusEffect(any());
-        verify(mockAttackerStats, never()).addStamina(anyInt());
+        verify(mockAttackerStats, never()).addHunger(anyInt());
 
         // Act: Call execute with null targetStats.
         specialMove.execute(mockAttackerStats, null, false);
 
         // Assert: Verify that the error is logged and no further actions are taken.
-        verify(mockAttackerStats, never()).addStamina(anyInt());
+        verify(mockAttackerStats, never()).addHunger(anyInt());
     }
 
     /**
@@ -126,7 +128,7 @@ class SpecialMoveTest {
         // Act: Execute the move.
         specialMove.execute(mockAttackerStats, mockTargetStats, false);
 
-        // Assert: Verify that the stamina deduction and logger message occur as expected.
-        verify(mockAttackerStats, times(1)).addStamina(-20);  // Verify stamina deduction.
+        // Assert: Verify that the hunger deduction and logger message occur as expected.
+        verify(mockAttackerStats, times(1)).addHunger(-20);  // Verify hunger deduction.
     }
 }

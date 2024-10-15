@@ -60,7 +60,7 @@ public class Entity {
     JOEY,
     MAZE_ANGLER,
     MAZE_EEL,
-    MAZE_JELLYFISH
+      MAZE_OCTOPUS, MAZE_JELLYFISH
   }
 
 
@@ -357,7 +357,7 @@ public class Entity {
 
   @Override
   public boolean equals(Object obj) {
-    return (obj instanceof Entity && ((Entity) obj).getId() == this.getId());
+    return (obj instanceof Entity entity && entity.getId() == this.getId());
   }
 
   @Override

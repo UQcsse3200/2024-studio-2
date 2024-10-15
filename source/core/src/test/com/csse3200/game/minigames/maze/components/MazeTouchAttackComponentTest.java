@@ -3,40 +3,46 @@ package com.csse3200.game.minigames.maze.components;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
+import com.csse3200.game.minigames.maze.areas.MazeGameAreaTest;
 import com.csse3200.game.physics.components.HitboxComponent;
+import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
 class MazeTouchAttackComponentTest {
+    MazeGameArea gameArea;
 
     @BeforeEach
-    void beforeEach() {
-
+    void beforeEach() throws IllegalAccessException {
+        gameArea = MazeGameAreaTest.setupFullMazeGame();
+        gameArea.create();
     }
 
     @Test
     void shouldNotAttackOtherLayer() {
         short targetLayer = (1 << 3);
-        short attackLayer = (1 << 4);
-        Entity player = createPlayer(attackLayer);
-        Entity target = createTarget(targetLayer);
+        Entity player = gameArea.getPlayer();
+        Entity target = gameArea.getEnemies(Entity.EnemyType.MAZE_ANGLER).getFirst();
+
+        target.getComponent(HitboxComponent.class).setLayer(targetLayer);
 
         Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
         Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
         player.getEvents().trigger("collisionStart", playerFixture, targetFixture);
 
-        assertEquals(10, target.getComponent(MazeCombatStatsComponent.class).getHealth());
+        assertEquals(90, target.getComponent(MazeCombatStatsComponent.class).getHealth());
     }
 
     @Test
     void shouldStunEnemyAndPlaySoundOnHit() {
-        short targetLayer = (1 << 3);
-        Entity player = createPlayer(targetLayer);
-        Entity anglerFish = createAnglerFish(targetLayer);
+        Entity player = gameArea.getPlayer();
+        Entity anglerFish = gameArea.getEnemies(Entity.EnemyType.MAZE_ANGLER).getFirst();
 
         Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
         Fixture fishFixture = anglerFish.getComponent(HitboxComponent.class).getFixture();
@@ -47,84 +53,77 @@ class MazeTouchAttackComponentTest {
     }
 
     @Test
+    void shouldInkOnHit() {
+        Entity player = gameArea.getPlayer();
+        Entity octopus = gameArea.getEnemies(Entity.EnemyType.MAZE_OCTOPUS).getFirst();
+
+        Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
+        Fixture fishFixture = octopus.getComponent(HitboxComponent.class).getFixture();
+
+        player.getEvents().trigger("collisionStart", playerFixture, fishFixture);
+        octopus.getEvents().trigger("collisionStart", fishFixture, playerFixture);
+
+        ServiceLocator.getEntityService().update();
+        when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(1000f);
+        ServiceLocator.getEntityService().update();
+    }
+
+    @Test
     void shouldIgnoreCollisionsWithNonTargetLayer() {
-        short targetLayer = (1 << 3);  // The target layer we are interested in
         short nonTargetLayer = (1 << 5);  // A different layer we should ignore
 
-        Entity player = createPlayer(targetLayer);
-        Entity target = createTarget(nonTargetLayer);  // Entity on the wrong layer
+        Entity player = gameArea.getPlayer();
+        Entity target = gameArea.getEnemies(Entity.EnemyType.MAZE_ANGLER).getFirst();  // Entity on the wrong layer
+
+        target.getComponent(HitboxComponent.class).setLayer(nonTargetLayer);
 
         Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
         Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
         player.getEvents().trigger("collisionStart", playerFixture, targetFixture);
 
         // Check that no health has been deducted
-        assertEquals(10, target.getComponent(MazeCombatStatsComponent.class).getHealth());
+        assertEquals(100, target.getComponent(MazeCombatStatsComponent.class).getHealth());
     }
 
     @Test
     void shouldApplyKnockbackToEnemy() {
-        short targetLayer = (1 << 3);
-        Entity player = createPlayer(targetLayer);
-        Entity electricEel = createElectricEel(targetLayer);
+        Entity player = gameArea.getPlayer();
+        Entity electricEel = gameArea.getEnemies(Entity.EnemyType.MAZE_EEL).getFirst();
 
         Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
         Fixture eelFixture = electricEel.getComponent(HitboxComponent.class).getFixture();
 
         player.getEvents().trigger("collisionStart", playerFixture, eelFixture);
+        electricEel.getEvents().trigger("collisionStart", eelFixture, playerFixture);
 
+        ServiceLocator.getEntityService().update();
+        when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(1000f);
+        ServiceLocator.getEntityService().update();
     }
 
     @Test
     void shouldCollectFishEgg() {
-        short targetLayer = (1 << 3);
-        Entity player = createPlayerWithManager(targetLayer);
-        Entity fishEgg = createFishEgg(targetLayer);
+        Entity player = gameArea.getPlayer();
+        Entity fishEgg = gameArea.getEggs().getFirst();
 
         Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
         Fixture fishEggFixture = fishEgg.getComponent(HitboxComponent.class).getFixture();
 
         player.getEvents().trigger("collisionStart", playerFixture, fishEggFixture);
 
+        ServiceLocator.getEntityService().update();
+        when(ServiceLocator.getTimeSource().getDeltaTime()).thenReturn(1000f);
+        ServiceLocator.getEntityService().update();
     }
 
-    // Helper method to create a player with MazeGameManagerComponent
-    private Entity createPlayerWithManager(short targetLayer) {
-        return new Entity()
-                .addComponent(new MazeTouchAttackComponent(targetLayer, 2.0f))
-                .addComponent(new HitboxComponent())
-                .addComponent(new MazeGameManagerComponent());  // Add this component to the player
-    }
+    @Test
+    void shouldIgnoreFishEggIfReversedTrigger() {
+        Entity player = gameArea.getPlayer();
+        Entity fishEgg = gameArea.getEggs().getFirst();
 
-    // Fish egg creation method
-    private Entity createFishEgg(short layer) {
-        return new Entity()
-                .addComponent(new HitboxComponent().setLayer(layer))
-                .addComponent(new MazeCombatStatsComponent(1, 1, 0)); // Example stats
-    }
+        Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
+        Fixture fishEggFixture = fishEgg.getComponent(HitboxComponent.class).getFixture();
 
-    private Entity createPlayer(short targetLayer) {
-        return new Entity()
-                .addComponent(new MazeTouchAttackComponent(targetLayer, 2.0f))
-                .addComponent(new HitboxComponent());
-    }
-
-    private Entity createAnglerFish(short layer) {
-        return new Entity()
-                .addComponent(new MazeCombatStatsComponent(10, 10, 0))
-                .addComponent(new HitboxComponent().setLayer(layer));
-    }
-
-    private Entity createElectricEel(short layer) {
-        return new Entity()
-                .addComponent(new MazeCombatStatsComponent(10, 10, 0))
-                .addComponent(new HitboxComponent().setLayer(layer));
-    }
-
-    private Entity createTarget(short layer) {
-        return new Entity()
-                .addComponent(new MazeCombatStatsComponent(10, 10, 0))
-                .addComponent(new HitboxComponent().setLayer(layer));
-
+        fishEgg.getEvents().trigger("collisionStart", playerFixture, fishEggFixture);
     }
 }

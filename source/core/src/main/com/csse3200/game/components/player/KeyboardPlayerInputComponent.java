@@ -3,12 +3,14 @@ package com.csse3200.game.components.player;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.input.InputComponent;
-import com.csse3200.game.inventory.Inventory;
+import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
+import com.csse3200.game.components.CombatStatsComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +20,17 @@ import java.util.Map;
  * This input handler only uses keyboard input.
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
+  private static final Logger logger = LoggerFactory.getLogger(KeyboardPlayerInputComponent.class);
   private final Vector2 walkDirection = new Vector2();
   private final Map<Integer, Boolean> buttonPressed = new HashMap<>();
   private boolean paralyzed = false;
   private long startTime = 0;
   GameTime timeSource;
+  private long movementStartTime = 0;
+  private long movementDuration = 0;
+  private boolean isMoving = false;
+  private long lastHungerCheckTime = 0;
+
 
   /**
    * Constructor, adds values to the button pressed map to avoid player gaining
@@ -34,6 +42,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     buttonPressed.put(Keys.A, false);
     buttonPressed.put(Keys.S, false);
     buttonPressed.put(Keys.D, false);
+    buttonPressed.put(Keys.UP, false);
+    buttonPressed.put(Keys.LEFT, false);
+    buttonPressed.put(Keys.DOWN, false);
+    buttonPressed.put(Keys.RIGHT, false);
     timeSource = ServiceLocator.getTimeSource();
   }
 
@@ -60,25 +72,37 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       return false;
     }
     switch (keycode) {
+      case Keys.UP:
+        buttonPressed.put(Keys.UP, true);
+        updateWalkDirection();
+        return true;
+      case Keys.LEFT:
+        buttonPressed.put(Keys.LEFT, true);
+        updateWalkDirection();
+        return true;
+      case Keys.DOWN:
+        buttonPressed.put(Keys.DOWN, true);
+        updateWalkDirection();
+        return true;
+      case Keys.RIGHT:
+        buttonPressed.put(Keys.RIGHT, true);
+        updateWalkDirection();
+        return true;
       case Keys.W:
         buttonPressed.put(Keys.W, true);
-        walkDirection.add(Vector2Utils.UP);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.A:
         buttonPressed.put(Keys.A, true);
-        walkDirection.add(Vector2Utils.LEFT);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.S:
         buttonPressed.put(Keys.S, true);
-        walkDirection.add(Vector2Utils.DOWN);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.D:
         buttonPressed.put(Keys.D, true);
-        walkDirection.add(Vector2Utils.RIGHT);
-        triggerWalkEvent();
+        updateWalkDirection();
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
@@ -151,6 +175,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     return true;
   }
 
+  @Override
+  public void update() {
+    super.update(); // Call super method if needed
+    // Check movement status every tick
+    updateMovementDuration();
+  }
+
   private void triggerWalkEvent() {
     if (paralyzed) {
       if (timeSource.getTimeSince(startTime) > 2000) {
@@ -164,23 +195,51 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (walkDirection.len() > 0) {
       walkDirection.nor(); // Normalize direction vector
       entity.getEvents().trigger("walk", walkDirection);
+      if (!isMoving) {
+        movementStartTime = timeSource.getTime(); // Reset the timer when the movement starts
+      }
+      isMoving = true;
+
     } else {
       entity.getEvents().trigger("walkStop");
+      isMoving = false;
+    }
+  }
+
+  private void updateMovementDuration() {
+
+    if (isMoving) {
+      long currentTime = timeSource.getTime();
+
+      if (currentTime - lastHungerCheckTime >= 2000) {
+        lastHungerCheckTime = currentTime;
+        decreaseHunger();
+      }
+    } else {
+      movementStartTime = 0;
+    }
+  }
+  private void decreaseHunger() {
+    CombatStatsComponent combatStats = entity.getComponent(CombatStatsComponent.class);
+    if (combatStats != null) {
+      combatStats.addHunger(-1);
+    } else {
+      logger.debug("Attempting to change hunger on entity not supporting this!");
     }
   }
 
   private void updateWalkDirection() {
     walkDirection.set(Vector2.Zero);
-    if (buttonPressed.get(Keys.W)) {
+    if (buttonPressed.get(Keys.W) || buttonPressed.get(Keys.UP)) {
       walkDirection.add(Vector2Utils.UP);
     }
-    if (buttonPressed.get(Keys.A)) {
+    if (buttonPressed.get(Keys.A) || buttonPressed.get(Keys.LEFT)) {
       walkDirection.add(Vector2Utils.LEFT);
     }
-    if (buttonPressed.get(Keys.S)) {
+    if (buttonPressed.get(Keys.S) || buttonPressed.get(Keys.DOWN)) {
       walkDirection.add(Vector2Utils.DOWN);
     }
-    if (buttonPressed.get(Keys.D)) {
+    if (buttonPressed.get(Keys.D) || buttonPressed.get(Keys.RIGHT)) {
       walkDirection.add(Vector2Utils.RIGHT);
     }
     triggerWalkEvent();

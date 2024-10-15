@@ -3,6 +3,7 @@ package com.csse3200.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.csse3200.game.components.combat.CombatActions;
 import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
@@ -12,7 +13,6 @@ import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.screens.*;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +27,8 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class GdxGame extends Game {
     private static final Logger logger = LoggerFactory.getLogger(GdxGame.class);
+    
+    private boolean enemyWasBeaten = false;
 
     @Override
     public void create() {
@@ -41,7 +43,7 @@ public class GdxGame extends Game {
 
         // Assign the game to a singleton
         ServiceLocator.setGame(this);
-
+        
         // Sets background to light yellow
         Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
@@ -91,6 +93,7 @@ public class GdxGame extends Game {
         ServiceLocator.registerRenderService(container.getRenderService());
         ServiceLocator.registerDialogueBoxService(container.getDialogueBoxService());
         ServiceLocator.registerLightingService(container.getLightingService());
+        ServiceLocator.registerParticleService(container.getParticleService());
         screen.resume();
     }
 
@@ -122,6 +125,33 @@ public class GdxGame extends Game {
     }
 
     /**
+     * Makes a new snake screen (make to reduce circular dependencies)
+     * @param oldScreen the screen the game came from (mini-game menu or main game)
+     * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
+     */
+    public void newSnakeScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        this.setScreen(new SnakeScreen(this, oldScreen, oldScreenServices));
+    }
+
+    /**
+     * Makes a new bird screen (make to reduce circular dependencies)
+     * @param oldScreen the screen the game came from (mini-game menu or main game)
+     * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
+     */
+    public void newBirdScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        this.setScreen(new BirdieDashScreen(this, oldScreen, oldScreenServices));
+    }
+
+    /**
+     * Makes a new maze screen (make to reduce circular dependencies)
+     * @param oldScreen the screen the game came from (mini-game menu or main game)
+     * @param oldScreenServices the screen services of the screen the game came from (mini-game menu or main game)
+     */
+    public void newMazeScreen(Screen oldScreen, ServiceContainer oldScreenServices){
+        this.setScreen(new MazeGameScreen(this, oldScreen, oldScreenServices));
+    }
+
+    /**
      * Overloaded to add new combat screen
      * Changes to a new screen, does NOT dispose of old screen
      *
@@ -139,7 +169,10 @@ public class GdxGame extends Game {
 
     public void returnFromCombat (Screen screen, ServiceContainer container, Entity enemy) {
         setOldScreen(screen, container);
-        ((MainGameScreen)screen).getGameArea().spawnConvertedNPCs(enemy);
+        if (enemyWasBeaten) {
+            ((MainGameScreen) screen).getGameArea().spawnConvertedNPCs(enemy);
+            enemyWasBeaten = false;
+        }
         List<Entity> enemies = ((MainGameScreen) screen).getGameArea().getEnemies();
         for (Entity e : enemies) {
             if (e.equals(enemy)) {
@@ -149,9 +182,6 @@ public class GdxGame extends Game {
         }
         AnimationRenderComponent animationRenderComponent = enemy.getComponent(AnimationRenderComponent.class);
         animationRenderComponent.stopAnimation();
-        //int enemyExp = enemy.getComponent(CombatStatsComponent.getExperience());
-        //player.getComponent(CombatStatsComponent.addExperience())
-        //enemy.getComponent(CombatStatsComponent.getExperience());
         enemy.specialDispose();
     }
 
@@ -212,5 +242,9 @@ public class GdxGame extends Game {
      */
     public void exit() {
         app.exit();
+    }
+    
+    public void setEnemyWasBeaten(boolean value) {
+        this.enemyWasBeaten = value;
     }
 }

@@ -1,7 +1,6 @@
 package com.csse3200.game.inventory.items.lootbox;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.csse3200.game.components.inventory.InventoryComponent;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
@@ -10,7 +9,6 @@ import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.Inventory;
-import com.csse3200.game.inventory.items.lootbox.UniversalLootBox;
 import com.csse3200.game.inventory.items.lootbox.configs.BaseLootTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(GameExtension.class)
