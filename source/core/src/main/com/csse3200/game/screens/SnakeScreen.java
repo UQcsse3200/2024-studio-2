@@ -141,7 +141,7 @@ public class SnakeScreen extends PausableScreen {
         drawBackground();
 
         updateGame(delta);
-        snakePopup.render();
+
         if (!snakeGame.getIsGameOver()) {
             snakeRenderer.render(snakeGame.getScore());
         }

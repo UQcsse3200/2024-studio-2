@@ -116,7 +116,7 @@ public class SnakeRenderer implements MinigameRenderable {
             } else if (segment.equals(tail)){
                 bodyTexture = snakeTailTexture;
                 switch(currentDirection) {
-                    case Direction.UP -> rotation = 0;
+                    case UP -> rotation = 0;
                     case DOWN -> rotation = 180;
                     case LEFT -> rotation = 90;
                     case RIGHT -> rotation = 270;
@@ -124,7 +124,7 @@ public class SnakeRenderer implements MinigameRenderable {
             }else {
                 bodyTexture = snakeBodyVerticalTexture;
                 switch(currentDirection) {
-                    case Direction.UP -> rotation = 0;
+                    case UP -> rotation = 0;
                     case DOWN -> rotation = 180;
                     case LEFT -> rotation = 90;
                     case RIGHT -> rotation = 270;

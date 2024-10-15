@@ -55,7 +55,7 @@ public class PausableScreen extends ScreenAdapter {
             case PAUSE_OVERLAY -> enabledOverlays.addFirst(new PauseOverlay(this, game));
             case PLAYER_STATS_OVERLAY -> enabledOverlays.addFirst(new PlayerStatsOverlay(this));
             case SETTINGS_OVERLAY -> enabledOverlays.addFirst(new SettingsOverlay(this));
-            case SNAKE_POPUP_OVERLAY -> enabledOverlays.addFirst(new SnakePopupOverlay(game, "images/minigames/snakehead.png"));
+            case SNAKE_POPUP_OVERLAY -> enabledOverlays.addFirst(new SnakePopupOverlay(game));
             default -> logger.warn("Unknown Overlay type: {}", overlayType);
         }
         logger.info("Added {} Overlay", overlayType);

@@ -21,30 +21,23 @@ public class SnakePopupOverlay extends Overlay {
     private final Stage stage;
     private final Skin skin;
     private final Window window;
-    private final Texture texture;
     private final GdxGame game;
     private boolean isVisible = false;
 
-    public SnakePopupOverlay(GdxGame game, String texturePath) {
+    public SnakePopupOverlay(GdxGame game) {
         super(OverlayType.SNAKE_POPUP_OVERLAY);
         this.game = game;
 
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
-        texture = new Texture(Gdx.files.internal(texturePath));
+
 
         window = new Window("Help", skin);
         window.setSize(800, 600);
         window.setModal(true);
         window.setPosition((Gdx.graphics.getWidth() - 800) / 2, (Gdx.graphics.getHeight() - 600) / 2);
 
-        Image image = new Image(texture);
-        window.add(image).fill();
-
-
         stage.addActor(window);
-
-
         Entity ui = new Entity();
         super.add(ui);
         ServiceLocator.getEntityService().register(ui);
@@ -81,7 +74,7 @@ public class SnakePopupOverlay extends Overlay {
     @Override
     public void remove() {
         hide();
-        texture.dispose();
+
         stage.dispose();
         skin.dispose();
     }

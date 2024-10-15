@@ -60,11 +60,7 @@ public class SnakePopup {
 
         stage.addActor(window);
 
-        // Initialize the UI Entity for overlay management
-        // ui = new Entity();
-        // ui.getEvents().addListener("addOverlay", this::show);
-        // ui.getEvents().addListener("removeOverlay", this::hide);
-        // ServiceLocator.getEntityService().register(ui);
+
     }
 
     public SnakePopup(GdxGame game, String texturePath, String gameType) {

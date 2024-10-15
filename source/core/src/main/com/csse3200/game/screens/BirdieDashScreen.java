@@ -5,8 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
@@ -47,6 +50,8 @@ public class BirdieDashScreen extends PausableScreen {
     private float scale;
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
+    private TextButton helpButton;
+    private SnakePopup snakePopup;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Entity ui;
@@ -55,6 +60,7 @@ public class BirdieDashScreen extends PausableScreen {
         super(game);
         this.scale = 1;
         this.oldScreen = screen;
+        this.snakePopup = new SnakePopup(this, "images/minigames/BirdieDashPopUp.png");
         this.oldScreenServices = container;
         this.birdGame = new BirdieDashGame();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -84,10 +90,26 @@ public class BirdieDashScreen extends PausableScreen {
 
         //setupExitButton();
         createUI();
+        createHelpButton();
 
         AudioManager.playMusic("sounds/minigames/bird-bg.mp3", true);
     }
+    private void createHelpButton() {
+        // Create the help button
+        helpButton = new TextButton("Help", skin);
+        helpButton.getLabel().setFontScale(scale);
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Call the function to add the Snake popup overlay
+                addSnakePopupOverlay("images/minigames/SnakePopup.png");
+                snakePopup.show();
+            }
+        });
 
+        helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
+        stage.addActor(helpButton);
+    }
     /**
      * Renders the game
      * @param delta The time in seconds since the last render.
@@ -105,7 +127,7 @@ public class BirdieDashScreen extends PausableScreen {
         isGameOver();
 
         scoreBoard.updateScore(birdGame.getScore());
-
+        snakePopup.render();
         stage.act(delta);   // Update the stage
         stage.draw();       // Draw the UI (pause overlay)
     }
