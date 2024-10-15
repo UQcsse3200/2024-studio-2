@@ -2,17 +2,14 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.rendering.RenderService;
@@ -31,16 +28,8 @@ public class CutSceneScreen extends ScreenAdapter {
     private SpriteBatch spriteBatch;
     private Stage stage;
     private Texture cutSceneTexture;
+    private Texture logbookTexture;
     private Skin skin;
-    private Sound cutSceneSound;
-    private BitmapFont font;
-    private Label label;
-
-    private String fullText; // Full cutscene text
-    private StringBuilder displayedText; // Text currently displayed
-    private float timeSinceLastCharacter; // Timer for character reveal
-    private float characterRevealInterval = 0.05f; // Time between character reveals
-    private int currentCharacterIndex; // Index of the next character to reveal
 
     public CutSceneScreen(GdxGame game) {
         this.game = game;
@@ -48,7 +37,7 @@ public class CutSceneScreen extends ScreenAdapter {
         logger.debug("Initializing CutScene screen");
 
         this.spriteBatch = new SpriteBatch();
-        this.stage = new Stage();
+        this.stage = new Stage(new ScreenViewport());
         this.renderService = new RenderService();
         this.entityService = new EntityService();
         this.resourceService = new ResourceService();
@@ -59,28 +48,18 @@ public class CutSceneScreen extends ScreenAdapter {
         createContinueButton();
 
         Gdx.input.setInputProcessor(stage);
-
-        // Play the sound when the screen is created
-        cutSceneSound.play();
     }
 
     @Override
     public void render(float delta) {
         entityService.update();
 
-        // Update character reveal timer
-        timeSinceLastCharacter += delta;
-        if (currentCharacterIndex < fullText.length() && timeSinceLastCharacter >= characterRevealInterval) {
-            displayedText.append(fullText.charAt(currentCharacterIndex));
-            label.setText(displayedText.toString());
-            currentCharacterIndex++;
-            timeSinceLastCharacter = 0; // Reset the timer
-        }
-
+        // Render background
         spriteBatch.begin();
-        renderService.render(spriteBatch);
         spriteBatch.draw(cutSceneTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         spriteBatch.end();
+
+        // Draw the stage containing UI elements
         stage.act(delta);
         stage.draw();
     }
@@ -93,50 +72,45 @@ public class CutSceneScreen extends ScreenAdapter {
     private void loadAssets() {
         logger.debug("Loading CutScene assets");
         resourceService.loadAll();
-        cutSceneTexture = new Texture(Gdx.files.internal("sounds/animal/Untitled design.png"));
-        cutSceneSound = Gdx.audio.newSound(Gdx.files.internal("sounds/animal/harry_potter_theme.mp3"));
-
-        // Load the font and set its color to white
-        font = new BitmapFont(Gdx.files.internal("default.fnt"));
-        font.setColor(Color.WHITE); // Set text color to white
+        cutSceneTexture = new Texture(Gdx.files.internal("images/BackgroundSplashBasic.png"));
+        logbookTexture = new Texture(Gdx.files.internal("images/logbook/lb-bg.png"));
     }
 
     private void createCutScene() {
         logger.debug("Creating CutScene UI");
 
-        LabelStyle labelStyle = new LabelStyle();
-        labelStyle.font = font;
+        // Create an image for the logbook background and center it with larger size
+        Image logbookImage = new Image(logbookTexture);
+        logbookImage.setSize(1600, 600); // Adjust size to make it larger
+        logbookImage.setPosition(
+                Gdx.graphics.getWidth() / 2f - logbookImage.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 2f - logbookImage.getHeight() / 2f
+        );
+        stage.addActor(logbookImage);
 
-        // Set the full cutscene text
-        fullText = "Once upon a time, after humans mysteriously vanished, the animal kingdoms rose again! " +
-                "With nature reclaiming the land, every creature big and small is determined to rule it all!\n" +
-                "In this exciting adventure, you are one of them! Choose your animal wisely, gather resources, and grow your strength. " +
-                "Will you lead your kingdom to victory and conquer them all?\n" +
-                "From the peaceful forests to the deep oceans and beyond, other animal kingdoms are standing in your way! " +
-                "But be warned... the final challenge lies with the last remnants of humanity.\n" +
-                "It’s time to unite the wild! Let the battle for the kingdoms begin.";
+        // Initialize the skin
+        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
 
-        displayedText = new StringBuilder(); // Initialize the displayed text
-        currentCharacterIndex = 0; // Start at the first character
+        // Add the title to the top center of the logbook image
+        Label.LabelStyle titleStyle = skin.get(Label.LabelStyle.class);
+        Label titleLabel = new Label("ATTACK ON ANIMALS", titleStyle);
+        titleLabel.setAlignment(Align.center);
+        titleLabel.setSize(1200, 100); // Adjust the size according to your preference
+        titleLabel.setPosition(
+                Gdx.graphics.getWidth() / 2f - titleLabel.getWidth() / 2f,
+                logbookImage.getY() + logbookImage.getHeight() - 150 // Adjust vertical position to be at the top of the logbook
+        );
+        stage.addActor(titleLabel);
 
-        // Create the label with the initial text (empty)
-        label = new Label("", labelStyle);
-        label.setFontScale(1.0f);
-        label.setAlignment(Align.center);
-        label.setWrap(true);
-
-        Table table = new Table();
-        table.setFillParent(true);
-        table.center().pad(50);
-
-        table.add(label).expandX().width(Gdx.graphics.getWidth() - 100).center();
-
-        stage.addActor(table);
+        // Add the text to the center of the logbook image
+        addTextToLogbook(5); // Pass a vertical offset to adjust position
     }
 
     private void createContinueButton() {
         logger.debug("Creating Continue button");
-        skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+        if (skin == null) {
+            skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
+        }
 
         CustomButton continueButton = new CustomButton("Continue", skin);
 
@@ -144,7 +118,11 @@ public class CutSceneScreen extends ScreenAdapter {
         float buttonHeight = 60;
         continueButton.setButtonSize(buttonWidth, buttonHeight);
 
-        continueButton.setPosition(stage.getWidth() / 2 - buttonWidth / 2, 30);
+        // Position the button at the bottom center of the screen
+        continueButton.setPosition(
+                Gdx.graphics.getWidth() / 2f - buttonWidth / 2f,
+                30 // Position it 30 pixels above the bottom edge
+        );
 
         continueButton.addClickListener(() -> {
             logger.debug("Continue button clicked");
@@ -152,6 +130,44 @@ public class CutSceneScreen extends ScreenAdapter {
         });
 
         stage.addActor(continueButton);
+    }
+
+    private void addTextToLogbook(int verticalOffset) {
+        logger.debug("Adding text to logbook");
+
+        // The text you want to display
+        String text = "Set in a post-apocalyptic world reshaped by World War 3, 'Attack on Animals Kingdoms' is a game where animals have formed distinct kingdoms based on the elements of land, water, and air. " +
+                "As the protagonist, a dog representing loyalty and courage, players embark on a journey across these realms, overcoming mini-bosses that embody the darker traits of their societies. " +
+                "Each kingdom offers unique cultural insights and challenges, culminating in a final showdown against a formidable boss born from the chaos of the global flood. By uniting the strengths of " +
+                "all kingdoms, players strive to restore harmony and heal a world torn apart, learning valuable lessons about humility, unity, and leadership along the way.";
+
+        // Create a Label with the given text, using the skin
+        Label.LabelStyle labelStyle = skin.get(Label.LabelStyle.class);
+        Label logbookTextLabel = getLabel(text, labelStyle);
+        logbookTextLabel.setSize(1200, 500); // Adjust the size for text field
+        logbookTextLabel.setPosition(
+                Gdx.graphics.getWidth() / 2f - logbookTextLabel.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 2f - logbookTextLabel.getHeight() / 2f + verticalOffset // Adjust Y position based on offset
+        );
+        stage.addActor(logbookTextLabel);
+    }
+
+    private static Label getLabel(String text, Label.LabelStyle labelStyle) {
+        Label logbookTextLabel = new Label(text, labelStyle);
+        logbookTextLabel.setWrap(true);
+        logbookTextLabel.setAlignment(Align.center);
+
+        // Set the size of the label to fit within the logbook image
+        float labelWidth = 1200;
+        float labelHeight = 600;
+        logbookTextLabel.setSize(labelWidth, labelHeight);
+
+        // Position the label to be centered on the logbook image
+        logbookTextLabel.setPosition(
+                Gdx.graphics.getWidth() / 2f - labelWidth / 2f,
+                Gdx.graphics.getHeight() / 2f - labelHeight / 2f + 50 // Adjust Y position
+        );
+        return logbookTextLabel;
     }
 
     @Override
@@ -163,7 +179,6 @@ public class CutSceneScreen extends ScreenAdapter {
         spriteBatch.dispose();
         stage.dispose();
         cutSceneTexture.dispose();
-        cutSceneSound.dispose();
-        font.dispose(); // Dispose of the font
+        logbookTexture.dispose();
     }
 }
