@@ -391,7 +391,7 @@ public class CombatManager extends Component {
                     }
                     case SLEEP -> {
                         enemyStatsChanges = enemyMove.executeMove(enemyAction);
-                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
+                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats, false, getMultiHitsLanded());
                     }
                     case SPECIAL -> {
                         enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false);
@@ -417,7 +417,7 @@ public class CombatManager extends Component {
                 switch(enemyAction) {
                     case ATTACK -> {
                         playerStatsChanges = playerMove.executeMove(playerAction);
-                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false, getMultiHitsLanded());
                     }
                     case GUARD, SLEEP -> {
                         playerStatsChanges = playerMove.executeMove(playerAction);
@@ -431,11 +431,14 @@ public class CombatManager extends Component {
                 }
             }
             case ITEM -> {
+                int initialHealth = playerStats.getHealth();
+                int initialHunger = playerStats.getHunger();
                 // Player's move is using an item in the CombatInventoryDisplay.
                 entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
                 enemyStatsChanges = enemyMove.executeMove(enemyAction);
                 entity.getEvents().trigger("useItem", playerStats, enemyStats);
-                playerStatsChanges = new CombatMove.StatsChange[0];
+                playerStatsChanges = new CombatMove.StatsChange[]{new CombatMove.StatsChange(playerStats.getHealth()
+                        - initialHealth, playerStats.getHunger() - initialHunger)};
             }
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
         }
@@ -490,12 +493,12 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Simulates a multi-hit attack by the enemy.
-     * The number of hits is based on the enemy's speed and is calculated using a Bernoulli distribution.
+     * Simulates a multi-hit attack.
+     * The number of hits is based on the entity's speed and is calculated using a Bernoulli distribution.
      *
-     * @return the number of successful hits landed by the enemy in a multi-hit attack.
+     * @return the number of successful hits landed in a multi-hit attack.
      */
-    private int getEnemyMultiHitsLanded() {
+    private int getMultiHitsLanded() {
         double successProbability = Math.exp(enemyStats.getSpeed() / 250.0) - 0.5;
         int successfulHits = 0;
         for (int i = 0; i < 4; i++) {
