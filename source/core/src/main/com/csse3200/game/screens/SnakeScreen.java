@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.files.FileLoader;
@@ -21,6 +20,7 @@ import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.graphics.Texture;
@@ -62,8 +62,7 @@ public class SnakeScreen extends PausableScreen {
     private final Texture backgroundTexture;
     private final SpriteBatch spriteBatch;
     private final Entity ui;
-    private TextButton helpButton;
-    private SnakePopup snakePopup;
+    private final SnakePopup snakePopup;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -124,8 +123,8 @@ public class SnakeScreen extends PausableScreen {
     }
     private void createHelpButton() {
         // Create the help button
-        helpButton = new TextButton("Help", skin);
-        helpButton.getLabel().setFontScale(scale);
+        CustomButton helpButton = new CustomButton("Help", skin);
+        helpButton.setButtonSize(100, 50);
         helpButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

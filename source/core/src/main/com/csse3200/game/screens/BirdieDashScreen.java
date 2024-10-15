@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.GdxGame;
@@ -29,6 +28,7 @@ import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.rendering.Renderer;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.minigames.ScoreBoard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +52,7 @@ public class BirdieDashScreen extends PausableScreen {
     private float scale;
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
-    private TextButton helpButton;
-    private SnakePopup birdPopup;
+    private final SnakePopup birdPopup;
     private final Screen oldScreen;
     private final ServiceContainer oldScreenServices;
     private final Entity ui;
@@ -110,8 +109,8 @@ public class BirdieDashScreen extends PausableScreen {
      */
     private void createHelpButton() {
         // Create the help button
-        helpButton = new TextButton("Help", skin);
-        helpButton.getLabel().setFontScale(scale);
+        CustomButton helpButton = new CustomButton("Help", skin);
+        helpButton.setButtonSize(100, 50);
         helpButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
