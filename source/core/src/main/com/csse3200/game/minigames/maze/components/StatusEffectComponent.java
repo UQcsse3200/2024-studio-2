@@ -138,14 +138,15 @@ public class StatusEffectComponent extends Component {
 
     /**
      * Remove a status from being applied to the entity.
+     *
      * @param status the status
      */
     // could be used to clear a status effect by some external event
-    public Long removeStatus(String status) {
+    public void removeStatus(String status) {
         if (hasStatus(status) && hasEffect(status)) {
             statusEffect.get(status).stop();
         }
-        return statusExpiry.remove(status);
+        statusExpiry.remove(status);
     }
 
     /**

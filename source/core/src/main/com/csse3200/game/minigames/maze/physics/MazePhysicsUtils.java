@@ -20,6 +20,7 @@ public class MazePhysicsUtils {
      * @param scaleY the y scale
      */
     // Is not used at the moment
+    //TODO: can we delete this?
     public static void setScaledCollider(Entity entity, float scaleX, float scaleY) {
         Vector2 boundingBox = entity.getScale().cpy().scl(scaleX, scaleY);
         entity
