@@ -132,8 +132,8 @@ public class QuickTimeEventDisplay extends UIComponent {
         // third row (buttons)
         table.row();
         padCols(3);
-        addButtonToTable(startButton);
-        addButtonToTable(exitButton).padLeft(5f).padRight(75f);
+//        addButtonToTable(startButton);
+//        addButtonToTable(exitButton).padLeft(5f).padRight(75f);
 
         stage.addActor(table);
 

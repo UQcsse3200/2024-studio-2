@@ -110,15 +110,20 @@ public class QuickTimeEventScreen extends ResizableScreen {
      * capturing and handling ui input.
      */
     private void createUI() {
+        QuickTimeEventDisplay QteDisplay = new QuickTimeEventDisplay();
+
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForCombat();
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
-          .addComponent(new QuickTimeEventDisplay())
+          .addComponent(QteDisplay)
           .addComponent(inputComponent)
-          .addComponent(new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy));
+          .addComponent(new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy, QteDisplay));
         ServiceLocator.getEntityService().register(ui);
+        ui.getComponent(QuickTimeEventActions.class).count = 4;
+        ui.getComponent(QuickTimeEventActions.class).update();
+        int QTE_exitScore = ui.getComponent(QuickTimeEventDisplay.class).getQTEScore();
     }
 }

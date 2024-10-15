@@ -16,7 +16,7 @@ public class QuickTimeEventActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(QuickTimeEventActions.class);
     private static GdxGame game;
     private GameTime gameTime;
-    private int count = 0;
+    public int count = 0;
     private static final int MAX_COUNT = 3;
     private long lastUpdate;
     private static Screen oldScreen;
@@ -27,28 +27,34 @@ public class QuickTimeEventActions extends Component {
     private int score = 0;
     public int QTE_exitScore = 0;
     public boolean QTE_hitFlag = false;
+    public QuickTimeEventDisplay QTE_display;
 
 
-    public QuickTimeEventActions(GdxGame game,Screen oldScreen, ServiceContainer oldScreenServices, Entity player, Entity enemy ) {
+    public QuickTimeEventActions(GdxGame game,Screen oldScreen, ServiceContainer oldScreenServices, Entity player, Entity enemy, QuickTimeEventDisplay QteDisplay ) {
         this.game = game;
         this.oldScreenServices = oldScreenServices;
         this.oldScreen = oldScreen;
         this.player = player;
         this.enemy = enemy;
+        this.QTE_display = QteDisplay;
     }
 
     @Override
     public void create() {
         gameTime = ServiceLocator.getTimeSource();
         entity.getEvents().addListener("start", this::onStart);
+
+        entity.getEvents().trigger("editLabel", count + "");
+        lastUpdate = gameTime.getTime();
+
         logger.info("QuickTimeEventActions::create() before on exit");
         entity.getEvents().addListener("exit", this::onExit);
-
         logger.info("QuickTimeEventActions::create() after on exit");
     }
 
     @Override
     public void update() {
+
         // Handle count down to quick-time event start
         if (count != 0 && gameTime.getTimeSince(lastUpdate) >= 1000) {
             // 1 second has passed - update counter
@@ -59,6 +65,10 @@ public class QuickTimeEventActions extends Component {
                 entity.getEvents().trigger("startQuickTime", quickTimeEventsDemo());
             }
             lastUpdate = gameTime.getTime();
+        }
+
+        if(count == 0) {
+            game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, QTE_display.getQTEScore()));
         }
     }
 
@@ -80,10 +90,9 @@ public class QuickTimeEventActions extends Component {
        // game.setScreen(GdxGame.ScreenType.COMBAT);
 //        entity.getEvents().trigger(game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, score)) , 0 );
 //        int score = 0;
-        QuickTimeEventDisplay qtd = new QuickTimeEventDisplay();
-        QTE_exitScore = qtd.getQTEScore();
 
-        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, QTE_exitScore));
+
+
     }
 
     /**

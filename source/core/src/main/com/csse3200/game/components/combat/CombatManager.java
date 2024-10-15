@@ -280,8 +280,8 @@ public class CombatManager extends Component {
 
         //stores enemyAction
         updateEnemyMoveStore(action);
-       return Action.SLEEP;
-//        return action;
+//       return Action.SLEEP;
+        return action;
     }
     /**
      * Updates the stored sequence of enemy moves for a specific enemy type.
@@ -485,12 +485,12 @@ public class CombatManager extends Component {
     private int getPlayerMultiHitsLanded() {
         qte_triggered = 1;
         game.setScreen(new QuickTimeEventScreen(game, oldScreen, oldScreenServices, player, enemy));
-        QuickTimeEventActions qteAction = new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy);
+//        QuickTimeEventActions qteAction = new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy);
         int QTECurrScore = 0;
-        while (qteAction.QTE_hitFlag){
-            QTECurrScore = qteAction.QTE_exitScore;
-        }
-        logger.info("Combat manager:: getPlayerMultiHitsLanded() " +QTECurrScore );
+//        while (qteAction.QTE_hitFlag){
+//            QTECurrScore = qteAction.QTE_exitScore;
+//        }
+//        logger.info("Combat manager:: getPlayerMultiHitsLanded() " +QTECurrScore );
         return QTECurrScore;
     }
 
