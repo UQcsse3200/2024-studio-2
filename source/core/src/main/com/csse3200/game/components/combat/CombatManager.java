@@ -542,10 +542,10 @@ public class CombatManager extends Component {
             effectDetails += "The Kanga's claws have left their mark. Watch your step...";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)
                 && statusEffectDuration == 0) {
-            effectDetails += "Leviathan venom courses through your veins. It's a slow, creeping dread.";
+            effectDetails += "The Leviathan's venom runs deep. Rest offers no reprieve.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)
                 && statusEffectDuration == 0) {
-            effectDetails += "A jolt from the Griffin lingers, sparking a twitch in your muscles.";
+            effectDetails += "A jolt from the Griffin lingers, sparking faint tremors within.";
         }
         return effectDetails;
     }

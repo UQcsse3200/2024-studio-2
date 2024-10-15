@@ -19,15 +19,15 @@ public class CombatStatsChangePopup extends UIComponent {
     private List<Label> statsChangePopups = new ArrayList<>();
 
     /** Popup display boundaries for player */
-    private static final float PLAYER_MIN_X = 0.2f;
-    private static final float PLAYER_MAX_X = 0.3f;
+    private static final float PLAYER_MIN_X = 0.15f;
+    private static final float PLAYER_MAX_X = 0.35f;
 
     /** Popup display boundaries for enemy */
-    private static final float ENEMY_MIN_X = 0.7f;
-    private static final float ENEMY_MAX_X = 0.8f;
+    private static final float ENEMY_MIN_X = 0.55f;
+    private static final float ENEMY_MAX_X = 0.75f;
 
-    private static final float MIN_Y = 0.5f;
-    private static final float MAX_Y = 0.6f;
+    private static final float MIN_Y = 0.3f;
+    private static final float MAX_Y = 0.4f;
 
     /**
      * Adds the listener for the label to trigger the popup.
@@ -59,7 +59,7 @@ public class CombatStatsChangePopup extends UIComponent {
         String statsDiffText = (statsDiff > 0) ? "+" + statsDiff : Integer.toString(statsDiff);
         CharSequence popupText = String.format("HP%s", statsDiffText);
         // Swap health change isPlayer because target applies damage to itself
-        createStatsChangePopup(popupText, (statsDiff > 0) ? Color.FOREST : Color.RED, (statsDiff > 0) == isPlayer);
+        createStatsChangePopup(popupText, (statsDiff > 0) ? Color.GREEN : Color.RED, (statsDiff > 0) == isPlayer);
     }
 
     /**
