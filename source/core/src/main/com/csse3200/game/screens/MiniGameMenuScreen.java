@@ -56,11 +56,7 @@ public class MiniGameMenuScreen implements Screen {
         setupMinigameUI("Snake", "images/minigames/snakeicon.png", 0.2f, 1, 0, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                PopupWindow = new SnakePopup(game, "images/minigames/snakepopup.jpg", "Snake");
-                PopupWindow.show();
-            // helpWindow = new SnakePopup("images/minigames/BirdieDashPopUp.png");
-               // helpWindow.show();
+                game.enterSnakeScreen();
             }
         });
 
@@ -68,8 +64,7 @@ public class MiniGameMenuScreen implements Screen {
         setupMinigameUI("Birdie Dash", "images/minigames/flappybirdicon.png", 0.5f, 0.8f, 20f, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PopupWindow = new SnakePopup(game, "images/minigames/birdiepopup.jpg", "Birdie");
-                PopupWindow.show();
+                game.enterBirdieDashScreen();
             }
         });
 
@@ -77,8 +72,7 @@ public class MiniGameMenuScreen implements Screen {
         setupMinigameUI("Underwater maze", "images/minigames/underwatermazeicon.png", 0.8f, 1, 0, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PopupWindow = new SnakePopup(game, "images/minigames/mazepopup.jpg", "Maze");
-                PopupWindow.show();
+                game.enterMazeGameScreen();
             }
         });
 
