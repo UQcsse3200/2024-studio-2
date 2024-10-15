@@ -139,8 +139,10 @@
 				}
 			],
 			currentTaskIndex: 0
-			isFailed: false
-			taskCompletionTriggers: "spawnLandBoss",
+			isFailed: false,
+			taskCompletionTriggers: [
+				"spawnLandBoss"
+			]
 			isActive: false
 			followQuests: [
 				"Guide's Intro",
@@ -328,7 +330,9 @@
 			],
 			currentTaskIndex: 0
 			isFailed: false
-			taskCompletionTriggers: "spawnWaterBoss",
+			taskCompletionTriggers: [
+				"spawnWaterBoss"
+			]
 			isActive: false
 			followQuests: [
 				"Water Sage's Intro",
@@ -502,7 +506,9 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: "spawnAirBoss",
+			taskCompletionTriggers: [
+				"spawnAirBoss"
+			]
 			followQuests: [
 				"Talk To Cloud Sage",
 				"Gathering Sky Crystals",
