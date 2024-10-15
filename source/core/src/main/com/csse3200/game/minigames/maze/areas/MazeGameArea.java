@@ -107,8 +107,6 @@ public class MazeGameArea extends GameArea {
     @Override
     public void create() {
         loadAssets();
-        ElectricEel.resetParticlePool();
-        FishEgg.resetParticlePool();
 
         displayUI();
 

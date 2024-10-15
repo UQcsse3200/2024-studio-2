@@ -14,8 +14,8 @@ import com.csse3200.game.services.ServiceLocator;
  */
 public class FadeLightsDayTimeComponent extends Component {
     private float maxDistance;
-    private static final float fadeOutTime = 0.35f;
-    private static final float fadeInTime = 0.72f;
+    private static final float fadeOutTime = 0.2f;
+    private static final float fadeInTime = 0.8f;
     private static final float fadeDuration = 0.01f;
 
     private Light light;

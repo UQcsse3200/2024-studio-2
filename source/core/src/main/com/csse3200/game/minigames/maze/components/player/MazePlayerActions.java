@@ -3,7 +3,7 @@ package com.csse3200.game.minigames.maze.components.player;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.minigames.maze.components.ParticleEffectComponent;
+import com.csse3200.game.particles.components.ParticleEffectComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 
 /**
@@ -33,11 +33,9 @@ public class MazePlayerActions extends Component {
         ParticleEffectComponent bubbles = entity.getComponent(ParticleEffectComponent.class);
         if (moving) {
             updateSpeed();
-            if (bubbles.getEffect().isComplete()) {
-                bubbles.startEmitting();
-            }
+            bubbles.emit();
         } else {
-            bubbles.stopEmitting();
+            bubbles.allowCompletion();
         }
     }
 
