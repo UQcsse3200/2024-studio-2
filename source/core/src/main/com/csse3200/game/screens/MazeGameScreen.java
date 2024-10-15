@@ -124,7 +124,14 @@ public class MazeGameScreen extends PausableScreen {
         loadAssets();
         createUI();
         createHelpButton();
-//        setupExitButton();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                game.initializeServices();
+                addSnakePopupOverlay("images/minigames/MazePopUp.jpg");
+                mazePopup.show();
+            }
+        }, 0.03f);
 
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
@@ -169,16 +176,9 @@ public class MazeGameScreen extends PausableScreen {
             }
         });
 
-        helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
+        helpButton.setPosition(Gdx.graphics.getWidth() - helpButton.getWidth() - 10 * scale,
+                Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
         stage.addActor(helpButton);
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                game.initializeServices();
-                addSnakePopupOverlay("images/minigames/MazePopUp.jpg");
-                mazePopup.show();
-            }
-        }, 0.01f);
     }
 
     /**
@@ -292,33 +292,6 @@ public class MazeGameScreen extends PausableScreen {
     }
 
     /**
-     * Puts the exit button in the top right of the screen.
-     * Will take the user back to the Main menu screen or game
-     */
-    private void setupExitButton() {
-
-        TextButton exitButton = new TextButton("Exit", skin);
-        // Scale the button's font
-        exitButton.getLabel().setFontScale(scale);
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                exitGame();
-            }
-        });
-
-        // Set up the table for UI layout
-        Table exitButtonTable = new Table();
-        exitButtonTable.setFillParent(true);
-        exitButtonTable.top().right();
-        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
-
-        // Add the table to the stage
-        stage.addActor(exitButtonTable);
-    }
-
-    /**
      * Resize function that automatically gets called when the screen is resized.
      * Resizes all components with a consistent scale to maintain the screen's
      * original design.
@@ -342,6 +315,7 @@ public class MazeGameScreen extends PausableScreen {
                 removeOverlay();
                 restMenu();
             }
+            createHelpButton();
             mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
             mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
             mazeGameArea.displayUI();  // Reloads Title
