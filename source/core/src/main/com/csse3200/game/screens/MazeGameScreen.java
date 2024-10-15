@@ -40,6 +40,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.terminal.Terminal;
 import com.csse3200.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
@@ -69,7 +70,6 @@ public class MazeGameScreen extends PausableScreen {
     // Used for putting elements on the screen
     private final Stage stage;
     private final Skin skin;
-    private TextButton helpButton;
     private final SnakePopup mazePopup;
 
     // Scale for resizing the screen
@@ -165,8 +165,7 @@ public class MazeGameScreen extends PausableScreen {
 
     private void createHelpButton() {
         // Create the help button
-        helpButton = new TextButton("Help", skin);
-        helpButton.getLabel().setFontScale(scale);
+        CustomButton helpButton = new CustomButton("Help", skin);
         helpButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
