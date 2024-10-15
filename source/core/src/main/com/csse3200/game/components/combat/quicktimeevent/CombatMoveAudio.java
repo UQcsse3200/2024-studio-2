@@ -11,53 +11,52 @@ public class CombatMoveAudio {
      * Plays the sound for combat based on the moves of the enemy and player
      */
     public void playCombatSound(CombatManager.Action playerMove, CombatManager.Action enemyMove) {
-        // one of the entities is attacking
-        if (playerMove == CombatManager.Action.ATTACK || enemyMove == CombatManager.Action.ATTACK) {
-            // both entities are attacking
-            if (playerMove == enemyMove) {
-                attackHit();
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        attackHit();
+        // neither player nor enemy attacks
+        if (playerMove != CombatManager.Action.ATTACK && enemyMove != CombatManager.Action.ATTACK) {
+            // play sound for player followed by a short delay than enemy sound
+            switch (playerMove) {
+                case CombatManager.Action.SLEEP -> sleep();
+                case CombatManager.Action.GUARD -> raiseGuard();
+            }
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    switch (enemyMove) {
+                        case CombatManager.Action.SLEEP -> sleep();
+                        case CombatManager.Action.GUARD -> raiseGuard();
                     }
-                }, CombatAnimationDisplay.getBothAttackAnimationDelay());
-                return;
-            }
-            // one entity is attacking and one entity is guarding
-            if (playerMove == CombatManager.Action.GUARD || enemyMove == CombatManager.Action.GUARD) {
-                guard();
-                attackBlock();
-                return;
-            }
-            attackHit();
-            if (playerMove == CombatManager.Action.SLEEP || enemyMove == CombatManager.Action.SLEEP) {
-                sleep();
-                return;
-            }
-
-        }
-        switch (playerMove) {
-            case CombatManager.Action.SLEEP -> sleep();
-            case CombatManager.Action.GUARD -> guard();
-            case CombatManager.Action.ATTACK -> attackHit();
-        }
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                switch (enemyMove) {
-                    case CombatManager.Action.SLEEP -> sleep();
-                    case CombatManager.Action.GUARD -> guard();
-                    case CombatManager.Action.ATTACK -> attackHit();
                 }
-            }
-        }, CombatAnimationDisplay.getRockTravelTime());
+            }, CombatAnimationDisplay.getRockTravelTime());
+            return;
+        }
+        // code below here means one or more of the entities attacked
+
+        // one entity is attacking and one entity is guarding
+        if (playerMove == CombatManager.Action.GUARD || enemyMove == CombatManager.Action.GUARD) {
+            attackBlock();
+            return;
+        }
+
+        // play attack sound as one the entities attack an unguarded player
+        attackHit();
+        // both attacking
+        if (playerMove == enemyMove) {
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    attackHit();
+                }
+            }, CombatAnimationDisplay.getBothAttackAnimationDelay());
+            return;
+        }
+        // one of the entities attacked and the other slept
+        sleep();
     }
 
     /**
      * Plays the start of guard sound
      */
-    private void guard() {
+    private void raiseGuard() {
         AudioManager.playSound("sounds/combat/guard.wav");
     }
 
@@ -75,10 +74,11 @@ public class CombatMoveAudio {
     }
 
     /**
-     * Plays the start of the attack sound and the blocking of the attack if an entity uses guard
+     * Plays the start of the attack sound and the guarding sound and then attack hitting the guard
      */
     private void attackBlock() {
         AudioManager.playSound("sounds/combat/attack start.wav");
+        raiseGuard();
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
