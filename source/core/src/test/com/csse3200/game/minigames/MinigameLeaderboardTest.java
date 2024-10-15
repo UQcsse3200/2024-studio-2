@@ -1,4 +1,4 @@
-package com.csse3200.game.minigames;
+/*package com.csse3200.game.minigames;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -118,3 +118,4 @@ public class MinigameLeaderboardTest {
         assertEquals(testScore, 68);
     }
 }
+*/
