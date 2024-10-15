@@ -60,9 +60,6 @@ class BaseFriendlyEntityConfigTest {
         // Should set strength to 10 and return 10 when the getter is called.
         entityConfig.setStrength(10);
         assertEquals(10, entityConfig.getStrength());
-        // Should set stamina to 10 and return 10 when the getter is called.
-        entityConfig.setStamina(10);
-        assertEquals(10, entityConfig.getStamina());
         // Should set level to 10 and return 10 when the getter is called.
         entityConfig.setLevel(10);
         assertEquals(10, entityConfig.getLevel());
