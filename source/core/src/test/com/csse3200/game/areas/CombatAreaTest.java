@@ -66,7 +66,6 @@ class CombatAreaTest {
         combatArea.playMusic();
 
         verify(mockMusic).setLooping(true);
-        verify(mockMusic).setVolume(0.3f);
         verify(mockMusic).play();
     }
 }

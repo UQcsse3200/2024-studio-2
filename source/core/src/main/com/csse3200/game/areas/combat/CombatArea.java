@@ -1,8 +1,12 @@
 package com.csse3200.game.areas.combat;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.components.settingsmenu.UserSettings;
+import com.csse3200.game.services.AudioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -295,21 +299,32 @@ public class CombatArea extends GameArea {
      *
      */
     public void playMusic() {
-        Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
-                Music.class);
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        music.play();
+        Entity.EnemyType[] bossTypes = {Entity.EnemyType.KANGAROO, Entity.EnemyType.WATER_BOSS, Entity.EnemyType.AIR_BOSS};
+
+        AudioManager.stopMusic();
+        if (Arrays.asList(bossTypes).contains(this.enemy.getEnemyType())) {
+            AudioManager.playMusic("sounds/boss-combat-music.mp3", true);
+        } else {
+            AudioManager.playMusic(CombatAreaConfig.BACKGROUND_MUSIC, true);
+        }
     }
 
     /** Pause the music for combat. Will be finalised and used when
      * combat pause is implemented
      */
     public void pauseMusic() {
-        Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC, Music.class);
-        music.pause();
+        // Stop the music using AudioManager
+        AudioManager.stopMusic();
+
+        // Get the selected music track from the user settings
+        UserSettings.Settings settings = UserSettings.get();
+        String selectedTrack = settings.selectedMusicTrack; // This will be "Track 1" or "Track 2"
+
+        if (Objects.equals(selectedTrack, "Track 1")) {
+            AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+        } else if (Objects.equals(selectedTrack, "Track 2")) {
+            AudioManager.playMusic("sounds/track_2.mp3", true);
+        }
     }
 
     private void loadAssets() {
