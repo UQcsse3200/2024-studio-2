@@ -102,7 +102,7 @@ public class SnakeRenderer implements MinigameRenderable {
         for (Snake.Segment segment : snake.getBodySegments()) {
             Direction currentDirection = segment.direction();
             Texture bodyTexture;
-            float rotation = 0f;
+            float rotation;
 
             segmentX = startX + segment.x() * CELL_SIZE;
             segmentY = startY + segment.y() * CELL_SIZE;
@@ -117,6 +117,7 @@ public class SnakeRenderer implements MinigameRenderable {
                     case DOWN -> rotation = 180;
                     case LEFT -> rotation = 90;
                     case RIGHT -> rotation = 270;
+                    default -> throw new IllegalArgumentException("Unknown tail direction");
                 }
             }else {
                 bodyTexture = snakeBodyVerticalTexture;
@@ -125,6 +126,7 @@ public class SnakeRenderer implements MinigameRenderable {
                     case DOWN -> rotation = 180;
                     case LEFT -> rotation = 90;
                     case RIGHT -> rotation = 270;
+                    default -> throw new IllegalArgumentException("Unknown body direction");
                 }
 
             }

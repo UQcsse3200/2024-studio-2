@@ -11,11 +11,11 @@ public class Coin {
     // x and y coordinates for the coin
     private Vector2 position;
     private final Rectangle boundary;
-    private final float MIN_Y = 100;
-    private final float MAX_Y = 1100;
-    private final float WIDTH = 80;
-    private final float HEIGHT = 80;
-    private final float GAME_WIDTH = 1920;
+    private final static float minY = 100;
+    private final static float maxY = 1100;
+    private final static float width = 80;
+    private final static float height = 80;
+    private final static float gameWidth = 1920;
     private final float speed;
     private final Random random;
 
@@ -26,9 +26,9 @@ public class Coin {
      */
     public Coin(float start, float speed) {
         this.random = new Random();
-        this.position = new Vector2(start, random.nextFloat(MIN_Y, MAX_Y));
+        this.position = new Vector2(start, random.nextFloat(minY, maxY));
         this.speed = speed;
-        this.boundary = new Rectangle(position.x, position.y, WIDTH, HEIGHT);
+        this.boundary = new Rectangle(position.x, position.y, width, height);
     }
 
     /**
@@ -44,7 +44,7 @@ public class Coin {
      * @return the coins width
      */
     public float getWidth() {
-        return WIDTH;
+        return width;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Coin {
      * @return the coins height
      */
     public float getHeight() {
-        return HEIGHT;
+        return height;
     }
 
     /**
@@ -72,7 +72,7 @@ public class Coin {
      * spawns new coin
      */
     public void respawnCoin() {
-        position = new Vector2(this.position.x + GAME_WIDTH + 960, random.nextFloat(MIN_Y, MAX_Y));
+        position = new Vector2(this.position.x + gameWidth + 960, random.nextFloat(minY, maxY));
         setBoundary();
     }
 
@@ -81,7 +81,7 @@ public class Coin {
      * @return true if coin off-screen, false otherwise.
      */
     private boolean coinOffScreen() {
-        return this.position.x + WIDTH / 2 < 0;
+        return this.position.x + width / 2 < 0;
     }
 
     /**
