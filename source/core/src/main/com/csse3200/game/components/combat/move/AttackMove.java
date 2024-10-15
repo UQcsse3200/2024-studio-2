@@ -68,6 +68,7 @@ public class AttackMove extends CombatMove {
     @Override
     public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
+        logger.info("qte score " +numHitsLanded);
         for (int hitNumber = 0; hitNumber < numHitsLanded; hitNumber++) {
             if (attackerStats != null && targetStats != null) {
                 int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded, hitNumber);

@@ -3,6 +3,7 @@ package com.csse3200.game.components.combat.quicktimeevent;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.screens.CombatScreen;
 import com.csse3200.game.services.GameTime;
@@ -21,8 +22,11 @@ public class QuickTimeEventActions extends Component {
     private static Screen oldScreen;
     private static ServiceContainer oldScreenServices;
     private static Entity player;
+    private CombatMoveComponent playerMove;
     private static Entity enemy;
     private int score = 0;
+    public int QTE_exitScore = 0;
+    public boolean QTE_hitFlag = false;
 
 
     public QuickTimeEventActions(GdxGame game,Screen oldScreen, ServiceContainer oldScreenServices, Entity player, Entity enemy ) {
@@ -72,10 +76,14 @@ public class QuickTimeEventActions extends Component {
      */
     private void onExit() {
         logger.info("Exit QuickTimeEvent screen");
+        QTE_hitFlag = true;
        // game.setScreen(GdxGame.ScreenType.COMBAT);
 //        entity.getEvents().trigger(game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, score)) , 0 );
 //        int score = 0;
-        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy ));
+        QuickTimeEventDisplay qtd = new QuickTimeEventDisplay();
+        QTE_exitScore = qtd.getQTEScore();
+
+        game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy, QTE_exitScore));
     }
 
     /**

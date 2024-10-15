@@ -7,6 +7,7 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.screens.QuickTimeEventScreen;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,6 +129,9 @@ public class CombatActions extends Component {
   private void onAttack(Screen screen, ServiceContainer container) {
       manager.onPlayerActionSelected("ATTACK");
       entity.getEvents().trigger("onAttack", manager.getPlayerStats(), manager.getEnemyStats());
+//      if (manager.qte_triggered){
+//        game.setScreen(new QuickTimeEventScreen(game, oldScreen, oldScreenServices, player, enemy));
+//      }
   }
 
   /**

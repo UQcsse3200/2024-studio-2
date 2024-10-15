@@ -136,6 +136,7 @@ public class QuickTimeEventDisplay extends UIComponent {
         addButtonToTable(exitButton).padLeft(5f).padRight(75f);
 
         stage.addActor(table);
+
     }
 
     @Override
@@ -191,10 +192,13 @@ public class QuickTimeEventDisplay extends UIComponent {
      * Increments the score and updates the display
      */
     private void incScore() {
+        logger.info("current score is {}", score);
         if (score < maxScore) {
+
             score++; // increment score
         }
         updateDisplayScore();
+        logger.info("updated score {}", score);
     }
     public int getQTEScore(){
         return score;
@@ -213,6 +217,7 @@ public class QuickTimeEventDisplay extends UIComponent {
      * @param quickTimeEvents the quick-time event data
      */
     private void onStartQuickTime(QuickTimeEvent[] quickTimeEvents) {
+        logger.info("start quick time events");
         // set up the displayed score
         int numEvents = quickTimeEvents.length;
         score = 0;
@@ -256,7 +261,9 @@ public class QuickTimeEventDisplay extends UIComponent {
                 startTime = gameTime.getTime();
                 windowStartTime = startTime + durationMS - QUICK_TIME_WINDOW;
                 qteActive = true;
+                onQuickTimeBtnPress();
             }
+
         });
         // animate quick-time event
         ScaleToAction scaleToAction = new ScaleToAction();
@@ -312,20 +319,25 @@ public class QuickTimeEventDisplay extends UIComponent {
      * Handle quick-time event button press
      */
     private void onQuickTimeBtnPress() {
+        logger.info("onQuickTimeBtnPress ed qte active" + qteActive);
         if (qteActive) {
             // quick-time event in process
             if (gameTime.getTime() >= windowStartTime) {
                 // button press timed correctly
                 setTargetImage("target_perfect");
-                incScore();
+                logger.info("On quick-time event perfect ");
+//                incScore();
             } else {
                 // button press too fast
                 setTargetImage("target_fast");
+                logger.info("On quick-time event fast ");
             }
+            incScore();
             // de-render quick-time event animation
             qteActive = false;
             qte.setVisible(false);
         }
+
     }
 
     /**

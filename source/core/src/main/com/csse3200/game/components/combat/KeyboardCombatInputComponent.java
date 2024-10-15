@@ -38,7 +38,7 @@ public class KeyboardCombatInputComponent extends InputComponent {
         buttonPressed.put(Keys.A, true);
 //        triggerQuickTimeBtnPress(Keys.A);
       case Keys.S:
-        buttonPressed.put(Keys.S, true);
+       buttonPressed.put(Keys.S, true);
 //        triggerQuickTimeBtnPress(Keys.S);
       case Keys.D:
         buttonPressed.put(Keys.D, true);

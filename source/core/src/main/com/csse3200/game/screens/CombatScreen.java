@@ -59,8 +59,9 @@ public class CombatScreen extends ResizableScreen {
   private CombatStatsComponent enemyCombatStats;
   private final CombatArea combatArea;
   private boolean resting;
+  private int qteScore = -1;
 
-  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy) {
+  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy,int qteScore) {
     this.game = game;
     this.oldScreen = screen;
     this.oldScreenServices = container;
@@ -93,7 +94,19 @@ public class CombatScreen extends ResizableScreen {
     this.combatArea = new CombatArea(player, enemy, game, combatTerrainFactory); // initialise game area, with entities
     combatArea.create();
 
-    createUI();
+    CombatManager manager = createUI();
+
+    if(qteScore != -1 ){
+      this.qteScore = qteScore;
+      manager.setAction(CombatManager.Action.ATTACK, CombatManager.Action.SLEEP);
+      manager.executeMoveCombination(CombatManager.Action.ATTACK, CombatManager.Action.SLEEP);
+
+    }
+  }
+
+  public CombatScreen(GdxGame game, Screen screen, ServiceContainer container, Entity player, Entity enemy){
+    this(game,screen,container,player,enemy,-1);
+
   }
 
   /**
@@ -162,7 +175,7 @@ public class CombatScreen extends ResizableScreen {
    * Creates the main game's ui including components for rendering ui elements to the screen and
    * capturing and handling ui input.
    */
-  private void createUI() {
+  private CombatManager createUI() {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent =
@@ -188,6 +201,7 @@ public class CombatScreen extends ResizableScreen {
         .addComponent(new CombatButtonDisplay(oldScreen, oldScreenServices, combatArea));
 
     ServiceLocator.getEntityService().register(ui);
+    return manager;
   }
   /**
    * Checks if the enemy has died and transitions to the EnemyTransitionCutSceneScreen if true.

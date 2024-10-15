@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
+import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventActions;
 import com.csse3200.game.components.combat.quicktimeevent.QuickTimeEventDisplay;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -67,6 +68,7 @@ public class CombatManager extends Component {
 
     private int statusEffectDuration;
     private boolean moveChangedByConfusion;
+    private static int qte_triggered = 0;
 
     // HashMap stores information on enemies when attack
     private static final Map<String,ArrayList<Action>> enemyMoveStore = new LinkedHashMap<>();
@@ -389,7 +391,8 @@ public class CombatManager extends Component {
      * @param playerAction the player's selected action.
      * @param enemyAction the enemy's selected action.
      */
-    private void executeMoveCombination(Action playerAction, Action enemyAction) {
+    public void executeMoveCombination(Action playerAction, Action enemyAction) {
+        logger.info("executeMoveCombination:: ");
         if (playerAction == null || enemyAction == null) {
             logger.error("Both player and enemy actions must be determined.");
             return;
@@ -421,7 +424,9 @@ public class CombatManager extends Component {
                     }
                     case SLEEP -> {
                         enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, false, getPlayerMultiHitsLanded());
+                        int qte_playerAttack_Score = getPlayerMultiHitsLanded();
+
+//                        playerMove.executeMove(playerAction, enemyStats, false, qte_playerAttack_Score );
                     }
                     case SPECIAL -> {
                         enemyMove.executeMove(enemyAction, playerStats, false);
@@ -478,10 +483,14 @@ public class CombatManager extends Component {
     }
 
     private int getPlayerMultiHitsLanded() {
-        QuickTimeEventDisplay qtd = new QuickTimeEventDisplay();
-        int QTECurrScore = qtd.getQTEScore();
-        logger.info("Combat manager:: getPlayerMultiHitsLanded() " +QTECurrScore );
+        qte_triggered = 1;
         game.setScreen(new QuickTimeEventScreen(game, oldScreen, oldScreenServices, player, enemy));
+        QuickTimeEventActions qteAction = new QuickTimeEventActions(game,oldScreen,oldScreenServices,player,enemy);
+        int QTECurrScore = 0;
+        while (qteAction.QTE_hitFlag){
+            QTECurrScore = qteAction.QTE_exitScore;
+        }
+        logger.info("Combat manager:: getPlayerMultiHitsLanded() " +QTECurrScore );
         return QTECurrScore;
     }
 
@@ -534,6 +543,14 @@ public class CombatManager extends Component {
         }
         return successfulHits;
     }
+
+
+    public void setAction(Action playerAction,Action enemyAction ){
+        this.playerAction = playerAction;
+        this.enemyAction = enemyAction;
+
+    }
+
 
     /**
      * @return the player entity.
