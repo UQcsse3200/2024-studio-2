@@ -18,6 +18,7 @@ public class SpeedPotion extends TimedUseItem {
         super("Speed Potion", 52, 3, quantity, 25, DURATION, MSG);
         this.setTexturePath(PATH);
         this.setDescription("This is a speed potion");
+        this.onlyMapItem = true;
     }
 
     /**
