@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class InventoryDisplay extends UIComponent {
     protected static final Logger logger = LoggerFactory.getLogger(InventoryDisplay.class);
-    private static final float Z_INDEX = 3f;
+    private static final float Z_INDEX = 5f;
 
     protected final Inventory inventory;
     private Window mainInventoryDisplay;

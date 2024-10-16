@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+/****/
 public class PlayerStatsDisplay2 extends UIComponent {
     private Table backgroundTable;
     private Table rootTable;
@@ -60,14 +60,6 @@ public class PlayerStatsDisplay2 extends UIComponent {
     }
 
     private void addStatRow(Table table, String name, int value) {
-        Label nameLabel = new Label(name, skin, DEFAULT_TEXT);
-        Label valueLabel = new Label(String.valueOf(value), skin, DEFAULT_TEXT);
-        table.add(nameLabel).expandX().left();
-        table.add(valueLabel).expandX().right().padLeft(25f);
-        table.row().padTop(5f);
-    }
-
-    private void addStatRow(Table table, String name, float value) {
         Label nameLabel = new Label(name, skin, DEFAULT_TEXT);
         Label valueLabel = new Label(String.valueOf(value), skin, DEFAULT_TEXT);
         table.add(nameLabel).expandX().left();

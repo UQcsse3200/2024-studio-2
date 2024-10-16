@@ -30,23 +30,27 @@ class CombatMoveTest {
         }
 
         @Override
-        public void execute(CombatStatsComponent attacker) {
+        public StatsChange[] execute(CombatStatsComponent attacker) {
             // Simulated behaviour for testing
+            return new StatsChange[1];
         }
 
         @Override
-        public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
             // Simulated behaviour for testing
+            return new StatsChange[1];
         }
 
         @Override
-        public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
             // Simulated behaviour for testing
+            return new StatsChange[1];
         }
 
         @Override
-        public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded, int numHitsLanded) {
+        public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded, int numHitsLanded) {
             // Simulated behaviour for testing
+            return new StatsChange[1];
         }
     }
 

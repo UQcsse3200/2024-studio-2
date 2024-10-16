@@ -55,7 +55,7 @@ public class BirdieDashGame {
         renderer.addRenderable(birdRenderer);
         renderer.addRenderable(new SpikeRenderer(spike, renderer));
         ServiceLocator.getResourceService().loadTextures(new String[]{"images/PauseOverlay/TitleBG.png",
-                "images/PauseOverlay/Button.png",
+                "images/PauseOverlay/Button2.png",
                 "images/QuestsOverlay/Quest_BG.png",
                 "images/QuestsOverlay/Quest_SBG.png"});
         ServiceLocator.getResourceService().loadAll();

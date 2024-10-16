@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
@@ -28,7 +29,9 @@ public class DialogueBox {
     private static final Texture BUTTON_IMAGE_TEXTURE = new Texture(Gdx.files.internal("images/blue-button.png"));
     private static final Texture BUTTON_HOVER_TEXTURE = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
 
+
     private static GdxGame game;
+
     private final Stage stage;
     private Label label;
     private Image backgroundImage;
@@ -50,6 +53,7 @@ public class DialogueBox {
     public DialogueBox(Stage stage) {
         this.stage = stage;
         dialogueBoxInitialisation(true);
+        
     }
 
     /**
@@ -105,6 +109,8 @@ public class DialogueBox {
         for (CustomButton button : optionButtons) {
             button.setVisible(false);
         }
+
+
     }
 
     /**
@@ -246,24 +252,31 @@ public class DialogueBox {
             handleBackwardButtonClick();
         });
 
+
+
+
         // Listener for the playButton, will boot up a specific mini-game
         playButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 hideDialogueBox(); // hides dialogue when player returns to the screen
-                if (playButton != null) playButton.setVisible(false);
+                if (playButton != null) {
+
+                    playButton.setVisible(false);
+                }
                 // Could potentially override snake hints here for post game messages
                 if (game == null) {
                     throw new IllegalArgumentException(
                             "Something went seriously wrong! The GdxGame instance was not set!");
                 }
-
+                ServiceLocator.getEntityService().getEntity(QuestManager.class).getEvents().trigger("complete" + currentMinigame);
                 if (currentMinigame == SNAKE) {
                     game.enterSnakeScreen();
                 } else if (currentMinigame == BIRD) {
                     game.enterBirdieDashScreen();
                 } else if (currentMinigame == MAZE) {
                     game.enterMazeGameScreen();
+
                 }
                 return true;
             }
@@ -293,7 +306,6 @@ public class DialogueBox {
     public CustomButton[] getOptionButtons() {
         return optionButtons;
     }
-
     /**
      * Returns the index of the current hint being displayed.
      *

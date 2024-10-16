@@ -27,16 +27,19 @@ public class CombatStatsDisplay extends UIComponent {
     private Image playerHealthImage;
     private Image playerHungerImage;
     private Image enemyHealthImage;
+    private Image enemyHungerImage;
     private Image xpImage;
     private Image statusEffectImage;
     private Label playerHealthLabel;
     private Label playerHungerLabel;
     private Label enemyHealthLabel;
+    private Label enemyHungerLabel;
     private Label experienceLabel;
     private Label statusEffectLabel;
     private static Animation<TextureRegion> playerHealthBarAnimation;
     private static Animation<TextureRegion> enemyHealthBarAnimation;
     private static Animation<TextureRegion> playerHungerBarAnimation;
+    private static Animation<TextureRegion> enemyHungerBarAnimation;
     private static Animation<TextureRegion> xpBarAnimation;
     private static Table statusTable;
     private float barImageWidth;
@@ -66,15 +69,15 @@ public class CombatStatsDisplay extends UIComponent {
         super.create();
         addActors();
         entity.getEvents().addListener("onAttack", this::updateHealthUI);
-        entity.getEvents().addListener("onAttack", this::updatePlayerHungerUI);
+        entity.getEvents().addListener("onAttack", this::updateHungerUI);
         entity.getEvents().addListener("onGuard", this::updateHealthUI);
-        entity.getEvents().addListener("onGuard", this::updatePlayerHungerUI);
+        entity.getEvents().addListener("onGuard", this::updateHungerUI);
         entity.getEvents().addListener("onSleep", this::updateHealthUI);
-        entity.getEvents().addListener("onSleep", this::updatePlayerHungerUI);
+        entity.getEvents().addListener("onSleep", this::updateHungerUI);
         entity.getEvents().addListener("onCombatWin", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("onCombatLoss", this::updatePlayerExperienceUI);
         entity.getEvents().addListener("useItem", this::updateHealthUI);
-        entity.getEvents().addListener("useItem", this::updatePlayerHungerUI);
+        entity.getEvents().addListener("useItem", this::updateHungerUI);
         entity.getEvents().addListener("statusEffectAdded", this::updateStatusEffectUI);
         entity.getEvents().addListener("statusEffectRemoved", this::removeStatusUI);
 
@@ -147,9 +150,9 @@ public class CombatStatsDisplay extends UIComponent {
     private Table initialiseEnemyStatBars() {
         logger.trace("Enemy stat bars are being initialised");
         // Padding to separate enemy bar from buttons
-        float barButtonPadding = 50f;
+        float barButtonPadding = 0f;
         float barLabelGap = 2f;
-        float generalPadding = 30f;
+        float generalPadding = 10f;
 
         // Enemy Bars Display
         Table enemyTable = new Table();
@@ -158,15 +161,25 @@ public class CombatStatsDisplay extends UIComponent {
         enemyTable.padTop(barButtonPadding);
 
         // Enemy health text
-        int eHealth = enemyStats.getHealth();
-        CharSequence eHealthText = String.format("HP: %d", eHealth);
-        enemyHealthLabel = new Label(eHealthText, skin, "large");
+        int health = enemyStats.getHealth();
+        CharSequence healthText = String.format("HP: %d", health);
+        enemyHealthLabel = new Label(healthText, skin, "large");
+
+        // Enemy Hunger text
+        int hunger = enemyStats.getHunger();
+        CharSequence hungerText = String.format("HGR: %d", hunger);
+        enemyHungerLabel = new Label(hungerText, skin, "large");
 
         // Images
         enemyHealthImage = new Image(ServiceLocator.getResourceService().getAsset("images/health_bar_x1.png",
                 Texture.class));
+        enemyHungerImage = new Image(ServiceLocator.getResourceService().getAsset("images/hunger_bar.png",
+                Texture.class));
         enemyTable.add(enemyHealthImage).size(barImageWidth, barImageHeight).pad(barLabelGap).padTop(generalPadding);
         enemyTable.add(enemyHealthLabel).align(Align.left).padRight(generalPadding).padTop(generalPadding);
+        enemyTable.row();
+        enemyTable.add(enemyHungerImage).size(barImageWidth, barImageHeight * barLabelGap).pad(barLabelGap);
+        enemyTable.add(enemyHungerLabel).align(Align.left).padRight(generalPadding);
         return enemyTable;
     }
 
@@ -212,6 +225,7 @@ public class CombatStatsDisplay extends UIComponent {
             hungerBarFrames[i] = textureAtlas[2].findRegion(hungerFrameNames);
         }
         playerHungerBarAnimation = new Animation<>(animationFrameRate, hungerBarFrames);
+        enemyHungerBarAnimation = new Animation<>(animationFrameRate, hungerBarFrames);
     }
 
     /**
@@ -244,7 +258,7 @@ public class CombatStatsDisplay extends UIComponent {
         initBarAnimations();
         updateHealthUI(playerStats, enemyStats);
         updatePlayerExperienceUI(playerStats);
-        updatePlayerHungerUI(playerStats, enemyStats);
+        updateHungerUI(playerStats, enemyStats);
     }
 
     /**
@@ -304,18 +318,32 @@ public class CombatStatsDisplay extends UIComponent {
      *
      * @param playerStats The CombatStatsComponent of the player
      */
-    public void updatePlayerHungerUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
+    public void updateHungerUI(CombatStatsComponent playerStats, CombatStatsComponent enemyStats) {
         logger.trace("Detected hunger change in combat and is updating UI");
-        int hunger = playerStats.getHunger();
-        int maxHunger = playerStats.getMaxHunger();
-        CharSequence text = String.format("Hunger: %d/%d", hunger, maxHunger);
-        playerHungerLabel.setText(text);
+        int playerCurHunger = playerStats.getHunger();
+        int playerMaxHunger = playerStats.getMaxHunger();
+        int enemyCurHunger = enemyStats.getHunger();
+        int enemyMaxHunger = enemyStats.getMaxHunger();
+        CharSequence playerText = String.format("HGR: %d/%d", playerCurHunger, playerMaxHunger);
+        CharSequence enemyText = String.format("HGR: %d/%d", enemyCurHunger, enemyMaxHunger);
+        playerHungerLabel.setText(playerText);
+        enemyHungerLabel.setText(enemyText);
 
-        int frameIndex = totalFrames - 1 - (int) ((float) hunger / maxHunger * (totalFrames - 1));
-        frameIndex = Math.max(0, Math.min(frameIndex, totalFrames - 1));
-        // Set the current frame of the health bar animation
-        setNewFrame(frameIndex, playerHungerBarAnimation, playerHungerImage);
+        // Adjusts position as lists start at index 0
+        int indexAdjustment = totalFrames - 1;
+        int playerFrameIndex = indexAdjustment - (int) ((float) playerCurHunger / playerMaxHunger * (totalFrames - 1));
+        playerFrameIndex = Math.max(0, Math.min(playerFrameIndex, totalFrames - 1));
 
+        int enemyFrameIndex = indexAdjustment - (int) ((float) enemyCurHunger / enemyMaxHunger * (totalFrames - 1));
+        enemyFrameIndex = Math.max(0, Math.min(enemyFrameIndex, totalFrames - 1));
+
+        // Update player stats
+        playerHungerLabel.setText(playerText);
+        setNewFrame(playerFrameIndex, playerHungerBarAnimation, playerHungerImage);
+
+        // Update enemy stats
+        enemyHungerLabel.setText(enemyText);
+        setNewFrame(enemyFrameIndex, enemyHungerBarAnimation, enemyHungerImage);
     }
 
     /**
@@ -324,8 +352,8 @@ public class CombatStatsDisplay extends UIComponent {
      */
     public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
         logger.trace("Adding status effect label and bar in CombatStatsDisplay");
-        float tableTopPadding = 200f; // 40f
-        float tableLeftPadding = 450f; // 750f
+        float tableTopPadding = 200f;
+        float tableLeftPadding = 5f;
         String statusFilePath = String.format("images/statuses/%s_stat.png", statusEffect.name().toLowerCase());
         statusEffectImage = new Image (ServiceLocator.getResourceService().getAsset(statusFilePath, Texture.class));
         statusTable = new Table();
@@ -400,15 +428,15 @@ public class CombatStatsDisplay extends UIComponent {
         }
         hoverTextLabel.setText(effectDescription);  // Set hover text
         // set the position of the status effect hint text
-        hoverTextTable.setPosition(Gdx.graphics.getWidth() * 0.5f,
-                Gdx.graphics.getHeight() * 0.70f);
+        hoverTextTable.setPosition(Gdx.graphics.getWidth() * 0.7f,
+                Gdx.graphics.getHeight() * 0.65f);
         // set the position of the background for the status effect hint text
         float combatHintBackgroundHeight = Gdx.graphics.getHeight() * 0.1f;  // 7% of the screen height
         // combat background is proportional to the combatHintTextLength
         float combatHintBackgroundWidth = hoverTextLabel.getWidth() + Gdx.graphics.getWidth() * 0.1f;
         backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
-        backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
-                , Gdx.graphics.getHeight() * 0.7f -
+        backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.7f - backgroundImage.getWidth() * 0.5f
+                , Gdx.graphics.getHeight() * 0.65f -
                         combatHintBackgroundHeight * 0.5f);
         backgroundImage.setVisible(true); // Show the background for status effect hints
         hoverTextTable.setVisible(true);  // Show the status effect hint text
