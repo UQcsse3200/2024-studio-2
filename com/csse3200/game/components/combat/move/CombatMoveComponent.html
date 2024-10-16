@@ -133,25 +133,25 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeMove(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">executeMove</a><wbr>(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Executes a move based on the provided action.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeMove(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">executeMove</a><wbr>(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
  <a href="../../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;target)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Executes a move based on the provided action and target.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeMove(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.CombatStatsComponent,boolean)" class="member-name-link">executeMove</a><wbr>(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
  <a href="../../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;target,
  boolean&nbsp;targetIsGuarded)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Executes a move based on the provided action, target, and whether the target is guarding.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeMove(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.CombatStatsComponent,boolean,int)" class="member-name-link">executeMove</a><wbr>(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
  <a href="../../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;target,
  boolean&nbsp;targetIsGuarded,
@@ -211,31 +211,37 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="executeMove(com.csse3200.game.components.combat.CombatManager.Action)">
 <h3>executeMove</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action)</span></div>
 <div class="block">Executes a move based on the provided action. Uses the entity's own stats as the attacker.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>action</code> - the action that specifies which move to execute.</dd>
+<dt>Returns:</dt>
+<dd>an array of <a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move"><code>CombatMove.StatsChange</code></a>, representing the changes in stats
+         after the move execution. If no valid move is found, an empty array is returned.</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="executeMove(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.CombatStatsComponent)">
 <h3>executeMove</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
  <a href="../../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;target)</span></div>
 <div class="block">Executes a move based on the provided action and target. Uses the entity's own stats as the attacker.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>action</code> - the action that specifies which move to execute.</dd>
 <dd><code>target</code> - the target's combat stats component.</dd>
+<dt>Returns:</dt>
+<dd>an array of <a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move"><code>CombatMove.StatsChange</code></a>, representing the changes in stats
+         after the move execution. If no valid move is found, an empty array is returned.</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="executeMove(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.CombatStatsComponent,boolean)">
 <h3>executeMove</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
  <a href="../../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;target,
  boolean&nbsp;targetIsGuarded)</span></div>
 <div class="block">Executes a move based on the provided action, target, and whether the target is guarding.
@@ -245,13 +251,16 @@ loadScripts(document, 'script');</script>
 <dd><code>action</code> - the action that specifies which move to execute.</dd>
 <dd><code>target</code> - the target's combat stats component.</dd>
 <dd><code>targetIsGuarded</code> - whether the target is guarding, reducing the effectiveness of the attack.</dd>
+<dt>Returns:</dt>
+<dd>an array of <a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move"><code>CombatMove.StatsChange</code></a>, representing the changes in stats
+         after the move execution. If no valid move is found, an empty array is returned.</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="executeMove(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.CombatStatsComponent,boolean,int)">
 <h3>executeMove</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move">CombatMove.StatsChange</a>[]</span>&nbsp;<span class="element-name">executeMove</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action,
  <a href="../../CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a>&nbsp;target,
  boolean&nbsp;targetIsGuarded,
  int&nbsp;numHitsLanded)</span></div>
@@ -263,6 +272,9 @@ loadScripts(document, 'script');</script>
 <dd><code>target</code> - the target's combat stats component.</dd>
 <dd><code>targetIsGuarded</code> - whether the target is guarding.</dd>
 <dd><code>numHitsLanded</code> - the number of hits landed in a multi-hit move.</dd>
+<dt>Returns:</dt>
+<dd>an array of <a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move"><code>CombatMove.StatsChange</code></a>, representing the changes in stats
+         after the move execution. If no valid move is found, an empty array is returned.</dd>
 </dl>
 </section>
 </li>
