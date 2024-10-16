@@ -92,9 +92,7 @@ public class QuestDisplay extends UIComponent {
             List<Quest> questDisplay = listOfQuests.subList(start, end);
 
             for (Quest quest : questDisplay) {
-                if (!quest.isSecret()) {
-                    addQuestComponents(table, quest);
-                }
+                addQuestComponents(table, quest);
             }
 
             updateQuestsCompletedLabel(table, listOfQuests);

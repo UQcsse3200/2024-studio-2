@@ -20,7 +20,7 @@ class AchievementManagerTest {
     @Test
     void testAchievementsLoaded() {
 
-        SaveHandler.load(Achievements.class, "defaultsaves/achievement", FileLoader.Location.INTERNAL);
+        SaveHandler.getInstance().load(Achievements.class, "defaultsaves/achievement", FileLoader.Location.INTERNAL);
 
         AchievementManager achievementManager = new AchievementManager();
         // Load achievements from config
@@ -35,7 +35,7 @@ class AchievementManagerTest {
 
     @Test
     void testAchievementsSavedAndLoadedCorrectly() {
-        SaveHandler.load(Achievements.class, "defaultsaves/achievement", FileLoader.Location.INTERNAL);
+        SaveHandler.getInstance().load(Achievements.class, "defaultsaves/achievement", FileLoader.Location.INTERNAL);
 
         AchievementManager achievementManager = new AchievementManager();
         // Create a new achievement and add it to the manager
@@ -44,11 +44,11 @@ class AchievementManagerTest {
         achievements.add(newAchievement);
 
         // Save achievements
-        SaveHandler.save(Achievements.class, "test/saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(Achievements.class, "test/saves/achievement", FileLoader.Location.LOCAL);
 
         Achievements.clearState();
 
-        SaveHandler.load(Achievements.class, "test/saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().load(Achievements.class, "test/saves/achievement", FileLoader.Location.LOCAL);
 
         // Reinitialize manager to load from saved file
         AchievementManager newAchievementManager = new AchievementManager();
@@ -57,7 +57,7 @@ class AchievementManagerTest {
         // Verify that the new achievement is in the loaded achievements
         assertTrue(containsAchievement(loadedAchievements, newAchievement.getQuestName()));
 
-        SaveHandler.delete(Achievements.class, "test/saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().delete(Achievements.class, "test/saves/achievement", FileLoader.Location.LOCAL);
     }
 
     private boolean containsAchievement(List<Achievement> achievements, String name) {

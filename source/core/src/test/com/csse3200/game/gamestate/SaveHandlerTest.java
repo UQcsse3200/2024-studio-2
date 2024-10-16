@@ -19,18 +19,18 @@ class SaveHandlerTest {
 
         GameStateTest.env1.test = 3;
         GameStateTest.env2.test2 = "test";
-        SaveHandler.save(GameStateTest.class, testDirectory, FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(GameStateTest.class, testDirectory, FileLoader.Location.LOCAL);
 
         GameStateTest.env1.test = 2;
         GameStateTest.env1.test2 = "five";
-        SaveHandler.load(GameStateTest.class, testDirectory, FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().load(GameStateTest.class, testDirectory, FileLoader.Location.LOCAL);
 
         assertEquals(3, GameStateTest.env1.test);
         assertEquals("set", GameStateTest.env1.test2);
         assertEquals(1, GameStateTest.env2.test);
         assertEquals("test", GameStateTest.env2.test2);
 
-        SaveHandler.delete(GameStateTest.class, testDirectory, FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().delete(GameStateTest.class, testDirectory, FileLoader.Location.LOCAL);
 
         FileHandle handle = Gdx.files.local(testDirectory);
         assertFalse(handle.exists());

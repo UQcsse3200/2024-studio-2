@@ -217,8 +217,7 @@ public class MazeGameScreen extends MiniGameScreen {
         this.EndScore = score;
         GameState.minigame.addHighScore("maze", score);
         PlayFab.submitScore("Fish", score);
-//        logger.info("Highscore is {}", GameState.minigame.getHighScore("maze"));
-        SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(GameState.class, "saves", FileLoader.Location.LOCAL);
     }
 
     /**
