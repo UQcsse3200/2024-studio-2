@@ -196,7 +196,7 @@ public class ServiceLocator {
     return inGameTime;
   }
 
-  private ServiceLocator() {
+  public ServiceLocator() {
     throw new IllegalStateException("Instantiating static util class");
   }
 }

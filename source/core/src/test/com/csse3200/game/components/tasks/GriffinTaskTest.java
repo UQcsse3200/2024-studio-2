@@ -3,6 +3,12 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.physics.PhysicsEngine;
+import com.csse3200.game.physics.PhysicsService;
+import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.services.GameTime;
+import com.csse3200.game.services.InGameTime;
+import com.csse3200.game.services.ServiceLocator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -22,6 +28,8 @@ public class GriffinTaskTest {
 
     @Mock
     private EventHandler eventHandler;
+    @Mock
+    private MovementTask movementTask;
 
     private GriffinTask griffinTask;
 
@@ -39,6 +47,9 @@ public class GriffinTaskTest {
         when(ownerEntity.getEvents()).thenReturn(eventHandler);
 
         // Create the GriffinTask with the mocked entities
+        ServiceLocator.registerPhysicsService(new PhysicsService() {});
+        ServiceLocator.registerRenderService(new RenderService() {});
+        ServiceLocator.registerTimeSource(new GameTime());
         griffinTask = new GriffinTask(targetEntity, priority, viewDistance, waitTime, shootRange);
 
         // Mock the owner entity to be linked with the task
@@ -57,4 +68,26 @@ public class GriffinTaskTest {
         // The target is within the spawn range, so priority should be the defined PRIORITY
         assertEquals(10, griffinTask.getPriority());
     }
+
+    @Test
+    public void shouldReturnNegativePriorityWhenOutOfRange() {
+        // Set target's position out of range
+        when(targetEntity.getPosition()).thenReturn(new Vector2(10, 10));
+
+        // Simulate task is inactive and far from the target
+        griffinTask.update();
+        assertEquals(-1, griffinTask.getPriority());
+    }
+
+    @Test
+    public void shouldReturnCorrectViewDistanceWhenActiveAndInRange() {}
+
+    @Test
+    public void shouldReturnCorrectWaitTimeWhenActiveAndInRange() {}
+
+    @Test
+    public void shouldReturnCorrectViewDistanceWhenOutOfRange() {}
+
+    @Test
+    public void shouldNotShootWhenOutOfRange() {}
 }
