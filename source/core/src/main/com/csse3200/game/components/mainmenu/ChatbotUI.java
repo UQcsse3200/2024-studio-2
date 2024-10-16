@@ -98,7 +98,7 @@ public class ChatbotUI {
      * It includes a background, predefined questions as clickable buttons, and a text field for custom input.
      */
     private void createChatbotWindow() {
-        int chatWidth = 600;
+        int chatWidth = 800;
         chatbotWindow = new Window("", skin);
 
         final float WINDOW_WIDTH = Gdx.graphics.getWidth() * 0.9f;
