@@ -62,7 +62,6 @@ public class MainMenuDisplay extends UIComponent {
     private Texture crocTexture;
     private Texture cursorTexture;
     private ChatbotUI chatbotUI;
-    private Sound owlSound;
     private Label factLabel;
     private String[] owlFacts;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
@@ -147,7 +146,6 @@ public class MainMenuDisplay extends UIComponent {
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashEmptyNight.png"); // Night background
         dayBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png"); // Day Background Texture
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
-        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
         maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png"));
         minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png"));
         minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
@@ -155,6 +153,7 @@ public class MainMenuDisplay extends UIComponent {
 
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadMusic(MUSIC);
+        resourceService.loadSounds(new String[]{"sounds/owlhoot1.mp3"});
         ServiceLocator.getResourceService().loadAll();
         AudioManager.playMusic("sounds/mainmenu/mainmenusound.wav", true);  // Play and loop the music
     }
@@ -395,7 +394,8 @@ public class MainMenuDisplay extends UIComponent {
         owlAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                owlSound.play(); // Play owl sound
+                AudioManager.playSound("sounds/owlhoot1.mp3");
+                //owlSound.play(); // Play owl sound
                 String randomFact = owlFacts[MathUtils.random(0, owlFacts.length - 1)]; // Get random fact
                 factLabel.setText(randomFact); // Set fact text
                 factLabel.addAction(Actions.sequence(
