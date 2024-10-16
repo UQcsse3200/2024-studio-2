@@ -68,6 +68,7 @@ public class ForestGameArea extends GameArea {
     private final List<Entity> minigameNPCs;
     private final Map<Integer, Entity> dynamicItems = new HashMap<>();
     private int totalForestItems = 0;
+    private int totalOceanItems = 0;
     private int totalAirItems = 0;
     private Entity player;
 
@@ -818,7 +819,7 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                //dynamicItems.put(totalForestItems, item);
+                dynamicItems.put(totalForestItems, item);
                 totalForestItems++;
             }
         } else if (zone == 2 && totalForestItems < 100) {
@@ -830,7 +831,8 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                //dynamicItems.put(totalOceanItems, item);
+                dynamicItems.put(totalOceanItems, item);
+                totalOceanItems++;
             }
         } else if (zone == 3 && totalAirItems < 100) {
             int airItemsToSpawn = Math.min(numItems, 100 - totalAirItems);
@@ -842,6 +844,7 @@ public class ForestGameArea extends GameArea {
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
                 dynamicItems.put(totalAirItems, item);
+                totalAirItems++;
             }
         }
     }
