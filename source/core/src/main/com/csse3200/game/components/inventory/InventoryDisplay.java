@@ -45,7 +45,6 @@ public abstract class InventoryDisplay extends UIComponent {
     //Textures (created by @PratulW5)
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
     private final Texture descriptionbg= new Texture("Inventory/descp.png");
-    private static final int DUSTBIN_INDEX = 51;
     private final ImageButton  dustbin= new ImageButton(inventorySkin.get("dustbin", ImageButton.ImageButtonStyle.class));
     Label descriptionLabel = new Label("", inventorySkin);
     /**
@@ -182,17 +181,11 @@ public abstract class InventoryDisplay extends UIComponent {
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                 int sourceIndex = (int) payload.getObject();
-                logger.debug("Item dragged from index: {}", sourceIndex);
-                if (targetIndex == DUSTBIN_INDEX && item == null) {
-                    //Logic to drop the item to map
-                }
-                else{
+
                 inventory.swap(sourceIndex, targetIndex);
                 createSlot(sourceIndex);
                 createSlot(targetIndex);
-                updateDisplay();}
-
-
+                updateDisplay();
             }
         });
     }
@@ -221,7 +214,7 @@ public abstract class InventoryDisplay extends UIComponent {
                 regenerateDisplay();
             }
         });
-        setupDragAndDrop(dustbin, DUSTBIN_INDEX, null);
+
         table.pack();
         ScrollPane scrollPane = new ScrollPane(table, skin);// Create the scroll pane with the table
         Table description= new Table();// For description
@@ -236,8 +229,7 @@ public abstract class InventoryDisplay extends UIComponent {
         mainInventoryDisplay.add(description).height(461).align(Align.top | Align.right).padTop(68).padRight(10).padLeft(-23); // Align to top-right
         mainInventoryDisplay.row();// Create a button table and add the buttons
         Table buttonTable = new Table();
-        buttonTable.add(dustbin).size(50, 80).padRight(350);
-        buttonTable.add(sortButton).size(100, 50).padLeft(350);
+        buttonTable.add(sortButton).size(100, 50).padLeft(700);
         mainInventoryDisplay.add(buttonTable).colspan(2).bottom().padTop(5);
         scrollPane.setScrollingDisabled(true, false);
         mainInventoryDisplay.pack();
