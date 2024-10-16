@@ -51,10 +51,14 @@ public class QuestManager extends Component {
                 () ->  player.getEvents().trigger("defeatWaterBoss"));
         player.getEvents().addListener("airBossDefeated",
                 () ->  player.getEvents().trigger("defeatAirBoss"));
+
+
     }
 
 
-
+    /**
+     * Initializes listeners for player events and subscribes achievements to relevant event handlers.
+     */
     private void setupAchievements(){
         // Init logbook listeners and handlers
         player.getEvents().addListener("addItem",this::handleItemAdvancement);
@@ -95,6 +99,7 @@ public class QuestManager extends Component {
         String type = enemy.getEnemyType().toString();
         player.getEvents().trigger("defeat" + type);
     }
+
 
     /**
      * Subscribes to event notifications for tasks quest.
@@ -203,6 +208,11 @@ public class QuestManager extends Component {
                 && quest.isActive();
     }
 
+    /**
+     * Returns a list of active or completed quests by iterating through the collection of quests.
+     * @return a list of quest objects representing the quests
+     *         that are currently active or have been completed.
+     */
     public List<Quest> getActiveQuests() {
         ArrayList<Quest> newList = new ArrayList<>();
         for(Quest quest : quests.values()) {
@@ -218,7 +228,7 @@ public class QuestManager extends Component {
      * @param quest The quest to be completed.
      */
     private void completeTask(Quest quest) {
-        ; //advance quest progression
+         //advance quest progression
         if (quest.progressQuest(player)) {
             handleQuestCompletion(quest);
         } else {
