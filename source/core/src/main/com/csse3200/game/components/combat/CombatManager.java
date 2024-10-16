@@ -1,12 +1,7 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMove;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
@@ -23,7 +18,6 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,25 +39,19 @@ public class CombatManager extends Component {
 
     private final Entity player;
     private final Entity enemy;
-    private CombatStatsComponent copyPlayerStats;
-    private CombatStatsComponent copyEnemyStats;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
     private Action playerAction;
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
-    private InputListener dialogueBoxCombatListener;
-    private TextButton contButton;
+
     private AbstractItem playerItem;
     private int playerItemIndex;
     private ItemUsageContext playerItemContext;
 
     private int statusEffectDuration;
     private boolean moveChangedByConfusion;
-
-    // HashMap stores information on enemies when attack
-    private static final Map<String,ArrayList<Action>> enemyMoveStore = new LinkedHashMap<>();
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -243,7 +231,6 @@ public class CombatManager extends Component {
         Action action;
 
         if (enemyStats.getHunger() < 25) {
-            updateEnemyMoveStore(Action.SLEEP);
             return Action.SLEEP;
         }
 
@@ -256,109 +243,7 @@ public class CombatManager extends Component {
             case 3 -> Action.SPECIAL;
             default -> null;
         };
-
-        //stores enemyAction
-        updateEnemyMoveStore(action);
         return action;
-    }
-    /**
-     * Updates the stored sequence of enemy moves for a specific enemy type.
-     * This is used to determine if a special move can be executed after a certain move combination.
-     *
-     * @param value The enemy action to store.
-     */
-
-    private void updateEnemyMoveStore(Action value) {
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-
-        if (itemsList == null)
-        {
-            itemsList = new ArrayList<>();
-            logger.info("empty hashmap :: Updating special move list");
-        }
-        else
-        //particular enemy has already made a move
-        {
-            logger.info("removing existing record in hashmap");
-            itemsList = enemyMoveStore.remove(enemy.getEnemyType().toString());
-        }
-
-
-        itemsList.add(value);
-        enemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
-        if(itemsList.size()>2)
-        {
-            logger.info("1- item list size: {}", itemsList.size());
-            checkSpecialMoveCombination();
-        }
-
-    }
-    /**
-     * Verifies if the last three moves in the enemy's sequence match a predefined special move combination.
-     * Triggers special effects if the combination is achieved, otherwise removes outdated moves.
-     */
-
-    private void checkSpecialMoveCombination()
-    {
-        boolean noSpecialMoveComboFlag = false;
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-        logger.info("Checking special move combination");
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet())
-        {
-            logger.info("Map<String,ArrayList> :: {} :: {}", entry.getKey(), entry.getValue());
-        }
-        
-        StringBuilder enemyMoves = new StringBuilder("");
-
-        // compare enemy move seq to last 3 enemy moves)
-        switch (enemy.getEnemyType().toString())
-        {
-            case "FROG" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                logger.info("enemy move combination {}", enemyMoves);
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, ATTACK, ]")){
-                    logger.info("special move combination achieved");
-                    //special effect
-                }
-            }
-            case "CHICKEN" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, GUARD, ]")){
-                }
-
-            }
-            case "MONKEY" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, GUARD, ATTACK, ]")){
-                }
-
-            }
-            case "BEAR" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[GUARD, ATTACK, ATTACK, ]")){
-                }
-
-            }
-            default -> noSpecialMoveComboFlag = true;
-        }
-
-        if(noSpecialMoveComboFlag)
-        {
-            //remove outdated enemy action
-            itemsList.removeFirst();
-        } else {
-            //reset enemy move for next special move set
-            itemsList.clear();
-            //call special effect
-        }
-    }
-    
-    private StringBuilder moveHelper(StringBuilder enemyMoves) {
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet()){
-            enemyMoves.append(entry.getValue().toString()).append(", ");
-        }
-        enemyMoves.append("");
-        return enemyMoves;
     }
 
     /**
