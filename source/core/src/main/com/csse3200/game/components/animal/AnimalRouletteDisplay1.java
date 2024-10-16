@@ -46,9 +46,9 @@ public abstract class AnimalRouletteDisplay1 {
         animalImage = new Image(new Texture(animalImagePaths[0]));
 
         Table animalTable = new Table();
-        animalTable.add(leftButton).padRight(20);
+        animalTable.add(leftButton).size(50, 50).padRight(20);
         animalTable.add(animalImage).size(300, 300);
-        animalTable.add(rightButton).padLeft(20);
+        animalTable.add(rightButton).size(50, 50).padLeft(20);
 
         mainTable.add(animalTable).expand().center();
         mainTable.row();
