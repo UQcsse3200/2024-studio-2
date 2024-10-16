@@ -35,8 +35,8 @@ public class CombatButtonDisplay extends UIComponent {
     CustomButton guardButton;
     CustomButton sleepButton;
     CustomButton itemsButton;
-    ChangeListener dialogueBoxListener;
-    ChangeListener dialogueBoxLeaveListener;
+    ChangeListener dialogueBoxVisibleListener;
+    ChangeListener dialogueBoxNotVisibleListener;
     CombatArea combatArea;
     // Create a Table to hold the hover text with a background
     private Table hoverTextTable;
@@ -73,7 +73,7 @@ public class CombatButtonDisplay extends UIComponent {
         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
 
         // Add a listener to detect when dialogue box is on screen.
-        dialogueBoxListener = new ChangeListener()
+        dialogueBoxVisibleListener = new ChangeListener()
         {
             @Override
             public void changed(ChangeEvent event, Actor actor)
@@ -84,13 +84,14 @@ public class CombatButtonDisplay extends UIComponent {
                     // Hide buttons when dialogue box is visible.
                     hideButtons();
 
-                    if (dialogueBoxLeaveListener == null)
+                    // Make sure it's only added once (not every time original listener detects dialogue box is visible).
+                    if (dialogueBoxNotVisibleListener == null)
                     {
                         // Once the old listener has detected the dialogue box is visible, then add a new listener to
                         // detect when the dialogue box is no longer visible.
                         // Ensures the listener which is detecting the dialogue box to no longer be visible doesn't
                         // instantly add the buttons after clicking.
-                        dialogueBoxLeaveListener = new ChangeListener()
+                        dialogueBoxNotVisibleListener = new ChangeListener()
                         {
                             @Override
                             public void changed(ChangeEvent event, Actor actor)
@@ -105,19 +106,22 @@ public class CombatButtonDisplay extends UIComponent {
                                     showButtons();
 
                                     // Get rid of this listener.
-                                    stage.removeListener(dialogueBoxLeaveListener);
+                                    stage.removeListener(dialogueBoxNotVisibleListener);
                                 }
                             }
                         };
                         // Add listener to stage.
-                        stage.addListener(dialogueBoxLeaveListener);
+                        stage.addListener(dialogueBoxNotVisibleListener);
                         logger.info("BUTTON DISPLAY: Added listener to stage to monitor DialogueBox visibility");
                     }
                 }
             }
         };
-        stage.addListener(dialogueBoxListener);
+
+        stage.addListener(dialogueBoxVisibleListener);
+
         createBackgroundForHints();
+
         createTextForHints();
     }
 
@@ -296,7 +300,7 @@ public class CombatButtonDisplay extends UIComponent {
      */
     public void displayEndCombatDialogue(Entity enemyEntity, boolean winStatus) {
         String[][] endText;
-        stage.removeListener(dialogueBoxListener);
+        stage.removeListener(dialogueBoxVisibleListener);
 
         // Hide buttons before displaying dialogue
         entity.getEvents().trigger("displayCombatResults");
@@ -331,7 +335,7 @@ public class CombatButtonDisplay extends UIComponent {
      */
     public void displayBossEndCombatDialogue(Entity bossEntity, boolean winStatus) {
         String[][] endText;
-        stage.removeListener(dialogueBoxListener);
+        stage.removeListener(dialogueBoxVisibleListener);
 
         // Hide buttons before displaying dialogue
         entity.getEvents().trigger("displayCombatResults");
