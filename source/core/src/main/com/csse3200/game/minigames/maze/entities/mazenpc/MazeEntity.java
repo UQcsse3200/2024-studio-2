@@ -21,7 +21,7 @@ public abstract class MazeEntity extends Entity {
      * Constructs a MazeEntity with common components for physics, movement, collision,
      * and attack interactions. This constructor sets up the basic entity configuration.
      */
-    public MazeEntity() {
+    protected MazeEntity() {
         // Common components for all maze entities
         this.addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())

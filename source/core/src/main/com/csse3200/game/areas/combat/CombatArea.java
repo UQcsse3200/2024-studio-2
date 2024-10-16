@@ -1,5 +1,6 @@
 package com.csse3200.game.areas.combat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.csse3200.game.areas.GameArea;
@@ -14,7 +15,6 @@ import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
 import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.entities.factories.CombatAnimalFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
@@ -184,21 +184,21 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
         Entity newEnemy = CombatAnimalFactory.createKangaBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 200), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 230), true, true);
         this.enemyDisplay = newEnemy;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnWaterBoss() {
         Entity newEnemy = CombatAnimalFactory.createWaterBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 390), true, true);
         this.enemyDisplay = newEnemy;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnAirBoss() {
         Entity newEnemy = CombatAnimalFactory.createAirBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 217), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 330), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -296,7 +296,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnJoey() {
         Entity newEnemy = CombatAnimalFactory.createJoeyCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(796, 211), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(796, 180), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -335,16 +335,22 @@ public class CombatArea extends GameArea {
      */
     public void playMusic() {
         AudioManager.stopMusic();
-        AudioManager.playMusic(CombatAreaConfig.COMBATBACKGROUND_MUSIC, true);
+        if (this.enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+            AudioManager.playMusic("sounds/combat-land-boss.mp3", true);
+        } else if (this.enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            AudioManager.playMusic("sounds/combat-water-boss.mp3", true);
+        } else if (this.enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            AudioManager.playMusic("sounds/combat-air-boss.mp3", true);
+        } else {
+            AudioManager.playMusic(CombatAreaConfig.COMBATBACKGROUND_MUSIC, true);
+        }
     }
 
     /** Pause the music for combat. Will be finalised and used when
      * combat pause is implemented
      */
     public void pauseMusic() {
-//        Music music =
-//                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
-//        music.pause();
+        // Stop the music using AudioManager
         AudioManager.stopMusic();
     }
 

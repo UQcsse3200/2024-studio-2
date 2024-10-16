@@ -45,7 +45,7 @@ public class CoinTest {
 
     // Used helper method to get the GAME_WIDTH value from the Coin class using reflection
     private float getGameWidth() throws NoSuchFieldException, IllegalAccessException {
-        Field field = Coin.class.getDeclaredField("GAME_WIDTH");
+        Field field = Coin.class.getDeclaredField("gameWidth");
         field.setAccessible(true);
         return (float) field.get(coin);
     }
@@ -53,8 +53,8 @@ public class CoinTest {
     // Testing to verify the initial position of the coin is within the expected bounds
     @Test
     public void testInitialPosition() throws NoSuchFieldException, IllegalAccessException {
-        float minY = getPrivateField("MIN_Y");
-        float maxY = getPrivateField("MAX_Y");
+        float minY = getPrivateField("minY");
+        float maxY = getPrivateField("maxY");
 
         assertTrue(coin.getPosition().x >= 500);
         assertTrue(coin.getPosition().y >= minY && coin.getPosition().y <= maxY);
@@ -96,8 +96,8 @@ public class CoinTest {
         assertTrue(coin.getPosition().x <= initialX + gameWidth + 960);
 
         // Ensure the y position is within the valid range
-        float minY = getPrivateField("MIN_Y");
-        float maxY = getPrivateField("MAX_Y");
+        float minY = getPrivateField("minY");
+        float maxY = getPrivateField("maxY");
         assertTrue(coin.getPosition().y >= minY && coin.getPosition().y <= maxY);
     }
 
