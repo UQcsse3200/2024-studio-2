@@ -54,14 +54,15 @@ public class PauseDisplay extends UIComponent {
 
     private void addActors() {
         // Title label
-        Label title = new Label(" Game Paused", skin, "title", Color.WHITE);
+        Label title = new Label("Attack On Animals", skin, "title");
         Image titleBackGround = new Image(ServiceLocator.getResourceService().getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
+        title.setColor(Color.RED);
         // Create tables
         Table menuBtns = makeMenuBtns();
         // Root table that holds everything
         rootTable = new Table();
         rootTable.setFillParent(true);
-        rootTable.add(titleBackGround).width(Gdx.graphics.getWidth() * 0.3f).height(Gdx.graphics.getHeight() * 0.1f).center();
+        rootTable.add(titleBackGround).size(titleBackGround.getWidth() * 0.75f, titleBackGround.getHeight() * 0.75f).center();
         rootTable.row();
         rootTable.add(title).center().padTop(-titleBackGround.getHeight() * 0.75f);
         // Buttons Here
@@ -72,6 +73,7 @@ public class PauseDisplay extends UIComponent {
         // Add root table to the stage
         stage.addActor(rootTable);
     }
+
 
     /**
      * Creates a table of menu buttons for the pause display.
