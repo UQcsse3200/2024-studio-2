@@ -1,48 +1,48 @@
 MonkeySprite.png
-size: 848, 936
+size: 880, 936
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 monkey1
   rotate: false
   xy: 0, 0
-  size: 424, 312
-  orig: 424, 312
+  size: 440, 312
+  orig: 440, 312
   offset: 0, 0
   index: -1
 monkey2
   rotate: false
-  xy: 424, 0
-  size: 424, 312
-  orig: 424, 312
+  xy: 440, 0
+  size: 440, 312
+  orig: 440, 312
   offset: 0, 0
   index: -1
 monkey3
   rotate: false
   xy:0, 312
-  size: 424, 312
-  orig: 424, 312
+  size: 440, 312
+  orig: 440, 312
   offset: 0, 0
   index: -1
 monkey4
   rotate: false
-  xy: 424, 312
-  size: 424, 312
-  orig: 424, 312
+  xy: 440, 312
+  size: 440, 312
+  orig: 440, 312
   offset: 0, 0
   index: -1
 monkey5
   rotate: false
   xy: 0, 624
-  size: 424, 312
-  orig: 424, 312
+  size: 440, 312
+  orig: 440, 312
   offset: 0, 0
   index: -1
 monkey6
   rotate: false
-  xy: 424, 624
-  size: 424, 312
-  orig: 424, 312
+  xy: 440, 624
+  size: 440, 312
+  orig: 440, 312
   offset: 0, 0
   index: -1
 
