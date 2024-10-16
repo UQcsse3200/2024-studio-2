@@ -30,13 +30,13 @@ public class PlayerActions extends Component {
 
   private PhysicsComponent physicsComponent;
   private CombatStatsComponent combatStatsComponent;
-  private Vector2 walkDirection = Vector2.Zero.cpy();
-  private boolean moving = false;
+  Vector2 walkDirection = Vector2.Zero.cpy();
+  boolean moving = false;
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
-  private DogSoundPlayer dogSoundPlayer;
-  private AirAnimalSoundPlayer airAnimalSoundPlayer;
-  private WaterAnimalSoundPlayer waterAnimalSoundPlayer;
+  DogSoundPlayer dogSoundPlayer;
+  AirAnimalSoundPlayer airAnimalSoundPlayer;
+  WaterAnimalSoundPlayer waterAnimalSoundPlayer;
   private final String selectedAnimal;
   private final GdxGame game;
 
@@ -44,6 +44,8 @@ public class PlayerActions extends Component {
   private long lastTimeSoundPlayed = 0;
 
   public PlayerActions(GdxGame game, Entity player, String selectedAnimal) {
+    assert player != null : "Player entity cannot be null";
+    assert game != null : "Game instance cannot be null";
     this.game = game;
     this.player = player;
     this.selectedAnimal = selectedAnimal;
@@ -96,7 +98,7 @@ public class PlayerActions extends Component {
   /**
    * Switches to the water map.
    */
-  private void switchMap() {
+  void switchMap() {
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     if (MapHandler.getUnlockStatus(MapType.WATER)) {
       mainGameScreen.setMap(MapHandler.MapType.WATER);
@@ -206,13 +208,13 @@ public class PlayerActions extends Component {
     player.getEvents().trigger("attackTask");
   }
 
-  private void restMenu() {
+  void restMenu() {
     logger.info("Sending Pause");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.addOverlay(OverlayType.PAUSE_OVERLAY);
   }
 
-  private void quest() {
+  void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.addOverlay(OverlayType.QUEST_OVERLAY);
