@@ -1,5 +1,6 @@
 package com.csse3200.game.components.tasks;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.ai.tasks.DefaultTask;
@@ -15,41 +16,28 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 /**
- * Task for a Hive entity to spawn bees and control their behavior.
- * The Hive periodically spawns bees after a short waiting period.
+ * Task for a Hive entity to periodically spawn bees after a specified waiting period.
+ * Bees are spawned at random positions near the hive, and the task also handles
+ * the disposal of the bees and the hive entity when the player gets close enough.
  * Requires an entity with a PhysicsMovementComponent.
  */
 public class HiveTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(HiveTask.class);
 
-    private WaitTask waitTask;
-    private final Entity target;
-    private final ArrayList<Entity> bees;
-    private int maxBees = 3;  // The number of bees to spawn
-    private int friendlyBee = 0;
+    private final float waitTime; // Time to wait between bee spawns
+    private final Entity target;  // The target that bees will chase
+    private float elapsedTime = 0; // Tracks elapsed time for spawning
+    private ArrayList<Entity> entities; // List of spawned bee entities
 
     /**
-     * Creates a new HiveTask for the specified target entity.
-     * Initializes the list of bees and the target.
+     * Creates a new HiveTask for the specified target entity and initializes
+     * the waiting time for spawning bees.
      *
      * @param target The entity that the bees will target.
      */
     public HiveTask(Entity target) {
         this.target = target;
-        this.bees = new ArrayList<>();
-    }
-
-    /**
-     * Creates a new HiveTask for the specified target entity.
-     * Initializes the list of bees and the target as well as setting max bees to spawn.
-     *
-     * @param target The entity that the bees will target.
-     * @param maxBees the maximum number of bees that can be spawned at once.
-     */
-    public HiveTask(Entity target, int maxBees) {
-        this.target = target;
-        this.bees = new ArrayList<>();
-        this.maxBees = maxBees;
+        waitTime = 7f; // Time between spawning bees (7 seconds)
     }
 
     @Override
@@ -58,76 +46,71 @@ public class HiveTask extends DefaultTask implements PriorityTask {
     }
 
     /**
-     * Checks if the entity has spawned yet, if not waits, else it wanders
+     * Starts the task by triggering the floating animation and initializing the list of bees.
      */
     @Override
     public void start() {
         super.start();
         owner.getEntity().getEvents().trigger("float");
-        startWaiting();
+        entities = new ArrayList<>();
     }
 
     /**
-     * Begins the waiting process for the hive to spawn bees.
+     * Updates the task every frame. It increments elapsed time to track when
+     * to spawn a new bee. It also checks if the player is within a certain distance
+     * of the hive, and if so, it disposes of the hive and all spawned bees.
      */
-    private void startWaiting() {
-        if (waitTask == null || waitTask.getStatus() != Status.ACTIVE) {
-            waitTask = new WaitTask(1.0f);
-            waitTask.create(owner);
-            waitTask.start();
-        }
-    }
-
-    /**
-     * Updates the task, checking if any bees need to be spawned or respawned.
-     * If less than maxBees exist and the waiting task is active, it stops the waiting task and spawns a bee.
-     * Otherwise, it starts a new waiting task.
-     */
-
     @Override
     public void update() {
-        // Reset friendlyBee to recount "friendly" bees in the current update cycle
-        friendlyBee = 0;
+        System.out.println(elapsedTime);
+        elapsedTime += Gdx.graphics.getDeltaTime(); // Increment elapsed time by the frame delta time
 
-        // Loop through each bee and check if it has the ChaseTask
-        for (Entity bee : bees) {
-            // check if bee has been defeated
-        }
+        float ownerX = owner.getEntity().getPosition().x;
+        float ownerY = owner.getEntity().getPosition().y;
 
-        // Check if all bees are now friendly
-        if (friendlyBee == maxBees) {
-            owner.getEntity().getComponent(AnimationRenderComponent.class).dispose();
-            this.stop(); // Stop the task
-            owner.getEntity().dispose(); // Dispose of the owner entity
-        }
-        // Check if there are fewer bees than maxBees and no friendly bees
-        else if (bees.size() < maxBees && friendlyBee == 0) {
-            if (waitTask != null && waitTask.getStatus() == Status.ACTIVE) {
-                waitTask.stop(); // Stop the wait task if active
+        float playerX = target.getPosition().x;
+        float playerY = target.getPosition().y;
+
+        System.out.println(Vector2.dst2(ownerX, ownerY, playerX, playerY));
+
+        // If the player is close enough to the hive, dispose of the hive and all bees
+        if (Vector2.dst2(ownerX, ownerY, playerX, playerY) < 10f) {
+            for (Entity e : entities) {
+                e.setEnabled(false);
+                AnimationRenderComponent animationRenderComponent = e.getComponent(AnimationRenderComponent.class);
+                animationRenderComponent.stopAnimation();
+                e.specialDispose(); // Dispose of the bee entity
             }
-            spawnBee(); // Spawn a new bee
+            owner.getEntity().setEnabled(false); // Disable and dispose of the hive
+            AnimationRenderComponent animationRenderComponent = owner.getEntity().getComponent(AnimationRenderComponent.class);
+            animationRenderComponent.stopAnimation();
+            owner.getEntity().specialDispose();
         }
-        // Start a new waiting task if the current waitTask is finished
-        else if (waitTask != null && waitTask.getStatus() == Status.FINISHED) {
-            startWaiting();
+
+        // Spawn a new bee after the specified waiting time
+        if (elapsedTime > waitTime) {
+            spawnBee(); // Spawn a bee when time exceeds the wait time
+            elapsedTime = 0; // Reset elapsed time
         }
+
     }
 
     /**
-     * Spawns a new bee entity at a randomized position near the hive's location
-     * and adds it to the list of bees. The bee is created via the EnemyFactory, and
-     * an event is triggered to spawn it at the hive's location.
+     * Spawns a new bee entity at a random position near the hive and adds it to
+     * the list of active bees. The bee is created via the EnemyFactory, and an event
+     * is triggered to spawn it in the game world.
      */
     private void spawnBee() {
-        Entity bee = EnemyFactory.createBee(target);
-        bees.add(bee);
+        Entity bee = EnemyFactory.createBee(target); // Create a new bee targeting the player
 
-        // Randomize the spawn position slightly around the hive
+        entities.add(bee); // Add the bee to the list of active entities
+
+        // Randomize the bee's spawn position around the hive
         Vector2 hivePos = owner.getEntity().getPosition();
         Vector2 spawnPos = RandomUtils.random(new Vector2(hivePos.x - 2, hivePos.y - 2), new Vector2(hivePos.x + 2, hivePos.y + 2));
 
+        // Trigger an event to spawn the bee at the randomized position
         this.owner.getEntity().getEvents().trigger("spawnBee", bee, spawnPos);
-
-        logger.info("Bee spawned targeting: {} at position: {}", target, spawnPos);
     }
 }
+
