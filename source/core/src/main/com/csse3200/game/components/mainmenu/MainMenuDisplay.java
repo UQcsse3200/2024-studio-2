@@ -41,6 +41,11 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private ImageButton toggleWindowBtn;
+    private Texture minimizeTexture;
+    private Texture maximizeTexture;
+    private Drawable minimizeDrawable;
+    private Drawable maximizeDrawable;
     private Table menuButtonTable;
     private Table loginRegisterTable;
     private Table leaderboardTable;
@@ -143,6 +148,10 @@ public class MainMenuDisplay extends UIComponent {
         dayBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png"); // Day Background Texture
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
         owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
+        maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png"));
+        minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png"));
+        minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
+        maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
 
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadMusic(MUSIC);
@@ -670,50 +679,50 @@ public class MainMenuDisplay extends UIComponent {
         helpWindow.show();
     }
 
+
     /**
      * Adds a minimize button and mute button to the top-right corner of the screen.
      */
     private void addTopRightButtons() {
-
-        Texture minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png")); // Replace with your minimize icon
-        Texture maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png")); // Replace with your maximize icon
-
-        Drawable minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
-        Drawable maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
-
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
 
         // Adding Icon for the minimax button
-        ImageButton toggleWindowBtn;
+
         if (Gdx.graphics.isFullscreen()) {
             toggleWindowBtn = new ImageButton(minimizeDrawable);
         } else {
             toggleWindowBtn = new ImageButton(maximizeDrawable);
         }
 
-        // Listener for minimizing/maximizing window
         toggleWindowBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
+                UserSettings.Settings settings = UserSettings.get();
+
                 if (isFullscreen) {
-                    // Mini-screen mode
-                    UserSettings.Settings settings = UserSettings.get();
+                    // Switch to windowed mode
                     settings.fullscreen = false;
                     UserSettings.applyDisplayMode(settings);
-                    toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
-                    // Fullscreen mode
-                    UserSettings.Settings settings = UserSettings.get();
+                    // Switch to fullscreen mode
                     settings.fullscreen = true;
                     UserSettings.applyDisplayMode(settings);
-                    toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
+
+                // After toggling fullscreen, update the settings UI to reflect the change
+                if (settingsMenu != null) {
+                    settingsMenu.updateSettingsUI();
+                }
+
+                // Update the toggle button texture
+                updateToggleWindowButtonTexture();
                 logger.info("Fullscreen toggled: {}", !isFullscreen);
             }
         });
+
 
         Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
         buttonStyle.up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
@@ -740,6 +749,14 @@ public class MainMenuDisplay extends UIComponent {
         // Add the table to the stage
         stage.addActor(topRightTable);
     }
+    public void updateToggleWindowButtonTexture() {
+        if (Gdx.graphics.isFullscreen()) {
+            toggleWindowBtn.getStyle().imageUp = minimizeDrawable;  // Set to minimize icon in fullscreen mode
+        } else {
+            toggleWindowBtn.getStyle().imageUp = maximizeDrawable;  // Set to maximize icon in windowed mode
+        }
+    }
+
 
 
     /**
