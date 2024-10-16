@@ -134,15 +134,9 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/zzz.png", Texture.class);
         sleepImage = new Image(sleepTexture);
 
-        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER){
-            float xZ = stage.getWidth() * 0.2f;
-            float yZ = stage.getHeight() * 0.6f;
-            sleepImage.setPosition(xZ, yZ);
-        } else {
-            float xZ = stage.getWidth() * 0.21f;
-            float yZ = stage.getHeight() * 0.39f;
-            sleepImage.setPosition(xZ, yZ);
-        }
+        float xZ = stage.getWidth() * 0.21f;
+        float yZ = stage.getHeight() * 0.39f;
+        sleepImage.setPosition(xZ, yZ);
 
         float scaleFactor = stage.getWidth() * 0.07f / sleepImage.getWidth();
         sleepImage.setScale(scaleFactor);
@@ -190,15 +184,9 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/zzz.png", Texture.class);
         enemySleepImage = new Image(sleepTexture2);
 
-        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER){
-            float xZ = stage.getWidth() * 0.58f;
-            float yZ = stage.getHeight() * 0.6f;
-            enemySleepImage.setPosition(xZ, yZ);
-        } else {
-            float xZ = stage.getWidth() * 0.6f;
-            float yZ = stage.getHeight() * 0.39f;
-            enemySleepImage.setPosition(xZ, yZ);
-        }
+        float xZ = stage.getWidth() * 0.6f;
+        float yZ = stage.getHeight() * 0.39f;
+        enemySleepImage.setPosition(xZ, yZ);
 
         enemySleepImage.setScale(0.25f);
         enemySleepImage.setVisible(true);
@@ -248,16 +236,8 @@ public class CombatAnimationDisplay extends UIComponent {
                 .getAsset("images/shield_flipped.png", Texture.class);
         guardImage = new Image(guardTexture);
 
-
-        float xZ;
-        float yZ;
-        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            xZ = stage.getWidth() * 0.385f;
-            yZ = stage.getHeight() * 0.5f;
-        } else {
-            xZ = stage.getWidth() * 0.370f;
-            yZ = stage.getHeight() * 0.286f;
-        }
+        float xZ = stage.getWidth() * 0.370f;
+        float yZ = stage.getHeight() * 0.286f;
 
         guardImage.setPosition(xZ, yZ);
 
@@ -297,15 +277,10 @@ public class CombatAnimationDisplay extends UIComponent {
 
         enemyGuardImage.setPosition(xZ, yZ);
         enemyGuardImage.setScale(0.3f);
-        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            xZ = stage.getWidth() * 0.57f;
-            yZ = stage.getHeight() * 0.5f;
-            enemyGuardImage.setPosition(xZ, yZ);
-        } else {
-            xZ = stage.getWidth() * 0.56f;
-            yZ = stage.getHeight() * 0.285f;
-            enemyGuardImage.setPosition(xZ, yZ);
-        }
+
+        xZ = stage.getWidth() * 0.56f;
+        yZ = stage.getHeight() * 0.285f;
+        enemyGuardImage.setPosition(xZ, yZ);
 
         // enemyGuardImage.setScale(0.4f);
         float scaleFactor = stage.getWidth() * 0.1f / enemyGuardImage.getWidth();
@@ -338,16 +313,8 @@ public class CombatAnimationDisplay extends UIComponent {
         combatImage.setAlign(Align.center);
         combatImage.setScale(0.3f);
 
-        float xZ;
-        float yZ;
-
-        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            xZ = stage.getWidth() * 0.3f;
-            yZ = stage.getHeight() * 0.5f;
-        } else {
-            xZ = stage.getWidth() * 0.3f;
-            yZ = stage.getHeight() * 0.3f;
-        }
+        float xZ = stage.getWidth() * 0.3f;
+        float yZ = stage.getHeight() * 0.3f;
 
         // Set the initial position of the image (e.g., off-screen or at a specific point)
         combatImage.setPosition(xZ, yZ);
@@ -385,17 +352,9 @@ public class CombatAnimationDisplay extends UIComponent {
         enemyCombatImage.setAlign(Align.center);
         enemyCombatImage.setScale(0.3f);
 
-        float xZ;
-        float yZ = 0;
-        if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            xZ = stage.getWidth() * 0.69f;
-            yZ = stage.getHeight() * 0.53f;
-            enemyCombatImage.setPosition(xZ, yZ);
-        } else {
-            xZ = stage.getWidth() * 0.69f;
-            yZ = stage.getHeight() * 0.38f;
-            enemyCombatImage.setPosition(xZ, yZ);
-        }
+        float xZ = stage.getWidth() * 0.69f;
+        float yZ = stage.getHeight() * 0.38f;
+        enemyCombatImage.setPosition(xZ, yZ);
 
         enemyCombatImage.setVisible(true);
 
