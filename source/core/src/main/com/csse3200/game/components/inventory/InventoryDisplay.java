@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.inventory.*;
@@ -44,7 +46,8 @@ public abstract class InventoryDisplay extends UIComponent {
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
-
+    private final Texture alert = new Texture(Gdx.files.internal("Inventory/skinforalert.png"));
+    Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(alert));
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
@@ -224,7 +227,9 @@ public abstract class InventoryDisplay extends UIComponent {
         });
         table.row();
         table.add(sortButton);
-
+        if (true) {
+            showInventoryFullAlert();
+        }
         // Add the table to the window
         mainInventoryDisplay.add(table).expand().fill();
         mainInventoryDisplay.pack();
@@ -235,7 +240,25 @@ public abstract class InventoryDisplay extends UIComponent {
                 (stage.getHeight() - mainInventoryDisplay.getHeight()) / 2 // Center vertically
         );
     }
-
+    private void showInventoryFullAlert() {
+        Dialog dialog = new Dialog(" ", skin) {
+            public void result(Object obj) {
+              
+            }
+        };
+    
+        dialog.text("Inventory is full!").padTop(50).padLeft(50);
+        dialog.button("OK", true);
+        
+        dialog.setBackground(backgroundDrawable);
+        dialog.setSize(600,200);
+        dialog.setPosition(
+            (stage.getWidth() - dialog.getWidth()) / 2 - 10,  // Center horizontally
+            (stage.getHeight() - dialog.getHeight()) / 2 // Center vertically
+    );  // Add a button to close the dialog
+        
+        stage.addActor(dialog);  // Show the dialog on the stage
+    }
     /**
      * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
      */
