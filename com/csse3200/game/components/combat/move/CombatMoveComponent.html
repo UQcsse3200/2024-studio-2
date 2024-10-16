@@ -159,14 +159,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Executes a move based on the provided action, target, guarding status, and number of hits landed.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMoveSet()" class="member-name-link">getMoveSet</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMoveAction(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">getMoveAction</a><wbr>(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the appropriate combat move based on the action type.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMoveSet()" class="member-name-link">getMoveSet</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the list of combat moves associated with this component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasSpecialMove()" class="member-name-link">hasSpecialMove</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasSpecialMove()" class="member-name-link">hasSpecialMove</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if the entity has a special move in its move set.</div>
 </div>
 </div>
@@ -275,6 +280,19 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>an array of <a href="CombatMove.StatsChange.html" title="class in com.csse3200.game.components.combat.move"><code>CombatMove.StatsChange</code></a>, representing the changes in stats
          after the move execution. If no valid move is found, an empty array is returned.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getMoveAction(com.csse3200.game.components.combat.CombatManager.Action)">
+<h3>getMoveAction</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CombatMove.html" title="class in com.csse3200.game.components.combat.move">CombatMove</a></span>&nbsp;<span class="element-name">getMoveAction</span><wbr><span class="parameters">(<a href="../CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;action)</span></div>
+<div class="block">Retrieves the appropriate combat move based on the action type.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>action</code> - the action that specifies which move to retrieve.</dd>
+<dt>Returns:</dt>
+<dd>the combat move corresponding to the action, or null if none is found.</dd>
 </dl>
 </section>
 </li>
