@@ -206,6 +206,20 @@ public class CustomButton extends Stack{
     public Label getLabel() {
         return label;
     }
+    public void hideCustomButton() {
+        button.setVisible(false);
+        button.setTouchable(Touchable.disabled);
+        label.setVisible(false);
+        label.setTouchable(Touchable.disabled);
+    }
+
+    public void showCustomButton() {
+        button.setVisible(true);
+        button.setTouchable(Touchable.enabled);
+        label.setVisible(true);
+        label.setTouchable(Touchable.enabled);
+
+    }
 
     /**
      * Disposes of any additional resources if needed (textures are static and should not be disposed here).
