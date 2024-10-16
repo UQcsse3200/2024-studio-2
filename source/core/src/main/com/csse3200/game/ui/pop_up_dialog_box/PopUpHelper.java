@@ -39,8 +39,8 @@ public class PopUpHelper {
      */
     public void displayDialog(String title, String content, String animalImagePath, float width, float height, int animalIndex, Runnable callback) {
         PopupDialogBox dialogBox = new PopupDialogBox(
-                new String[]{title},
-                new String[]{content},
+                title,
+                content,
                 animalImagePath,
                 skin,
                 width,

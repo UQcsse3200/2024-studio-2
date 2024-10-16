@@ -106,4 +106,12 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
         }
         super.consumeItem(item, context, index);
     }
+
+    /**
+     * Clears the inventory of the player (used to empty inventory when loss condition satisfied in combat)
+     */
+    public void clearInventory() {
+        this.inventory.clearInventory();
+        potions.clear();
+    }
 }

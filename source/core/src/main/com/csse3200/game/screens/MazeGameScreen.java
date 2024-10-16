@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraComponent;
 import com.csse3200.game.files.FileLoader;
@@ -49,7 +50,7 @@ import static com.csse3200.game.entities.factories.RenderFactory.createCamera;
 /**
  * Class for Underwater Maze Mini-Game Screen
  */
-public class MazeGameScreen extends PausableScreen {
+public class MazeGameScreen extends MiniGameScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
 
@@ -59,15 +60,12 @@ public class MazeGameScreen extends PausableScreen {
 
     // Physics engine
     private final PhysicsEngine physicsEngine;
-
-    // Used for preserving screen
-    private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
     private static final float GAME_WIDTH = 5f;
 
     // Used for putting elements on the screen
     private final Stage stage;
     private final Skin skin;
+    private final SnakePopup mazePopup;
 
     // Scale for resizing the screen
     private float scale;
@@ -77,9 +75,8 @@ public class MazeGameScreen extends PausableScreen {
     private int EndScore = -1;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
-        super(game);
-        this.oldScreen = screen;
-        this.oldScreenServices = container;
+        super(game, screen, container);
+        this.mazePopup = new SnakePopup(this, "images/minigames/MazePopUp.png");
         this.scale = 1;
 
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -119,7 +116,15 @@ public class MazeGameScreen extends PausableScreen {
 
         loadAssets();
         createUI();
-        setupExitButton();
+        createHelpButton();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                game.initializeServices();
+                addSnakePopupOverlay("images/minigames/MazePopUp.jpg");
+                mazePopup.show();
+            }
+        }, 0.03f);
 
         logger.debug("Initialising maze game screen entities");
         MazeTerrainFactory terrainFactory = new MazeTerrainFactory(camComponent);
@@ -148,6 +153,25 @@ public class MazeGameScreen extends PausableScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {  // Restart game
             restartGame();
         }
+        mazePopup.render();
+    }
+
+    private void createHelpButton() {
+        // Create the help button
+        CustomButton helpButton = new CustomButton("Help", skin);
+        helpButton.setButtonSize(100, 50);
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Call the function to add the Snake popup overlay
+                addSnakePopupOverlay("images/minigames/MazePopUp.png");
+                mazePopup.show();
+            }
+        });
+
+        helpButton.setPosition(Gdx.graphics.getWidth() - helpButton.getWidth() - 10 * scale,
+                Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
+        stage.addActor(helpButton);
     }
 
     /**
@@ -236,14 +260,6 @@ public class MazeGameScreen extends PausableScreen {
     }
 
     /**
-     * Called from event to restart the game
-     */
-    void restartGame() {
-        dispose();
-        game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
-    }
-
-    /**
      * Shows the pause menu
      */
     private void restMenu() {
@@ -278,6 +294,9 @@ public class MazeGameScreen extends PausableScreen {
 
         // Add the table to the stage
         stage.addActor(exitButtonTable);
+        if (!resting) {
+            addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
+        }
     }
 
     /**
@@ -304,6 +323,7 @@ public class MazeGameScreen extends PausableScreen {
                 removeOverlay();
                 restMenu();
             }
+            createHelpButton();
             mazeGameArea.getPlayer().getComponent(MazePlayerStatsDisplay.class).create();  // Reloads health
             mazeGameArea.getPlayer().getComponent(MazePlayerScoreDisplay.class).create();  // Reloads score
             mazeGameArea.displayUI();  // Reloads Title

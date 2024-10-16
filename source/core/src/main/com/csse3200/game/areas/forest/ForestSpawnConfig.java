@@ -8,15 +8,20 @@ public class ForestSpawnConfig {
     public static final int NUM_STARFISH = 7;
 
     // Items
-    public static final int NUM_APPLES = 2;
-    public static final int NUM_CARROTS = 3;
-    public static final int NUM_CHICKEN_LEGS = 2;
-    public static final int NUM_MEAT = 2;
-    public static final int NUM_CANDY = 2;
-    public static final int NUM_HEALTH_POTIONS = 2;
-    public static final int NUM_DEFENSE_POTIONS = 2;
-    public static final int NUM_ATTACK_POTIONS = 2;
-    public static final int NUM_SPEED_POTIONS = 4;
+    public static final int NUM_APPLES = 1;
+    public static final int NUM_CARROTS = 1;
+    public static final int NUM_CHICKEN_LEGS = 1;
+    public static final int NUM_MEAT = 1;
+    public static final int NUM_CANDY = 1;
+    public static final int NUM_HEALTH_POTIONS = 1;
+    public static final int NUM_DEFENSE_POTIONS = 1;
+    public static final int NUM_ATTACK_POTIONS = 1;
+    public static final int NUM_SPEED_POTIONS = 1;
+    public static final int NUM_FRIED_FISH = 1;
+    public static final int NUM_SHRIMP = 1;
+    public static final int NUM_CLOUD_CUPCAKES = 1;
+    public static final int NUM_CLOUD_COOKIES = 1;
+    public static final int NUM_COTTON_CLOUD = 1;
 
     // Enemies
     public static final int NUM_CHICKENS = 4;

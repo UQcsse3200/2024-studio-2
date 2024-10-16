@@ -80,6 +80,13 @@ combat_idle
   orig: 16, 16
   offset: 0, 0
   index: 2
+combat_idle
+  rotate: false
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
 combat_move
   rotate: false
   xy: 16, 0
@@ -101,3 +108,10 @@ combat_move
   orig: 16, 16
   offset: 0, 0
   index: 2
+combat_move
+  rotate: false
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3

@@ -8,18 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class SnakeGridTest {
+class SnakeGridTest {
 
     // it initialises the SnakeGrid instance before each test
     private SnakeGrid snakeGrid;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         snakeGrid = new SnakeGrid();
     }
 
     @Test
-    public void testDefaultDimensions() {
+    void testDefaultDimensions() {
         // the expected width and height for the grid class.
         int expectedWidth = 20;
         int expectedHeight = 20;
