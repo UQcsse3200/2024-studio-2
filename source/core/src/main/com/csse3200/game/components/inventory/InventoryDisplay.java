@@ -227,7 +227,7 @@ public abstract class InventoryDisplay extends UIComponent {
         });
         table.row();
         table.add(sortButton);
-        if (true) {
+        if (inventory.isFull()) {
             showInventoryFullAlert();
         }
         // Add the table to the window
@@ -251,7 +251,7 @@ public abstract class InventoryDisplay extends UIComponent {
         dialog.button("OK", true);
         
         dialog.setBackground(backgroundDrawable);
-        dialog.setSize(600,200);
+        dialog.setSize(600,150);
         dialog.setPosition(
             (stage.getWidth() - dialog.getWidth()) / 2 - 10,  // Center horizontally
             (stage.getHeight() - dialog.getHeight()) / 2 // Center vertically
