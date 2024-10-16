@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -47,8 +48,10 @@ public class SnakePopup {
         window.setModal(true);
         window.setPosition((Gdx.graphics.getWidth() - windowWidth) / 2, (Gdx.graphics.getHeight() - windowHeight) / 2);
 
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Image image = new Image(texture);
-        window.add(image).fill();
+        image.setScaling(Scaling.fit);
+        window.add(image);
 
         continueButton = new CustomButton("Continue", skin);
 
