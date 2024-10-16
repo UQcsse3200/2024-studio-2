@@ -48,11 +48,6 @@ public class InventoryComponent extends Component {
         if (removedItem != null) {
             logger.info("Item found at index {}: {}. Proceeding to remove it from inventory.", index, removedItem.getName());
 
-            // Check if the item is a loot box. If it is, don't proceed with dropping it.
-            if (removedItem instanceof UniversalLootBox) {
-                logger.info("Item {} is a loot box and will not be dropped.", removedItem.getName());
-                return;
-            }
 
             // Remove the item from the inventory.
             inventory.deleteItemAt(index);
