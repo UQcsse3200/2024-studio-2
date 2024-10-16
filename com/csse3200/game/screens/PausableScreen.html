@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="BirdieDashScreen.html" title="class in com.csse3200.game.screens">BirdieDashScreen</a></code>, <code><a href="MainGameScreen.html" title="class in com.csse3200.game.screens">MainGameScreen</a></code>, <code><a href="MazeGameScreen.html" title="class in com.csse3200.game.screens">MazeGameScreen</a></code>, <code><a href="SnakeScreen.html" title="class in com.csse3200.game.screens">SnakeScreen</a></code></dd>
+<dd><code><a href="MainGameScreen.html" title="class in com.csse3200.game.screens">MainGameScreen</a></code>, <code><a href="MiniGameScreen.html" title="class in com.csse3200.game.screens">MiniGameScreen</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PausableScreen</span>
@@ -156,18 +156,21 @@ loadScripts(document, 'script');</script>
 <div class="block">Adds an overlay to the screen.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeOverlay()" class="member-name-link">removeOverlay</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addSnakePopupOverlay(java.lang.String)" class="member-name-link">addSnakePopupOverlay</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;texturePath)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeOverlay()" class="member-name-link">removeOverlay</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Removes the topmost overlay from the screen.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rest()" class="member-name-link">rest</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rest()" class="member-name-link">rest</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Puts the screen into a resting state, pausing music and resting all entities.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wake()" class="member-name-link">wake</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wake()" class="member-name-link">wake</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Wakes the screen from a resting state.</div>
 </div>
 </div>
@@ -235,6 +238,12 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>overlayType</code> - The type of overlay to add.</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addSnakePopupOverlay(java.lang.String)">
+<h3>addSnakePopupOverlay</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addSnakePopupOverlay</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;texturePath)</span></div>
 </section>
 </li>
 <li>
