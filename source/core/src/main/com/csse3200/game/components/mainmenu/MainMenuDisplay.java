@@ -278,22 +278,23 @@ public class MainMenuDisplay extends UIComponent {
         monkeyAniImage.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 4.8f);
         monkeyAniImage.setPosition(Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 6.8f);
 
-        // Add the click listener to open/close the chatbot
+        // Add the click listener to open/close the chatbot window
         monkeyAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Chatbot", "Monkey icon clicked!"); // Log to verify the click
                 clickSound.play(); // Play the click sound
-                if (chatbotUI.isChatbotDialogVisible()) {
-                    chatbotUI.closeChatbotDialog(); // Close the chatbot if it's visible
+                if (chatbotUI.isChatbotWindowVisible()) {
+                    chatbotUI.closeChatbotWindow(); // Close the chatbot window if it's visible
                 } else {
-                    chatbotUI.openChatbotDialog(); // Open the chatbot if it's not visible
+                    chatbotUI.openChatbotWindow(); // Open the chatbot window if it's not visible
                 }
             }
         });
 
         stage.addActor(monkeyAniImage);
     }
+
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
         dogAniImage = new Image();
