@@ -291,7 +291,6 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Set names for elements to easily find them later for animations
     enemyImage.setName("enemyImage");
     enemyNameLabel.setName("enemyNameLabel");
-    table.setName("table");
   }
 
   /**
@@ -310,7 +309,6 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Access UI elements by their names
     Image enemyImage = (Image) stage.getRoot().findActor("enemyImage");
     Label enemyNameLabel = (Label) stage.getRoot().findActor("enemyNameLabel");
-    Table table = (Table) stage.getRoot().findActor("table");
 
     // Initial positions for sliding animations
     enemyImage.setPosition(0, centerY); // Start from off-screen left
@@ -330,8 +328,8 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
             )
     );
 
-    // Add fade-in and flash effect to the table
-    table.addAction(
+    // Add fade-in and flash effect to the enemy label
+    enemyNameLabel.addAction(
             Actions.sequence(
                     Actions.alpha(0f),
                     Actions.repeat(5,
