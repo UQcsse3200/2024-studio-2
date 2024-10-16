@@ -70,7 +70,7 @@ public class MapTabComponent extends Component {
         mapTexture = new Texture(Gdx.files.internal("map/MAP.png"));
         playerLocationTexture = new Texture(Gdx.files.internal("map/Lion_Icon.png"));
         landmarkIconTexture = new Texture(Gdx.files.internal("map/landmark_icon.png"));
-        xButtonTexture = new Texture(Gdx.files.internal("map/x_button.jpg"));
+        xButtonTexture = new Texture(Gdx.files.internal("map/x_button.png"));
         northSymbolTexture = new Texture(Gdx.files.internal("map/north_symbol.png"));
 
         // Create a 1x1 white pixel texture for drawing rectangles
