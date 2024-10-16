@@ -56,14 +56,8 @@ public class CombatTerrainFactory {
         return this.cameraComponent;
     }
 
-    /**
-     * Creates the background terrain for the combat screen
-     * @param terrainType
-     * @param playerPosition the position of the player for camera positioning against background
-     * @param screenSize size of screen for relevant background scaling
-     * @return a background terrain
-     */
-    public TerrainComponent createBackgroundTerrain2(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 screenSize) {
+
+    public TerrainComponent createBackgroundTerrainAir(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 screenSize) {
         // Initialize ResourceService and load the background texture
         ResourceService resourceService = ServiceLocator.getResourceService();
         TextureRegion backgroundTextureRegion;
@@ -72,6 +66,179 @@ public class CombatTerrainFactory {
 
         // Determine the background image based on terrain type
         if (terrainType.equals(TerrainType.FOREST_DEMO)) {
+            // backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
+            backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/air_background.png", Texture.class));
+        } else {
+            return null;
+        }
+
+        // Get the size of the background texture
+        backgroundWidth = backgroundTextureRegion.getRegionWidth();
+        backgroundHeight = backgroundTextureRegion.getRegionHeight();
+
+        // Calculate the scale to fill the image to the screen size
+        float scaleX = screenSize.x / backgroundWidth;
+        float scaleY = screenSize.y / backgroundHeight;
+        float scale = Math.max(scaleX, scaleY); // Choose the larger scale to ensure the image covers the screen
+
+        // Calculate scaled dimensions
+        int scaledWidth = (int) (backgroundWidth * scale);
+        int scaledHeight = (int) (backgroundHeight * scale);
+
+        // Create a TiledMap with a single layer that covers the screen size
+        TiledMap tiledMap = new TiledMap();
+        TiledMapTileLayer layer = new TiledMapTileLayer(1, 1, scaledWidth, scaledHeight);
+
+        // Create a tile from the background texture
+        TextureRegion scaledTextureRegion = new TextureRegion(backgroundTextureRegion);
+        TiledMapTile backgroundTile = new StaticTiledMapTile(scaledTextureRegion);
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+        cell.setTile(backgroundTile);
+
+        // Fill the layer with the single tile
+        layer.setCell(0, 0, cell);
+
+        // Add the layer to the map
+        tiledMap.getLayers().add(layer);
+
+        // Create a renderer for the tiled map
+        TiledMapRenderer renderer = createRenderer(tiledMap, 1f); // 1f scale used for background
+
+        // Adjust camera settings to fit the background
+        camera.setToOrtho(false, screenSize.x, screenSize.y);
+        camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
+
+        // Return the TerrainComponent with the background image rendering setup
+        return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.COMBAT); // 1f scale used for background
+    }
+
+    public TerrainComponent createBackgroundTerrainLand(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 screenSize) {
+        // Initialize ResourceService and load the background texture
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        TextureRegion backgroundTextureRegion;
+        float backgroundWidth;
+        float backgroundHeight;
+
+        // Determine the background image based on terrain type
+        if (terrainType.equals(TerrainType.FOREST_DEMO)) {
+            // backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
+            backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/land_background.png", Texture.class));
+        } else {
+            return null;
+        }
+
+        // Get the size of the background texture
+        backgroundWidth = backgroundTextureRegion.getRegionWidth();
+        backgroundHeight = backgroundTextureRegion.getRegionHeight();
+
+        // Calculate the scale to fill the image to the screen size
+        float scaleX = screenSize.x / backgroundWidth;
+        float scaleY = screenSize.y / backgroundHeight;
+        float scale = Math.max(scaleX, scaleY); // Choose the larger scale to ensure the image covers the screen
+
+        // Calculate scaled dimensions
+        int scaledWidth = (int) (backgroundWidth * scale);
+        int scaledHeight = (int) (backgroundHeight * scale);
+
+        // Create a TiledMap with a single layer that covers the screen size
+        TiledMap tiledMap = new TiledMap();
+        TiledMapTileLayer layer = new TiledMapTileLayer(1, 1, scaledWidth, scaledHeight);
+
+        // Create a tile from the background texture
+        TextureRegion scaledTextureRegion = new TextureRegion(backgroundTextureRegion);
+        TiledMapTile backgroundTile = new StaticTiledMapTile(scaledTextureRegion);
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+        cell.setTile(backgroundTile);
+
+        // Fill the layer with the single tile
+        layer.setCell(0, 0, cell);
+
+        // Add the layer to the map
+        tiledMap.getLayers().add(layer);
+
+        // Create a renderer for the tiled map
+        TiledMapRenderer renderer = createRenderer(tiledMap, 1f); // 1f scale used for background
+
+        // Adjust camera settings to fit the background
+        camera.setToOrtho(false, screenSize.x, screenSize.y);
+        camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
+
+        // Return the TerrainComponent with the background image rendering setup
+        return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.COMBAT); // 1f scale used for background
+    }
+
+    /**
+     * Creates the background terrain for the combat screen
+     * @param terrainType
+     * @param playerPosition the position of the player for camera positioning against background
+     * @param screenSize size of screen for relevant background scaling
+     * @return a background terrain
+     */
+//    public TerrainComponent createBackgroundTerrainWater(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 screenSize) {
+//        // Initialize ResourceService and load the background texture
+//        ResourceService resourceService = ServiceLocator.getResourceService();
+//        TextureRegion backgroundTextureRegion;
+//        float backgroundWidth;
+//        float backgroundHeight;
+//
+//        // Determine the background image based on terrain type
+//        if (terrainType.equals(TerrainType.FOREST_DEMO)) {
+//            // backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
+//            backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/water_background.png", Texture.class));
+//        } else {
+//            return null;
+//        }
+//
+//        // Get the size of the background texture
+//        backgroundWidth = backgroundTextureRegion.getRegionWidth();
+//        backgroundHeight = backgroundTextureRegion.getRegionHeight();
+//
+//        // Calculate the scale to fill the image to the screen size
+//        float scaleX = screenSize.x / backgroundWidth;
+//        float scaleY = screenSize.y / backgroundHeight;
+//        float scale = Math.max(scaleX, scaleY); // Choose the larger scale to ensure the image covers the screen
+//
+//        // Calculate scaled dimensions
+//        int scaledWidth = (int) (backgroundWidth * scale);
+//        int scaledHeight = (int) (backgroundHeight * scale);
+//
+//        // Create a TiledMap with a single layer that covers the screen size
+//        TiledMap tiledMap = new TiledMap();
+//        TiledMapTileLayer layer = new TiledMapTileLayer(1, 1, scaledWidth, scaledHeight);
+//
+//        // Create a tile from the background texture
+//        TextureRegion scaledTextureRegion = new TextureRegion(backgroundTextureRegion);
+//        TiledMapTile backgroundTile = new StaticTiledMapTile(scaledTextureRegion);
+//        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+//        cell.setTile(backgroundTile);
+//
+//        // Fill the layer with the single tile
+//        layer.setCell(0, 0, cell);
+//
+//        // Add the layer to the map
+//        tiledMap.getLayers().add(layer);
+//
+//        // Create a renderer for the tiled map
+//        TiledMapRenderer renderer = createRenderer(tiledMap, 1f); // 1f scale used for background
+//
+//        // Adjust camera settings to fit the background
+//        camera.setToOrtho(false, screenSize.x, screenSize.y);
+//        camera.position.set(screenSize.x / 2f, screenSize.y / 2f, 0);
+//
+//        // Return the TerrainComponent with the background image rendering setup
+//        return new TerrainComponent(camera, tiledMap, renderer, orientation, 1f, MapType.COMBAT); // 1f scale used for background
+//    }
+
+    public TerrainComponent createBackgroundTerrainWater(TerrainType terrainType, GridPoint2 playerPosition, GridPoint2 screenSize) {
+        // Initialize ResourceService and load the background texture
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        TextureRegion backgroundTextureRegion;
+        float backgroundWidth;
+        float backgroundHeight;
+
+        // Determine the background image based on terrain type
+        if (terrainType.equals(TerrainType.FOREST_DEMO)) {
+            // backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
             backgroundTextureRegion = new TextureRegion(resourceService.getAsset("images/combat_background.png", Texture.class));
         } else {
             return null;

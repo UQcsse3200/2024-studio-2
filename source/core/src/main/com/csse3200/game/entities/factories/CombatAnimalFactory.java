@@ -60,7 +60,7 @@ public class CombatAnimalFactory {
     public static Entity createChickenCombatEnemy() {
         BaseEnemyEntityConfig config = configs.chicken;
         Entity chickenEnemy = createCombatBaseEnemy(config, Entity.EnemyType.CHICKEN);
-        chickenEnemy.scaleHeight(90.0f);
+        chickenEnemy.scaleHeight(110.0f);
         return chickenEnemy;
     }
 
@@ -70,7 +70,7 @@ public class CombatAnimalFactory {
     public static Entity createMonkeyCombatEnemy() {
         BaseEnemyEntityConfig config = configs.monkey;
         Entity monkeyEnemy = createCombatBaseEnemy(config, Entity.EnemyType.MONKEY);
-        monkeyEnemy.scaleHeight(90.0f);
+        monkeyEnemy.scaleHeight(110.0f); // 90.0
         return monkeyEnemy;
     }
 
@@ -81,6 +81,7 @@ public class CombatAnimalFactory {
         BaseEnemyEntityConfig config = configs.frog;
         Entity frogEnemy = createCombatBaseEnemy(config, Entity.EnemyType.FROG);
         frogEnemy.setScale(120.0f, 90.0f);
+        // frogEnemy.scaleHeight(80f);
         return frogEnemy;
     }
 
@@ -90,7 +91,7 @@ public class CombatAnimalFactory {
     public static Entity createBearCombatEnemy() {
         BaseEnemyEntityConfig config = configs.bear;
         Entity bearEnemy = createCombatBaseEnemy(config, Entity.EnemyType.BEAR);
-        bearEnemy.setScale(150f,103.5f);
+        bearEnemy.setScale(150f,110.5f);
         return bearEnemy;
     }
     /**
@@ -150,6 +151,7 @@ public class CombatAnimalFactory {
         BaseEnemyEntityConfig config = configs.eel;
         Entity eelEnemy = createCombatBaseEnemy(config, Entity.EnemyType.EEL);
         eelEnemy.setScale(100f,70f);
+        eelEnemy.scaleHeight(80f);
         return eelEnemy;
     }
 
