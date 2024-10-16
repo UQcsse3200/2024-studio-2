@@ -17,7 +17,6 @@ import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +30,10 @@ public class CombatButtonDisplay extends UIComponent {
     private Table table;
     private final Screen screen;
     private final ServiceContainer container;
-    CustomButton attackButton;
-    CustomButton guardButton;
-    CustomButton sleepButton;
-    CustomButton itemsButton;
+    TextButton attackButton;
+    TextButton guardButton;
+    TextButton sleepButton;
+    TextButton itemsButton;
     ChangeListener dialogueBoxListener;
     CombatArea combatArea;
     // Create a Table to hold the hover text with a background
@@ -137,7 +136,7 @@ public class CombatButtonDisplay extends UIComponent {
         backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
         backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
                 , Gdx.graphics.getHeight() * 0.2f -
-                combatHintBackgroundHeight * 0.5f);
+                        combatHintBackgroundHeight * 0.5f);
         backgroundImage.setVisible(true); // Show the background for combat hints
         hoverTextTable.setVisible(true);  // Show the combat hint text
     }
@@ -151,15 +150,19 @@ public class CombatButtonDisplay extends UIComponent {
         table.bottom();
         table.setFillParent(true);
 
-        attackButton = new CustomButton("Attack", skin);
-        guardButton = new CustomButton("Guard", skin);
-        sleepButton = new CustomButton("Sleep", skin);
-        itemsButton = new CustomButton("Items", skin);
+        attackButton = new TextButton("Attack", skin);
+        guardButton = new TextButton("Guard", skin);
+        sleepButton = new TextButton("Sleep", skin);
+        itemsButton = new TextButton("Items", skin);
 
-        attackButton.addClickListener(()-> {
-            entity.getEvents().trigger("Attack", screen, container);
-            combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-        });
+        attackButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        entity.getEvents().trigger("Attack", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
+                    }
+                });
         attackButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over attack button
             @Override
@@ -175,10 +178,13 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        guardButton.addClickListener(()-> {
-                    entity.getEvents().trigger("Guard", screen, container);
-                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-
+        guardButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        entity.getEvents().trigger("Guard", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
+                    }
                 });
         guardButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over guard button
@@ -195,10 +201,13 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        sleepButton.addClickListener(()-> {
+        sleepButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Sleep", screen, container);
                         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-
+                    }
                 });
         sleepButton.addListener(new InputListener() {
             @Override
@@ -213,10 +222,14 @@ public class CombatButtonDisplay extends UIComponent {
                 backgroundImage.setVisible(false);
             }
         });
-        itemsButton.addClickListener(()-> {
+        itemsButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
                         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                         hideButtons();
+                    }
                 });
         itemsButton.addListener(new InputListener() {
             @Override

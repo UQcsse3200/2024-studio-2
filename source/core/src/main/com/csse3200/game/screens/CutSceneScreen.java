@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -154,9 +155,12 @@ public class CutSceneScreen extends ScreenAdapter {
         continueButton.setSize(200, 60);
         continueButton.setPosition(stage.getWidth() / 2 - continueButton.getWidth() / 2, 30);
 
-        continueButton.addClickListener(() -> {
-            logger.debug("Continue button clicked");
-            game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+        continueButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                logger.debug("Continue button clicked");
+                game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+            }
         });
 
         stage.addActor(continueButton);
