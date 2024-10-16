@@ -258,8 +258,6 @@ public class MazeGameScreen extends MiniGameScreen {
         ServiceLocator.getEntityService().register(ui);
     }
 
-
-
     /**
      * Shows the pause menu
      */
