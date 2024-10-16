@@ -336,10 +336,13 @@ public class EnemyFactory {
         animator.addAnimation(EnemyAnimationController.RUNLEFTUP, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.RUNRIGHTUP, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.1f, Animation.PlayMode.LOOP);
-
+        
+        //to prevent null pointer
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         monkey
                 .addComponent(animator)
-                .addComponent(new EnemyAnimationController());
+                .addComponent(new EnemyAnimationController(true));
 
         monkey.getComponent(AnimationRenderComponent.class).scaleEntity();
 

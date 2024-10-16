@@ -214,4 +214,8 @@ public class AnimationRenderComponent extends RenderComponent {
     public TextureAtlas getAtlas() {
         return atlas;
     }
+    
+    public boolean getFlipX() {return flipX;}
+    
+    public boolean getFlipY() {return flipY;}
 }
