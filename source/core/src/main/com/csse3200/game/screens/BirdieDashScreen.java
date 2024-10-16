@@ -128,10 +128,9 @@ public class BirdieDashScreen extends PausableScreen {
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
                 PlayFab.submitScore("Bird", birdGame.getScore());
-//                logger.info("Highscore is {}", GameState.minigame.getHighScore("bird"));
             }
             game.setScreen(new EndMiniGameScreen(game, birdGame.getScore(), BIRD, oldScreen, oldScreenServices));
-            SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
+            SaveHandler.getInstance().save(GameState.class, "saves", FileLoader.Location.LOCAL);
         }
     }
 

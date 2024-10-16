@@ -152,8 +152,7 @@ public class SnakeScreen extends PausableScreen {
         if (snakeGame.getIsGameOver()) {
             GameState.minigame.addHighScore("snake", snakeGame.getScore());
             PlayFab.submitScore("Snake", snakeGame.getScore());
-//            logger.info("{}", GameState.minigame.getHighScore("snake"));
-            SaveHandler.save(GameState.class, "saves", FileLoader.Location.LOCAL);
+            SaveHandler.getInstance().save(GameState.class, "saves", FileLoader.Location.LOCAL);
             dispose();
             game.setScreen(new EndMiniGameScreen(game, snakeGame.getScore(), MiniGameNames.SNAKE, oldScreen, oldScreenServices));
         }
