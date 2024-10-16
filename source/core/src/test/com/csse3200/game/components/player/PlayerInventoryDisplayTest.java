@@ -42,11 +42,8 @@ class PlayerInventoryDisplayTest {
         Inventory inv2 = new Inventory(10);
 
         // Should throw error since 7 does not divide 9
-        assertThrows(IllegalArgumentException.class,
-                () -> new PlayerInventoryDisplay(inv1, 7, 1));
-        assertThrows(IllegalArgumentException.class, () -> {
-            new PlayerInventoryDisplay(inv2, 0, 1);
-        });
+        assertThrows(IllegalArgumentException.class, () -> new PlayerInventoryDisplay(inv1, 7, 1));
+        assertThrows(IllegalArgumentException.class, () -> new PlayerInventoryDisplay(inv2, 0, 1));
 
         // Shouldn't throw error since 3 divides 12
         new PlayerInventoryDisplay(new Inventory(9), 3, 3);
