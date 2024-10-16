@@ -81,8 +81,8 @@ public class SettingsOverlay extends Overlay {
 
         // Create layout for the "Apply" and "Close" buttons
         Table controlButtonsTable = new Table();
-        controlButtonsTable.add(applyButton).padRight(10f);
-        controlButtonsTable.add(closeButton).padLeft(10f);
+        controlButtonsTable.add(applyButton).size(150, 50).padRight(10f);
+        controlButtonsTable.add(closeButton).size(150, 50).padLeft(10f);
 
         // Set up listeners for the buttons
         // Set up listeners for the buttons
