@@ -3,10 +3,7 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.npc.BearAnimationController;
-import com.csse3200.game.components.npc.ChickenAnimationController;
-import com.csse3200.game.components.npc.FrogAnimationController;
-import com.csse3200.game.components.npc.MonkeyAnimationController;
+import com.csse3200.game.components.npc.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
@@ -124,7 +121,7 @@ class EnemyFactoryTest {
     void TestMonkeyHasComponents() {
         assertNotNull(monkey.getComponent(PhysicsComponent.class));
         assertNotNull(monkey.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(monkey.getComponent(MonkeyAnimationController.class));
+        assertNotNull(monkey.getComponent(EnemyAnimationController.class));
         assertNotNull(monkey.getComponent(CombatStatsComponent.class));
         assertNotNull(monkey.getComponent(HitboxComponent.class));
         assertNotNull(monkey.getComponent(ColliderComponent.class));
@@ -157,21 +154,21 @@ class EnemyFactoryTest {
      */
     @Test
     void TestMonkeyAnimation() {
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runDown") ,
                 "Monkey should have run down animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_up") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runUp") ,
                 "Monkey should have run up animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
                 "Monkey should have run right animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runDown") ,
                 "Cow should have idle animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runRightDown") ,
                 "Monkey should have run right down animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_left_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runLeftDown") ,
                 "Monkey should have run left down animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right_up") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runRightUp") ,
                 "Monkey should have run right up animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_left_up") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runLeftUp") ,
                 "Monkey should have run left up animation.");
     }
 
