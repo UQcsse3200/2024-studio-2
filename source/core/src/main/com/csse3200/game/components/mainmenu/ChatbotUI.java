@@ -28,6 +28,7 @@ public class ChatbotUI {
     private Dialog chatbotDialog;
     private TextField userInputField;
     private Label chatbotResponseLabel;
+    private Label instructionLabel; // New label for keyword instructions
     private List<String> predefinedQuestions;
     private boolean isChatbotDialogVisible = false;
     private final Stage stage;
@@ -86,15 +87,27 @@ public class ChatbotUI {
         int chatWidth = 600;
         chatbotDialog = new Dialog("", skin);
 
-        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100f);
-        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100f);
+        // Ensure size calculations happen inside the method
+        final float DIALOG_WIDTH = Math.min(1600f, Gdx.graphics.getWidth() - 100f);
+        final float DIALOG_HEIGHT = Math.min(1400f, Gdx.graphics.getHeight() - 100f);
+
+        // Set size at the beginning
         chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
 
-        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingBackground.png")));
+        // Use a texture that properly scales with the dialog
+        Texture backgroundTexture = new Texture("images/SettingBackground.png");
+        backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear); // Ensure smooth scaling
+        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
+
         chatbotDialog.setBackground(backgroundDrawable);
 
         Label titleLabel = new Label("Chatbot", skin, "title-white");
         titleLabel.setAlignment(Align.center);
+
+        // Instruction label to guide the user to type predefined keywords
+        instructionLabel = new Label("Type keywords like: hello, move, attack, save, etc. OR click on common FAQs", skin);
+        instructionLabel.setWrap(true);
+        instructionLabel.setAlignment(Align.center);
 
         Table questionTable = new Table();
         for (String question : predefinedQuestions) {
@@ -138,6 +151,7 @@ public class ChatbotUI {
 
         Table contentTable = new Table();
         contentTable.add(titleLabel).padTop(20).center().row();
+        contentTable.add(instructionLabel).padTop(10).width(chatWidth).center().row();  // Added instructionLabel here
         contentTable.add(questionTable).expandX().fillX().padTop(30f).row();
         contentTable.add(userInputField).width(chatWidth).pad(10).row();
         contentTable.add(sendButton).pad(10).width(180f).height(45f).row();
@@ -146,7 +160,12 @@ public class ChatbotUI {
 
         chatbotDialog.getContentTable().add(contentTable).expandX().fillX();
 
-        chatbotDialog.setModal(false); // Disable modal behavior to allow interaction with other UI elements
+        // Force the dialog to maintain the size after all content is added
+        chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+        chatbotDialog.layout();
+
+        // Center the dialog after size adjustment
+        centerDialogOnScreen();
     }
 
     private void centerDialogOnScreen() {

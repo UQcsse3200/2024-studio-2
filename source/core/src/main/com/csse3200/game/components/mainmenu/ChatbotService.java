@@ -28,6 +28,11 @@ public class ChatbotService {
         responses.put("customize character", "Character customization isn’t available yet, but we have some awesome characters for you to choose from!");
         responses.put("defeat boss", "Once you defeat the final boss, you win the game and become the overlord of *Attack on Animals*!");
         responses.put("tips", "Yes! It’s always a good idea to check out the Help menu before starting the game—it can provide valuable insights.");
+        responses.put("hello", "Hello there! Welcome to *Attack on Animals*! Ready for an adventure?");
+        responses.put("attack", "To attack, press the space bar or use the designated attack key! Be quick and strategic!");
+        responses.put("move", "Use the WASD keys to move your character: W to move up, A to move left, S to move down, and D to move right.");
+        responses.put("leaderboard", "Play the mini-games and view the leaderboard on the main menu!");
+        responses.put("mini-games", "There are 3 mini-games: birdie dash, underwater maze & snake. Have fun playing!");
     }
 
     /**
