@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.LayoutAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -254,9 +255,9 @@ public class StatDisplay extends UIComponent {
         Table tabButtonTable = new Table().padLeft(50);
 
         // Tab label names
-        Label landEnemyLabel = new Label("Land Enemies", skin);
-        Label waterEnemyLabel = new Label("Water Enemies", skin);
-        Label airEnemyLabel = new Label("Air Enemies", skin);
+        Label landEnemyLabel = new Label("Land", skin);
+        Label waterEnemyLabel = new Label("Water", skin);
+        Label airEnemyLabel = new Label("Air", skin);
 
         // Set the alignment and font size for the labels
         landEnemyLabel.setFontScale(1.5f);
@@ -268,13 +269,16 @@ public class StatDisplay extends UIComponent {
 
         // Create tables for each tab to display stats
         Table landEnemyTab = new Table();
+        landEnemyTab.add(landEnemyLabel).center();
         Table waterEnemyTab = new Table();
+        waterEnemyTab.add(waterEnemyLabel).center();
         Table airEnemyTab = new Table();
+        airEnemyTab.add(airEnemyLabel).center();
 
         // Add the button tables to the main table
         tabButtonTable.left().top();
-        tabButtonTable.add(landEnemyTab).left().padRight(10);
-        tabButtonTable.add(waterEnemyTab).left().padRight(10);
+        tabButtonTable.add(landEnemyTab).left().padRight(20);
+        tabButtonTable.add(waterEnemyTab).left().padRight(20);
         tabButtonTable.add(airEnemyTab).left();
 
         // Add event listeners to simulate button clicks using ClickListener
@@ -284,7 +288,7 @@ public class StatDisplay extends UIComponent {
                 landEnemyTable.setVisible(true);
                 waterEnemyTable.setVisible(false);
                 airEnemyTable.setVisible(false);
-                updateHoverEffect(landEnemyTable);  // Update hover effect
+                updateHoverEffect(landEnemyTab);  // Update hover effect
             }
         });
 
@@ -294,7 +298,7 @@ public class StatDisplay extends UIComponent {
                 landEnemyTable.setVisible(false);
                 waterEnemyTable.setVisible(true);
                 airEnemyTable.setVisible(false);
-                updateHoverEffect(waterEnemyTable);
+                updateHoverEffect(landEnemyTab);
             }
         });
 
@@ -304,7 +308,7 @@ public class StatDisplay extends UIComponent {
                 landEnemyTable.setVisible(false);
                 waterEnemyTable.setVisible(false);
                 airEnemyTable.setVisible(true);
-                updateHoverEffect(airEnemyTable);
+                updateHoverEffect(landEnemyTab);
             }
         });
 
