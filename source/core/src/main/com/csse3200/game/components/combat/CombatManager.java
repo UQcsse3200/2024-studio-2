@@ -482,7 +482,7 @@ public class CombatManager extends Component {
                 GameState.resetState();
                 SaveHandler.getInstance().delete(GameState.class, "saves", FileLoader.Location.LOCAL);
             } else {
-                this.getEntity().getEvents().trigger("combatLoss");
+                this.getEntity().getEvents().trigger("combatLoss", enemy);
                 //Clear inventory/other normal death events
             }
             // nullifyCombatDialogueListener(); // remove the listener added for animation syncing

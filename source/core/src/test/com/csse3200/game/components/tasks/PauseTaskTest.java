@@ -1,6 +1,7 @@
 package com.csse3200.game.components.tasks;
 
 import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,12 +12,13 @@ import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.physics.components.HitboxComponent;
-import com.csse3200.game.services.DialogueBoxService;
+import com.csse3200.game.services.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.entities.configs.NPCConfigs;
@@ -28,9 +30,6 @@ import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
-import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.dialoguebox.DialogueBox;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,7 +73,9 @@ class PauseTaskTest {
         // Mock GameTime to control time in the test
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(20f / 1000);
+        InGameTime inGameTime = new InGameTime();
         ServiceLocator.registerTimeSource(gameTime);
+        ServiceLocator.registerInGameTime(inGameTime);
 
         // Register InputService and PhysicsService
         InputService inputService = new InputService();
@@ -83,6 +84,10 @@ class PauseTaskTest {
         ServiceLocator.registerResourceService(resourceService);
         ServiceLocator.registerRenderService(renderService);
         ServiceLocator.registerPhysicsService(new PhysicsService()); // Add PhysicsService
+
+        // Register DayNightCycle and LightingService for FadeLightsDayTimeComponent
+        DayNightCycle dayNightCycle = new DayNightCycle(mock(RayHandler.class));
+        ServiceLocator.registerDayNightCycle(dayNightCycle); // Register DayNightCycle
 
         // lighting service
         LightingEngine mockLightingEngine = mock(LightingEngine.class);

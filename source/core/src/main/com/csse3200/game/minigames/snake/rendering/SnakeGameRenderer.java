@@ -17,13 +17,9 @@ import static com.csse3200.game.minigames.snake.AssetPaths.IMAGES;
 public class SnakeGameRenderer {
 
     private final ScoreBoard scoreBoard;
-    private Texture appleTexture;
-    private Texture snakeTexture;
-    private Texture snakeBodyHorizontalTexture;
-    private Texture snakeBodyVerticalTexture;
-    private Texture snakeBodyBentTexture;
-    private Texture grassTexture;
-
+    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
+            snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture, grassTexture,
+            grassLightTexture, grassDarkTexture;
     private final MinigameRenderer renderer;
 
     /**
@@ -36,12 +32,13 @@ public class SnakeGameRenderer {
         this.renderer = new MinigameRenderer();
         ServiceLocator.registerResourceService(new ResourceService());
         loadAssets();
-        renderer.addRenderable(new GridRenderer(game.getGrid(), grassTexture, renderer));
+        renderer.addRenderable(new GridRenderer(game.getGrid(), grassLightTexture, grassDarkTexture, renderer));
         renderer.addRenderable(new AppleRenderer(game.getApple(), game.getGrid(), appleTexture,
                 renderer));
         renderer.addRenderable(new SnakeRenderer(game.getSnake(), game.getGrid(), snakeTexture,
                 snakeBodyHorizontalTexture,
-                snakeBodyVerticalTexture, snakeBodyBentTexture, renderer));
+                snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture,
+                renderer));
         this.scoreBoard = new ScoreBoard(0, MiniGameNames.SNAKE);
     }
 
@@ -73,11 +70,15 @@ public class SnakeGameRenderer {
         resourceService.loadTextures(AssetPaths.IMAGES);
         ServiceLocator.getResourceService().loadAll();
         grassTexture = resourceService.getAsset(AssetPaths.GRASS_IMAGE, Texture.class);
+        grassLightTexture = resourceService.getAsset(AssetPaths.GRASS_LIGHT_IMAGE, Texture.class);
+        grassDarkTexture = resourceService.getAsset(AssetPaths.GRASS_DARK_IMAGE, Texture.class);
         appleTexture = resourceService.getAsset(AssetPaths.APPLE_IMAGE, Texture.class);
         snakeTexture = resourceService.getAsset(AssetPaths.SNAKE_HEAD_IMAGE, Texture.class);
         snakeBodyHorizontalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_HORIZONTAL_IMAGE, Texture.class);
         snakeBodyVerticalTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_VERTICAL_IMAGE, Texture.class);
         snakeBodyBentTexture = resourceService.getAsset(AssetPaths.SNAKE_BODY_BENT_IMAGE, Texture.class);
+        snakeTailTexture = resourceService.getAsset(AssetPaths.SNAKE_TAIL_IMAGE,
+                Texture.class);
 
     }
 
@@ -100,7 +101,10 @@ public class SnakeGameRenderer {
         snakeBodyHorizontalTexture.dispose();
         snakeBodyVerticalTexture.dispose();
         snakeBodyBentTexture.dispose();
+        snakeTailTexture.dispose();
         grassTexture.dispose();
+        grassLightTexture.dispose();
+        grassDarkTexture.dispose();
         unloadAssets();
         ServiceLocator.getResourceService().dispose();
     }
