@@ -1,11 +1,8 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMove;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
@@ -23,8 +20,8 @@ import com.csse3200.game.overlays.CombatAnimationDisplay;
 import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -45,8 +42,6 @@ public class CombatManager extends Component {
 
     private final Entity player;
     private final Entity enemy;
-    private CombatStatsComponent copyPlayerStats;
-    private CombatStatsComponent copyEnemyStats;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
     private Action playerAction;
@@ -55,15 +50,13 @@ public class CombatManager extends Component {
     private final CombatMoveComponent enemyMove;
     private InputListener dialogueBoxCombatListener;
     private CustomButton contButton;
+
     private AbstractItem playerItem;
     private int playerItemIndex;
     private ItemUsageContext playerItemContext;
 
     private int statusEffectDuration;
     private boolean moveChangedByConfusion;
-
-    // HashMap stores information on enemies when attack
-    private static final Map<String,ArrayList<Action>> enemyMoveStore = new LinkedHashMap<>();
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -235,130 +228,62 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Randomly selects an enemy move from ATTACK, GUARD, SLEEP, or SPECIAL.
+     * Selects an enemy move based on stats and randomisation.
      *
      * @return the selected action for the enemy.
      */
     private Action selectEnemyMove() {
-        Action action;
+        // Initialise moves with default probabilities
+        HashMap<Action, Double> actionProbabilities = new HashMap<>();
+        actionProbabilities.put(Action.ATTACK, 0.3);
+        actionProbabilities.put(Action.GUARD, 0.2);
+        actionProbabilities.put(Action.SLEEP, 0.1);
 
-        if (enemyStats.getHunger() < 25) {
-            updateEnemyMoveStore(Action.SLEEP);
-            return Action.SLEEP;
+        // Add special move if available, if the player does not have an active status effect, and if the player did not use an item
+        if (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect() && playerAction != Action.ITEM) {
+            actionProbabilities.put(Action.SPECIAL, 0.2); // Default probability
         }
 
-        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
-                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
-        action = switch (rand) {
-            case 0 -> Action.ATTACK;
-            case 1 -> Action.GUARD;
-            case 2 -> Action.SLEEP;
-            case 3 -> Action.SPECIAL;
-            default -> null;
-        };
-
-        //stores enemyAction
-        updateEnemyMoveStore(action);
-        return action;
-    }
-    /**
-     * Updates the stored sequence of enemy moves for a specific enemy type.
-     * This is used to determine if a special move can be executed after a certain move combination.
-     *
-     * @param value The enemy action to store.
-     */
-
-    private void updateEnemyMoveStore(Action value) {
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-
-        if (itemsList == null)
-        {
-            itemsList = new ArrayList<>();
-            logger.info("empty hashmap :: Updating special move list");
-        }
-        else
-        //particular enemy has already made a move
-        {
-            logger.info("removing existing record in hashmap");
-            itemsList = enemyMoveStore.remove(enemy.getEnemyType().toString());
+        // Don't sleep if both health and hunger are maxed out
+        if (enemyStats.getHunger() == enemyStats.getMaxHunger() && enemyStats.getHealth() == enemyStats.getMaxHealth()) {
+            actionProbabilities.remove(Action.SLEEP);
         }
 
-
-        itemsList.add(value);
-        enemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
-        if(itemsList.size()>2)
-        {
-            logger.info("1- item list size: {}", itemsList.size());
-            checkSpecialMoveCombination();
-        }
-
-    }
-    /**
-     * Verifies if the last three moves in the enemy's sequence match a predefined special move combination.
-     * Triggers special effects if the combination is achieved, otherwise removes outdated moves.
-     */
-
-    private void checkSpecialMoveCombination()
-    {
-        boolean noSpecialMoveComboFlag = false;
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-        logger.info("Checking special move combination");
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet())
-        {
-            logger.info("Map<String,ArrayList> :: {} :: {}", entry.getKey(), entry.getValue());
-        }
-        
-        StringBuilder enemyMoves = new StringBuilder("");
-
-        // compare enemy move seq to last 3 enemy moves)
-        switch (enemy.getEnemyType().toString())
-        {
-            case "FROG" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                logger.info("enemy move combination {}", enemyMoves);
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, ATTACK, ]")){
-                    logger.info("special move combination achieved");
-                    //special effect
-                }
+        // Adjust probabilities based on stats:
+        // Higher chance of sleeping or guarding when health is low
+        if (enemyStats.getHealth() < enemyStats.getMaxHealth() * 0.3 ||
+                enemyStats.getHunger() < enemyStats.getMaxHunger() * 0.3) {
+            actionProbabilities.put(Action.GUARD, 0.4);
+            if (actionProbabilities.containsKey(Action.SLEEP)) {
+                actionProbabilities.put(Action.SLEEP, 0.6);
             }
-            case "CHICKEN" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, GUARD, ]")){
-                }
-
-            }
-            case "MONKEY" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, GUARD, ATTACK, ]")){
-                }
-
-            }
-            case "BEAR" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[GUARD, ATTACK, ATTACK, ]")){
-                }
-
-            }
-            default -> noSpecialMoveComboFlag = true;
+        }
+        // Higher chance to attack when player health is low
+        if (playerStats.getHealth() < playerStats.getMaxHealth() * 0.3) {
+            actionProbabilities.put(Action.ATTACK, 0.7);
         }
 
-        if(noSpecialMoveComboFlag)
-        {
-            //remove outdated enemy action
-            itemsList.removeFirst();
-        } else {
-            //reset enemy move for next special move set
-            itemsList.clear();
-            //call special effect
+        // Normalize probabilities to sum up to 1
+        double totalProbability = actionProbabilities.values().stream().mapToDouble(Double::doubleValue).sum();
+        HashMap<Action, Double> normalizedProbabilities = new HashMap<>();
+        for (Action action : actionProbabilities.keySet()) {
+            normalizedProbabilities.put(action, actionProbabilities.get(action) / totalProbability);
         }
-    }
-    
-    private StringBuilder moveHelper(StringBuilder enemyMoves) {
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet()){
-            enemyMoves.append(entry.getValue().toString()).append(", ");
+
+        // Select an action based on weighted probabilities
+        double rand = MathUtils.random();
+        double cumulativeProbability = 0.0;
+        for (Action action : normalizedProbabilities.keySet()) {
+            cumulativeProbability += normalizedProbabilities.get(action);
+            if (rand <= cumulativeProbability) {
+                return action;
+            }
         }
-        enemyMoves.append("");
-        return enemyMoves;
+
+        // Fallback to random action if no choice was made
+        List<Action> availableActions = new ArrayList<>(normalizedProbabilities.keySet());
+        int randomIndex = (int) (MathUtils.random() * availableActions.size());
+        return availableActions.get(randomIndex);
     }
 
     /**
