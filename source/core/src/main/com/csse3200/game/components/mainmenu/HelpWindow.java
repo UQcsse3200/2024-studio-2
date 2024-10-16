@@ -33,6 +33,13 @@ public class HelpWindow {
     private Table[] slideInstances;
     private Runnable onClose;  // For handling the close logic
 
+    /**
+     * Constructor to create a HelpWindow instance.
+     *
+     * @param skin            Skin to style the UI elements.
+     * @param stage           The Stage to which the help window will be added.
+     * @param settingDrawable Drawable background for the help window.
+     */
     public HelpWindow(Skin skin, Stage stage, Drawable settingDrawable) {
         this.skin = skin;
         this.stage = stage;
@@ -49,15 +56,15 @@ public class HelpWindow {
     }
 
     /**
-     * Initializes the help window layout, navigation buttons, and event listeners.
+     * Creates the layout of the help window, including title, slides, navigation, and close button.
+     *
+     * @return The root Table for the help window UI.
      */
     private Table createHelpWindow() {
-        // Create a Window for the help screen
         Table helpWindow = new Table();
         helpWindow.setSize(windowWidth, windowHeight);
         helpWindow.setBackground(settingDrawable);
 
-        // Title
         Label title = new Label("Help", skin, "title-white");
 
         // Create the slide table
@@ -65,17 +72,16 @@ public class HelpWindow {
         slideTable.setFillParent(true);
 
         // Create navigation buttons
-        float buttonWidth = windowWidth * 0.25f; // Make buttons take 25% of the window width
-        float buttonHeight = 50f; // Consistent height for all buttons
+        float buttonWidth = windowWidth * 0.25f;
+        float buttonHeight = 50f;
 
         CustomButton previousButton = new CustomButton("Previous", skin);
-        previousButton.setButtonSize(buttonWidth, buttonHeight); // Set size of previous button
+        previousButton.setButtonSize(buttonWidth, buttonHeight);
         CustomButton nextButton = new CustomButton("Next", skin);
-        nextButton.setButtonSize(buttonWidth, buttonHeight); // Set size of next button
+        nextButton.setButtonSize(buttonWidth, buttonHeight);
 
-        // Create the navigation table to hold buttons
         Table navigationTable = new Table();
-        navigationTable.add(previousButton).size(buttonWidth, buttonHeight).padRight(20); // Add padding between buttons
+        navigationTable.add(previousButton).size(buttonWidth, buttonHeight).padRight(20);
         navigationTable.add(nextButton).size(buttonWidth, buttonHeight);
 
         // Create a close button
@@ -88,13 +94,11 @@ public class HelpWindow {
         topTable.row();
         topTable.add(closeButton).size(80, 80).right().expandX().padRight(-25).padTop(-110);
 
-        // Add top table, slides, and navigation to the help window
         helpWindow.add(topTable).expandX().fillX();
         helpWindow.row();
         helpWindow.add(slideTable).expand().fill().row();
         helpWindow.add(navigationTable).bottom().expandX().fillX().pad(30).row();
 
-        // Add listeners for navigation and close button
         addNavigationListeners(previousButton, nextButton);
         addCloseButtonListener(closeButton, helpWindow);
 
@@ -114,14 +118,16 @@ public class HelpWindow {
         slideInstances[5] = new Slides.Minigames2Slide(skin);
         slideInstances[6] = new Slides.StatsSlide(skin);
 
-        // Initially show only the first slide
         for (int i = 1; i < NUM_SLIDES; i++) {
             slideInstances[i].setVisible(false);
         }
     }
 
     /**
-     * Adds navigation listeners to the previous and next buttons.
+     * Adds click listeners to navigation buttons (Previous/Next) for slide navigation.
+     *
+     * @param previousButton Button to navigate to the previous slide.
+     * @param nextButton     Button to navigate to the next slide.
      */
     private void addNavigationListeners(CustomButton previousButton, CustomButton nextButton) {
         previousButton.addClickListener(() -> {
@@ -145,6 +151,9 @@ public class HelpWindow {
 
     /**
      * Adds a listener for the close button to close the help window.
+     *
+     * @param closeButton The close button to add the listener to.
+     * @param helpWindow  The root table representing the help window.
      */
     private void addCloseButtonListener(Button closeButton, Table helpWindow) {
         closeButton.addListener(new ChangeListener() {
@@ -160,26 +169,25 @@ public class HelpWindow {
     }
 
     /**
-     * Updates the currently visible slide.
+     * Updates the currently visible slide based on the current slide index.
      */
     private void updateSlide() {
-        slideTable.clear(); // Clear existing slide
-        slideTable.add(slideInstances[currentSlide]).expand().fill(); // Add the new slide
+        slideTable.clear();
+        slideTable.add(slideInstances[currentSlide]).expand().fill();
         slideInstances[currentSlide].setVisible(true);
     }
 
     /**
-     * Displays the help window by adding it to the stage and sets keyboard focus.
+     * Displays the help window by adding it to the stage and sets keyboard focus for navigation.
      */
     public void show() {
-        updateSlide(); // Set the first slide as visible
+        updateSlide();
         helpWindowTable.setPosition(
                 (stage.getWidth() - helpWindowTable.getWidth()) / 2,
                 (stage.getHeight() - helpWindowTable.getHeight()) / 2
         );
         stage.setKeyboardFocus(helpWindowTable);
 
-        // Add an InputListener to handle keyboard input (LEFT/RIGHT keys for slide navigation)
         helpWindowTable.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -210,7 +218,9 @@ public class HelpWindow {
     }
 
     /**
-     * Sets the logic to be executed when the help window is closed.
+     * Sets the action to be executed when the help window is closed.
+     *
+     * @param onClose The Runnable to be executed on close.
      */
     public void setOnClose(Runnable onClose) {
         this.onClose = onClose;
