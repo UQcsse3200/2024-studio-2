@@ -6,7 +6,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Candy Collected",
@@ -14,7 +14,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Meat Collected",
@@ -22,7 +22,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Carrot Collected",
@@ -30,7 +30,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Chicken_Leg Collected",
@@ -38,7 +38,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Milk Collected",
@@ -46,7 +46,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Sushi Collected",
@@ -54,7 +54,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "KANGAROO Defeated",

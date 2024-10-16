@@ -30,7 +30,9 @@ public class StatSave implements Json.Serializable {
 
     @Override
     public void read(Json json, JsonValue jsonData) {
-        for (JsonValue value : jsonData.child) {
+        JsonValue.JsonIterator iterator = jsonData.child.iterator();
+        while(iterator.hasNext()) {
+            JsonValue value = iterator.next();
             Stat newStat = new Stat(
                     value.get("statName").asString(),
                     value.get("statDescription").asString(),

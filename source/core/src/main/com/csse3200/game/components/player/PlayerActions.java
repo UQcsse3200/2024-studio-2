@@ -64,19 +64,20 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("unlockNextArea", this::unlocknextarea);
     entity.getEvents().addListener("stoF", this::stof);
 
-    switch(selectedAnimal) {
+    switch (selectedAnimal) {
       case "images/dog.png":
-        Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
-        Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
-        dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+        // Updated to use sound paths
+        String pantingSoundPath = "sounds/animal/panting.mp3";
+        String barkingSoundPath = "sounds/animal/bark.mp3";
+        dogSoundPlayer = new DogSoundPlayer(pantingSoundPath, barkingSoundPath);
         break;
       case "images/bird.png":
-        Sound flappingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/flap.mp3", Sound.class);
-        Sound screechSound = ServiceLocator.getResourceService().getAsset("sounds/animal/birdscreech.mp3", Sound.class);
+        String flappingSound = "sounds/animal/flap.mp3";
+        String screechSound = "sounds/animal/birdscreech.mp3";
         airAnimalSoundPlayer = new AirAnimalSoundPlayer(flappingSound, screechSound);
         break;
       case "images/croc.png":
-        Sound swimmingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/waterwhoosh.mp3", Sound.class);
+        String swimmingSound = "sounds/animal/waterwhoosh.mp3";
         waterAnimalSoundPlayer = new WaterAnimalSoundPlayer(swimmingSound);
         break;
       default:
@@ -138,11 +139,11 @@ public class PlayerActions extends Component {
 
   private void playSound() {
     if (dogSoundPlayer != null) {
-      dogSoundPlayer.playPantingSound(0.5f);
+      dogSoundPlayer.playPantingSound();
     } else if (airAnimalSoundPlayer != null) {
-      airAnimalSoundPlayer.playFlappingSound(0.5f);
+      airAnimalSoundPlayer.playFlappingSound();
     } else {
-      waterAnimalSoundPlayer.playSwimmingSound(0.5f);
+      waterAnimalSoundPlayer.playSwimmingSound();
     }
   }
 
@@ -189,15 +190,15 @@ public class PlayerActions extends Component {
 
   void attack() {
     if (dogSoundPlayer != null) {
-      dogSoundPlayer.playBarkingSound(1.0f);
+      dogSoundPlayer.playBarkingSound();
     }
 
     if (airAnimalSoundPlayer != null) {
-      airAnimalSoundPlayer.playScreechSound(1.0f);
+      airAnimalSoundPlayer.playScreechSound();
     }
 
     if (waterAnimalSoundPlayer != null) {
-      waterAnimalSoundPlayer.playSwimmingSound(1.0f);
+      waterAnimalSoundPlayer.playSwimmingSound();
     }
 
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
@@ -232,15 +233,7 @@ public class PlayerActions extends Component {
   public void startCombat(Entity enemy) {
     // Stop player movement
     stopWalking();
-    // Check if the enemy is a boss type
-    if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO ||
-            enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS ||
-            enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
-      // Add a boss cutscene screen for boss encounters
-      game.addBossCutsceneScreen(player, enemy);
-    } else {
-      // Add a standard enemy cutscene screen for regular encounters
-      game.addEnemyCutsceneScreen(player, enemy);
-    }
+    // Goes into the pre-combat cutscene
+    game.addPreCombatCutsceneScreen(player, enemy);
   }
 }

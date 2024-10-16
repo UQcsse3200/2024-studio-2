@@ -14,7 +14,13 @@ public class ForestSoundsConfig {
             "sounds/monkey.wav",
             "sounds/QuestComplete.wav",
             "sounds/achievement-sound.mp3",
-            "sounds/Impact4.ogg"
+            "sounds/Impact4.ogg",
+            "sounds/bee.wav",
+            "sounds/bear.wav",
+            "sounds/bigsawfish.wav",
+            "sounds/eel_octopus.wav",
+            "sounds/macaw.wav",
+            "sounds/pigeon.wav"
     };
 
     public static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";

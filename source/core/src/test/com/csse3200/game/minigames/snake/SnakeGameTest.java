@@ -1,21 +1,32 @@
 package com.csse3200.game.minigames.snake;
 
+import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.minigames.Direction;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SnakeGameTest {
+@ExtendWith(GameExtension.class)
+class SnakeGameTest {
     private SnakeGame game;
 
+    private static final String[] SOUNDS = {"sounds/minigames/snake-apple.mp3"};
+
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         game = new SnakeGame();
+        ResourceService resourceService = new ResourceService();
+        ServiceLocator.registerResourceService(resourceService);
+        resourceService.loadSounds(SOUNDS);
+        resourceService.loadAll();
     }
 
     @Test
-    public void testInitialGameState() {
+    void testInitialGameState() {
         assertNotNull(game.getSnake());
         assertNotNull(game.getApple());
         assertNotNull(game.getGrid());
@@ -24,7 +35,7 @@ public class SnakeGameTest {
     }
 
     @Test
-    public void testAppleEatingIncreasesScore() {
+    void testAppleEatingIncreasesScore() {
         // set apple location
         Apple apple = game.getApple();
         apple.setAppleLocation(1, -1);
@@ -40,7 +51,7 @@ public class SnakeGameTest {
     }
 
     @Test
-    public void testSnakeCollisionDetection() {
+    void testSnakeCollisionDetection() {
         // Grow the snake to be long enough to collide with itself
         for (int i = 0; i < 5; i++) {
             game.getSnake().grow();
@@ -61,7 +72,7 @@ public class SnakeGameTest {
     }
 
     @Test
-    public void testBoundaryYDetection() {
+    void testBoundaryYDetection() {
         // Move the snake outside the boundaries of the grid
         game.getSnake().updateDirectionOnInput(Direction.UP); // Move up
         for (int i = 0; i <= 20; i++) {
@@ -71,7 +82,7 @@ public class SnakeGameTest {
     }
 
     @Test
-    public void testBoundaryXDetection() {
+    void testBoundaryXDetection() {
         // Move the snake outside the boundaries of the grid
 
         game.getSnake().updateDirectionOnInput(Direction.RIGHT);
@@ -86,14 +97,14 @@ public class SnakeGameTest {
 
 
     @Test
-    public void testGameOverOnBoundaryHit() {
+    void testGameOverOnBoundaryHit() {
         game.getSnake().updateDirectionOnInput(Direction.DOWN); // Move left out of bounds
         game.snakeMove(1); // Update the game state
         assertTrue(game.getIsGameOver(), "The game should be over when hitting the boundary.");
     }
 
     @Test
-    public void testGameOverOnSelfCollision() {
+    void testGameOverOnSelfCollision() {
         game.handleSnakeInput(Direction.RIGHT); // Move to the right
         game.snakeMove(1); // Move the snake
         game.handleSnakeInput(Direction.DOWN); // Move down
@@ -110,10 +121,10 @@ public class SnakeGameTest {
     }
 
     @Test
-    public void testIncreaseSnakeSpeed() {
+    void testIncreaseSnakeSpeed() {
 
         Apple apple = game.getApple();
-        Float originalPeriod = game.getSnake().getMovePeriod();
+        float originalPeriod = game.getSnake().getMovePeriod();
 
         // Move the snake to the apple's position to increase score
         for (int i = 0; i < 5; i++) {

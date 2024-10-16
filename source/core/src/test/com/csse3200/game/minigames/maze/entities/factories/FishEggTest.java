@@ -8,6 +8,7 @@ import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -49,7 +50,9 @@ class FishEggTest {
         resourceService.loadTextures(TEXTURE_MAZE);
         resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
-        FishEgg.resetParticlePool();
+
+        ServiceLocator.registerParticleService(mock(ParticleService.class));
+
         fishEgg = MazeNPCFactory.createFishEgg();
     }
 

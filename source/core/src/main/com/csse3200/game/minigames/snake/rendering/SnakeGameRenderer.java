@@ -17,9 +17,15 @@ import static com.csse3200.game.minigames.snake.AssetPaths.IMAGES;
 public class SnakeGameRenderer {
 
     private final ScoreBoard scoreBoard;
-    private Texture appleTexture, snakeTexture, snakeBodyHorizontalTexture,
-            snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture, grassTexture,
-            grassLightTexture, grassDarkTexture;
+    private Texture appleTexture ;
+    private Texture snakeBodyHorizontalTexture;
+    private Texture snakeBodyBentTexture;
+    private Texture snakeTailTexture;
+    private Texture grassTexture;
+    private Texture grassLightTexture;
+    private Texture grassDarkTexture;
+    private Texture snakeTexture;
+    private Texture snakeBodyVerticalTexture;
     private final MinigameRenderer renderer;
 
     /**
@@ -36,7 +42,6 @@ public class SnakeGameRenderer {
         renderer.addRenderable(new AppleRenderer(game.getApple(), game.getGrid(), appleTexture,
                 renderer));
         renderer.addRenderable(new SnakeRenderer(game.getSnake(), game.getGrid(), snakeTexture,
-                snakeBodyHorizontalTexture,
                 snakeBodyVerticalTexture, snakeBodyBentTexture, snakeTailTexture,
                 renderer));
         this.scoreBoard = new ScoreBoard(0, MiniGameNames.SNAKE);
@@ -59,6 +64,7 @@ public class SnakeGameRenderer {
      */
     public void resize(int width, int height) {
             renderer.resize(width, height);
+            scoreBoard.scoreBoardSetUp();
             scoreBoard.resize();
     }
 

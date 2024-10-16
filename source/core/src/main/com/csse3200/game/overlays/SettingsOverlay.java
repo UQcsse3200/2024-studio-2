@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,36 +73,30 @@ public class SettingsOverlay extends Overlay {
 
         // Create the title and control buttons
         Label titleLabel = new Label("Settings", skin, "title-white");
-        TextButton applyButton = new TextButton("Apply", skin);
-        TextButton closeButton = new TextButton("Close", skin);
+        CustomButton applyButton = new CustomButton("Apply", skin);
+        CustomButton closeButton = new CustomButton("Close", skin);
 
         // Get the content table from SettingsMenuDisplay
         Table contentTable = settingsMenuDisplay.makeSettingsTable();
 
         // Create layout for the "Apply" and "Close" buttons
         Table controlButtonsTable = new Table();
-        controlButtonsTable.add(applyButton).padRight(10f);
-        controlButtonsTable.add(closeButton).padLeft(10f);
+        controlButtonsTable.add(applyButton).size(150, 50).padRight(10f);
+        controlButtonsTable.add(closeButton).size(150, 50).padLeft(10f);
 
         // Set up listeners for the buttons
         // Set up listeners for the buttons
-        applyButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
+        applyButton.addClickListener(() -> {
                 logger.debug("Apply button clicked");
                 settingsMenuDisplay.applyChanges();  // Apply the settings changes
                 rootTable.setVisible(false);
                 screen.removeOverlay();  // Properly close the settings overlay
-            }
         });
 
-        closeButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                logger.debug("Close button clicked");
-                rootTable.setVisible(false);
-                screen.removeOverlay();  // Properly close the settings overlay
-            }
+        closeButton.addClickListener(() -> {
+            logger.debug("Close button clicked");
+            rootTable.setVisible(false);
+            screen.removeOverlay();  // Properly close the settings overlay
         });
 
         // Assemble the settings table layout

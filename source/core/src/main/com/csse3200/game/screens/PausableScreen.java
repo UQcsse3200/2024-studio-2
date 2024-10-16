@@ -1,8 +1,11 @@
 package com.csse3200.game.screens;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.ScreenAdapter;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.overlays.*;
+import com.csse3200.game.services.InGameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,11 +58,16 @@ public class PausableScreen extends ScreenAdapter {
             case PAUSE_OVERLAY -> enabledOverlays.addFirst(new PauseOverlay(this, game));
             case PLAYER_STATS_OVERLAY -> enabledOverlays.addFirst(new PlayerStatsOverlay(this));
             case SETTINGS_OVERLAY -> enabledOverlays.addFirst(new SettingsOverlay(this));
+            case SNAKE_POPUP_OVERLAY -> enabledOverlays.addFirst(new SnakePopupOverlay(game));
             default -> logger.warn("Unknown Overlay type: {}", overlayType);
         }
         logger.info("Added {} Overlay", overlayType);
         activeOverlayTypes.put(overlayType,true);
     }
+    public void addSnakePopupOverlay(String texturePath) {
+        addOverlay(Overlay.OverlayType.SNAKE_POPUP_OVERLAY);
+    }
+
 
     /**
      * Removes the topmost overlay from the screen.
@@ -91,6 +99,13 @@ public class PausableScreen extends ScreenAdapter {
     public void rest() {
         logger.info("Screen is resting");
         resting = true;
+        // Pause the InGameTime and DayNightCycle
+        if (ServiceLocator.getInGameTime() != null) {
+            ServiceLocator.getInGameTime().pause();
+        }
+        if (ServiceLocator.getDayNightCycle() != null) {
+            ServiceLocator.getDayNightCycle().pause();
+        }
         ServiceLocator.getEntityService().restWholeScreen();
     }
 
@@ -100,6 +115,15 @@ public class PausableScreen extends ScreenAdapter {
     public void wake() {
         logger.info("Screen is Awake");
         resting = false;
+
+        // Resume the InGameTime and DayNightCycle
+        if (ServiceLocator.getInGameTime() != null) {
+            ServiceLocator.getInGameTime().resume();
+        }
+        if (ServiceLocator.getDayNightCycle() != null) {
+            ServiceLocator.getDayNightCycle().resume();
+        }
+
         ServiceLocator.getEntityService().wakeWholeScreen();
     }
 }

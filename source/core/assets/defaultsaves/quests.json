@@ -21,8 +21,10 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"Moo there adventurer, welcome to the Animal Kingdom! I am your guide."
-							"To prove your worth, you will need to complete a few tasks. Are you ready?"
+							"Moo there adventurer, welcome to the Animal Kingdom! "
+							"I am your guide."
+							"To prove your worth, you will need to complete a few tasks. "
+							"Are you ready?"
 						]
 					]
 				}
@@ -39,9 +41,9 @@
 			tasks: [
 				{
 					taskName: pickUpDefense Potion
-					description: Collect Potions
-					hint: Find 5 defense potions scattered throughout the kingdom.
-					requiredTriggers: 5
+					description: Go Collect Potions
+					hint: Find 1 defense potion throughout the kingdom.
+					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
 					failed: false
@@ -54,7 +56,7 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"I need five potions to help our people!"
+							"I need one potion to help our people!"
 							"They are scattered throughout the kingdom."
 							"Can you find them?"
 						]
@@ -63,26 +65,24 @@
 			]
 			currentTaskIndex: 0
 			isFailed: false
-			isActive: false
+			isActive: true
 			taskCompletionTriggers: null,
-			followQuests: [
-				"Guide's Intro"
-			]
+			followQuests: null
 		}
 		{
 			questName: Defeat Chickens
 			questDescription: Defeat 3 chickens
 			tasks: [
 				{
-					taskName: defeatCHICKEN
-					description: Lorem ipsum	
-					hint: Do you really need this?
+					taskName: defeatCHICKEN,
+					description: Defeat the kangaroos' 3 followers
+					hint: Look out for 3 chickens
 					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
 				}
-			
+
 			]
 			isSecretQuest: false
 			questDialogue: [
@@ -90,29 +90,28 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Defeat the wild creatures that threaten the peace of our land.
+							Now go and defeat the wild chickens
+							that threaten the peace of our land.
 						]
 					]
 				}
 			]
 			currentTaskIndex: 0
 			isFailed: false
-			isActive: false
+			isActive: true
 			taskCompletionTriggers: null,
-			followQuests: [
-				"Guide's Intro"
-			]
+			followQuests: null
 		}
 		{
-			questName: Play Snake Minigame
+			questName: Play Snake
 			questDescription: Play the minigame to gain skills.
 			tasks: [
 				{
-					taskName: playSnakeMinigame
+					taskName: completeSNAKE
 					description: Play the Snake Minigame
 					hint: Complete the minigame to retrieve the Eucalyptus sword.
 					requiredTriggers: 1
-					triggerCount: 1
+					triggerCount: 0
 					completed: false
 					failed: false
 				}
@@ -124,7 +123,8 @@
 					npcName: Cow
 					dialogue: [
 						[
-							Help the snake eat apples to train for your upcoming final battle!
+							Help the snake eat apples
+							to train for your upcoming final battle!
 						]
 					]
 
@@ -133,27 +133,31 @@
 					npcName: Snake
 					dialogue: [
 						["HHIISSSSSSS, I am the mighty Snake of the Jungle!"
-						"You look very tasty and I am very hungry"
-						"Go play a game and collect me some apples..."
-						"/msOr I will eat you whole!"]
+							"You look very tasty and I am very hungry"
+							"Go play a game and collect me some apples..."
+							"/msOr I will eat you whole!"]
 					]
 				}
 			],
 			currentTaskIndex: 0
-			isFailed: false
+			isFailed: false,
+			taskCompletionTriggers: [
+				"spawnLandBoss"
+			],
 			isActive: false
-			taskCompletionTriggers: null,
 			followQuests: [
-				"Guide's Intro"
+				"Guide's Intro",
+				"Guide's Request",
+				"Defeat Chickens"
 			]
 		}
 		{
-			questName: Kangaroo Boss Challenge
-			questDescription: Retrieve a weapon by completing the snake minigame.
+			questName: Defeat Kangaroo
+			questDescription: Defeat the boss aftr completing minigame.
 			tasks: [
 				{
-					taskName: defeatLandBoss
-					description: Complete the minigame
+					taskName: defeatKANGAROO
+					description: Challenge the kangaroo boss!
 					hint: Face the Kangaroo Boss to bring peace to the kingdom.
 					requiredTriggers: 1
 					triggerCount: 0
@@ -169,7 +173,8 @@
 					dialogue: [
 						[
 							"Once you have completed your tasks,"
-							"face the Kangaroo Boss and bring peace back to the kingdom."
+							"face the Kangaroo Boss "
+							"and bring peace back to the kingdom."
 						]
 					]
 				}
@@ -179,19 +184,17 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Guide's Request",
-				"Defeat Enemies",
-				"Play Snake Minigame"
+				"Play Snake"
 			]
 		}
 		{
-			questName: Water Sage's Intro
-			questDescription: Fill in
+			questName: Talk to Tilly
+			questDescription: Speak to the turtle
 			tasks: [
 				{
 					taskName: talkToWaterSage
-					description: Talk to the Water Sage
-					hint: Speak with the Water Sage to gain their trust and begin your quest.
+					description: Talk to the turtle
+					hint: Speak with the guide to gain their trust and begin your quest.
 					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
@@ -202,10 +205,11 @@
 
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Turtle
 					dialogue: [
 						[
-							"Greetings, brave adventurer! You have entered the Water Kingdom."
+							"Greetings, brave adventurer! "
+							"You have entered the Water Kingdom."
 							"To gain my trust, you must complete some essential tasks."
 						]
 					]
@@ -216,17 +220,17 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Kangaroo Boss Challenge"
+				"Defeat Kangaroo"
 			]
 		}
 		{
-			questName: Potion Collection
-			questDescription: Fill in
+			questName: Sea Pearl Collection
+			questDescription: Find and collect 1 pearl
 			tasks: [
 				{
-					taskName: collectSeaPearls
-					description: Collect Sea Pearls
-					hint: Find six Sea Pearls hidden around for the Water Sage's research.
+					taskName: pickUpApple
+					description: Collect Sea Pearl (Apple)
+					hint: Find one Pearl (Apple) hidden around.
 					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
@@ -237,10 +241,10 @@
 
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Turtle
 					dialogue: [
 						[
-							I need six Sea Pearls for my research.
+							I need one sea pearl for my research.
 							They are hidden in the underwater caverns.
 							Can you help me?
 						]
@@ -252,32 +256,31 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's Intro"
+				"Defeat Kangaroo"
 			]
 		}
 		{
-			questName: Defeat Sea Enemies,
-			questDescription: Fill in
+			questName: Defeat Frogs
+			questDescription: Defeat 3 frogs
 			tasks: [
 				{
-					taskName: defeatSeaCreatures
-					description: Defeat the Sea Creatures
-					hint: Show your strength by defeating the hostile sea creatures in the Water Kingdom.
-					requiredTriggers: 1
+					taskName: defeatFROG
+					description: Defeat 3 frogs
+					hint: Defeat water boss's followers - the frogs
+					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
 				}
+
 			]
 			isSecretQuest: false
-
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Turtle
 					dialogue: [
 						[
-							Watch out for hostile sea creatures!
-							Defeat them to show your strength.
+							Defeat the wild creatures that threaten the peace of our land.
 						]
 					]
 				}
@@ -287,17 +290,17 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's Intro"
+				"Defeat Kangaroo"
 			]
 		}
 		{
-			questName: Play Flappy Game.
-			questDescription: Fill in
+			questName: Play Flappy Game
+			questDescription: Win a flappy game medal
 			tasks: [
 				{
-					taskName: completeFlappyMinigame
+					taskName: completeBIRD,
 					description: Complete the minigame
-					hint: Complete the Flappy Bird-inspired minigame to unlock the next stage of your quest!
+					hint: Complete the Flappy Bird-inspired minigame to unlock the next stage!
 					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
@@ -308,38 +311,45 @@
 
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Turtle
 					dialogue: [
 						[
-							Play the flappy bird minigame to unlock the next stage of your quest!
+							Play the flappy bird minigame
+							to unlock the next stage of your quest!
+							Go talk to the fish!
 						]
 					]
 				}
 				{
-					npcName: Magpie
+					npcName: Fish
 					dialogue: [
-						["WHO GOES THERE!!"
-						"If you want to get past me you must pay"
-						"Go play a game and collect me some coins"
-						"/mbOr I will claw your eyes out!"]
+						["Help me please!",
+							"A strong current just scattered all my eggs and now I am lost",
+							"It is getting dark now, they are in great danger!",
+							"I must get them back and find my way home!",
+							"/muHelp me collect all the fish eggs an get back home before it is too late"]
 					]
 				}
 
 			],
 			currentTaskIndex: 0
 			isFailed: false
+			taskCompletionTriggers: [
+				"spawnWaterBoss"
+			],
 			isActive: false
-			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's Intro"
+				"Talk to Tilly",
+				"Sea Pearl Collection",
+				"Defeat Frogs"
 			]
 		}
 		{
-			questName: Defeat Water Boss,
-			questDescription: Fill in
+			questName: Defeat Leviathan
+			questDescription: Defeat the Leviathan!
 			tasks: [
 				{
-					taskName: defeatWaterBoss
+					taskName: defeatWATER_BOSS
 					description: Defeat the Water Boss
 					hint: Prepare yourself and face the Water Boss to protect the kingdom.
 					requiredTriggers: 1
@@ -351,10 +361,11 @@
 			isSecretQuest: false
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Turtle
 					dialogue: [
 						[
-							"Once you are ready, face the Water Leviathan and protect our kingdom."
+							"Once you are ready, "
+							"face the Water Leviathan and protect our kingdom."
 							"Good luck, brave adventurer!"
 						]
 					]
@@ -365,19 +376,17 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Water Sage's research",
-				"Defeat Sea Enemies",
 				"Play Flappy Game"
 			]
 		}
 		{
-			questName: Talk To Sage
-			questDescription: Embark on a quest in the Sky Kingdom to aid the Cloud Sage
+			questName: Talk to Eagle
+			questDescription: Embark on a quest in the Sky Kingdom to aid the guide
 			tasks: [
 				{
 					taskName: talkToCloudSage
-					description: Talk to the Cloud Sage
-					hint: Speak with the Cloud Sage to begin your quest in the Sky Kingdom
+					description: Go and talk to the Eagle
+					hint: Speak with the guide to begin your quest in the Sky Kingdom
 					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
@@ -387,11 +396,12 @@
 			isSecretQuest: false
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Eagle
 					dialogue: [
 						[
-							"Welcome, traveler of the skies! You have arrived in the Sky Kingdom."
-							"Complete these tasks to challenge the Sky Seraph."
+							"Welcome, traveler of the skies! "
+							"You have arrived in the Sky Kingdom."
+							"Complete these tasks to challenge the Griffin."
 						]
 					]
 				}
@@ -401,18 +411,18 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Defeat Water Boss"
+				"Defeat Leviathan"
 			]
 		}
 		{
 			questName: Gathering Sky Crystals
-			questDescription: Help the Cloud Sage collect Sky Crystals scattered across the kingdom
+			questDescription: Help collect Sky Crystals scattered across the kingdom
 			tasks: [
 				{
-					taskName: collectSkyCrystals
-					description: Collect Sky Crystals
-					hint: Gather seven Sky Crystals for the Cloud Sage
-					requiredTriggers: 1
+					taskName: pickUpCandy,
+					description: Collect Sky Crystals (Candy)
+					hint: Gather 2 Sky Crystals (Candy) for the Cloud Sage
+					requiredTriggers: 2
 					triggerCount: 0
 					completed: false
 					failed: false
@@ -421,7 +431,7 @@
 			isSecretQuest: false
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Eagle
 					dialogue: [
 						[
 							I need seven Sky Crystals that drift on the winds.
@@ -435,30 +445,32 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Talk To Sage"
+				"Defeat Leviathan"
 			]
 		}
 		{
-			questName: Brave the Skies
-			questDescription: Prove your courage by battling the flying beasts of the Sky Kingdom
+			questName: Defeat Bees
+			questDescription: Defeat 3 bees
 			tasks: [
 				{
-					taskName: defeatFlyingBeasts
-					description: Defeat the Flying Beasts
-					hint: Prove your bravery by facing the flying beasts that roam the skies
-					requiredTriggers: 1
+					taskName: defeatBEE,
+					description: Defeat the sky boss' followers
+					hint: Defeat the sky boss' 3 bee followers
+					requiredTriggers: 6
 					triggerCount: 0
 					completed: false
 					failed: false
 				}
+
 			]
 			isSecretQuest: false
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Eagle
 					dialogue: [
 						[
-							Face the flying beasts that roam the skies to prove your bravery.
+							Defeat the wild creatures
+							that threaten the peace of our land.
 						]
 					]
 				}
@@ -468,16 +480,16 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Talk To Sage"
+				"Defeat Leviathan"
 			]
 		}
 		{
-			questName: Tempest’s Challenge
-			questDescription: Complete the Tempests Minigame to unlock the next stage of your journey
+			questName: Underwater Challenge
+			questDescription: Complete the Maze Minigame
 			tasks: [
 				{
-					taskName: completeGame
-					description: Calm the Tempests Minigame
+					taskName: completeMAZE
+					description: Calm the UnderWater Minigame
 					hint: Complete the minigame to go onto your next quest!
 					requiredTriggers: 1
 					triggerCount: 0
@@ -488,10 +500,11 @@
 			isSecretQuest: false
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Eagle
 					dialogue: [
 						[
-							Complete the tempest minigame to move onto the next stage!
+							Complete the maze minigame to move onto the next stage!
+							Go and talk to the magpie to play game!
 						]
 					]
 				}
@@ -499,19 +512,23 @@
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
-			taskCompletionTriggers: null,
+			taskCompletionTriggers: [
+				"spawnAirBoss"
+			],
 			followQuests: [
-				"Talk To Sage"
+				"Talk to Eagle",
+				"Gathering Sky Crystals",
+				"Defeat Bees"
 			]
 		}
 		{
-			questName: Fight Seraph
-			questDescription: Confront the Sky Seraph in a battle to save the Sky Kingdom
+			questName: Defeat Griffin
+			questDescription: Confront the Griffin and defeat it!
 			tasks: [
 				{
-					taskName: defeatAirBoss
-					description: Defeat the Sky Seraph
-					hint: Prepare yourself and confront the Sky Seraph in an epic battle!
+					taskName: defeatAIR_BOSS
+					description: Defeat the Air Boss
+					hint: Go and find the boss!
 					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
@@ -521,10 +538,11 @@
 			isSecretQuest: false
 			questDialogue: [
 				{
-					npcName: Cow
+					npcName: Eagle
 					dialogue: [
 						[
-							When you are prepared,confront the Sky Seraph in an epic battle!
+							When you are prepared,
+							confront the Griffin in an epic battle!
 						]
 					]
 				}
@@ -534,105 +552,8 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Gathering Sky Crystals",
-				"Brave the Skies",
-				"Tempest’s Challenge"
+				"Underwater Challenge"
 			]
 		}
-		
-		{
-			questName: Defeat frogs
-			questDescription: Defeat 3 Frogs
-			tasks: [
-				{
-					taskName: defeatFROG
-					description: Lorem ipsum	
-					hint: Do you really need this?
-					requiredTriggers: 6
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			
-			]
-			isSecretQuest: false
-			questDialogue: [
-				{
-					npcName: Cow
-					dialogue: [
-						[
-							Defeat the wild creatures that threaten the peace of our land.
-						]
-					]
-				}
-			]
-			currentTaskIndex: 0
-			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null
-		}
-		{
-			questName: Defeat Monkeys
-			questDescription: Defeat 3 monkeys
-			tasks: [
-				{
-					taskName: defeatMONKEY
-					description: Lorem ipsum	
-					hint: Do you really need this?
-					requiredTriggers: 6
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			
-			]
-			isSecretQuest: false
-			questDialogue: [
-				{
-					npcName: Cow
-					dialogue: [
-						[
-							Defeat the wild creatures that threaten the peace of our land.
-						]
-					]
-				}
-			]
-			currentTaskIndex: 0
-			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null
-		}
-		{
-			questName: Defeat Bears
-			questDescription: Defeat 3 bears
-			tasks: [
-				{
-					taskName: defeatBEARS
-					description: Lorem ipsum	
-					hint: Do you really need this?
-					requiredTriggers: 6
-					triggerCount: 0
-					completed: false
-					failed: false
-				}
-			
-			]
-			isSecretQuest: false
-			questDialogue: [
-				{
-					npcName: Cow
-					dialogue: [
-						[
-							Defeat the wild creatures that threaten the peace of our land.
-						]
-					]
-				}
-			]
-			currentTaskIndex: 0
-			isFailed: false
-			isActive: false
-			taskCompletionTriggers: null
-		}
-
 	]
 }
