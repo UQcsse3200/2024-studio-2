@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.StoryScreen;
-import com.csse3200.game.ui.AlertBox;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,19 +33,6 @@ public class AnimalRouletteActions1 {
     }
 
     private void addListeners() {
-        display.getSelectButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (selectedAnimalImage != null) {
-                    logger.debug("Select button clicked with animal selected");
-                    switchToStoryScreen();
-                } else {
-                    logger.debug("No animal selected");
-                    showSelectionAlert();
-                }
-            }
-        });
-
         display.getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -93,55 +79,30 @@ public class AnimalRouletteActions1 {
 
     private void updateDisplayedAnimal() {
         display.updateAnimalImage(animalImagePaths[currentAnimalIndex]);
+        display.updateBackground(currentAnimalIndex);
     }
 
     private void selectCurrentAnimal() {
-        // Reset appearance of previously selected animal
         if (selectedAnimalImage != null) {
-            resetAnimalAppearance(selectedAnimalImage);
+            selectedAnimalImage.setColor(1, 1, 1, 1);
         }
-
-        // Select the new animal
         selectedAnimalImage = display.getAnimalImage();
+        selectedAnimalImage.setColor(1, 0, 0, 1);
         selectedAnimalImagePath = animalImagePaths[currentAnimalIndex];
         GameState.player.selectedAnimalPath = selectedAnimalImagePath;
         logger.debug("Animal selected: {}", selectedAnimalImagePath);
-
-        // Highlight the selected animal
-        highlightSelectedAnimal(selectedAnimalImage);
-    }
-    /**
-     * Highlights the selected animal with a red border or tint.
-     * @param animalImage The Image of the selected animal to be highlighted.
-     */
-    private void highlightSelectedAnimal(Image animalImage) {
-
-        animalImage.setColor(1, 0, 0, 1);  // Red color (R, G, B, A)
-    }
-
-    /**
-     * Resets the appearance of the previously selected animal.
-     * @param animalImage The Image of the previously selected animal to be reset.
-     */
-    private void resetAnimalAppearance(Image animalImage) {
-        animalImage.setColor(1, 1, 1, 1);  // Reset to original
-    }
-
-
-
-    private void showSelectionAlert() {
-        AlertBox alertBox = new AlertBox("Please select an animal first.", display.getSkin(), 400f, 200f);
-        alertBox.display(display.getStage());
-    }
-
-    void showAnimalDialog(int animalIndex, String animalImagePath) {
-        String title = "Animal " + (animalIndex + 1);
-        String content = display.getAnimalDescription(animalIndex);
-        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f, animalIndex);
     }
 
     private void showAnimalDialog() {
-        showAnimalDialog(currentAnimalIndex, selectedAnimalImagePath);
+        String title = "Animal " + (currentAnimalIndex + 1);
+        String content = display.getAnimalDescription(currentAnimalIndex);
+        String confirmButtonText = getConfirmButtonText(currentAnimalIndex);
+        dialogHelper.displayDialog(title, content, selectedAnimalImagePath, 900f, 500f, currentAnimalIndex, confirmButtonText, this::switchToStoryScreen);
+    }
+
+    private String getConfirmButtonText(int index) {
+        String[] confirmTexts = {"Enter Land Kingdom", "Enter Water Kingdom", "Enter Air Kingdom"};
+        return confirmTexts[index];
     }
 
     private void switchToStoryScreen() {
@@ -149,16 +110,12 @@ public class AnimalRouletteActions1 {
     }
 
     public void resetSelection() {
+        if (selectedAnimalImage != null) {
+            selectedAnimalImage.setColor(1, 1, 1, 1);
+        }
         selectedAnimalImage = null;
         selectedAnimalImagePath = null;
         currentAnimalIndex = 0;
         updateDisplayedAnimal();
-    }
-
-    void selectAnimal(Image animalImage, String animalImagePath) {
-        selectedAnimalImage = animalImage;
-        selectedAnimalImagePath = animalImagePath;
-        GameState.player.selectedAnimalPath = animalImagePath;
-        logger.debug("Animal selected: {}", animalImage.getName());
     }
 }

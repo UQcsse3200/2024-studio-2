@@ -159,7 +159,7 @@ public class CutSceneScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.debug("Continue button clicked");
-                game.setScreen(GdxGame.ScreenType.ANIMAL_SELECTION);
+                game.setScreen(GdxGame.ScreenType.ANIMAL_ROULETTE);
             }
         });
 
