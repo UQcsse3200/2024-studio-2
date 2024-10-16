@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
 
 /**
- * CLass for the MiniGame Menu Screen
+ * CLass for the MiniGame Menu Screen. Has an image and button for each minigame
  */
 public class MiniGameMenuScreen implements Screen {
 
