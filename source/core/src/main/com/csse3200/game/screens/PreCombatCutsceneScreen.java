@@ -314,7 +314,7 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
 
     // Initial positions for sliding animations
     enemyImage.setPosition(0, centerY); // Start from off-screen left
-    enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY - 3000); // Start from off-screen right
+    enemyNameLabel.setPosition(Gdx.graphics.getWidth(), centerY); // Start from off-screen right
 
     // Animate enemy image (slide-in effect)
     enemyImage.addAction(
