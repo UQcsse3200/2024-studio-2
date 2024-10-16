@@ -60,21 +60,14 @@ class CombatAreaTest {
     /**
      * Test the combat area handles the music function correctly
      */
-//    @Test
-//    void playMusic() {
-//        combatArea.playMusic();
-//
-//        verify(audioManager.playMusic("sounds/combat_track1.mp3", true);
-//    }
-//
-//    void playMusic() {
-//        Music mockMusic = mock(Music.class);
-//        when(ServiceLocator.getResourceService().getAsset("sounds/combat_track1.mp3", eq(Music.class))).thenReturn(mockMusic);
-//
-//        combatArea.playMusic();
-//
-//        verify(mockMusic).setLooping(true);
-//        verify(mockMusic).setVolume(0.3f);
-//        verify(mockMusic).play();
-//    }
+    @Test
+    void playMusic() {
+        Music mockMusic = mock(Music.class);
+        when(ServiceLocator.getResourceService().getAsset(any(String.class), eq(Music.class))).thenReturn(mockMusic);
+
+        combatArea.playMusic();
+
+        verify(mockMusic).setLooping(true);
+        verify(mockMusic).play();
+    }
 }
