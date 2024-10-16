@@ -102,7 +102,6 @@ public class SnakeScreen extends MiniGameScreen {
         ServiceLocator.getResourceService().loadAll();
         AudioManager.playMusic("sounds/minigames/snake-bg.mp3", true);
 
-        //setupExitButton();
         createUI();
         createHelpButton();
 
@@ -220,7 +219,7 @@ public class SnakeScreen extends MiniGameScreen {
             snakeRenderer.resize(width, height);
             snakePopup.resize(width, height);
         }
-        //setupExitButton();
+        snakeRenderer.resize(width, height);
     }
 
     /**

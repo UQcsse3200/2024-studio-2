@@ -89,7 +89,7 @@ public class MazeTouchAttackComponent extends Component {
             } else if (targetEntity instanceof Octopus){
                 ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE15, meEntity.getCenterPosition());
                 stunDuration = 1.4f;
-            } else {
+            } else if (!(targetEntity instanceof Turtle)) {
                 ServiceLocator.getParticleService().playEffect(ParticleService.ParticleType.DAMAGE10, meEntity.getCenterPosition());
             }
             targetEntity.getComponent(StatusEffectComponent.class).setMinStatusExpiry("stun", stunDuration);

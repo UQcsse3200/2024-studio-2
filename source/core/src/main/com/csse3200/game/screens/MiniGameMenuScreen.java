@@ -52,10 +52,7 @@ public class MiniGameMenuScreen implements Screen {
         setupMinigameUI("Snake", "images/minigames/snakeicon.png", 0.2f, 1, 0, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 game.enterSnakeScreen();
-            // helpWindow = new SnakePopup("images/minigames/BirdieDashPopUp.png");
-               // helpWindow.show();
             }
         });
 
@@ -198,7 +195,9 @@ public class MiniGameMenuScreen implements Screen {
      * Called when the screen is paused
      */
     @Override
-    public void pause() {}
+    public void pause() {
+        // Need as from super class, screen cannot be paused
+    }
 
     /**
      *  Called when the screen is resumed after a pause
@@ -212,7 +211,9 @@ public class MiniGameMenuScreen implements Screen {
      * Called when the screen is hidden
      */
     @Override
-    public void hide() {}
+    public void hide() {
+        // Need as from super class, screen cannot be hidden
+    }
 
     /**
      *  Disposes of stage, skin, textures and batch

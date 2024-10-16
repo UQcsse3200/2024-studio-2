@@ -85,7 +85,6 @@ public class BirdieDashScreen extends MiniGameScreen {
         ServiceLocator.getResourceService().loadMusic(new String[]{"sounds/minigames/bird-bg.mp3"});
         ServiceLocator.getResourceService().loadAll();
 
-        //setupExitButton();
         createUI();
         createHelpButton();
 
@@ -146,7 +145,7 @@ public class BirdieDashScreen extends MiniGameScreen {
      * Detect if the game is over
      */
     private void isGameOver() {
-        if (birdGame.getIsGameOver()) {
+        if (Boolean.TRUE.equals(birdGame.getIsGameOver())) {
             dispose();
             if (GameState.minigame != null) {
                 GameState.minigame.addHighScore("bird", birdGame.getScore());
