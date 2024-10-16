@@ -267,7 +267,7 @@ public StatDisplay(GdxGame game) {
         addButtonElevationEffect(landTypeButton);
         addButtonElevationEffect(waterTypeButton);
         addButtonElevationEffect(airTypeButton);
-        tabButtonTable.left().top();
+        tabButtonTable.left().top().padBottom(20);
         tabButtonTable.add(landTypeButton).left();
         tabButtonTable.add(waterTypeButton).left().padLeft(-25);
         tabButtonTable.add(airTypeButton).left().padLeft(-25);

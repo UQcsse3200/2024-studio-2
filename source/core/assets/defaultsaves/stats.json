@@ -49,8 +49,8 @@
       "type": "ITEM"
     },
     {
-      "statName": "Caviar Collected",
-      "statDescription": "Caviar collected",
+      "statName": "Sushi Collected",
+      "statDescription": "Sushi collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
@@ -65,8 +65,72 @@
       "type": "LAND_ENEMY"
     },
     {
+      "statName": "JOEY Defeated",
+      "statDescription": "Joey Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "MONKEY Defeated",
+      "statDescription": "Monkey Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "BEAR Defeated",
+      "statDescription": "Bear Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "BEE Defeated",
+      "statDescription": "Bee Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
       "statName": "WATER_BOSS Defeated",
       "statDescription": "Abbysdrake Kill",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "FROG Defeated",
+      "statDescription": "Frog Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "OCTOPUS Defeated",
+      "statDescription": "Octopus Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "EEL Defeated",
+      "statDescription": "Eel Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "BIGSAWFISH Defeated",
+      "statDescription": "Big Saw-fish Kill/s",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
@@ -81,12 +145,20 @@
       "type": "AIR_ENEMY"
     },
     {
-      "statName": "CHICKEN Defeated",
-      "statDescription": "Chicken Kills",
+      "statName": "PIGEON Defeated",
+      "statDescription": "Pigeon Kill/s",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "LAND_ENEMY"
+      "type": "AIR_ENEMY"
+    },
+    {
+      "statName": "MACAW Defeated",
+      "statDescription": "Macaw Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "AIR_ENEMY"
     }
   ]
 }
