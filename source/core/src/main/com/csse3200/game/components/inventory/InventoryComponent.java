@@ -12,7 +12,6 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.entities.factories.ItemFactory;
 import com.csse3200.game.inventory.items.lootbox.UniversalLootBox;
-import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,12 +35,6 @@ public class InventoryComponent extends Component {
         entity.getEvents().addListener("removeItemFromInventory", this::onRemoveItemFromInventory);
     }
 
-    /**
-     * Event listener that handles removing an item from the inventory and dropping it onto the game map.
-     *
-     * @param index        The index of the item to remove.
-     * @param worldPosition The position where the item should be dropped on the map.
-     */
     /**
      * Event listener that handles removing an item from the inventory and dropping it onto the game map.
      *
@@ -72,12 +65,6 @@ public class InventoryComponent extends Component {
         }
     }
 
-    /**
-     * Drops the item onto the game map at the specified world position.
-     *
-     * @param item     The item to drop onto the map.
-     * @param position The position where the item should be dropped.
-     */
     /**
      * Drops the item near the player within a specified radius.
      *
