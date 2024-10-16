@@ -7,6 +7,7 @@ package com.csse3200.game.components.combat.quicktimeevent;
  * too fast for the user to respond
  *
  * @param duration the duration of the event (in secs)
- * @param delay    the time delay between events (in secs)
+ * @param delay the time delay between events (in secs)
+ * @param keycode the keycode for the quick-time event
  */
-public record QuickTimeEvent(float duration, float delay) {}
+public record QuickTimeEvent(float duration, float delay, int keycode) {}

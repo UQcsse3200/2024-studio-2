@@ -30,12 +30,12 @@ public class TouchCombatInputComponent extends InputComponent {
        triggerQuickTimeBtnPress(Keys.UP);
         return true;
       case Keys.LEFT:
-//        triggerQuickTimeBtnPress(Keys.LEFT);
+        triggerQuickTimeBtnPress(Keys.LEFT);
         return true;
       case Keys.RIGHT:
-//        triggerQuickTimeBtnPress(Keys.RIGHT);
+        triggerQuickTimeBtnPress(Keys.RIGHT);
       case Keys.DOWN:
-//        triggerQuickTimeBtnPress(Keys.DOWN);
+        triggerQuickTimeBtnPress(Keys.DOWN);
       default:
         return false;
     }
@@ -59,9 +59,6 @@ public class TouchCombatInputComponent extends InputComponent {
    * @param keycode the key pressed
    */
   private void triggerQuickTimeBtnPress(int keycode) {
-//    entity.getEvents().trigger("quickTimeBtnPress", keycode);
-
-      entity.getEvents().trigger("quickTimeBtnPress", "UP");
-
+    entity.getEvents().trigger("quickTimeBtnPress", keycode);
   }
 }
