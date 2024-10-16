@@ -35,4 +35,5 @@ class PlayerInventoryDisplayTest {
         Gdx.input.setInputProcessor(renderService.getStage());
     }
 
+
 }

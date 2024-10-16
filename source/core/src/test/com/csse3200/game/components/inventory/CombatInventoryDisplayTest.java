@@ -1,5 +1,6 @@
 package com.csse3200.game.components.inventory;
 
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputService;
 
@@ -33,5 +34,6 @@ class CombatInventoryDisplayTest {
 
         Gdx.input.setInputProcessor(renderService.getStage());
     }
+
 
 }

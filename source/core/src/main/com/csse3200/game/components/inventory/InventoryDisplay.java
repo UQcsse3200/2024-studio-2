@@ -1,21 +1,27 @@
 package com.csse3200.game.components.inventory;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.inventory.*;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
+import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +39,7 @@ public abstract class InventoryDisplay extends UIComponent {
     private Table hotBarDisplay;
     private DragAndDrop dragAndDrop;
     private boolean toggle = false;
+    private final GdxGame game;
 
     private final boolean hasHotBar;
     protected final int numCols;
@@ -44,8 +51,13 @@ public abstract class InventoryDisplay extends UIComponent {
     Skin inventorySkin= new Skin(Gdx.files.internal("Inventory/InventorySkin/InventorySkin.json"));
     //Textures (created by @PratulW5)
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
+
     private final Texture descriptionbg= new Texture("Inventory/descp.png");
     Label descriptionLabel = new Label("", inventorySkin);
+
+    private final Texture alert = new Texture(Gdx.files.internal("Inventory/skinforalert.png"));
+    Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(alert));
+
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
@@ -55,7 +67,7 @@ public abstract class InventoryDisplay extends UIComponent {
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
     protected InventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity,
-                            boolean displayHotBar) {
+                            boolean displayHotBar, GdxGame game) {
         if (numCols < 1) {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
@@ -74,8 +86,22 @@ public abstract class InventoryDisplay extends UIComponent {
         this.inventory = inventory;
         this.numCols = numCols;
         this.numRows = capacity / numCols;
+
+        this.game = game;
+
+
         this.slots = new ImageButton[inventory.getCapacity()];
     }
+    /**
+     * Checks if the current screen is an instance of MainGameScreen.
+     *
+     * @return true if the current screen is MainGameScreen, false otherwise.
+     */
+    protected boolean isMainGameScreen() {
+        Screen currentScreen = game.getScreen();
+        return currentScreen instanceof MainGameScreen;
+    }
+
     /**
      * Initializes the component by setting up event listeners for toggling the inventory display
      * and adding items.
@@ -146,8 +172,7 @@ public abstract class InventoryDisplay extends UIComponent {
      * @param targetIndex The target index of the slot in the inventory where the item will be dropped.
      * @param item        The {@link AbstractItem} representing the item in the source slot being dragged.
      */
-    private void setupDragAndDrop (ImageButton slot, int targetIndex, AbstractItem item) {
-        // Define the source
+    protected void setupDragAndDrop(ImageButton slot, int targetIndex, AbstractItem item) {
         if (item != null) {
             dragAndDrop.addSource(new DragAndDrop.Source(slot) {
                 @Override
@@ -158,6 +183,36 @@ public abstract class InventoryDisplay extends UIComponent {
                     draggedImage.setSize(80, 80);
                     payload.setDragActor(draggedImage);
                     return payload;
+                }
+
+                @Override
+                public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
+                    logger.info("Drag stopped at stage coordinates: ({}, {})", x, y);
+
+                    // Check if the item was dragged outside the inventory and if we are on the MainGameScreen.
+                    if (target == null && isMainGameScreen()) {
+                        logger.info("No target detected and we are on the MainGameScreen. Proceeding to drop item.");
+
+                        // Convert stage coordinates to world coordinates.
+                        float worldX = event.getStageX();
+                        float worldY = event.getStageY();
+                        Vector2 worldPosition = stage.screenToStageCoordinates(new Vector2(worldX, worldY));
+                        logger.info("Converted stage coordinates to world position: ({}, {})", worldPosition.x, worldPosition.y);
+
+                        int sourceIndex = (int) payload.getObject();
+                        logger.info("Source index of the dragged item: {}", sourceIndex);
+
+                        // Trigger the event to remove the item from the inventory and drop it onto the map.
+                        entity.getEvents().trigger("removeItemFromInventory", sourceIndex, worldPosition);
+                        logger.info("Triggered 'removeItemFromInventory' event for item at index {} with world position ({}, {}).", sourceIndex, worldPosition.x, worldPosition.y);
+
+                        // Refresh the slot and update the inventory display.
+                        createSlot(sourceIndex);
+                        updateDisplay();
+                        logger.info("Slot at index {} refreshed and inventory display updated.", sourceIndex);
+                    } else {
+                        logger.info("Drag stopped with a valid target or not on the MainGameScreen. No action taken.");
+                    }
                 }
             });
         }
@@ -231,13 +286,41 @@ public abstract class InventoryDisplay extends UIComponent {
         buttonTable.add(sortButton).size(100, 50).padLeft(700);
         mainInventoryDisplay.add(buttonTable).colspan(2).bottom().padTop(5);
         scrollPane.setScrollingDisabled(true, false);
+
+        table.row();
+        table.add(sortButton);
+        if (inventory.isFull()) {
+            showInventoryFullAlert();
+        }
+        // Add the table to the window
+        mainInventoryDisplay.add(table).expand().fill();
+
         mainInventoryDisplay.pack();
         mainInventoryDisplay.setPosition(
                 (stage.getWidth() - mainInventoryDisplay.getWidth()) / 2 - 10,  // Center horizontally
                 (stage.getHeight() - mainInventoryDisplay.getHeight()) / 2 // Center vertically
         );
     }
+    private void showInventoryFullAlert() {
+        Dialog dialog = new Dialog(" ", skin) {
+            public void result(Object obj) {
 
+            }
+        };
+
+        dialog.text("Inventory is full!").padTop(50).padLeft(50);
+        dialog.button("OK", true);
+
+
+        dialog.setBackground(backgroundDrawable);
+        dialog.setSize(600,150);
+        dialog.setPosition(
+            (stage.getWidth() - dialog.getWidth()) / 2 - 10,  // Center horizontally
+            (stage.getHeight() - dialog.getHeight()) / 2 // Center vertically
+    );  // Add a button to close the dialog
+
+        stage.addActor(dialog);  // Show the dialog on the stage
+    }
 
     /**
      * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
