@@ -42,7 +42,7 @@ import static com.csse3200.game.minigames.MiniGameNames.BIRD;
 /**
  * Class for Birdie Dash Game Screen
  */
-public class BirdieDashScreen extends PausableScreen {
+public class BirdieDashScreen extends MiniGameScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(BirdieDashScreen.class);
     private final Renderer renderer;
@@ -53,16 +53,12 @@ public class BirdieDashScreen extends PausableScreen {
     private final BirdieDashGame birdGame;
     private final ScoreBoard scoreBoard;
     private final SnakePopup birdPopup;
-    private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
     private final Entity ui;
 
     public BirdieDashScreen(GdxGame game, Screen screen, ServiceContainer container) {
-        super(game);
+        super(game, screen, container);
         this.scale = 1;
-        this.oldScreen = screen;
         this.birdPopup = new SnakePopup(this, "images/minigames/BirdieDashPopUp.png");
-        this.oldScreenServices = container;
         this.birdGame = new BirdieDashGame();
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
         this.ui = new Entity();
@@ -247,20 +243,5 @@ public class BirdieDashScreen extends PausableScreen {
         // Trigger the flap action in BirdieDashGame
         birdGame.flapBird();
         AudioManager.playSound("sounds/minigames/birdie-flap.mp3");
-    }
-
-    /**
-     * Called from event to restart the game
-     */
-    void restartGame() {
-        dispose();
-        game.setScreen(new BirdieDashScreen(game, oldScreen, oldScreenServices));
-    }
-
-    /**
-     * Called from event to exit the game back to the previous screen
-     */
-    void exitGame() {
-        game.setOldScreen(oldScreen, oldScreenServices);
     }
 }

@@ -47,7 +47,7 @@ import static com.csse3200.game.minigames.snake.AssetPaths.SOUNDS;
  * Represents the screen for the Snake game.
  * Handles the rendering of the game components.
  */
-public class SnakeScreen extends PausableScreen {
+public class SnakeScreen extends MiniGameScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
     private final SnakeGame snakeGame;
@@ -57,8 +57,6 @@ public class SnakeScreen extends PausableScreen {
     private final Skin skin;
     private final Stage stage;
     private float scale;
-    private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
     private final Texture backgroundTexture;
     private final SpriteBatch spriteBatch;
     private final Entity ui;
@@ -70,10 +68,8 @@ public class SnakeScreen extends PausableScreen {
      * @param game The main game instance that controls the screen.
      */
     public SnakeScreen(GdxGame game, Screen screen, ServiceContainer container) {
-        super(game);
+        super(game, screen, container);
         this.scale = 1;
-        this.oldScreen = screen;
-        this.oldScreenServices = container;
         this.ui = new Entity();
         this.snakePopup = new SnakePopup(this, "images/minigames/snakePopUp.png");
         this.backgroundTexture = new  Texture(Gdx.files.internal("images/minigames/Background.png"));
@@ -284,20 +280,5 @@ public class SnakeScreen extends PausableScreen {
      */
     void handleSnakeInput(Direction direction) {
         snakeGame.handleSnakeInput(direction);
-    }
-
-    /**
-     * Handles player input for restarting or exiting the game.
-     */
-    void restartGame() {
-        dispose();
-        game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
-    }
-
-    /**
-     * Exits the game
-     */
-    void exitGame() {
-        game.setOldScreen(oldScreen, oldScreenServices);
     }
 }

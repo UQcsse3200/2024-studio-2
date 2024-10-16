@@ -49,7 +49,7 @@ import static com.csse3200.game.entities.factories.RenderFactory.createCamera;
 /**
  * Class for Underwater Maze Mini-Game Screen
  */
-public class MazeGameScreen extends PausableScreen {
+public class MazeGameScreen extends MiniGameScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(MazeGameScreen.class);
 
@@ -59,10 +59,6 @@ public class MazeGameScreen extends PausableScreen {
 
     // Physics engine
     private final PhysicsEngine physicsEngine;
-
-    // Used for preserving screen
-    private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
     private static final float GAME_WIDTH = 5f;
 
     // Used for putting elements on the screen
@@ -78,10 +74,8 @@ public class MazeGameScreen extends PausableScreen {
     private int EndScore = -1;
 
     public MazeGameScreen(GdxGame game, Screen screen, ServiceContainer container) {
-        super(game);
-        this.oldScreen = screen;
+        super(game, screen, container);
         this.mazePopup = new SnakePopup(this, "images/minigames/MazePopUp.png");
-        this.oldScreenServices = container;
         this.scale = 1;
 
         this.skin = new Skin(Gdx.files.internal("flat-earth/skin/flat-earth-ui.json"));
@@ -264,13 +258,7 @@ public class MazeGameScreen extends PausableScreen {
         ServiceLocator.getEntityService().register(ui);
     }
 
-    /**
-     * Called from event to restart the game
-     */
-    void restartGame() {
-        dispose();
-        game.setScreen(new MazeGameScreen(game, oldScreen, oldScreenServices));
-    }
+
 
     /**
      * Shows the pause menu
@@ -280,13 +268,6 @@ public class MazeGameScreen extends PausableScreen {
         if (!resting) {
             addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
         }
-    }
-
-    /**
-     * Called from event to exit the game back to the previous screen
-     */
-    void exitGame() {
-        game.setOldScreen(oldScreen, oldScreenServices);
     }
 
     /**
