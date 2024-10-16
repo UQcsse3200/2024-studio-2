@@ -31,7 +31,7 @@ class InventoryTest {
         Task task = new Task("collectPotionTest", "", "", 2, 0, false, false);
 
 
-        questManager.addQuest(new QuestBuilder("Guide's Request test")
+        questManager.addQuest(new Quest.QuestBuilder("Guide's Request test")
                         .setDescription("Follow the cow's request and collect items.")
                         .addTask(task)
                         .setActive(true)

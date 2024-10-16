@@ -17,7 +17,7 @@ class QuestTest {
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 5, 0, false, false);
 
         // Create the quest with the task
-        quest = new QuestBuilder("First Steps")
+        quest = new Quest.QuestBuilder("First Steps")
                 .addTask(stepsTask)
                 .setDescription("Take your first steps in this world!")
                 .setActive(true)

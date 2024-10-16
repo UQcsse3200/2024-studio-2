@@ -4,7 +4,6 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.csse3200.game.components.quests.DialogueKey;
 import com.csse3200.game.components.quests.Quest;
-import com.csse3200.game.components.quests.QuestBuilder;
 import com.csse3200.game.components.quests.Task;
 
 import java.util.*;
@@ -25,7 +24,7 @@ public class QuestSave implements Json.Serializable {
     public void read(Json json, JsonValue jsonData) {
         ArrayList<Quest> newQuests = new ArrayList<>();
         for (JsonValue quest : jsonData.child) {
-            QuestBuilder questBuilder = new QuestBuilder(quest.getString("questName"));
+            Quest.QuestBuilder questBuilder = new Quest.QuestBuilder(quest.getString("questName"));
 
             Iterator<JsonValue> taskList;
 
