@@ -200,7 +200,7 @@ public class CombatAnimationDisplay extends UIComponent {
             enemySleepImage.setPosition(xZ, yZ);
         }
 
-        enemySleepImage.setScale(0.3f);
+        enemySleepImage.setScale(0.25f);
         enemySleepImage.setVisible(true);
         stage.addActor(enemySleepImage);
         enemySleepImage.clearActions();
@@ -252,10 +252,10 @@ public class CombatAnimationDisplay extends UIComponent {
         float xZ;
         float yZ;
         if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            xZ = stage.getWidth() * 0.39f;
+            xZ = stage.getWidth() * 0.385f;
             yZ = stage.getHeight() * 0.5f;
         } else {
-            xZ = stage.getWidth() * 0.371f;
+            xZ = stage.getWidth() * 0.370f;
             yZ = stage.getHeight() * 0.286f;
         }
 
@@ -298,11 +298,11 @@ public class CombatAnimationDisplay extends UIComponent {
         enemyGuardImage.setPosition(xZ, yZ);
         enemyGuardImage.setScale(0.3f);
         if (CombatArea.kingdomType == CombatArea.KINGDOM.WATER) {
-            xZ = stage.getWidth() * 0.58f;
+            xZ = stage.getWidth() * 0.57f;
             yZ = stage.getHeight() * 0.5f;
             enemyGuardImage.setPosition(xZ, yZ);
         } else {
-            xZ = stage.getWidth() * 0.57f;
+            xZ = stage.getWidth() * 0.56f;
             yZ = stage.getHeight() * 0.285f;
             enemyGuardImage.setPosition(xZ, yZ);
         }

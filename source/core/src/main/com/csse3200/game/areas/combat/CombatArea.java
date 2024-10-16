@@ -184,7 +184,7 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
         Entity newEnemy = CombatAnimalFactory.createKangaBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 146), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 200), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -198,7 +198,7 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnAirBoss() {
         Entity newEnemy = CombatAnimalFactory.createAirBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 146), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 217), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -342,6 +342,9 @@ public class CombatArea extends GameArea {
      * combat pause is implemented
      */
     public void pauseMusic() {
+//        Music music =
+//                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC, Music.class);
+//        music.pause();
         AudioManager.stopMusic();
     }
 
