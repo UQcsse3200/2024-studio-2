@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.minigames.MiniGameNames;
 
+
 import static com.csse3200.game.minigames.MiniGameNames.*;
 
 /**
@@ -29,7 +30,9 @@ public class DialogueBox {
     private static final Texture BUTTON_IMAGE_TEXTURE = new Texture(Gdx.files.internal("images/blue-button.png"));
     private static final Texture BUTTON_HOVER_TEXTURE = new Texture(Gdx.files.internal("images/blue-b-hover.png"));
 
+
     private static GdxGame game;
+
     private final Stage stage;
     private Label label;
     private Image backgroundImage;
@@ -51,6 +54,7 @@ public class DialogueBox {
     public DialogueBox(Stage stage) {
         this.stage = stage;
         dialogueBoxInitialisation(true);
+        
     }
 
     /**
@@ -106,6 +110,8 @@ public class DialogueBox {
         for (TextButton button : optionButtons) {
             button.setVisible(false);
         }
+
+
     }
 
     /**
@@ -298,6 +304,9 @@ public class DialogueBox {
             }
         });
 
+
+
+
         // Listener for the playButton, will boot up a specific mini-game
         playButton.addListener(new InputListener() {
             @Override
@@ -315,11 +324,11 @@ public class DialogueBox {
                 ServiceLocator.getEntityService().getEntity(QuestManager.class).getEvents().trigger("complete" + currentMinigame);
                 if (currentMinigame == SNAKE) {
                     game.enterSnakeScreen();
-
                 } else if (currentMinigame == BIRD) {
                     game.enterBirdieDashScreen();
                 } else if (currentMinigame == MAZE) {
                     game.enterMazeGameScreen();
+
                 }
                 return true;
             }
@@ -346,13 +355,6 @@ public class DialogueBox {
         return this.hints;
     }
 
-    /**
-     * Gets the option buttons.
-     * @return the array of option buttons.
-     */
-    public TextButton[] getOptionButtons() {
-        return optionButtons;
-    }
 
     /**
      * Returns the index of the current hint being displayed.

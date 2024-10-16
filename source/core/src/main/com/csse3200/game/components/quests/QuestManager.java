@@ -52,7 +52,6 @@ public class QuestManager extends Component {
         player.getEvents().addListener("airBossDefeated",
                 () ->  player.getEvents().trigger("defeatAirBoss"));
 
-        player.getEvents().addListener("spawnLandBoss", this::handleBossQuest);
 
     }
 
@@ -99,11 +98,6 @@ public class QuestManager extends Component {
         // Being run twice
         String type = enemy.getEnemyType().toString();
         player.getEvents().trigger("defeat" + type);
-    }
-
-    private void handleBossQuest(Entity bossEnemy) {
-
-        player.getEvents().trigger("spawnLandBoss");
     }
 
 
