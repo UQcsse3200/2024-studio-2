@@ -195,11 +195,18 @@ loadScripts(document, 'script');</script>
 <div class="block">Spawns defeated enemy NPCs are friendly NPCs in the same/similar location</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unloadAssets()" class="member-name-link">unloadAssets</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spawnEntityNearPlayer(com.csse3200.game.entities.Entity,int)" class="member-name-link">spawnEntityNearPlayer</a><wbr>(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+ int&nbsp;radius)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Spawns an entity near the player within a specified radius, ensuring the entity
+ is placed within the correct chunk boundaries and loaded areas of the game map.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unlockArea(java.lang.String)" class="member-name-link">unlockArea</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;area)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unloadAssets()" class="member-name-link">unloadAssets</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unlockArea(java.lang.String)" class="member-name-link">unlockArea</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;area)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Unlock an area of the map</div>
 </div>
 </div>
@@ -298,6 +305,26 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="displayUI()">
 <h3>displayUI</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">displayUI</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="spawnEntityNearPlayer(com.csse3200.game.entities.Entity,int)">
+<h3>spawnEntityNearPlayer</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnEntityNearPlayer</span><wbr><span class="parameters">(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+ int&nbsp;radius)</span></div>
+<div class="block">Spawns an entity near the player within a specified radius, ensuring the entity
+ is placed within the correct chunk boundaries and loaded areas of the game map.
+ This function calculates a valid spawn position near the player's current location,
+ considering the player's world position and current chunk. It ensures that the entity
+ is spawned within the boundaries of the current chunk to avoid positioning the entity
+ in an unloaded or inaccessible area.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>entity</code> - The entity to be spawned near the player.</dd>
+<dd><code>radius</code> - The radius around the player's position within which the entity will be spawned.
+               The spawn position is randomly selected within this radius but is constrained
+               to be within the current chunk boundaries.</dd>
+</dl>
 </section>
 </li>
 <li>

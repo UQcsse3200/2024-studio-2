@@ -1224,7 +1224,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/inventory/CombatInventoryDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.inventory">CombatInventoryDisplay</a> - Class in <a href="com/csse3200/game/components/inventory/package-summary.html">com.csse3200.game.components.inventory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/inventory/CombatInventoryDisplay.html#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int)" class="member-name-link">CombatInventoryDisplay(Inventory, int, int)</a> - Constructor for class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/CombatInventoryDisplay.html" title="class in com.csse3200.game.components.inventory">CombatInventoryDisplay</a></dt>
+<dt><a href="com/csse3200/game/components/inventory/CombatInventoryDisplay.html#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int,com.csse3200.game.GdxGame)" class="member-name-link">CombatInventoryDisplay(Inventory, int, int, GdxGame)</a> - Constructor for class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/CombatInventoryDisplay.html" title="class in com.csse3200.game.components.inventory">CombatInventoryDisplay</a></dt>
 <dd>
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.</div>
 </dd>
@@ -1462,6 +1462,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Called when the component is created.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/inventory/CombatInventoryDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/CombatInventoryDisplay.html" title="class in com.csse3200.game.components.inventory">CombatInventoryDisplay</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/inventory/InventoryComponent.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryComponent.html" title="class in com.csse3200.game.components.inventory">InventoryComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
 <dd>
@@ -4048,7 +4050,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/inventory/InventoryComponent.html#getInventory()" class="member-name-link">getInventory()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryComponent.html" title="class in com.csse3200.game.components.inventory">InventoryComponent</a></dt>
 <dd>
-<div class="block">Returns the player's current inventory from this attached InventoryComponent</div>
+<div class="block">Returns the player's current inventory from this attached InventoryComponent.</div>
 </dd>
 <dt><a href="com/csse3200/game/areas/terrain/CCell.html#getIsCollapsed()" class="member-name-link">getIsCollapsed()</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/CCell.html" title="class in com.csse3200.game.areas.terrain">CCell</a></dt>
 <dd>&nbsp;</dd>
@@ -5333,9 +5335,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/inventory/InventoryComponent.html" class="type-name-link" title="class in com.csse3200.game.components.inventory">InventoryComponent</a> - Class in <a href="com/csse3200/game/components/inventory/package-summary.html">com.csse3200.game.components.inventory</a></dt>
 <dd>
-<div class="block">Data class to store the player's inventory separately from the display components
- All other objects which do not explicitly need to use the display but need to access the
- inventory should access this component only.</div>
+<div class="block">Data class to store the player's inventory separately from the display components.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/inventory/InventoryComponent.html#%3Cinit%3E(int)" class="member-name-link">InventoryComponent(int)</a> - Constructor for class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryComponent.html" title="class in com.csse3200.game.components.inventory">InventoryComponent</a></dt>
 <dd>&nbsp;</dd>
@@ -5345,7 +5345,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Abstract class for displaying an inventory.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int,boolean)" class="member-name-link">InventoryDisplay(Inventory, int, int, boolean)</a> - Constructor for class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
+<dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int,boolean,com.csse3200.game.GdxGame)" class="member-name-link">InventoryDisplay(Inventory, int, int, boolean, GdxGame)</a> - Constructor for class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
 <dd>
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.</div>
 </dd>
@@ -5445,6 +5445,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/login/PlayFab.html#isLogin" class="member-name-link">isLogin</a> - Static variable in class com.csse3200.game.components.login.<a href="com/csse3200/game/components/login/PlayFab.html" title="class in com.csse3200.game.components.login">PlayFab</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#isMainGameScreen()" class="member-name-link">isMainGameScreen()</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
+<dd>
+<div class="block">Checks if the current screen is an instance of MainGameScreen.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/player/PlayerActions.html#isMoving()" class="member-name-link">isMoving()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerActions.html" title="class in com.csse3200.game.components.player">PlayerActions</a></dt>
 <dd>
 <div class="block">Gets if the player is moving or not</div>
@@ -6974,7 +6978,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">PlayerInventoryDisplay extends InventoryDisplay and adds features like hotbar and drag-and-drop functionality.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/inventory/PlayerInventoryDisplay.html#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int)" class="member-name-link">PlayerInventoryDisplay(Inventory, int, int)</a> - Constructor for class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.inventory">PlayerInventoryDisplay</a></dt>
+<dt><a href="com/csse3200/game/components/inventory/PlayerInventoryDisplay.html#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int,com.csse3200.game.GdxGame)" class="member-name-link">PlayerInventoryDisplay(Inventory, int, int, GdxGame)</a> - Constructor for class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/PlayerInventoryDisplay.html" title="class in com.csse3200.game.components.inventory">PlayerInventoryDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/gamestate/data/PlayerSave.html" class="type-name-link" title="class in com.csse3200.game.gamestate.data">PlayerSave</a> - Class in <a href="com/csse3200/game/gamestate/data/package-summary.html">com.csse3200.game.gamestate.data</a></dt>
 <dd>&nbsp;</dd>
@@ -8415,6 +8419,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">sets the state of unlocked water map</div>
 </dd>
+<dt><a href="com/csse3200/game/components/inventory/InventoryDisplay.html#setupDragAndDrop(com.badlogic.gdx.scenes.scene2d.ui.ImageButton,int,com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">setupDragAndDrop(ImageButton, int, AbstractItem)</a> - Method in class com.csse3200.game.components.inventory.<a href="com/csse3200/game/components/inventory/InventoryDisplay.html" title="class in com.csse3200.game.components.inventory">InventoryDisplay</a></dt>
+<dd>
+<div class="block">Sets up drag-and-drop functionality for the inventory system using the provided slot and item.</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/birdiedash/entities/Bird.html#setVelocity(float,float)" class="member-name-link">setVelocity(float, float)</a> - Method in class com.csse3200.game.minigames.birdiedash.entities.<a href="com/csse3200/game/minigames/birdiedash/entities/Bird.html" title="class in com.csse3200.game.minigames.birdiedash.entities">Bird</a></dt>
 <dd>
 <div class="block">For testing</div>
@@ -8667,6 +8675,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/areas/GameArea.html#spawnEntityCenteredAt(com.csse3200.game.entities.Entity,com.badlogic.gdx.math.Vector2)" class="member-name-link">spawnEntityCenteredAt(Entity, Vector2)</a> - Method in class com.csse3200.game.areas.<a href="com/csse3200/game/areas/GameArea.html" title="class in com.csse3200.game.areas">GameArea</a></dt>
 <dd>
 <div class="block">Spawns an entity centered at a specified world position.</div>
+</dd>
+<dt><a href="com/csse3200/game/areas/forest/ForestGameArea.html#spawnEntityNearPlayer(com.csse3200.game.entities.Entity,int)" class="member-name-link">spawnEntityNearPlayer(Entity, int)</a> - Method in class com.csse3200.game.areas.forest.<a href="com/csse3200/game/areas/forest/ForestGameArea.html" title="class in com.csse3200.game.areas.forest">ForestGameArea</a></dt>
+<dd>
+<div class="block">Spawns an entity near the player within a specified radius, ensuring the entity
+ is placed within the correct chunk boundaries and loaded areas of the game map.</div>
 </dd>
 <dt><a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html#spawnGreenJellyfish(int,float)" class="member-name-link">spawnGreenJellyfish(int, float)</a> - Method in class com.csse3200.game.minigames.maze.areas.<a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html" title="class in com.csse3200.game.minigames.maze.areas">MazeGameArea</a></dt>
 <dd>

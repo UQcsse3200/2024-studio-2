@@ -150,10 +150,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int,boolean)" class="member-name-link">InventoryDisplay</a><wbr>(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.inventory.Inventory,int,int,boolean,com.csse3200.game.GdxGame)" class="member-name-link">InventoryDisplay</a><wbr>(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
  int&nbsp;numCols,
  int&nbsp;hotBarCapacity,
- boolean&nbsp;displayHotBar)</code></div>
+ boolean&nbsp;displayHotBar,
+ <a href="../../GdxGame.html" title="class in com.csse3200.game">GdxGame</a>&nbsp;game)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.</div>
 </div>
@@ -222,12 +223,24 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Z index controls rendering order within a layer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#regenerateDisplay()" class="member-name-link">regenerateDisplay</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isMainGameScreen()" class="member-name-link">isMainGameScreen</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if the current screen is an instance of MainGameScreen.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#regenerateDisplay()" class="member-name-link">regenerateDisplay</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Regenerates the entire inventory and hotBar display (recreates every image)
  This should only be used if the inventory has been changed (ie after
  sorting or loading).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupDragAndDrop(com.badlogic.gdx.scenes.scene2d.ui.ImageButton,int,com.csse3200.game.inventory.items.AbstractItem)" class="member-name-link">setupDragAndDrop</a><wbr>(com.badlogic.gdx.scenes.scene2d.ui.ImageButton&nbsp;slot,
+ int&nbsp;targetIndex,
+ <a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets up drag-and-drop functionality for the inventory system using the provided slot and item.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggleDisplay()" class="member-name-link">toggleDisplay</a>()</code></div>
@@ -312,12 +325,13 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.csse3200.game.inventory.Inventory,int,int,boolean)">
+<section class="detail" id="&lt;init&gt;(com.csse3200.game.inventory.Inventory,int,int,boolean,com.csse3200.game.GdxGame)">
 <h3>InventoryDisplay</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">InventoryDisplay</span><wbr><span class="parameters">(<a href="../../inventory/Inventory.html" title="class in com.csse3200.game.inventory">Inventory</a>&nbsp;inventory,
  int&nbsp;numCols,
  int&nbsp;hotBarCapacity,
- boolean&nbsp;displayHotBar)</span></div>
+ boolean&nbsp;displayHotBar,
+ <a href="../../GdxGame.html" title="class in com.csse3200.game">GdxGame</a>&nbsp;game)</span></div>
 <div class="block">Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
  The capacity must be evenly divisible by the number of columns.</div>
 <dl class="notes">
@@ -337,6 +351,17 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="isMainGameScreen()">
+<h3>isMainGameScreen</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isMainGameScreen</span>()</div>
+<div class="block">Checks if the current screen is an instance of MainGameScreen.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if the current screen is MainGameScreen, false otherwise.</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="create()">
 <h3>create</h3>
@@ -384,6 +409,23 @@ loadScripts(document, 'script');</script>
 <h3>toggleDisplay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">toggleDisplay</span>()</div>
 <div class="block">Toggles the inventory display on or off based on its current state.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setupDragAndDrop(com.badlogic.gdx.scenes.scene2d.ui.ImageButton,int,com.csse3200.game.inventory.items.AbstractItem)">
+<h3>setupDragAndDrop</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupDragAndDrop</span><wbr><span class="parameters">(com.badlogic.gdx.scenes.scene2d.ui.ImageButton&nbsp;slot,
+ int&nbsp;targetIndex,
+ <a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items">AbstractItem</a>&nbsp;item)</span></div>
+<div class="block">Sets up drag-and-drop functionality for the inventory system using the provided slot and item.
+ The method defines both the drag source and the drop target, allowing users to drag items between slots.
+ The items are swapped between the source and target slots upon successful drop.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>slot</code> - The <code>ImageButton</code> that represents the inventory slot where the item is being dragged from or dropped into.</dd>
+<dd><code>targetIndex</code> - The target index of the slot in the inventory where the item will be dropped.</dd>
+<dd><code>item</code> - The <a href="../../inventory/items/AbstractItem.html" title="class in com.csse3200.game.inventory.items"><code>AbstractItem</code></a> representing the item in the source slot being dragged.</dd>
+</dl>
 </section>
 </li>
 <li>
