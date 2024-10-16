@@ -105,6 +105,7 @@ public class MinigameLeaderboard extends UIComponent {
         table.setBackground(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
         table.setSize(300, 450);
         title = new Label("Leaderboard", skin, "title-white");
+        gameTitle = new Label("Snake", skin, "large-white");
         warningLabel = new Label("You need to login to see the leaderboard", skin, "large-white");
         warningLabel.setWrap(true);
         warningLabel.setAlignment(Align.center);
@@ -173,6 +174,7 @@ public class MinigameLeaderboard extends UIComponent {
         if (!name.equals("Current")) {
             currentIdx = gameName.indexOf(name);
         }
+        gameTitle.setText(gameName.get(currentIdx) + " Leaderboard");
         PlayFab.submitScore(gameName.get(currentIdx), 0);
         PlayFab.updateLeaderboard(gameName.get(currentIdx));
         updateLeaderboard();
@@ -195,6 +197,8 @@ public class MinigameLeaderboard extends UIComponent {
 
         if (PlayFab.isLogin) {
             // Add table headers for username and score
+            contentTable.add(gameTitle).top().padTop(30).center();
+            contentTable.row();
             contentTable.add(new Label("Username", skin, "large-white")).padRight(30f).left().top();
             contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).right().top();
 
