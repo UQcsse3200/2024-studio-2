@@ -2,6 +2,7 @@ package com.csse3200.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -23,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public class CutSceneScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(CutSceneScreen.class);
     private final GdxGame game;
-
+    private Sound cutSceneSound;  // Sound to be played
     private RenderService renderService;
     private EntityService entityService;
     private ResourceService resourceService;
@@ -49,6 +50,9 @@ public class CutSceneScreen extends ScreenAdapter {
         createContinueButton();
 
         Gdx.input.setInputProcessor(stage);
+
+        // Play the cutscene sound
+        cutSceneSound.play();
     }
 
     @Override
@@ -74,6 +78,9 @@ public class CutSceneScreen extends ScreenAdapter {
         logger.debug("Loading CutScene assets");
         resourceService.loadAll();
         cutSceneTexture = new Texture(Gdx.files.internal("images/SplashScreen/MainSplash.png"));
+
+        // Load the cutscene sound
+        cutSceneSound = Gdx.audio.newSound(Gdx.files.internal("sounds/animal/birds-and-animals-before-sunrise-246785.mp3"));
     }
 
     /**
@@ -115,5 +122,10 @@ public class CutSceneScreen extends ScreenAdapter {
         spriteBatch.dispose();
         stage.dispose();
         cutSceneTexture.dispose();
+
+        // Dispose of the sound
+        if (cutSceneSound != null) {
+            cutSceneSound.dispose();
+        }
     }
 }
