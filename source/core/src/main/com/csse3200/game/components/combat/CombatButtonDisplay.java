@@ -117,6 +117,19 @@ public class CombatButtonDisplay extends UIComponent {
                 }
             }
         };
+        CustomButton contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
+        InputListener dialogueBoxCombatListener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (!(ServiceLocator.getDialogueBoxService().getIsVisible())) {
+                    logger.debug("DialogueBox is no longer visible, combat screen can be exited.");
+                } else{
+                    logger.debug("DialogueBox is still visible, combat screen cannot be exited.");
+                }
+                return true;
+            }
+        };
+        contButton.addListener(dialogueBoxCombatListener);
 
         stage.addListener(dialogueBoxVisibleListener);
 
