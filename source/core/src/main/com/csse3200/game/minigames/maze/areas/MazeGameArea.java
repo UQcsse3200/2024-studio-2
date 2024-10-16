@@ -49,7 +49,7 @@ public class MazeGameArea extends GameArea {
             "images/minigames/wall_v.png",
             "images/minigames/fishegg.png",
             "images/PauseOverlay/TitleBG.png",
-            "images/PauseOverlay/Button.png",
+            "images/PauseOverlay/Button2.png",
             "images/QuestsOverlay/Quest_BG.png",
             "images/QuestsOverlay/Quest_SBG.png",
             "images/minigames/inksplat.png"
