@@ -40,6 +40,10 @@ public class StealTaskTest {
     @Mock
     private EventHandler eventHandler; // Mock the EventHandler
 
+    /**
+     * Test to verify that starting the StealTask triggers the spawn event and
+     * swaps the current task to a WaitTask
+     */
     @BeforeEach
     public void setup() {
 
@@ -74,7 +78,9 @@ public class StealTaskTest {
         stealTask.create(ownerEntity); // Pass the AITaskComponent mock
     }
 
-
+    /**
+     * Test to verify that the StealTask correctly returns to its original position after stealing item
+     */
     @Test
     public void testStartStealTask() {
         // Start the task
@@ -87,6 +93,9 @@ public class StealTaskTest {
         assertInstanceOf(WaitTask.class, stealTask.getCurrentTask());
     }
 
+    /**
+     * Test to verify that the StealTask correctly returns to its original position after stealing item
+     */
     @Test
     public void testReturnToOriginalPosition() {
         // Start the task and simulate moving toward the item
@@ -105,24 +114,27 @@ public class StealTaskTest {
         assertTrue(stealTask.getCurrentTask() instanceof WaitTask);
     }
 
-//    @Test
-//    public void testStealingMultipleItems() {
-//        // Add multiple items to the map
-//        Entity secondItemEntity = mock(Entity.class);
-//        when(secondItemEntity.getPosition()).thenReturn(new Vector2(2, 2));
-//        items.put(2, secondItemEntity);
-//
-//        // Start the steal task and ensure it starts by targeting the first item
-//        stealTask.start();
-//        stealTask.update(); // Moving toward the first item
-//
-//        when(mockEntity.getPosition()).thenReturn(new Vector2(1, 1));
-//        stealTask.update(); // Should "steal" the first item
-//
-//        // Now target the second item
-//        when(mockEntity.getPosition()).thenReturn(new Vector2(2, 2));
-//        stealTask.update(); // Should "steal" the second item
-//
-//        assertTrue(stealTask.getCurrentTask() instanceof WaitTask); // Task ends after stealing
-//    }
+    /**
+     * Test to verify that the StealTask can handle stealing multiple items
+     */
+    @Test
+    public void testStealingMultipleItems() {
+        // Add multiple items to the map
+        Entity secondItemEntity = mock(Entity.class);
+        when(secondItemEntity.getPosition()).thenReturn(new Vector2(2, 2));
+        items.put(2, secondItemEntity);
+
+        // Start the steal task and ensure it starts by targeting the first item
+        stealTask.start();
+        stealTask.update(); // Moving toward the first item
+
+        when(mockEntity.getPosition()).thenReturn(new Vector2(1, 1));
+        stealTask.update(); // Should "steal" the first item
+
+        // Now target the second item
+        when(mockEntity.getPosition()).thenReturn(new Vector2(2, 2));
+        stealTask.update(); // Should "steal" the second item
+
+        assertTrue(stealTask.getCurrentTask() instanceof WaitTask); // Task ends after stealing
+    }
 }
