@@ -18,10 +18,7 @@ import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputService;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsService;
-import com.csse3200.game.services.GameTime;
-import com.csse3200.game.services.ResourceService;
-import com.csse3200.game.services.ServiceContainer;
-import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +76,15 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     this.transition = false;
+
+    // Load the music asset
+    ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadMusic(new String[]{"sounds/precombat.mp3"});
+
+    // Ensure the asset is loaded before playing
+    resourceService.loadAll(); // Make sure all assets are loaded before using them
+    AudioManager.playMusic("sounds/precombat.mp3", true);  // Play the pre-combat music in a loop
+
     createUI();
 
     logger.debug("Initialising main game dup screen entities");
@@ -101,6 +107,10 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
       if (timeElapsed >= CUTSCENE_DURATION && !transition) {
         transition = true;
         logger.info("Cutscene finished, transitioning to combat screen");
+
+        // Stop the cutscene music before transitioning
+        AudioManager.stopMusic();
+
         game.setScreen(new CombatScreen(game, oldScreen, oldScreenServices, player, enemy));
       }
     }
@@ -131,6 +141,9 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
   @Override
   public void dispose() {
     logger.debug("Disposing cutscene screen");
+
+    // Stop the music when disposing of the screen
+    AudioManager.stopMusic();
 
     ServiceLocator.getResourceService().dispose();
 
