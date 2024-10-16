@@ -303,10 +303,14 @@ public class EnemyFactory {
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.RUNRIGHTDOWN, 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.RUNRIGHTUP, 0.25f, Animation.PlayMode.LOOP);
-
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.25f, Animation.PlayMode.LOOP);
+        
+        //to prevent null pointer
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         eel
                 .addComponent(animator)
-                .addComponent(new EelAnimationController());
+                .addComponent(new EnemyAnimationController(true));
 
         eel.getComponent(AnimationRenderComponent.class).scaleEntity();
 

@@ -93,6 +93,7 @@ public class EnemyAnimationController extends Component {
     
     private void animateRunDown() {
         if (isCurrentAnimation(RUNDOWN)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNDOWN)) {
             //animator has this animation, start playing it if it isn't already playing
@@ -105,6 +106,7 @@ public class EnemyAnimationController extends Component {
     
     private void animateRunUp() {
         if (isCurrentAnimation(RUNUP)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNUP)) {
             //animator has this animation, start playing it if it isn't already playing
@@ -118,6 +120,7 @@ public class EnemyAnimationController extends Component {
     private void animateRunLeft() {
         direction = false;
         if (isCurrentAnimation(RUNLEFT)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNLEFT)) {
             animator.startAnimation(RUNLEFT);
@@ -131,6 +134,7 @@ public class EnemyAnimationController extends Component {
     private void animateRunRight() {
         direction = true;
         if (isCurrentAnimation(RUNRIGHT)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNRIGHT)) {
             animator.startAnimation(RUNRIGHT);
@@ -163,6 +167,7 @@ public class EnemyAnimationController extends Component {
     private void animateRunLeftDown() {
         direction = false;
         if (isCurrentAnimation(RUNLEFTDOWN)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNLEFTDOWN)) {
             animator.startAnimation(RUNLEFTDOWN);
@@ -174,6 +179,7 @@ public class EnemyAnimationController extends Component {
     private void animateRunRightDown() {
         direction = true;
         if (isCurrentAnimation(RUNRIGHTDOWN)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNRIGHTDOWN)) {
             animator.startAnimation(RUNRIGHTDOWN);
@@ -185,6 +191,7 @@ public class EnemyAnimationController extends Component {
     private void animateRunLeftUp() {
         direction = true;
         if (isCurrentAnimation(RUNLEFTUP)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNLEFTUP)) {
             animator.startAnimation(RUNLEFTUP);
@@ -196,6 +203,7 @@ public class EnemyAnimationController extends Component {
     private void animateRunRightUp() {
         direction = true;
         if (isCurrentAnimation(RUNRIGHTUP)) return;
+        resetFlip();
         
         if (animator.hasAnimation(RUNRIGHTUP)) {
             animator.startAnimation(RUNRIGHTUP);
@@ -206,6 +214,11 @@ public class EnemyAnimationController extends Component {
     
     private void animateWait() {
         animator.startAnimation(WAIT);
+    }
+    
+    private void resetFlip() {
+        animator.setFlipX(false);
+        animator.setFlipY(false);
     }
     
 }
