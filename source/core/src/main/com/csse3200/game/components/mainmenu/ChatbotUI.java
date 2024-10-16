@@ -25,12 +25,12 @@ public class ChatbotUI {
 
     private static final Logger logger = LoggerFactory.getLogger(ChatbotUI.class);
 
-    private Dialog chatbotDialog;
+    private Window chatbotWindow;
     private TextField userInputField;
     private Label chatbotResponseLabel;
     private Label instructionLabel; // New label for keyword instructions
     private List<String> predefinedQuestions;
-    private boolean isChatbotDialogVisible = false;
+    private boolean isChatbotWindowVisible = false;
     private final Stage stage;
     private final Skin skin;
     private final ChatbotService chatbotService; // ChatbotService instance
@@ -45,61 +45,58 @@ public class ChatbotUI {
     }
 
     /**
-     * Opens the chatbot dialog in the center of the screen.
+     * Opens the chatbot window in the center of the screen.
      */
-    public void openChatbotDialog() {
-        if (chatbotDialog == null) {
-            logger.info("Creating chatbot dialog.");
-            createChatbotDialog();
+    public void openChatbotWindow() {
+        if (chatbotWindow == null) {
+            logger.info("Creating chatbot window.");
+            createChatbotWindow();
         }
         mainMenuDisplay.setMenuUntouchable();
 
-        chatbotDialog.clearActions();
-        chatbotDialog.setVisible(true);
-        chatbotDialog.pack();
-        centerDialogOnScreen();
-        if (!stage.getActors().contains(chatbotDialog, true)) {
-            stage.addActor(chatbotDialog);
+        chatbotWindow.clearActions();
+        chatbotWindow.setVisible(true);
+        //chatbotWindow.pack();
+        centerWindowOnScreen();
+        if (!stage.getActors().contains(chatbotWindow, true)) {
+            stage.addActor(chatbotWindow);
         }
-        isChatbotDialogVisible = true;
+        isChatbotWindowVisible = true;
     }
 
-    public void closeChatbotDialog() {
-        if (chatbotDialog != null && isChatbotDialogVisible) {
-            logger.info("Closing chatbot dialog.");
-            chatbotDialog.setVisible(false); // Instantly hide the dialog
-            isChatbotDialogVisible = false;  // Update the visibility flag
+    public void closeChatbotWindow() {
+        if (chatbotWindow != null && isChatbotWindowVisible) {
+            logger.info("Closing chatbot window.");
+            chatbotWindow.setVisible(false); // Instantly hide the window
+            isChatbotWindowVisible = false;  // Update the visibility flag
             mainMenuDisplay.setMenuTouchable();
         }
     }
 
     /**
-     * Checks if the chatbot dialog is visible.
+     * Checks if the chatbot window is visible.
      */
-    public boolean isChatbotDialogVisible() {
-        return isChatbotDialogVisible;
+    public boolean isChatbotWindowVisible() {
+        return isChatbotWindowVisible;
     }
-
     /**
-     * Create and configure the chatbot dialog UI.
+     * Create and configure the chatbot window UI.
      */
-    private void createChatbotDialog() {
+    private void createChatbotWindow() {
         int chatWidth = 600;
-        chatbotDialog = new Dialog("", skin);
+        chatbotWindow = new Window("Chatbot", skin);
 
-        // Ensure size calculations happen inside the method
-        final float DIALOG_WIDTH = Math.min(1600f, Gdx.graphics.getWidth() - 100f);
-        final float DIALOG_HEIGHT = Math.min(1400f, Gdx.graphics.getHeight() - 100f);
+        final float WINDOW_WIDTH = Gdx.graphics.getWidth() * 0.9f;
+        final float WINDOW_HEIGHT = Gdx.graphics.getHeight() * 0.9f;
 
-        // Set size at the beginning
-        chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+        chatbotWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        // Use a texture that properly scales with the dialog
+        // Use a texture that properly scales with the window
         Texture backgroundTexture = new Texture("images/SettingBackground.png");
         backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear); // Ensure smooth scaling
         Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
 
-        chatbotDialog.setBackground(backgroundDrawable);
+        chatbotWindow.setBackground(backgroundDrawable);
 
         Label titleLabel = new Label("Chatbot", skin, "title-white");
         titleLabel.setAlignment(Align.center);
@@ -145,7 +142,7 @@ public class ChatbotUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.info("Close button clicked.");
-                closeChatbotDialog();
+                closeChatbotWindow();
             }
         });
 
@@ -158,20 +155,21 @@ public class ChatbotUI {
         contentTable.add(chatbotResponseLabel).width(chatWidth).pad(10).row();
         contentTable.add(closeButton).pad(10).width(180f).height(45f).row();
 
-        chatbotDialog.getContentTable().add(contentTable).expandX().fillX();
+        chatbotWindow.add(contentTable).expandX().fillX();
 
-        // Force the dialog to maintain the size after all content is added
-        chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
-        chatbotDialog.layout();
+        // Force the window to maintain the size after all content is added
+        chatbotWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        chatbotWindow.layout();
 
-        // Center the dialog after size adjustment
-        centerDialogOnScreen();
+        // Center the window after size adjustment
+        centerWindowOnScreen();
     }
 
-    private void centerDialogOnScreen() {
-        chatbotDialog.setPosition(
-                (Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
-                (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2
+
+    private void centerWindowOnScreen() {
+        chatbotWindow.setPosition(
+                (Gdx.graphics.getWidth() - chatbotWindow.getWidth()) / 2,
+                (Gdx.graphics.getHeight() - chatbotWindow.getHeight()) / 2
         );
     }
 
@@ -184,13 +182,13 @@ public class ChatbotUI {
         predefinedQuestions.add("Hello");
     }
 
-    public void updateChatbotDialogPosition() {
-        if (chatbotDialog != null) {
+    public void updateChatbotWindowPosition() {
+        if (chatbotWindow != null) {
             float screenWidth = Gdx.graphics.getWidth();
             float screenHeight = Gdx.graphics.getHeight();
-            chatbotDialog.setPosition(
-                    (screenWidth - chatbotDialog.getWidth()) / 2,
-                    (screenHeight - chatbotDialog.getHeight()) / 2
+            chatbotWindow.setPosition(
+                    (screenWidth - chatbotWindow.getWidth()) / 2,
+                    (screenHeight - chatbotWindow.getHeight()) / 2
             );
         }
     }

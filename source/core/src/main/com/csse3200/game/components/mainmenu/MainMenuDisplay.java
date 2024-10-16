@@ -41,6 +41,11 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private ImageButton toggleWindowBtn;
+    private Texture minimizeTexture;
+    private Texture maximizeTexture;
+    private Drawable minimizeDrawable;
+    private Drawable maximizeDrawable;
     private Table menuButtonTable;
     private Table loginRegisterTable;
     private Table leaderboardTable;
@@ -57,7 +62,6 @@ public class MainMenuDisplay extends UIComponent {
     private Texture crocTexture;
     private Texture cursorTexture;
     private ChatbotUI chatbotUI;
-    private Sound owlSound;
     private Label factLabel;
     private String[] owlFacts;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
@@ -142,10 +146,14 @@ public class MainMenuDisplay extends UIComponent {
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashEmptyNight.png"); // Night background
         dayBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png"); // Day Background Texture
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
-        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
+        maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png"));
+        minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png"));
+        minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
+        maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
 
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadMusic(MUSIC);
+        resourceService.loadSounds(new String[]{"sounds/owlhoot1.mp3"});
         ServiceLocator.getResourceService().loadAll();
         AudioManager.playMusic("sounds/mainmenu/mainmenusound.wav", true);  // Play and loop the music
     }
@@ -279,22 +287,23 @@ public class MainMenuDisplay extends UIComponent {
         monkeyAniImage.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 4.8f);
         monkeyAniImage.setPosition(Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 6.8f);
 
-        // Add the click listener to open/close the chatbot
+        // Add the click listener to open/close the chatbot window
         monkeyAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Chatbot", "Monkey icon clicked!"); // Log to verify the click
                 clickSound.play(); // Play the click sound
-                if (chatbotUI.isChatbotDialogVisible()) {
-                    chatbotUI.closeChatbotDialog(); // Close the chatbot if it's visible
+                if (chatbotUI.isChatbotWindowVisible()) {
+                    chatbotUI.closeChatbotWindow(); // Close the chatbot window if it's visible
                 } else {
-                    chatbotUI.openChatbotDialog(); // Open the chatbot if it's not visible
+                    chatbotUI.openChatbotWindow(); // Open the chatbot window if it's not visible
                 }
             }
         });
 
         stage.addActor(monkeyAniImage);
     }
+
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
         dogAniImage = new Image();
@@ -385,7 +394,8 @@ public class MainMenuDisplay extends UIComponent {
         owlAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                owlSound.play(); // Play owl sound
+                AudioManager.playSound("sounds/owlhoot1.mp3");
+                //owlSound.play(); // Play owl sound
                 String randomFact = owlFacts[MathUtils.random(0, owlFacts.length - 1)]; // Get random fact
                 factLabel.setText(randomFact); // Set fact text
                 factLabel.addAction(Actions.sequence(
@@ -669,50 +679,50 @@ public class MainMenuDisplay extends UIComponent {
         helpWindow.show();
     }
 
+
     /**
      * Adds a minimize button and mute button to the top-right corner of the screen.
      */
     private void addTopRightButtons() {
-
-        Texture minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png")); // Replace with your minimize icon
-        Texture maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png")); // Replace with your maximize icon
-
-        Drawable minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
-        Drawable maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
-
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
 
         // Adding Icon for the minimax button
-        ImageButton toggleWindowBtn;
+
         if (Gdx.graphics.isFullscreen()) {
             toggleWindowBtn = new ImageButton(minimizeDrawable);
         } else {
             toggleWindowBtn = new ImageButton(maximizeDrawable);
         }
 
-        // Listener for minimizing/maximizing window
         toggleWindowBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
+                UserSettings.Settings settings = UserSettings.get();
+
                 if (isFullscreen) {
-                    // Mini-screen mode
-                    UserSettings.Settings settings = UserSettings.get();
+                    // Switch to windowed mode
                     settings.fullscreen = false;
                     UserSettings.applyDisplayMode(settings);
-                    toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
-                    // Fullscreen mode
-                    UserSettings.Settings settings = UserSettings.get();
+                    // Switch to fullscreen mode
                     settings.fullscreen = true;
                     UserSettings.applyDisplayMode(settings);
-                    toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
+
+                // After toggling fullscreen, update the settings UI to reflect the change
+                if (settingsMenu != null) {
+                    settingsMenu.updateSettingsUI();
+                }
+
+                // Update the toggle button texture
+                updateToggleWindowButtonTexture();
                 logger.info("Fullscreen toggled: {}", !isFullscreen);
             }
         });
+
 
         Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
         buttonStyle.up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
@@ -739,6 +749,14 @@ public class MainMenuDisplay extends UIComponent {
         // Add the table to the stage
         stage.addActor(topRightTable);
     }
+    public void updateToggleWindowButtonTexture() {
+        if (Gdx.graphics.isFullscreen()) {
+            toggleWindowBtn.getStyle().imageUp = minimizeDrawable;  // Set to minimize icon in fullscreen mode
+        } else {
+            toggleWindowBtn.getStyle().imageUp = maximizeDrawable;  // Set to maximize icon in windowed mode
+        }
+    }
+
 
 
     /**

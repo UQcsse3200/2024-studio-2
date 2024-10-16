@@ -38,7 +38,6 @@ class SnakeRendererTest {
         // Initialising the SnakeRenderer with mocked dependencies
         renderer = new SnakeRenderer(
                 snake, grid, snakeTexture,
-                snakeBodyHorizontalTexture,
                 snakeBodyVerticalTexture,
                 snakeBodyBentTexture,
                 snakeTailTexture,

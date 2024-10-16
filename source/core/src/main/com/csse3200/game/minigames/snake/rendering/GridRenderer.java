@@ -42,7 +42,15 @@ public class GridRenderer implements MinigameRenderable {
         float startX = renderer.getCam().position.x - gridWidthInWorldUnits / 2f;
         float startY = renderer.getCam().position.y - gridHeightInWorldUnits / 2f;
 
-        // Render the grid based on the camera's position
+        renderGrid(startX, startY);
+    }
+
+    /**
+     * Renders the grid based on the camera's position
+     * @param startX The X co-ord of the camera position
+     * @param startY The Y co-ord of the camera position
+     */
+    private void renderGrid(float startX, float startY) {
         for (int x = 0; x < grid.getWidth(); x++) {
             for (int y = 0; y < grid.getHeight(); y++) {
                 if (x % 2 == 1){
