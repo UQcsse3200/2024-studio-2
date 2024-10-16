@@ -349,9 +349,13 @@ class LoadingDisplayTest {
             loadingDisplay.update();
         }
 
+        List<String> shuffledMessages = new LinkedList<>();
         // After going through all messages, the message list should be reshuffled
-        String newMessage = loadingDisplay.getCurrentMessage();
-        assertNotEquals(originalMessages.get(0), newMessage, "Messages should be reshuffled after reaching the end of the list");
+        for (int i = 0; i < totalMessages; i++) {
+            shuffledMessages.add(loadingDisplay.getCurrentMessage());
+            loadingDisplay.update();
+        }
+        assertNotEquals(originalMessages, shuffledMessages, "Messages should be reshuffled after reaching the end of the list");
     }
 
     @Test
