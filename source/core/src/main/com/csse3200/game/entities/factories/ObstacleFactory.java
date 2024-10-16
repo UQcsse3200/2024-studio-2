@@ -33,8 +33,16 @@ public class ObstacleFactory {
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();
-    tree.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(tree, 0.5f, 0.2f);
+    tree.scaleHeight(2.0f);
+
+    ColliderComponent bottomCollider = new ColliderComponent()
+            .setLayer(PhysicsLayer.OBSTACLE);
+    PhysicsUtils.setScaledCollider(tree, 0.5f, 0.3f);
+
+
+    ColliderComponent topCollider = new ColliderComponent()
+            .setLayer(PhysicsLayer.OBSTACLE);
+    PhysicsUtils.setScaledCollider(tree, 0.5f, 0.4f);
     return tree;
   }
 
@@ -52,7 +60,7 @@ public class ObstacleFactory {
     cloud.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     cloud.getComponent(TextureRenderComponent.class).scaleEntity();
     cloud.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(cloud, 0.5f, 0.2f);
+    PhysicsUtils.setScaledCollider(cloud, 0.5f, 0.4f);
     return cloud;
   }
 
@@ -70,7 +78,7 @@ public class ObstacleFactory {
     seaweed.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     seaweed.getComponent(TextureRenderComponent.class).scaleEntity();
     seaweed.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(seaweed, 0.5f, 0.2f);
+    PhysicsUtils.setScaledCollider(seaweed, 0.6f, 0.6f);
     return seaweed;
   }
 
@@ -88,7 +96,7 @@ public class ObstacleFactory {
     starfish.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     starfish.getComponent(TextureRenderComponent.class).scaleEntity();
     starfish.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(starfish, 0.5f, 0.2f);
+    PhysicsUtils.setScaledCollider(starfish, 0.6f, 0.6f);
     return starfish;
   }
 
