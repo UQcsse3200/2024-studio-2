@@ -96,7 +96,8 @@ public class MapTabComponent extends Component {
         layout = new GlyphLayout();
 
         // Initialise xButtonBounds; position will be updated in update()
-        xButtonBounds = new Rectangle(10, Gdx.graphics.getHeight() - TOP_BAR_HEIGHT + (TOP_BAR_HEIGHT - 40) / 2, 40, 40);
+        xButtonBounds = new Rectangle(10, Gdx.graphics.getHeight() - TOP_BAR_HEIGHT +
+                (TOP_BAR_HEIGHT - 40) / 2, 40, 40);
 
         preloadLandmarks();
     }
@@ -125,7 +126,8 @@ public class MapTabComponent extends Component {
         }
 
         // Update xButtonBounds position in case of window resize
-        xButtonBounds.setPosition(10, Gdx.graphics.getHeight() - TOP_BAR_HEIGHT + (TOP_BAR_HEIGHT - xButtonBounds.height) / 2);
+        xButtonBounds.setPosition(10, Gdx.graphics.getHeight() - TOP_BAR_HEIGHT +
+                (TOP_BAR_HEIGHT - xButtonBounds.height) / 2);
 
         if (isMapVisible && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             float mouseX = Gdx.input.getX();
@@ -265,7 +267,8 @@ public class MapTabComponent extends Component {
 
         // Draw the top bar with text
         batch.setColor(0f, 0f, 0f, 0.5f);
-        batch.draw(whitePixelTexture, 0, Gdx.graphics.getHeight() - TOP_BAR_HEIGHT, Gdx.graphics.getWidth() - LEGEND_WIDTH, TOP_BAR_HEIGHT);
+        batch.draw(whitePixelTexture, 0, Gdx.graphics.getHeight() - TOP_BAR_HEIGHT, Gdx.graphics.getWidth()
+                - LEGEND_WIDTH, TOP_BAR_HEIGHT);
         batch.setColor(Color.WHITE);
 
         // Determine the section name based on the player's Y-coordinate
@@ -307,7 +310,8 @@ public class MapTabComponent extends Component {
 
     /**
      * Converts a position from game world coordinates to map screen coordinates.
-     * This method maps the game world position to the corresponding position on the map texture as it is displayed on screen.
+     * This method maps the game world position to the corresponding position on the map texture as it is displayed on
+     * screen.
      *
      * @param gamePosition The position in the game world (e.g., player's position or a landmark).
      * @param mapX         The x-coordinate where the map is drawn on the screen.
@@ -316,7 +320,8 @@ public class MapTabComponent extends Component {
      * @param mapHeight    The height of the map as it is displayed on the screen.
      * @return The corresponding position on the map as it appears on the screen.
      */
-    private Vector2 convertGamePositionToMap(Vector2 gamePosition, float mapX, float mapY, float mapWidth, float mapHeight) {
+    private Vector2 convertGamePositionToMap(Vector2 gamePosition, float mapX, float mapY, float mapWidth,
+                                             float mapHeight) {
         float worldWidth = 160f;
         float worldHeight = 144f;
 
