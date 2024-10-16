@@ -430,6 +430,10 @@ public class EnemyFactory {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
                 aiComponent.addTask(new ChaseTask(target, 10, 10f, 12f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
             }
+            case EnemyType.BEE -> {
+                aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
+                aiComponent.addTask(new ChaseTask(target, 10, 1000f, 1000f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
+            }
             default -> {
                 // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
                 aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
