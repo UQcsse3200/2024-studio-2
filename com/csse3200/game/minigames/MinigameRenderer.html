@@ -91,7 +91,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MinigameRenderer</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Class to help render minigame things. Includes spritebatch and camera.
+<div class="block">Class to help render minigame things for snake and birdie dash. Includes spritebatch and camera.
  The camera allows resizing to be done easily.</div>
 </section>
 <section class="summary">
@@ -122,26 +122,40 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addRenderable(com.csse3200.game.minigames.MinigameRenderable)" class="member-name-link">addRenderable</a><wbr>(<a href="MinigameRenderable.html" title="interface in com.csse3200.game.minigames">MinigameRenderable</a>&nbsp;renderable)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Add a thing to render (class that implements MinigameRenderable with render method)</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Dispose of the sprite batch</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.graphics.OrthographicCamera</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCam()" class="member-name-link">getCam</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Getter for the camera</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.graphics.g2d.SpriteBatch</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSb()" class="member-name-link">getSb</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Getter for the sprite batch</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render()" class="member-name-link">render</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Render all classes</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#renderBackground()" class="member-name-link">renderBackground</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Render background for sprite batch</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resize(int,int)" class="member-name-link">resize</a><wbr>(int&nbsp;width,
  int&nbsp;height)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resize the screen</div>
+</div>
 </div>
 </div>
 </div>
@@ -177,18 +191,25 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addRenderable(com.csse3200.game.minigames.MinigameRenderable)">
 <h3>addRenderable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addRenderable</span><wbr><span class="parameters">(<a href="MinigameRenderable.html" title="interface in com.csse3200.game.minigames">MinigameRenderable</a>&nbsp;renderable)</span></div>
+<div class="block">Add a thing to render (class that implements MinigameRenderable with render method)</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>renderable</code> - class to render</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="render()">
 <h3>render</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">render</span>()</div>
+<div class="block">Render all classes</div>
 </section>
 </li>
 <li>
 <section class="detail" id="renderBackground()">
 <h3>renderBackground</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">renderBackground</span>()</div>
+<div class="block">Render background for sprite batch</div>
 </section>
 </li>
 <li>
@@ -196,24 +217,41 @@ loadScripts(document, 'script');</script>
 <h3>resize</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resize</span><wbr><span class="parameters">(int&nbsp;width,
  int&nbsp;height)</span></div>
+<div class="block">Resize the screen</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>width</code> - new width of the screen</dd>
+<dd><code>height</code> - new height of the screen</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getSb()">
 <h3>getSb</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.SpriteBatch</span>&nbsp;<span class="element-name">getSb</span>()</div>
+<div class="block">Getter for the sprite batch</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the sprite batch</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getCam()">
 <h3>getCam</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.OrthographicCamera</span>&nbsp;<span class="element-name">getCam</span>()</div>
+<div class="block">Getter for the camera</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the camera</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="dispose()">
 <h3>dispose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
+<div class="block">Dispose of the sprite batch</div>
 </section>
 </li>
 </ul>

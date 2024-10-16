@@ -91,6 +91,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MazePhysicsUtils</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Useful utility functions for physics in the maze mini-game.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -106,31 +107,24 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setScaledCollider(com.csse3200.game.entities.Entity,float,float)" class="member-name-link">setScaledCollider</a><wbr>(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setScaledColliderAndHitBox(com.csse3200.game.entities.Entity,float,float)" class="member-name-link">setScaledColliderAndHitBox</a><wbr>(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
  float&nbsp;scaleX,
  float&nbsp;scaleY)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Set the collider to the base of the entity, scaled relative to the entity size.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setScaledColliderAndHitBox(com.csse3200.game.entities.Entity,float,float)" class="member-name-link">setScaledColliderAndHitBox</a><wbr>(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
- float&nbsp;scaleX,
- float&nbsp;scaleY)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Set the hitbox and collider to the base of the entity, scaled relative to the entity size.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setScaledHitBox(com.csse3200.game.entities.Entity,float,float)" class="member-name-link">setScaledHitBox</a><wbr>(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
- float&nbsp;scaleX,
- float&nbsp;scaleY)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Set the hitbox to the base of the entity, scaled relative to the entity size.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setScaledOvalCollider(com.csse3200.game.entities.Entity,float,float)" class="member-name-link">setScaledOvalCollider</a><wbr>(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setScaledHitBox(com.csse3200.game.entities.Entity,float,float)" class="member-name-link">setScaledHitBox</a><wbr>(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
  float&nbsp;scaleX,
  float&nbsp;scaleY)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Set the hitbox to the base of the entity, scaled relative to the entity size.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setScaledOvalCollider(com.csse3200.game.entities.Entity,float,float)" class="member-name-link">setScaledOvalCollider</a><wbr>(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
+ float&nbsp;scaleX,
+ float&nbsp;scaleY)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Set the collider to the base of the entity, scaled relative to the entity size.</div>
 </div>
 </div>
@@ -150,21 +144,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="setScaledCollider(com.csse3200.game.entities.Entity,float,float)">
-<h3>setScaledCollider</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setScaledCollider</span><wbr><span class="parameters">(<a href="../../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity,
- float&nbsp;scaleX,
- float&nbsp;scaleY)</span></div>
-<div class="block">Set the collider to the base of the entity, scaled relative to the entity size.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>entity</code> - the entitie to set the collider for</dd>
-<dd><code>scaleX</code> - the x scale</dd>
-<dd><code>scaleY</code> - the y scale</dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="setScaledOvalCollider(com.csse3200.game.entities.Entity,float,float)">
 <h3>setScaledOvalCollider</h3>

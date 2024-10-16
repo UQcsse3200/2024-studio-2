@@ -91,6 +91,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Background</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">This claass makes a moving background for the Birdie Dash Mini-Game</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -103,10 +104,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>float</code></div>
+<div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><a href="#xBG1" class="member-name-link">xBG1</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>float</code></div>
+<div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><a href="#xBG2" class="member-name-link">xBG2</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
@@ -120,8 +121,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(float,float)" class="member-name-link">Background</a><wbr>(float&nbsp;start_speed,
- float&nbsp;screen_width)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(float,float)" class="member-name-link">Background</a><wbr>(float&nbsp;startSpeed,
+ float&nbsp;screenWidth)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -139,7 +140,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(float)" class="member-name-link">update</a><wbr>(float&nbsp;dt)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the background to be moving</div>
+</div>
 </div>
 </div>
 </div>
@@ -160,13 +163,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="xBG1">
 <h3>xBG1</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">xBG1</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">xBG1</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="xBG2">
 <h3>xBG2</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">xBG2</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">xBG2</span></div>
 </section>
 </li>
 </ul>
@@ -180,8 +183,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(float,float)">
 <h3>Background</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Background</span><wbr><span class="parameters">(float&nbsp;start_speed,
- float&nbsp;screen_width)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Background</span><wbr><span class="parameters">(float&nbsp;startSpeed,
+ float&nbsp;screenWidth)</span></div>
 </section>
 </li>
 </ul>
@@ -196,6 +199,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="update(float)">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(float&nbsp;dt)</span></div>
+<div class="block">Updates the background to be moving</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>dt</code> - time since last update</dd>
+</dl>
 </section>
 </li>
 </ul>
