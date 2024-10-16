@@ -336,7 +336,7 @@
 			isFailed: false
 			taskCompletionTriggers: [
 				"spawnWaterBoss"
-			]
+			],
 			isActive: false
 			followQuests: [
 				"Talk to Tilly",
@@ -508,16 +508,7 @@
 						]
 					]
 				}
-
-				{
-					npcName: Magpie
-					dialogue: [
-						["I LOVE GOLD!!
-							"/mbHelp me collect all the coins"]
-					]
-				}
-			],
-
+			]
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
