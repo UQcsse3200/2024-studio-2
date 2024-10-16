@@ -7,33 +7,13 @@ package com.csse3200.game.areas.combat;
  */
 public class CombatAreaConfig {
     static final String[] combatTexture = {
-            "images/box_boy_leaf.png",
-            "images/tree.png",
-            "images/ghost_king.png",
             "images/final_boss_kangaroo_idle.png",
-            "images/friendly_npcs/friendly-npcs.png",
             "images/water_boss_idle.png",
             "images/air_boss_idle.png",
             "images/grass_1.png",
             "images/grass_2.png",
             "images/grass_3.png",
-            "images/hex_grass_1.png",
-            "images/hex_grass_2.png",
-            "images/hex_grass_3.png",
-            "images/iso_grass_1.png",
-            "images/iso_grass_2.png",
-            "images/iso_grass_3.png",
             "images/gt.png",
-            "images/top_left_grass.png",
-            "images/top_middle_grass.png",
-            "images/top_right_grass.png",
-            "images/middle_left_grass.png",
-            "images/middle_grass.png",
-            "images/middle_right_grass.png",
-            "images/lower_left_grass.png",
-            "images/lower_middle_grass.png",
-            "images/lower_right_grass.png",
-            "images/full_sand_tile.png",
             "images/bird.png",
             "images/Healthpotion.png",
             "images/foodtextures/apple.png",
@@ -71,12 +51,12 @@ public class CombatAreaConfig {
             "images/enemy-bear.png"
     };
 
-    static final String[] forestTextureAtlases = {
+    static final String[] combatTextureAtlases = {
             "images/terrain_iso_grass.atlas", "images/chicken.atlas", "images/frog.atlas", "images/octopus.atlas",
-            "images/monkey.atlas", "images/friendly_npcs/Cow.atlas", "images/snake.atlas", "images/friendly_npcs/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
-            "images/monkey.atlas", "images/Cow.atlas", "images/snake.atlas", "images/lion.atlas",
-            "images/eagle.atlas", "images/turtle.atlas", "images/final_boss_kangaroo.atlas",
+            "images/monkey.atlas",
+            "images/final_boss_kangaroo.atlas",
+
+            "images/final_boss_kangaroo.atlas",
             "images/water_boss.atlas", "images/air_boss.atlas", "images/joey.atlas",
             "images/bigsawfish.atlas", "images/macaw.atlas","images/enemy-chicken.atlas",
             "images/enemy-frog.atlas", "images/enemy-monkey.atlas", "images/bear.atlas", "images/enemy-bear.atlas", "images/bee.atlas",
@@ -85,9 +65,9 @@ public class CombatAreaConfig {
     };
 
     static final String[] questSounds = {"sounds/QuestComplete.wav"};
-    static final String[] forestSounds = {"sounds/Impact4.ogg"};
+    static final String[] combatSounds = {"sounds/Impact4.ogg"};
     static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
-    static final String[] forestMusic = {BACKGROUND_MUSIC};
+    static final String[] combatMusic = {BACKGROUND_MUSIC};
 
     private CombatAreaConfig() {
         throw new IllegalArgumentException("Do not instantiate static util class!");

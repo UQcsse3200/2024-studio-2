@@ -13,7 +13,6 @@ import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
 import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.entities.factories.CombatAnimalFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
@@ -316,9 +315,9 @@ public class CombatArea extends GameArea {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.loadTextures(CombatAreaConfig.combatTexture);
-        resourceService.loadTextureAtlases(CombatAreaConfig.forestTextureAtlases);
-        resourceService.loadSounds(CombatAreaConfig.forestSounds);
-        resourceService.loadMusic(CombatAreaConfig.forestMusic);
+        resourceService.loadTextureAtlases(CombatAreaConfig.combatTextureAtlases);
+        resourceService.loadSounds(CombatAreaConfig.combatSounds);
+        resourceService.loadMusic(CombatAreaConfig.combatMusic);
         resourceService.loadSounds(CombatAreaConfig.questSounds);
 
         while (!resourceService.loadForMillis(10)) {
@@ -331,9 +330,9 @@ public class CombatArea extends GameArea {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
         resourceService.unloadAssets(CombatAreaConfig.combatTexture);
-        resourceService.unloadAssets(CombatAreaConfig.forestTextureAtlases);
-        resourceService.unloadAssets(CombatAreaConfig.forestSounds);
-        resourceService.unloadAssets(CombatAreaConfig.forestMusic);
+        resourceService.unloadAssets(CombatAreaConfig.combatTextureAtlases);
+        resourceService.unloadAssets(CombatAreaConfig.combatSounds);
+        resourceService.unloadAssets(CombatAreaConfig.combatMusic);
         resourceService.unloadAssets(CombatAreaConfig.questSounds);
     }
 
