@@ -68,9 +68,7 @@ public class ForestGameArea extends GameArea {
     private final List<Entity> minigameNPCs;
     private final Map<Integer, Entity> dynamicItems = new HashMap<>();
     private int totalForestItems = 0;
-    private int totalOceanItems = 0;
     private int totalAirItems = 0;
-    private int totalItems = 0;
     private Entity player;
 
     private final GdxGame game;
@@ -833,7 +831,6 @@ public class ForestGameArea extends GameArea {
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
                 //dynamicItems.put(totalOceanItems, item);
-                totalOceanItems++;
             }
         } else if (zone == 3 && totalAirItems < 50) {
             int airItemsToSpawn = Math.min(numItems, 50 - totalAirItems);
@@ -845,7 +842,6 @@ public class ForestGameArea extends GameArea {
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
                 dynamicItems.put(totalAirItems, item);
-                totalAirItems++;
             }
         }
     }
