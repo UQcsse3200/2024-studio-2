@@ -3,6 +3,7 @@ package com.csse3200.game.components.combat;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.ui.UIComponent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,6 +38,8 @@ public class CombatStatsChangePopup extends UIComponent {
         entity.getEvents().addListener("enemyHealthStatsChangePopup", statsDiff -> createHealthStatsChangePopup((int) statsDiff, false));
         entity.getEvents().addListener("playerHungerStatsChangePopup", statsDiff -> createHungerStatsChangePopup((int) statsDiff, true));
         entity.getEvents().addListener("enemyHungerStatsChangePopup", statsDiff -> createHungerStatsChangePopup((int) statsDiff, false));
+        entity.getEvents().addListener("statusEffectStatsChangePopup", (healthChange, hungerChange, playerStats) ->
+                createStatusEffectStatsChangePopup((int) healthChange, (int) hungerChange, (CombatStatsComponent) playerStats));
     }
 
     /**
@@ -72,6 +75,34 @@ public class CombatStatsChangePopup extends UIComponent {
         String statsDiffText = (statsDiff > 0) ? "+" + statsDiff : Integer.toString(statsDiff);
         CharSequence popupText = String.format("HGR%s", statsDiffText);
         createStatsChangePopup(popupText, Color.ORANGE, isPlayer);
+    }
+
+    public void createStatusEffectStatsChangePopup(int healthChange, int hungerChange, CombatStatsComponent playerStats) {
+        Color textColor;
+        CombatStatsComponent.StatusEffect statusEffect;
+        if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
+            textColor = Color.CORAL;
+            statusEffect = CombatStatsComponent.StatusEffect.BLEEDING;
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
+            textColor = Color.FOREST;
+            statusEffect = CombatStatsComponent.StatusEffect.POISONED;
+        } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)) {
+            textColor = Color.YELLOW;
+            statusEffect = CombatStatsComponent.StatusEffect.SHOCKED;
+        } else {
+            return;
+        }
+
+        if (healthChange != 0) {
+            String statsDiffText = (healthChange > 0) ? "+" + healthChange : Integer.toString(healthChange);
+            CharSequence popupText = String.format("%s! HP%s", statusEffect.name(), statsDiffText);
+            createStatsChangePopup(popupText, textColor, true);
+        }
+        if (hungerChange != 0) {
+            String statsDiffText = (hungerChange > 0) ? "+" + hungerChange : Integer.toString(hungerChange);
+            CharSequence popupText = String.format("%s! HGR%s", statusEffect.name(), statsDiffText);
+            createStatsChangePopup(popupText, textColor, true);
+        }
     }
 
     /**

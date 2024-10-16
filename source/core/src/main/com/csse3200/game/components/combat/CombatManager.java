@@ -138,16 +138,7 @@ public class CombatManager extends Component {
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
 
-        int initialHealth = playerStats.getHealth();
-        int initialHunger = playerStats.getHunger();
-
         handleStatusEffects();
-
-        // Trigger popups for stats changes from status effects
-        CombatMove.StatsChange[] statusEffectsStatsChange = new CombatMove.StatsChange[]{new CombatMove.StatsChange(
-                playerStats.getHealth() - initialHealth, playerStats.getHunger() - initialHunger)};
-        entity.getEvents().trigger("playerHungerStatsChangePopup", statusEffectsStatsChange[0].getHungerChange());
-        entity.getEvents().trigger("enemyHealthStatsChangePopup", statusEffectsStatsChange[0].getHealthChange());
 
         checkCombatEnd();
     }
@@ -195,9 +186,16 @@ public class CombatManager extends Component {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.BLEEDING);
         } else {
             // Bleeding reduces health and hunger by 9%, 6%, and 3% respectively each round.
-            double reductionMultiplier = (double) (-3 * statusEffectDuration) / 100;
-            playerStats.addHealth((int) (reductionMultiplier * playerStats.getMaxHealth()));
-            playerStats.addHunger((int) (reductionMultiplier * playerStats.getMaxHunger()));
+            double reductionMultiplier = (double) (3 * statusEffectDuration) / 100;
+
+            int healthReduction = (int) Math.min(reductionMultiplier * playerStats.getMaxHealth(), playerStats.getHealth());
+            int hungerReduction = (int) Math.min(reductionMultiplier * playerStats.getMaxHunger(), playerStats.getHunger());
+
+            playerStats.addHealth(-healthReduction);
+            playerStats.addHunger(-hungerReduction);
+
+            entity.getEvents().trigger("statusEffectStatsChangePopup", -healthReduction, -hungerReduction, playerStats);
+
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
             }
@@ -209,7 +207,11 @@ public class CombatManager extends Component {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.POISONED);
         } else {
             // Poison reduces hunger by 30% each round.
-            playerStats.addHunger((int) (-0.3 * playerStats.getMaxHunger()));
+            int hungerReduction = (int) Math.min(0.3 * playerStats.getMaxHunger(), playerStats.getHunger());
+            playerStats.addHunger(-hungerReduction);
+
+            entity.getEvents().trigger("statusEffectStatsChangePopup", 0, -hungerReduction, playerStats);
+
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.POISONED);
             }
@@ -221,7 +223,11 @@ public class CombatManager extends Component {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.SHOCKED);
         } else {
             // Shock reduces health by 15% each round.
-            playerStats.addHealth((int) (-0.15 * playerStats.getMaxHealth()));
+            int healthReduction = (int) Math.min(0.15 * playerStats.getMaxHealth(), playerStats.getHealth());
+            playerStats.addHealth(-healthReduction);
+
+            entity.getEvents().trigger("statusEffectStatsChangePopup", -healthReduction, 0, playerStats);
+
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED);
             }
