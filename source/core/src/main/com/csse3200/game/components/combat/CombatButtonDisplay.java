@@ -77,7 +77,9 @@ public class CombatButtonDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
                     logger.info("DialogueBox is no longer visible, adding actors back.");
-                    addActors();
+
+                    //addActors();
+                    showButtons();
                 }
             }
         };
@@ -87,7 +89,10 @@ public class CombatButtonDisplay extends UIComponent {
             public void changed(ChangeEvent event, Actor actor) {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
                     logger.debug("DialogueBox is no longer visible, adding actors back.");
-                    addActors();
+
+                    //addActors();
+                    showButtons();
+
                     // Resume idle animations
                     combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
                 }
@@ -156,7 +161,9 @@ public class CombatButtonDisplay extends UIComponent {
         sleepButton = new CustomButton("Sleep", skin);
         itemsButton = new CustomButton("Items", skin);
 
+        /* Attack Button -------------------------------------------------------------- */
         attackButton.addClickListener(()-> {
+            hideButtons();
             entity.getEvents().trigger("Attack", screen, container);
             combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
         });
@@ -175,11 +182,12 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
+        /* Guard Button -------------------------------------------------------------- */
         guardButton.addClickListener(()-> {
-                    entity.getEvents().trigger("Guard", screen, container);
-                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-
-                });
+            hideButtons();
+            entity.getEvents().trigger("Guard", screen, container);
+            combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
+        });
         guardButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over guard button
             @Override
@@ -195,11 +203,12 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
+        /* Sleep Button -------------------------------------------------------------- */
         sleepButton.addClickListener(()-> {
-                        entity.getEvents().trigger("Sleep", screen, container);
-                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-
-                });
+            hideButtons();
+            entity.getEvents().trigger("Sleep", screen, container);
+            combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
+        });
         sleepButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
@@ -213,11 +222,14 @@ public class CombatButtonDisplay extends UIComponent {
                 backgroundImage.setVisible(false);
             }
         });
+
+        /* Items Button -------------------------------------------------------------- */
         itemsButton.addClickListener(()-> {
-                        entity.getEvents().trigger("Items", screen, container);
-                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
-                        hideButtons();
-                });
+            hideButtons();
+            entity.getEvents().trigger("Items", screen, container);
+            combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
+            hideButtons();
+        });
         itemsButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
@@ -244,9 +256,19 @@ public class CombatButtonDisplay extends UIComponent {
     /**
      * Hides the buttons on the combat screen
      */
-    public void hideButtons() {
+    void hideButtons() {
         logger.debug(String.format("The dialogue box is present in CombatButDisplay: %b", ServiceLocator.getDialogueBoxService().getIsVisible()));
-        table.remove();
+        attackButton.hideCustomButton();
+        guardButton.hideCustomButton();
+        sleepButton.hideCustomButton();
+        itemsButton.hideCustomButton();
+    }
+
+    void showButtons() {
+        attackButton.showCustomButton();
+        guardButton.showCustomButton();
+        sleepButton.showCustomButton();
+        itemsButton.showCustomButton();
     }
 
     /**
