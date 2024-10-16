@@ -60,7 +60,7 @@ public class Entity {
     JOEY,
     MAZE_ANGLER,
     MAZE_EEL,
-    MAZE_JELLYFISH
+      MAZE_OCTOPUS, MAZE_JELLYFISH
   }
 
 

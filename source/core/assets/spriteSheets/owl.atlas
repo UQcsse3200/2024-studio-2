@@ -1,0 +1,28 @@
+owl.png
+size: 1440, 504 
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+owl1
+  rotate: false
+  xy: 0, 0
+  size: 480, 504
+  orig: 480, 504
+  offset: 0, 0
+  index: -1
+owl2
+  rotate: false
+  xy: 480, 0
+  size: 480, 504
+  orig: 480, 504
+  offset: 0, 0
+  index: -1
+owl3
+  rotate: false
+  xy: 960, 0
+  size: 480, 504
+  orig: 480, 504
+  offset: 0, 0
+  index: -1
+
+

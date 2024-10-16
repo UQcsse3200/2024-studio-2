@@ -3,22 +3,20 @@ package com.csse3200.game.minigames.maze.entities.mazenpc;
 import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.components.tasks.WanderTask;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.lighting.components.LightingComponent;
-import com.csse3200.game.minigames.maze.areas.MazeGameArea;
 import com.csse3200.game.minigames.maze.components.MazeCombatStatsComponent;
-import com.csse3200.game.minigames.maze.components.ParticleEffectComponent;
+import com.csse3200.game.particles.components.ParticleEffectComponent;
 import com.csse3200.game.minigames.maze.components.npc.EelVisualEffects;
 import com.csse3200.game.minigames.maze.components.npc.MazeEntityAnimationController;
 import com.csse3200.game.minigames.maze.components.tasks.MazeChaseTask;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
 import com.csse3200.game.minigames.maze.physics.MazePhysicsUtils;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderWithAudioComponent;
 import com.csse3200.game.services.ServiceLocator;
@@ -28,7 +26,6 @@ import com.csse3200.game.services.ServiceLocator;
  * The Eel will chase the player and cause a stun affect
  */
 public class ElectricEel extends MazeEntity {
-    private static ParticleEffectPool particleEffectPool;
 
     /**
      * Constructs an Eel entity with the given target and configuration.
@@ -55,7 +52,7 @@ public class ElectricEel extends MazeEntity {
                 .addComponent(new MazeEntityAnimationController())
                 .addComponent(new LightingComponent().attach(light))
                 .addComponent(aiComponent)
-                .addComponent(new ParticleEffectComponent(particleEffectPool))
+                .addComponent(new ParticleEffectComponent(ParticleService.ParticleType.SPARKS))
                 .addComponent(new EelVisualEffects(light));
 
         // Update entities speed
@@ -64,11 +61,6 @@ public class ElectricEel extends MazeEntity {
         this.getComponent(AnimationRenderWithAudioComponent.class).scaleEntity();
         this.setScale(.3f, .3f);
         MazePhysicsUtils.setScaledColliderAndHitBox(this, 0.8f, 0.25f);
-    }
-
-    public static void resetParticlePool() {
-        ParticleEffect effect = ServiceLocator.getResourceService().getAsset("images/minigames/electricparticles.p", ParticleEffect.class);
-        particleEffectPool = new ParticleEffectPool(effect, MazeGameArea.NUM_EELS, MazeGameArea.NUM_EELS * 2);
     }
 }
 

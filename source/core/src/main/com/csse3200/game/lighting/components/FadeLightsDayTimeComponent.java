@@ -3,6 +3,7 @@ package com.csse3200.game.lighting.components;
 import box2dLight.Light;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.lighting.DayNightCycle;
+import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Component that fades out . Assumes the entity only has one light source attached and this light
@@ -13,8 +14,8 @@ import com.csse3200.game.lighting.DayNightCycle;
  */
 public class FadeLightsDayTimeComponent extends Component {
     private float maxDistance;
-    private static final float fadeOutTime = 0.35f;
-    private static final float fadeInTime = 0.72f;
+    private static final float fadeOutTime = 0.2f;
+    private static final float fadeInTime = 0.8f;
     private static final float fadeDuration = 0.01f;
 
     private Light light;
@@ -32,7 +33,8 @@ public class FadeLightsDayTimeComponent extends Component {
 
     @Override
     public void update() {
-        float timeOfDay = DayNightCycle.getTimeOfDay();
+        DayNightCycle dayNightCycle = ServiceLocator.getDayNightCycle();
+        float timeOfDay = dayNightCycle.getTimeOfDay();
         float mid = (fadeInTime + fadeOutTime) / 2;
         float scaleY = 1/fadeDuration;
         float offsetY = - (fadeInTime - mid) * scaleY;

@@ -77,16 +77,12 @@ public class AnimalRouletteScreen extends ScreenAdapter {
         rightButton = new TextButton(">", skin);
         continueButton = new TextButton("Continue", skin);
         backButton = new TextButton("Go Back", skin);
-        waterAnimalsButton = new TextButton("Water Animals", skin);
-        airAnimalsButton = new TextButton("Air Animals", skin);
 
         // Add actors to stage
         stage.addActor(leftButton);
         stage.addActor(rightButton);
         stage.addActor(continueButton);
         stage.addActor(backButton);
-        stage.addActor(waterAnimalsButton);
-        stage.addActor(airAnimalsButton);
 
         // Add listeners
         addListeners();
@@ -123,22 +119,6 @@ public class AnimalRouletteScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-            }
-        });
-
-        waterAnimalsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                logger.debug("Water Animals button clicked!"); // Log statement
-                game.setScreen(new WaterAnimalSelectionScreen(game));
-            }
-        });
-
-
-        airAnimalsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AirAnimalSelectionScreen(game));
             }
         });
     }

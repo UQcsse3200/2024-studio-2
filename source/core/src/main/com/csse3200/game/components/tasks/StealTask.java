@@ -67,7 +67,7 @@ public class StealTask extends DefaultTask implements PriorityTask {
 
     @Override
     public void update() {
-        if (currentTask.getStatus() != Status.ACTIVE) {
+        if (currentTask.getStatus() != Status.ACTIVE ) {
             if (currentTask == waitTask && isSpawned) {
                 startWandering();
             } else if (currentTask == movementTask) {
@@ -82,7 +82,6 @@ public class StealTask extends DefaultTask implements PriorityTask {
             currentitem = null;
             currentId = null;
         }
-        currentTask.update();
     }
 
     @Override

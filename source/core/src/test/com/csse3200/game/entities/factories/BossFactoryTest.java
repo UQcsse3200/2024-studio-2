@@ -2,6 +2,7 @@ package com.csse3200.game.entities.factories;
 
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
+import com.csse3200.game.components.combat.CombatAnimationController;
 import com.csse3200.game.components.npc.BossAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
@@ -9,7 +10,6 @@ import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
-import com.csse3200.game.physics.components.HitboxComponent;
 import com.csse3200.game.physics.components.PhysicsComponent;
 import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
@@ -33,10 +33,8 @@ class BossFactoryTest {
     private static Entity waterBoss;
     private static Entity airBoss;
     private static Entity genericCombatBoss;
-    private static final NPCConfigs configs =
-            FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
 
-    private static String[] atlas = {
+    private static final String[] atlas = {
             "images/final_boss_kangaroo.atlas",
             "images/water_boss.atlas",
             "images/air_boss.atlas"
@@ -61,7 +59,7 @@ class BossFactoryTest {
         kanga = BossFactory.createKangaBossEntity(player);
         waterBoss = BossFactory.createWaterBossEntity(player);
         airBoss = BossFactory.createAirBossEntity(player);
-        genericCombatBoss = BossFactory.createCombatBossNPC();
+        genericCombatBoss = CombatAnimalFactory.createKangaBossCombatEntity();
     }
 
     /**
@@ -258,9 +256,8 @@ class BossFactoryTest {
     @Test
     void TestGenericCombatBossHasComponents() {
         assertNotNull(genericCombatBoss.getComponent(PhysicsComponent.class));
-        assertNotNull(genericCombatBoss.getComponent(PhysicsMovementComponent.class));
         assertNotNull(genericCombatBoss.getComponent(ColliderComponent.class));
-        assertNotNull(genericCombatBoss.getComponent(HitboxComponent.class));
+        assertNotNull(genericCombatBoss.getComponent(AnimationRenderComponent.class));
+        assertNotNull(genericCombatBoss.getComponent(CombatAnimationController.class));
     }
-
 }

@@ -47,15 +47,6 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
     }
 
     void createUI(Skin skin) {
-        waterAnimalsButton = new TextButton("Water Animals", skin);
-        airAnimalsButton = new TextButton("Air Animals", skin);
-        landAnimalsButton = new TextButton("Land Animals", skin);
-
-        addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen1.class);
-        addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen1.class);
-        addButtonToSwitchScreen(landAnimalsButton, LandAnimalSelectionScreen.class);
-
-        updateButtonPositions();
     }
 
     @Override
@@ -68,7 +59,7 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        updateButtonPositions();
+        //updateButtonPositions();
     }
 
     @Override
@@ -91,9 +82,9 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
         stage.addActor(button);
     }
 
-    protected TextButton getWaterAnimalsButton() { return waterAnimalsButton; }
-    protected TextButton getAirAnimalsButton() { return airAnimalsButton; }
-    protected TextButton getLandAnimalsButton() { return landAnimalsButton; }
+    //protected TextButton getWaterAnimalsButton() { return waterAnimalsButton; }
+    //protected TextButton getAirAnimalsButton() { return airAnimalsButton; }
+    //protected TextButton getLandAnimalsButton() { return landAnimalsButton; }
 
     private void updateButtonPositions() {
         float buttonWidth = 200;

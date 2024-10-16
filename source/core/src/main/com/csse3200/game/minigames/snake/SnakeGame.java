@@ -73,6 +73,8 @@ public class SnakeGame {
             apple.spawn();
             snake.grow();
             score += 1;
+
+            increaseSnakeSpeed();
             return true;
         }
         return false;
@@ -132,5 +134,11 @@ public class SnakeGame {
              }
         }
         return false;
+    }
+
+    public void increaseSnakeSpeed() {
+        if (this.score > 0 && (this.score % 5 == 0)) {
+            snake.updateMovePeriod(snake.getMovePeriod() - 1f/60);
+        }
     }
 }

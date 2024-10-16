@@ -18,9 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenu;
+import com.csse3200.game.minigames.MinigameLeaderboard;
 import com.csse3200.game.services.NotifManager;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
@@ -30,9 +30,6 @@ import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.services.AudioManager;
 import com.badlogic.gdx.math.MathUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A UI component for displaying the Main menu.
  */
@@ -41,9 +38,10 @@ public class MainMenuDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table table;
     private Table menuButtonTable;
-    private Table userTable;
     private Table loginRegisterTable;
+    private Table leaderboardTable;
     private SettingsMenu settingsMenu;
+    private MinigameLeaderboard minigameLeaderboard;
     private Texture mainTitle;
     private Texture lightBackgroundTexture;
     private Texture settingBackground;
@@ -54,18 +52,13 @@ public class MainMenuDisplay extends UIComponent {
     private Texture dog2Texture;
     private Texture crocTexture;
     private Texture cursorTexture;
-    private Dialog chatbotDialog;
-    private TextField userInputField;
-    private Label chatbotResponseLabel;
-    private List<String> predefinedQuestions;
-    private ChatbotService chatbotService;
-    private boolean isChatbotDialogVisible = false;
-    private Image owlImage;
+    private ChatbotUI chatbotUI;
     private Sound owlSound;
     private Label factLabel;
     private String[] owlFacts;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
     private Texture nightBackgroundTexture;
+    private Texture dayBackgroundTexture;
     private Sound clickSound; // Loaded click sound file for buttons
     private boolean dogDirection = true;
     private Cursor customCursor;
@@ -76,39 +69,31 @@ public class MainMenuDisplay extends UIComponent {
     private CustomButton achievementsBtn;
     private CustomButton helpBtn;
     private CustomButton exitBtn;
-    private Label versionLabel;
-
-    // Changes from main branch
-    private final float windowButtonWidth = 200;
-    private final float windowButtonHeight = 45;
-    private final float windowButtonSpacing = 15;
-    private final float fullScreenButtonWidth = 300; // Updated width
-    private final float fullScreenButtonHeight = 60; // Updated height
-    private final float fullScreenButtonSpacing = 20; // Updated spacing
     private Image birdAniImage;
     private Image monkeyAniImage;
     private Image dogAniImage;
-    private TextureAtlas birdAtlas;
-    private TextureAtlas dogAtlas; // Added dogAtlas
-    private TextureAtlas monkeyAtlas; // Added monkeyAtlas
-
     private static final float WINDOWBUTTONWIDTH = 200;
     private static final float WINDOWBUTTONHEIGHT = 45;
     private static final float WINDOWBUTTONSPACING = 15;
     private static final float FULLSCREENBUTTONWIDTH = 300;
     private static final float FULLSCREENBUTTONHEIGHT = 60;
     private static final float FULLSCREENBUTTONSPACING = 20;
-
+    private Image owlAniImage;
     private Array<TextureRegion> birdTextures;
-    private Array<TextureRegion> monkeyTextures; // Added monkeyTextures
-    private Array<TextureRegion> dogTextures; // Added dogTextures
+    private Array<TextureRegion> monkeyTextures;
+    private Array<TextureRegion> dogTextures;
+    private Array<TextureRegion> owlTextures;
     private boolean birdDirection = true;
     int birdCurrentFrame = 0;
-    int monkeyCurrentFrame = 0; // Added monkeyCurrentFrame
-    int dogCurrentFrame = 0; // Added dogCurrentFrame
+    int monkeyCurrentFrame = 0;
+    int dogCurrentFrame = 0;
+    int owlCurrentFrame = 0;
     private float timer;
+    private float owlTimer;
     private Image titleAniImage;
-
+    private Button dayNightBtn;
+    private Button profileBtn;
+    private Button trophyBtn;
 
     /**
      * Called when the component is created. Initializes the main menu UI.
@@ -121,20 +106,149 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Background texture loaded");
         this.setupCustomCursor();
         this.addDog();
-        addActors();
-        chatbotService = new ChatbotService();
-        this.setupPredefinedQuestions();
         this.addMonkey();
-        this.addChatbotIcon();
+        chatbotUI = new ChatbotUI(stage, skin, this);
         this.applyUserSettings();
         this.setupOwlFacts();
-        this.addOwlToMenu(); // Add owl to the menu
         this.addBird();
+        this.addOwlToMenu(); // Add owl to the menu
         this.addTitle();
+        addActors();
 
         timer = 0f;
+        owlTimer = 0f;
+    }
+    /**
+     * Load the textures for the mute and unmute button states.
+     */
+    private void loadTextures() {
+        settingBackground = new Texture("images/SettingBackground.png");
+        lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");
+        mainTitle = new Texture("images/SplashScreen/MainTitle.png");
+        muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
+        unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
+        dog2Texture = new Texture("images/dog2.png");
+        crocTexture = new Texture("images/croc.png");
+        toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
+        cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
+        nightBackgroundTexture = new Texture("images/SplashScreen/SplashEmptyNight.png"); // Night background
+        dayBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png"); // Day Background Texture
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
+        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
     }
 
+
+    /**
+     * Applies user settings to the game.
+     */
+    private void applyUserSettings() {
+        UserSettings.Settings settings = UserSettings.get(); // Retrieve current settings
+        UserSettings.applySettings(settings); // Apply settings to the game
+    }
+
+    /**
+     * Adds all UI elements (buttons, labels, etc.) to the main menu.
+     */
+    private void addActors() {
+        initializeTables();
+        initializeMenuButtons();
+        initializeTopLeftButtons();
+        stage.addActor(NotifManager.addNotificationTable());
+
+        addTopLeftToggle();
+        addTopRightButtons();
+        addSettingMenu();
+        addLoginRegisterTable();
+        addLeaderboardTable();
+    }
+
+    private void initializeTopLeftButtons() {
+        dayNightBtn = new Button(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
+        profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
+        trophyBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/Achievements.png"))));
+    }
+
+    /**
+     * Initialize all tables in the main menu
+     */
+    private void initializeTables() {
+        table = new Table();
+        menuButtonTable = new Table();
+        loginRegisterTable = new Table();
+        leaderboardTable = new Table();
+    }
+
+    /**
+     * Initialize menu buttons in the main menu
+     */
+    private void initializeMenuButtons() {
+        // Clear previous button settings to avoid duplicates
+        if (menuButtonTable != null) {
+            menuButtonTable.clear();
+        } else {
+            menuButtonTable = new Table();
+        }
+
+        // Set Z index to ensure it is drawn above other components
+        menuButtonTable.setZIndex(10);
+        // Create all main menu buttons
+        startBtn = createMenuButton("Start", () -> {
+            logger.info("Start button clicked");
+            entity.getEvents().trigger("start");
+        });
+
+        loadBtn = createMenuButton("Load", () -> {
+            logger.info("Load button clicked");
+            entity.getEvents().trigger("load");
+        });
+
+        minigamesBtn = createMenuButton("Minigame", () -> {
+            logger.info("Minigames button clicked");
+            entity.getEvents().trigger("SnakeGame");
+        });
+        //minigamesBtn.setButtonStyle(CustomButton.Style.NORMAL, skin);
+
+        settingsBtn = createMenuButton("Settings", () -> {
+            logger.info("Settings button clicked");
+            settingsMenu.showSettingsMenu();
+            setMenuUntouchable();
+        });
+
+        achievementsBtn = createMenuButton("Achievements", () -> {
+            logger.info("Achievements button clicked");
+            entity.getEvents().trigger("achievements");
+        });
+
+        entity.getEvents().addListener("help", this::showHelpWindow);
+        helpBtn = createMenuButton("Help", () -> {
+            logger.info("Help button clicked");
+            setMenuUntouchable();
+            entity.getEvents().trigger("help");
+        });
+
+        entity.getEvents().addListener("exitConfirmation", this::handleExitConfirmation);  // Call the exit handler
+        exitBtn = createMenuButton("Exit", () -> {
+            logger.info("Exit button clicked");
+            entity.getEvents().trigger("exitConfirmation");
+        });
+        updateMenuButtonLayout();
+
+        stage.addActor(menuButtonTable);
+    }
+
+    private void addOwl() {
+        owlAniImage = new Image();
+        TextureAtlas owlAtlas = new TextureAtlas("spriteSheets/owl.atlas");
+        owlTextures = new Array<>(3);
+        for (int frameOwl = 1; frameOwl <= 3; frameOwl++) {
+            owlTextures.add(owlAtlas.findRegion("owl" + frameOwl));
+        }
+        TextureRegionDrawable drawableOwl = new TextureRegionDrawable(owlTextures.get(0));
+        owlAniImage.setDrawable(drawableOwl);
+        owlAniImage.setPosition(Gdx.graphics.getWidth() * 0.87f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
+        owlAniImage.setSize(Gdx.graphics.getWidth() / 7f, Gdx.graphics.getHeight() / 6f);
+        stage.addActor(owlAniImage);
+    }
     private void addMonkey() {
         monkeyAniImage = new Image();
         TextureAtlas monkeyAtlas = new TextureAtlas("spriteSheets/MonkeySprite.atlas");
@@ -146,9 +260,23 @@ public class MainMenuDisplay extends UIComponent {
         monkeyAniImage.setDrawable(drawableMonkey);
         monkeyAniImage.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 4.8f);
         monkeyAniImage.setPosition(Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 6.8f);
+
+        // Add the click listener to open/close the chatbot
+        monkeyAniImage.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Chatbot", "Monkey icon clicked!"); // Log to verify the click
+                clickSound.play(); // Play the click sound
+                if (chatbotUI.isChatbotDialogVisible()) {
+                    chatbotUI.closeChatbotDialog(); // Close the chatbot if it's visible
+                } else {
+                    chatbotUI.openChatbotDialog(); // Open the chatbot if it's not visible
+                }
+            }
+        });
+
         stage.addActor(monkeyAniImage);
     }
-
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
         dogAniImage = new Image();
@@ -190,151 +318,6 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Adds a chatbot icon to the UI, positioned in the bottom-right corner of the screen.
-     * The icon allows the user to open and close a chatbot dialog.
-     */
-    private void addChatbotIcon() {
-        // Create a table to hold the chatbot icon and position it in the bottom-right corner.
-        Table chatbotIconTable = new Table();
-        chatbotIconTable.setBounds(monkeyAniImage.getX(),monkeyAniImage.getY(), monkeyAniImage.getWidth(), monkeyAniImage.getHeight());
-
-        // Load the chatbot icon image and set its initial size.
-        ImageButton chatbotIcon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("images/chatbot1.png"))));
-        chatbotIcon.setSize(monkeyAniImage.getWidth(), monkeyAniImage.getHeight());
-
-        // Add a listener to the chatbot icon for click events
-        chatbotIcon.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Toggle the chatbot dialog's visibility when the icon is clicked.
-                if (isChatbotDialogVisible) {
-                    closeChatbotDialog();  // Close the chatbot dialog if it is currently visible.
-                } else {
-                    openChatbotDialog();   // Open the chatbot dialog if it is currently hidden.
-                }
-            }
-        });
-
-        // Add the chatbot icon to the table and the table to the stage.
-        chatbotIconTable.add(chatbotIcon);
-        stage.addActor(chatbotIconTable);
-    }
-
-    /**
-     * Opens the chatbot dialog in the center of the screen.
-     */
-    private void openChatbotDialog() {
-        chatbotDialog = new Dialog("", skin) {
-            @Override
-            protected void result(Object object) {
-                logger.info("Chatbot dialog closed.");
-            }
-        };
-
-        final float DIALOG_WIDTH = Math.min(1000f, Gdx.graphics.getWidth() - 100f); // Dynamically set width
-        final float DIALOG_HEIGHT = Math.min(800f, Gdx.graphics.getHeight() - 100f); // Dynamically set height
-        chatbotDialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT); // Set size
-
-        // Background for the chatbot window
-        Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("images/SettingBackground.png")));
-        chatbotDialog.setBackground(backgroundDrawable);
-
-        // Title
-        Label titleLabel = new Label("Chatbot", skin, "title-white");
-        titleLabel.setAlignment(Align.center);
-
-        // Predefined questions
-        Table questionTable = new Table();
-        for (String question : predefinedQuestions) {
-            TextButton questionButton = new TextButton(question, skin);
-            questionButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    processChatInput(question);
-                }
-            });
-            questionTable.add(questionButton).pad(5).expandX().fillX().row(); // Add each question button with padding and fill
-        }
-
-        // User input field
-        userInputField = new TextField("", skin);
-        userInputField.setMessageText("Type your question...");
-        userInputField.setAlignment(Align.center);
-
-        // Submit button
-        TextButton sendButton = new TextButton("Send", skin);
-        sendButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                processChatInput(userInputField.getText());
-            }
-        });
-
-        // Response label
-        chatbotResponseLabel = new Label("", skin);
-        chatbotResponseLabel.setWrap(true);
-        chatbotResponseLabel.setAlignment(Align.center);
-        chatbotResponseLabel.setWidth(500);
-
-        // Close button
-        TextButton closeButton = new TextButton("Close", skin);
-        closeButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                chatbotDialog.hide(Actions.sequence(Actions.alpha(0f), Actions.run(() -> isChatbotDialogVisible = false))); // Close without fade effect
-            }
-        });
-
-        // Layout the dialog
-        Table contentTable = new Table();
-        contentTable.add(titleLabel).padTop(20).center().row(); // Add title at the top
-        contentTable.add(questionTable).expandX().fillX().pad(20).row(); // Add question buttons
-        contentTable.add(userInputField).width(600).pad(10).row(); // Add input field
-        contentTable.add(sendButton).pad(10).row(); // Add send button
-        contentTable.add(chatbotResponseLabel).width(600).pad(10).row(); // Add response label
-        contentTable.add(closeButton).pad(10).row(); // Add close button
-
-        chatbotDialog.getContentTable().add(contentTable).expandX().fillX(); // Add all elements to the dialog's content table
-
-        // Show the dialog without fade-in effect
-        chatbotDialog.show(stage, Actions.sequence(Actions.alpha(1f))); // Ensure full opacity without any fade effect
-
-        // Center the dialog on screen after showing it
-        centerDialogOnScreen();
-    }
-
-    private void centerDialogOnScreen() {
-        chatbotDialog.setPosition(
-                (Gdx.graphics.getWidth() - chatbotDialog.getWidth()) / 2,
-                (Gdx.graphics.getHeight() - chatbotDialog.getHeight()) / 2
-        );
-    }
-
-    private void setupPredefinedQuestions() {
-        predefinedQuestions = new ArrayList<>();
-        predefinedQuestions.add("How do I move?");
-        predefinedQuestions.add("How do I attack?");
-        predefinedQuestions.add("What's the objective?");
-        predefinedQuestions.add("How can I save my game?");
-        predefinedQuestions.add("Hello");
-    }
-
-    private void processChatInput(String userInput) {
-        String chatbotResponse = chatbotService.getResponse(userInput);
-        chatbotResponseLabel.setText(chatbotResponse);
-    }
-
-    /**
-     * Closes the chatbot dialog.
-     */
-    private void closeChatbotDialog() {
-        if (chatbotDialog != null && isChatbotDialogVisible) {
-            chatbotDialog.hide();
-            isChatbotDialogVisible = false;
-        }
-    }
-
-    /**
      * Sets up the custom cursor.
      */
     private void setupCustomCursor() {
@@ -351,37 +334,6 @@ public class MainMenuDisplay extends UIComponent {
         } catch (Exception e) {
             logger.error("Failed to set custom cursor", e);
         }
-    }
-
-    public void updateChatbotDialogPosition() {
-        if (chatbotDialog != null) {
-            float screenWidth = Gdx.graphics.getWidth();
-            float screenHeight = Gdx.graphics.getHeight();
-            chatbotDialog.setPosition(
-                    (screenWidth - chatbotDialog.getWidth()) / 2,
-                    (screenHeight - chatbotDialog.getHeight()) / 2
-            );
-        }
-    }
-
-    /**
-     * Load the textures for the mute and unmute button states.
-     */
-    private void loadTextures() {
-        settingBackground = new Texture("images/SettingBackground.png");
-        lightBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png");
-        mainTitle = new Texture("images/SplashScreen/MainTitle.png");
-        muteTexture = new Texture("images/sound_off.png");  // Add your mute icon here
-        unmuteTexture = new Texture("images/sound_on.png");  // Add your unmute icon here
-        dog2Texture = new Texture("images/dog2.png");
-        crocTexture = new Texture("images/croc.png");
-        toggleTexture = new Texture(Gdx.files.internal("images/NightToggle.png"));
-        cursorTexture = new Texture(Gdx.files.internal("images/CustomCursor.png")); // Custom cursor image
-        nightBackgroundTexture = new Texture("images/SplashScreen/SplashTitleNight.png"); // Night background
-        clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
-        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot.mp3")); // Owl sound file
-        Texture owlTexture = new Texture("images/owl3.png"); // Owl texture file
-        owlImage = new Image(owlTexture); // Create owl image actor
     }
 
     // Add owl facts
@@ -402,19 +354,17 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     private void addOwlToMenu() {
-        // Set owl initial position
-        owlImage.setPosition(Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
-        owlImage.setSize(150, 200);
-        stage.addActor(owlImage);
+        // Add owl
+        this.addOwl();
 
         // Create label for displaying facts
         factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
-        factLabel.setPosition(1400, 130); // Position it near the owl
+        factLabel.setPosition(owlAniImage.getX() * 0.8f, owlAniImage.getY()); // Position it near the owl
         factLabel.setFontScale(1f);
         stage.addActor(factLabel);
 
         // Add click listener for the owl
-        owlImage.addListener(new ClickListener() {
+        owlAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 owlSound.play(); // Play owl sound
@@ -427,99 +377,6 @@ public class MainMenuDisplay extends UIComponent {
                 ));
             }
         });
-    }
-
-
-    /**
-     * Applies user settings to the game.
-     */
-    private void applyUserSettings() {
-        UserSettings.Settings settings = UserSettings.get(); // Retrieve current settings
-        UserSettings.applySettings(settings); // Apply settings to the game
-    }
-
-    /**
-     * Adds all UI elements (buttons, labels, etc.) to the main menu.
-     */
-    private void addActors() {
-        initializeTables();
-        initializeMenuButtons();
-        stage.addActor(NotifManager.addNotificationTable());
-
-
-        addTopLeftToggle();
-        addTopRightButtons();
-        addSettingMenu();
-        addUserTable();
-        addLoginRegisterTable();
-    }
-
-    /**
-     * Initialize all tables in the main menu
-     */
-    private void initializeTables() {
-        table = new Table();
-        menuButtonTable = new Table();
-        userTable = new Table();
-        loginRegisterTable = new Table();
-    }
-
-    /**
-     * Initialize menu buttons in the main menu
-     */
-    private void initializeMenuButtons() {
-        // Clear previous button settings to avoid duplicates
-        if (menuButtonTable != null) {
-            menuButtonTable.clear();
-        } else {
-            menuButtonTable = new Table();
-        }
-
-        // Set Z index to ensure it is drawn above other components
-        menuButtonTable.setZIndex(10);
-        // Create all main menu buttons
-        startBtn = createMenuButton("Start", () -> {
-            logger.info("Start button clicked");
-            entity.getEvents().trigger("start");
-        });
-
-        loadBtn = createMenuButton("Load", () -> {
-            logger.info("Load button clicked");
-            entity.getEvents().trigger("load");
-        });
-
-        minigamesBtn = createMenuButton("Minigame", () -> {
-            logger.info("Minigames button clicked");
-            entity.getEvents().trigger("SnakeGame");
-        });
-
-
-        settingsBtn = createMenuButton("Settings", () -> {
-            logger.info("Settings button clicked");
-            settingsMenu.showSettingsMenu();
-        });
-
-
-        achievementsBtn = createMenuButton("Achievements", () -> {
-            logger.info("Achievements button clicked");
-            entity.getEvents().trigger("achievements");
-        });
-
-        entity.getEvents().addListener("help", this::showHelpWindow);
-        helpBtn = createMenuButton("Help", () -> {
-            logger.info("Help button clicked");
-            setMenuUntouchable();
-            entity.getEvents().trigger("help");
-        });
-
-        entity.getEvents().addListener("exitConfirmation", this::handleExitConfirmation);  // Call the exit handler
-        exitBtn = createMenuButton("Exit", () -> {
-            logger.info("Exit button clicked");
-            entity.getEvents().trigger("exitConfirmation");
-        });
-        updateMenuButtonLayout();
-
-        stage.addActor(menuButtonTable);
     }
 
     /**
@@ -616,9 +473,7 @@ public class MainMenuDisplay extends UIComponent {
         topLeftTable.top().left();
         topLeftTable.setFillParent(true);
 
-        Image toggleImage = new Image(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
-
-        toggleImage.addListener(new ClickListener() {
+        dayNightBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 isNightMode = !isNightMode;
@@ -628,14 +483,55 @@ public class MainMenuDisplay extends UIComponent {
                 } else {
                     applyDayMode();
                 }
+                clickSound.play();
+            }
+        });
+
+
+        profileBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                clickSound.play();
+                loginRegisterTable.setVisible(true);
+                setMenuUntouchable();
+            }
+        });
+
+
+        trophyBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                clickSound.play();
+                leaderboardTable.setVisible(true);
+                setMenuUntouchable();
             }
         });
 
         // Add the image to the top left corner
-        topLeftTable.add(toggleImage).size(175, 175).pad(10); // Adjust the size as needed
+        topLeftTable.add(dayNightBtn).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.row();
+        // Add the image to the top left corner
+        topLeftTable.add(profileBtn).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.row();
+        // Add the image to the top left corner
+        topLeftTable.add(trophyBtn).size(100, 100).pad(10); // Adjust the size as needed
+        topLeftTable.row();
 
         // Add the table to the stage
         stage.addActor(topLeftTable);
+    }
+
+    public void updateTopLeftToggle() {
+        float iconSize = 100f;
+
+        // Adjust size percentages based on fullscreen or windowed mode
+        float sizePercentage = Gdx.graphics.isFullscreen() ? 1 : 1f;
+
+        float newIconSize = iconSize * sizePercentage;
+
+        dayNightBtn.setSize(newIconSize, newIconSize);
+        profileBtn.setSize(newIconSize, newIconSize);
+        trophyBtn.setSize(newIconSize, newIconSize);
     }
 
     /**
@@ -649,7 +545,7 @@ public class MainMenuDisplay extends UIComponent {
      * Applies Day Mode by changing the background texture to the default day version.
      */
     private void applyDayMode() {
-        lightBackgroundTexture = new Texture("images/SplashScreen/SplashTitle.png");  // Set the day mode background.
+        lightBackgroundTexture = dayBackgroundTexture;  // Set the day mode background.
     }
 
     private void updateMuteButtonIcon() {
@@ -660,30 +556,11 @@ public class MainMenuDisplay extends UIComponent {
         }
     }
 
-    private void addUserTable() {
-        userTable.setSize(175, 175);
-
-        userTable.setVisible(true);
-
-        userTable.setPosition(185, Gdx.graphics.getHeight() - 30f);
-        Button profileBtn = new Button(new TextureRegionDrawable(new TextureRegion(new Texture("images/ButtonsMain/User.png"))));
-        userTable.add(profileBtn).size(110, 110).top().padTop(30).expandY();
-
-        profileBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                loginRegisterTable.setVisible(true);
-            }
-        });
-
-        stage.addActor(userTable);
-    }
-
     /**
      * Add login register table, which could be open by clicking the profile button
      */
     private void addLoginRegisterTable() {
-        LoginRegisterDisplay loginRegisterDisplay = new LoginRegisterDisplay();
+        LoginRegisterDisplay loginRegisterDisplay = new LoginRegisterDisplay(this);
         loginRegisterTable = loginRegisterDisplay.makeLoginRegisterTable();
         loginRegisterTable.setVisible(false);
         loginRegisterTable.setSize(663, 405);
@@ -715,12 +592,48 @@ public class MainMenuDisplay extends UIComponent {
     }
 
     /**
-     * Update the position of user table.
+     *
      */
-    public void updateUserTable() {
+    private void addLeaderboardTable() {
+        minigameLeaderboard = new MinigameLeaderboard(this);
+        leaderboardTable = minigameLeaderboard.makeLeaderboardTable();
+        leaderboardTable.setVisible(false);
+        leaderboardTable.setSize(525, 675);
+
+        float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        userTable.setPosition(165, screenHeight - 190);
+
+        // Center the menu on the screen
+        leaderboardTable.setPosition(
+                (screenWidth - leaderboardTable.getWidth()) / 2,
+                (screenHeight - leaderboardTable.getHeight()) / 2
+        );
+
+        stage.addActor(leaderboardTable);
     }
+    /**
+     * Update the size and position of the leaderboard table based on screen size and fullscreen mode.
+     */
+    public void updateLeaderboardTable() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        // Adjust size percentages based on fullscreen or windowed mode
+        float widthPercentage = Gdx.graphics.isFullscreen() ? 0.35f : 0.45f;
+        float heightPercentage = Gdx.graphics.isFullscreen() ? 0.7f : 0.9f;
+
+        float newWidth = screenWidth * widthPercentage;
+        float newHeight = screenHeight * heightPercentage;
+
+        leaderboardTable.setSize(newWidth, newHeight);
+
+        // Center the leaderboard table on the screen
+        leaderboardTable.setPosition(
+                (screenWidth - newWidth) / 2,
+                (screenHeight - newHeight) / 2
+        );
+    }
+
 
     /**
      * Displays the help window with slides for game instructions.
@@ -814,16 +727,13 @@ public class MainMenuDisplay extends UIComponent {
      * Adds a settings menu to the screen.
      */
     private void addSettingMenu() {
-        settingsMenu = new SettingsMenu();  // Create an instance of SettingsMenu
+        settingsMenu = new SettingsMenu(this);  // Create an instance of SettingsMenu
         settingsMenu.create();  // Initialize it
     }
 
 
     /**
      * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
-     */
-    /**
-     * Handles displaying the exit confirmation dialog when the exit button is clicked.
      */
     private void handleExitConfirmation() {
         Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(settingBackground));
@@ -872,6 +782,7 @@ public class MainMenuDisplay extends UIComponent {
     @Override
     public void update() {
         timer += Gdx.graphics.getDeltaTime();
+        owlTimer += Gdx.graphics.getDeltaTime();
         if (timer >= 0.25) {
             timer = 0;
             TextureRegionDrawable drawable = new TextureRegionDrawable(birdTextures.get(birdCurrentFrame));
@@ -890,15 +801,29 @@ public class MainMenuDisplay extends UIComponent {
 
             TextureRegionDrawable drawableMonkey = new TextureRegionDrawable(monkeyTextures.get(monkeyCurrentFrame));
             monkeyCurrentFrame++;
-            if (monkeyCurrentFrame >= 5) {
+            if (monkeyCurrentFrame >= 6) {
                 monkeyCurrentFrame = 0;
             }
             monkeyAniImage.setDrawable(drawableMonkey);
         }
+        if (owlTimer >= 0.5f) {
+            owlTimer = 0f;
+
+            TextureRegionDrawable drawableOwl = new TextureRegionDrawable(owlTextures.get(owlCurrentFrame));
+            owlCurrentFrame++;
+            if (owlCurrentFrame >= 3) {
+                owlCurrentFrame = 0;
+            }
+            owlAniImage.setDrawable(drawableOwl);
+        }
 
         // Resize owl with screen
-        owlImage.setPosition(Gdx.graphics.getWidth() * 0.85f, Gdx.graphics.getHeight() * 0.55f);
-        owlImage.setSize(Gdx.graphics.getWidth() / 5.5f, Gdx.graphics.getHeight() / 4f);
+        owlAniImage.setPosition(Gdx.graphics.getWidth() * 0.885f, Gdx.graphics.getHeight() * 0.55f); // Adjust the position as needed
+        owlAniImage.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 6f);
+
+        // Resize label with owl
+        factLabel.setPosition(owlAniImage.getX() * 0.8f, owlAniImage.getY()); // Position it near the owl
+        factLabel.setFontScale(Gdx.graphics.getHeight() / 1000f);
 
         // update bird, monkey and dog animations
         this.updateBirdFly();
@@ -954,6 +879,10 @@ public class MainMenuDisplay extends UIComponent {
             dogX = dogAniImage.getX() + Gdx.graphics.getDeltaTime() * (Gdx.graphics.getWidth() / 5f);
         }
         dogAniImage.setPosition(dogX, Gdx.graphics.getHeight() / 6.8f);
+    }
+
+    public ChatbotUI getChatbotUI() {
+        return chatbotUI;
     }
 
     @Override
