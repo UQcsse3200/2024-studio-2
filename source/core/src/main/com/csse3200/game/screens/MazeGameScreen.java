@@ -267,12 +267,6 @@ public class MazeGameScreen extends MiniGameScreen {
         addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
     }
 
-    /**
-     * Called from event to exit the game back to the previous screen
-     */
-    void exitGame() {
-        game.setOldScreen(oldScreen, oldScreenServices);
-    }
 
     /**
      * Puts the exit button in the top right of the screen.
