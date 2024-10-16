@@ -27,7 +27,7 @@ public class AchievementManager {
      * @param name The name of the quest to search for.
      * @return True if the achievement is found, false otherwise.
      */
-    public boolean containsAchievement(Array<Achievement> achievements, String name) {
+    public boolean containsAchievement(List<Achievement> achievements, String name) {
         for (Achievement achievement : achievements) {
             if (achievement.getQuestName().equals(name)) {
                 return true;
@@ -44,17 +44,4 @@ public class AchievementManager {
         return achievements;
     }
 
-    /**
-     * Saves the provided list of achievements to the save 'saves/achievements.json'.
-     * @param achievements The list of achievements to be saved.
-     */
-    public static void saveAchievements(Array<Achievement> achievements, String savePath) {
-        Logger logger = LoggerFactory.getLogger(AchievementManager.class);
-        logger.info("saving achievement");
-        Json json = new Json();
-        FileHandle saveFile = Gdx.files.local(savePath);
-
-        // Serialize the Array<Achievement> and write to file
-        saveFile.writeString(json.prettyPrint(achievements), false);
-    }
 }
