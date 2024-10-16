@@ -70,6 +70,7 @@ public class ForestGameArea extends GameArea {
     private int totalForestItems = 0;
     private int totalOceanItems = 0;
     private int totalAirItems = 0;
+    private int totalItems = 0;
     private Entity player;
 
     private final GdxGame game;
@@ -125,11 +126,11 @@ public class ForestGameArea extends GameArea {
         spawnFirstBarrier();
         spawnSecondBarrier();
 
-        //Enemies
-        spawnEnemies();
-
         // items
         handleItems();
+
+        //Enemies
+        spawnEnemies();
 
         //Friendlies
         spawnFriendlyNPCs();
@@ -822,7 +823,7 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                dynamicItems.put(totalForestItems, item);
+                //dynamicItems.put(totalForestItems, item);
                 totalForestItems++;
             }
         } else if (zone == 2 && totalForestItems < 50) {
@@ -834,7 +835,7 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                dynamicItems.put(totalOceanItems, item);
+                //dynamicItems.put(totalOceanItems, item);
                 totalOceanItems++;
             }
         } else if (zone == 3 && totalAirItems < 50) {

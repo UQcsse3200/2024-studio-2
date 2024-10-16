@@ -47,15 +47,6 @@ public abstract class AnimalRouletteScreen1 extends ScreenAdapter {
     }
 
     void createUI(Skin skin) {
-        //waterAnimalsButton = new TextButton("Water Animals", skin);
-        //airAnimalsButton = new TextButton("Air Animals", skin);
-        //landAnimalsButton = new TextButton("Land Animals", skin);
-
-        //addButtonToSwitchScreen(waterAnimalsButton, WaterAnimalSelectionScreen1.class);
-        //addButtonToSwitchScreen(airAnimalsButton, AirAnimalSelectionScreen1.class);
-        //addButtonToSwitchScreen(landAnimalsButton, LandAnimalSelectionScreen.class);
-
-        //updateButtonPositions();
     }
 
     @Override
