@@ -21,14 +21,20 @@ import org.slf4j.LoggerFactory;
 /**
  * A customizable button class that combines a button with a label and hover/click effects.
  */
-public class CustomButton extends Stack {
+public class CustomButton extends Stack{
     private static final Logger logger = LoggerFactory.getLogger(CustomButton.class);
 
     // Preloaded textures and sound used across all buttons
-    private static final Texture BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlankLarge.png"));
+    private static final Texture NORMAL_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlankLarge.png"));
+    private static final Texture DIALOGUE_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlueBlankLarge.png"));
+    private static final Texture WIDE_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/WideButtonBrown.png"));
+    private static final Texture SMALL_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/SmallBlankLarge.png"));
+    private static final Texture SMALL_DIALOGUE_BUTTON_TEXTURE = new Texture(Gdx.files.internal("images/ButtonsMain/BlueBlankSmall.png"));
     private static final Sound BUTTON_CLICK_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3"));
+    private static final Sound BUTTON_HOVER_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/hoversound2.mp3"));
 
-    private final Button button;
+
+    private Button button;
     private final Label label;
 
     private final float hoverMoveBy = 5f;  // Pixels to move button and label on hover
@@ -43,7 +49,7 @@ public class CustomButton extends Stack {
      */
     public CustomButton(String labelText, Skin skin) {
         // Create the button using the default texture
-        button = new Button(new TextureRegionDrawable(new TextureRegion(BUTTON_TEXTURE)));
+        button = new Button(new TextureRegionDrawable(new TextureRegion(NORMAL_BUTTON_TEXTURE)));
 
         // Create the label
         label = new Label(labelText, skin, "button-red");
@@ -55,7 +61,7 @@ public class CustomButton extends Stack {
         this.add(label);
 
         // Set default button size based on the predefined texture
-        this.setSize(BUTTON_TEXTURE.getWidth(), BUTTON_TEXTURE.getHeight());
+        this.setSize(NORMAL_BUTTON_TEXTURE.getWidth(), NORMAL_BUTTON_TEXTURE.getHeight());
         label.setSize(this.getWidth(), this.getHeight());
 
         // Add hover effect (movement, scaling) to both button and label
@@ -101,6 +107,10 @@ public class CustomButton extends Stack {
                         Actions.moveBy(0, hoverMoveBy, hoverDuration),
                         Actions.scaleTo(hoverScaleFactor, hoverScaleFactor, hoverDuration)
                 ));
+                // Play the hover sound when the button is hovered over
+                if (BUTTON_HOVER_SOUND != null) {
+                    BUTTON_HOVER_SOUND.play();
+                }
             }
 
             @Override
@@ -139,6 +149,39 @@ public class CustomButton extends Stack {
         label.setSize(width, height);
         this.setSize(width, height);
     }
+
+    /**
+     * Update the button style
+     * @param style The style of the button.
+     * @param skin The skin for styling the label.
+     */
+    public void setButtonStyle(Style style, Skin skin) {
+        Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
+        switch (style) {
+            case NORMAL -> {
+                buttonStyle.up = new TextureRegionDrawable(new TextureRegion(NORMAL_BUTTON_TEXTURE));
+                label.setStyle(skin.get("button-red", Label.LabelStyle.class));
+            }
+            case SMALL -> {
+                buttonStyle.up = new TextureRegionDrawable(new TextureRegion(SMALL_BUTTON_TEXTURE));
+                label.setStyle(skin.get("button-red", Label.LabelStyle.class));
+            }
+            case DIALOGUE -> {
+                buttonStyle.up = new TextureRegionDrawable(new TextureRegion(DIALOGUE_BUTTON_TEXTURE));
+                label.setStyle(skin.get("default-white", Label.LabelStyle.class));
+            }
+            case DIALOGUE_SMALL -> {
+                buttonStyle.up = new TextureRegionDrawable(new TextureRegion(SMALL_DIALOGUE_BUTTON_TEXTURE));
+                label.setStyle(skin.get("default-white", Label.LabelStyle.class));
+            }
+            case BROWN_WIDE -> {
+                buttonStyle.up = new TextureRegionDrawable(new TextureRegion(WIDE_BUTTON_TEXTURE));
+                label.setStyle(skin.get("default-white", Label.LabelStyle.class));
+            }
+        }
+        button.setStyle(buttonStyle);
+    }
+
     /**
      * Resize the button according to the screen's dimensions and a scaling factor.
      * This allows dynamic resizing based on the screen size.
@@ -157,6 +200,9 @@ public class CustomButton extends Stack {
 
         logger.info("Button resized to: {}x{}", newWidth, newHeight);
     }
+    public Button getButton() {
+        return button;
+    }
 
     /**
      * Disposes of any additional resources if needed (textures are static and should not be disposed here).
@@ -164,5 +210,9 @@ public class CustomButton extends Stack {
     public void dispose() {
         logger.info("Disposing button resources");
         // No-op as static resources should not be disposed here
+    }
+
+    public enum Style {
+        NORMAL, DIALOGUE, SMALL, DIALOGUE_SMALL, BROWN_WIDE
     }
 }

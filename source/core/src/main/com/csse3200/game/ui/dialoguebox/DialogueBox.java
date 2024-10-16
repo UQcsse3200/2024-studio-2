@@ -623,6 +623,16 @@ public class DialogueBox {
     }
 
     /**
+     * Hides or removes the "Continue" button (forward button) from the dialogue box.
+     */
+    public void removeContinueButton() {
+        if (forwardButton != null) {
+            forwardButton.setVisible(false);  // Hide the button
+            //forwardButton.remove();  // Optionally remove it from the stage completely
+        }
+    }
+
+    /**
      * Removes all components of the dialogue box from the stage.
      * This should be called to clean up resources when the dialogue box is no longer needed.
      */

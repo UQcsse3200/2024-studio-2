@@ -12,11 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.csse3200.game.components.mainmenu.MainMenuDisplay;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.utils.StringDecorator;
+import com.sun.tools.javac.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,9 +34,11 @@ public class SettingsMenu extends UIComponent {
     private SelectBox<String> musicSelectBox;
     private Skin skin;
     private Texture backgroundTexture;
+    private MainMenuDisplay mainMenuDisplay;
 
-    public SettingsMenu() {
+    public SettingsMenu(MainMenuDisplay mainMenuDisplay) {
         super();
+        this.mainMenuDisplay = mainMenuDisplay;
     }
 
     @Override
@@ -61,7 +65,7 @@ public class SettingsMenu extends UIComponent {
         // Add the "Settings" heading at the top
         Label titleLabel = new Label("Settings", skin, "title");
         Table titleTable = new Table();
-        titleTable.add(titleLabel).center().padTop(50f).expandX();  // Center the title and add padding
+        titleTable.add(titleLabel).center().padTop(30f).expandX();  // Center the title and add padding
         settingsWindow.add(titleTable).expandX().top().row();  // Add the title table
         settingsWindow.row();
 
@@ -90,6 +94,7 @@ public class SettingsMenu extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 applyChanges();
+                mainMenuDisplay.setMenuTouchable();
                 hideSettingsMenu();  // Hide the settings menu when the close button is clicked
             }
         });
@@ -185,6 +190,7 @@ public class SettingsMenu extends UIComponent {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 applyChanges();  // Apply the changes
+                mainMenuDisplay.setMenuTouchable();
                 hideSettingsMenu();  // Hide the settings menu after applying
             }
         });
