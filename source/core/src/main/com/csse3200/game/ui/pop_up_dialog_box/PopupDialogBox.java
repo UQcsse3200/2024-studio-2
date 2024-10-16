@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.ui.CustomButton;
 
 /**
  * A customizable popup dialog box that displays animal information and health bars.
@@ -15,8 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 public class PopupDialogBox extends Dialog {
     private final Label titleLabel;
     private final Label contentLabel;
-    private final TextButton nextButton;
-    private final TextButton backButton;
+
     private final Image animalImage;
     private Table statsTable;
     private Runnable callback;
@@ -31,6 +31,8 @@ public class PopupDialogBox extends Dialog {
     private int[] speedStats;
     private int[] defenseStats;
     private int[] strengthStats;
+    private final CustomButton nextButton;  // Changed to CustomButton
+    private final CustomButton backButton;  // Changed to CustomButton
 
     private int animalIndex = 0; // Default to bird stats, should be updated based on selection
 
@@ -75,8 +77,11 @@ public class PopupDialogBox extends Dialog {
         contentLabel = new Label(content[currentIndex], skin);
         contentLabel.setWrap(true);
 
-        nextButton = new TextButton("Confirm and Start game", skin);
-        backButton = new TextButton("Back", skin);
+        nextButton = new CustomButton("Confirm choice", skin);
+        backButton = new CustomButton("Back", skin);
+        nextButton.setSize(200, 50);
+        backButton.setSize(200, 50);
+
         addActionListeners();
         createDialogLayout();
     }
@@ -84,6 +89,7 @@ public class PopupDialogBox extends Dialog {
     public void setCallback(Runnable callback) {
         this.callback = callback;
     }
+
     /**
      * Adds action listeners to the buttons in the dialog.
      */
@@ -91,18 +97,14 @@ public class PopupDialogBox extends Dialog {
         nextButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                hide();
-                if (callback != null) {
-                    callback.run();
-                }
+                proceedToNext();
             }
         });
 
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                hide(); // Hide the dialog
-                // You can add additional logic here if needed when going back
+                hide(); // Simple back action for now
             }
         });
     }
@@ -114,7 +116,7 @@ public class PopupDialogBox extends Dialog {
         Table contentTable = new Table();
         contentTable.pad(20);
 
-        // Layout: Image on the left, text and stats table on the right
+        //  Image on the left, text and stats table on the right
         Table rightTable = new Table();
 
         // Text on top 1/3 of the right side
@@ -138,8 +140,8 @@ public class PopupDialogBox extends Dialog {
 
         // Add inner table and next button to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(nextButton).padTop(20);
-        contentTable.add(backButton).padTop(10);
+        contentTable.add(nextButton).padTop(20).width(200).height(50);
+        contentTable.add(backButton).padTop(10).width(200).height(50);
 
         getContentTable().add(contentTable).expand().center();
 
@@ -198,6 +200,6 @@ public class PopupDialogBox extends Dialog {
      */
     public void setAnimalIndex(int animalIndex) {
         this.animalIndex = animalIndex;
-        updateStatsTable(); // Update stats immediately with new animal stats
+        updateStatsTable();  // Update stats when the selected animal changes
     }
 }
