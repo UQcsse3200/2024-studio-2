@@ -21,6 +21,8 @@ public class FrogAnimationController extends Component {
     entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
     entity.getEvents().addListener("chaseRight", this::animateChaseRight);
     entity.getEvents().addListener("spawnStart", this::animateSpawn);
+    entity.getEvents().addListener("pullRight", this::animatePullRight);
+    entity.getEvents().addListener("pullLeft", this::animatePullLeft);
   }
   
   //The following methods will be updated with new animations in future sprints,
@@ -42,10 +44,22 @@ public class FrogAnimationController extends Component {
     animator.setFlipX(flipped);
     animator.startAnimation("alert");
   }
-  void animateChaseLeft(){
-    animator.setFlipX(flipped);
+
+  void animateChaseLeft() {
+    flipped = true;
+    animator.setFlipX(true);
     animator.startAnimation("alert");
   }
 
-  void animateSpawn(){animator.startAnimation("spawn");}
-}
+  private void animatePullLeft(){
+    animator.setFlipX(true);
+    animator.startAnimation("pull");
+  }
+  private void animatePullRight() {
+    animator.setFlipX(false);
+    animator.startAnimation("pull");
+  }
+    void animateSpawn() {
+      animator.startAnimation("spawn");
+    }
+  }
