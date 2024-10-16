@@ -381,7 +381,7 @@ public class EndMiniGameScreen extends ScreenAdapter {
     }
 
     /**
-     * Gets the personalised massage based on score and mini-game.
+     * Gets the personalised massage based on score and mini-game
      *
      * @return the message
      */
