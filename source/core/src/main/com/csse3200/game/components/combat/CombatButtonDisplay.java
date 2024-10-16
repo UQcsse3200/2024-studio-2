@@ -36,6 +36,7 @@ public class CombatButtonDisplay extends UIComponent {
     CustomButton sleepButton;
     CustomButton itemsButton;
     ChangeListener dialogueBoxListener;
+    ChangeListener dialogueBoxLeaveListener;
     CombatArea combatArea;
     // Create a Table to hold the hover text with a background
     private Table hoverTextTable;
@@ -71,30 +72,47 @@ public class CombatButtonDisplay extends UIComponent {
         // Start idle animations
         combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
 
-        // Add a listener to the stage to monitor the DialogueBox visibility
-        dialogueBoxListener = new ChangeListener() {
+        // Add a listener to detect when dialogue box is on screen.
+        dialogueBoxListener = new ChangeListener()
+        {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
-                    logger.info("DialogueBox is no longer visible, adding actors back.");
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                if (ServiceLocator.getDialogueBoxService().getIsVisible())
+                {
+                    logger.info("BUTTON DISPLAY: DialogueBox is visible");
+                    // Hide buttons when dialogue box is visible.
+                    hideButtons();
 
-                    //addActors();
-                    showButtons();
-                }
-            }
-        };
-        entity.getEvents().addListener("endOfBossCombatDialogue", this::displayBossEndCombatDialogue);
-        dialogueBoxListener = new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
-                    logger.debug("DialogueBox is no longer visible, adding actors back.");
+                    if (dialogueBoxLeaveListener == null)
+                    {
+                        // Once the old listener has detected the dialogue box is visible, then add a new listener to
+                        // detect when the dialogue box is no longer visible.
+                        // Ensures the listener which is detecting the dialogue box to no longer be visible doesn't
+                        // instantly add the buttons after clicking.
+                        dialogueBoxLeaveListener = new ChangeListener()
+                        {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor)
+                            {
+                                if (!ServiceLocator.getDialogueBoxService().getIsVisible())
+                                {
+                                    logger.info("BUTTON DISPLAY: DialogueBox is no longer visible, adding actors back.");
+                                    // Resume idle animations.
+                                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
 
-                    //addActors();
-                    showButtons();
+                                    // Add buttons back.
+                                    showButtons();
 
-                    // Resume idle animations
-                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
+                                    // Get rid of this listener.
+                                    stage.removeListener(dialogueBoxLeaveListener);
+                                }
+                            }
+                        };
+                        // Add listener to stage.
+                        stage.addListener(dialogueBoxLeaveListener);
+                        logger.info("BUTTON DISPLAY: Added listener to stage to monitor DialogueBox visibility");
+                    }
                 }
             }
         };
