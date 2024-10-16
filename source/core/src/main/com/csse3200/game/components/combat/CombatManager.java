@@ -19,6 +19,7 @@ import com.csse3200.game.overlays.CombatAnimationDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -223,27 +224,62 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Randomly selects an enemy move from ATTACK, GUARD, SLEEP, or SPECIAL.
+     * Selects an enemy move based on stats and randomisation.
      *
      * @return the selected action for the enemy.
      */
     private Action selectEnemyMove() {
-        Action action;
+        // Initialise moves with default probabilities
+        HashMap<Action, Double> actionProbabilities = new HashMap<>();
+        actionProbabilities.put(Action.ATTACK, 0.3);
+        actionProbabilities.put(Action.GUARD, 0.2);
+        actionProbabilities.put(Action.SLEEP, 0.1);
 
-        if (enemyStats.getHunger() < 25) {
-            return Action.SLEEP;
+        // Add special move if available, if the player does not have an active status effect, and if the player did not use an item
+        if (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect() && playerAction != Action.ITEM) {
+            actionProbabilities.put(Action.SPECIAL, 0.2); // Default probability
         }
 
-        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
-                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
-        action = switch (rand) {
-            case 0 -> Action.ATTACK;
-            case 1 -> Action.GUARD;
-            case 2 -> Action.SLEEP;
-            case 3 -> Action.SPECIAL;
-            default -> null;
-        };
-        return action;
+        // Don't sleep if both health and hunger are maxed out
+        if (enemyStats.getHunger() == enemyStats.getMaxHunger() && enemyStats.getHealth() == enemyStats.getMaxHealth()) {
+            actionProbabilities.remove(Action.SLEEP);
+        }
+
+        // Adjust probabilities based on stats:
+        // Higher chance of sleeping or guarding when health is low
+        if (enemyStats.getHealth() < enemyStats.getMaxHealth() * 0.3 ||
+                enemyStats.getHunger() < enemyStats.getMaxHunger() * 0.3) {
+            actionProbabilities.put(Action.GUARD, 0.4);
+            if (actionProbabilities.containsKey(Action.SLEEP)) {
+                actionProbabilities.put(Action.SLEEP, 0.6);
+            }
+        }
+        // Higher chance to attack when player health is low
+        if (playerStats.getHealth() < playerStats.getMaxHealth() * 0.3) {
+            actionProbabilities.put(Action.ATTACK, 0.7);
+        }
+
+        // Normalize probabilities to sum up to 1
+        double totalProbability = actionProbabilities.values().stream().mapToDouble(Double::doubleValue).sum();
+        HashMap<Action, Double> normalizedProbabilities = new HashMap<>();
+        for (Action action : actionProbabilities.keySet()) {
+            normalizedProbabilities.put(action, actionProbabilities.get(action) / totalProbability);
+        }
+
+        // Select an action based on weighted probabilities
+        double rand = MathUtils.random();
+        double cumulativeProbability = 0.0;
+        for (Action action : normalizedProbabilities.keySet()) {
+            cumulativeProbability += normalizedProbabilities.get(action);
+            if (rand <= cumulativeProbability) {
+                return action;
+            }
+        }
+
+        // Fallback to random action if no choice was made
+        List<Action> availableActions = new ArrayList<>(normalizedProbabilities.keySet());
+        int randomIndex = (int) (Math.random() * availableActions.size());
+        return availableActions.get(randomIndex);
     }
 
     /**
