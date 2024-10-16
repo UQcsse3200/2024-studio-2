@@ -120,9 +120,7 @@ public class PlayerFactory {
     public static Entity createCombatPlayer(String imagePath) {
         Entity combatPlayer = createCombatPlayerStatic();
 
-        combatPlayer
-                .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, true, false, 1));
+        combatPlayer.addComponent(new TextureRenderComponent(imagePath));
 
         combatPlayer.scaleHeight(90.0f);
 
