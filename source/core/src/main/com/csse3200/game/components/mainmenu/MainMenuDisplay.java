@@ -28,6 +28,7 @@ import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -384,11 +385,19 @@ public class MainMenuDisplay extends UIComponent {
         // Add owl
         this.addOwl();
 
+        Table factTable = new Table();
+        factTable.setBackground(new TextureRegionDrawable(
+                new TextureRegion(new Texture("images/mainmenu/ChatBox.png"))));
+        factTable.setVisible(false);
+        factTable.setSize(200, 200);
+        factTable.setPosition(owlAniImage.getX() * 0.9f, owlAniImage.getY() * 0.6f); // Position it near the owl
+
         // Create label for displaying facts
-        factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
-        factLabel.setPosition(owlAniImage.getX() * 0.8f, owlAniImage.getY()); // Position it near the owl
-        factLabel.setFontScale(1f);
-        stage.addActor(factLabel);
+        factLabel = new Label("", skin, "default"); // Set fact label style
+        factLabel.setWrap(true);
+
+        factTable.add(factLabel).size(180, 180).padLeft(20).padTop(10).center();
+        stage.addActor(factTable);
 
         // Add click listener for the owl
         owlAniImage.addListener(new ClickListener() {
@@ -397,8 +406,9 @@ public class MainMenuDisplay extends UIComponent {
                 AudioManager.playSound("sounds/owlhoot1.mp3");
                 //owlSound.play(); // Play owl sound
                 String randomFact = owlFacts[MathUtils.random(0, owlFacts.length - 1)]; // Get random fact
+                factTable.setVisible(true);
                 factLabel.setText(randomFact); // Set fact text
-                factLabel.addAction(Actions.sequence(
+                factTable.addAction(Actions.sequence(
                         Actions.alpha(1), // Ensure it's visible
                         Actions.delay(3), // Keep it visible for 3 seconds
                         Actions.alpha(0, 1) // Fade out after
