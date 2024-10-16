@@ -14,7 +14,6 @@ import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.npc.*;
 import com.csse3200.game.components.tasks.*;
-import com.csse3200.game.components.npc.PigeonAnimationController;
 import com.csse3200.game.components.npc.BigsawfishAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.Entity.EnemyType;
@@ -257,14 +256,14 @@ public class EnemyFactory {
 
         AnimationRenderComponent animator = new AnimationRenderComponent(pigeonAtlas);
 
-        animator.addAnimation(FLOAT, 0.06f, Animation.PlayMode.LOOP);
-        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.06f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 1.0f, Animation.PlayMode.NORMAL);
         
-        animator.startAnimation(SPAWN);
+        animator.startAnimation(EnemyAnimationController.WAIT);
 
         pigeon
                 .addComponent(animator)
-                .addComponent(new PigeonAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
         pigeon.setScale(0.842f,0.55f);
 

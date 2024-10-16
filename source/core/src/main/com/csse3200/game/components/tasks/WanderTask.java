@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.ai.tasks.Task;
-import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
@@ -130,9 +129,8 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     
     private void startWaiting() {
         logger.debug("Starting waiting");
-        if (owner.getEntity().getComponent(FrogAnimationController.class) != null) {
-            owner.getEntity().getEvents().trigger("wait"); //plays still animation
-        }
+        owner.getEntity().getEvents().trigger("wait"); //plays still animation
+        
         waitTask = new WaitTask(waitTime);
         waitTask.create(owner);
         swapTask(waitTask);

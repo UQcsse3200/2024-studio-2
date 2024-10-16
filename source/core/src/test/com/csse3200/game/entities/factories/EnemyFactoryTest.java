@@ -278,7 +278,7 @@ class EnemyFactoryTest {
     void TestFrogHasComponents() {
         assertNotNull(frog.getComponent(PhysicsComponent.class));
         assertNotNull(frog.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(frog.getComponent(FrogAnimationController.class));
+        assertNotNull(frog.getComponent(EnemyAnimationController.class));
         assertNotNull(frog.getComponent(CombatStatsComponent.class));
         assertNotNull(frog.getComponent(HitboxComponent.class));
         assertNotNull(frog.getComponent(ColliderComponent.class));
