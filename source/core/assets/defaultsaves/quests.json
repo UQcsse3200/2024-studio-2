@@ -184,7 +184,7 @@
 			isActive: false
 			taskCompletionTriggers: null,
 			followQuests: [
-				"Play Snake Minigame"
+				"Play Snake"
 			]
 		}
 		{
@@ -405,7 +405,7 @@
 						]
 					]
 				}
-			],
+			]
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false
@@ -508,7 +508,16 @@
 						]
 					]
 				}
-			]
+
+				{
+					npcName: Magpie
+					dialogue: [
+						["I LOVE GOLD!!
+							"/mbHelp me collect all the coins"]
+					]
+				}
+			],
+
 			currentTaskIndex: 0
 			isFailed: false
 			isActive: false

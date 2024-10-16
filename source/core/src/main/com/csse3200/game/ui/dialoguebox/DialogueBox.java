@@ -521,6 +521,14 @@ public class DialogueBox {
     }
 
     /**
+     * Gets the option buttons.
+     * @return the array of option buttons.
+     */
+    public TextButton[] getOptionButtons() {
+        return optionButtons;
+    }
+
+    /**
      * Checks if the current text on the label contains either of the following flags at the
      * beginning of the string. This then shows the playButton and assigns the corresponding
      * mini-game to be played.
