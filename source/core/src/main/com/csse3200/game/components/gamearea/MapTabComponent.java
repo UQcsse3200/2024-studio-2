@@ -149,7 +149,7 @@ public class MapTabComponent extends Component {
 
         // Position the map so that it is below the top bar and to the left of the legend, centered horizontally
         float mapX = (availableWidth - mapWidth) / 2;
-        float mapY = TOP_BAR_HEIGHT;
+        float mapY = 0;
 
         // Draw the map texture
         batch.draw(mapTexture, mapX, mapY, mapWidth, mapHeight);

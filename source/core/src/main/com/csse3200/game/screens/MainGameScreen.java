@@ -175,8 +175,6 @@ public class MainGameScreen extends PausableScreen {
 
   }
 
-
-  
   /**
    * Resizes the renderer to fit dimensions.
    * @param width  width of the screen.
