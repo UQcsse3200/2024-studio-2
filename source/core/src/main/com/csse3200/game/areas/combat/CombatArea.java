@@ -1,8 +1,10 @@
 package com.csse3200.game.areas.combat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.services.AudioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +15,6 @@ import com.csse3200.game.areas.terrain.CombatTerrainFactory;
 import com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType;
 import com.csse3200.game.components.animal.AnimalRouletteActions1;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.entities.factories.BossFactory;
 import com.csse3200.game.entities.factories.CombatAnimalFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.services.ResourceService;
@@ -27,7 +28,7 @@ public class CombatArea extends GameArea {
 
     private Entity player;
     private Entity playerDisplay;
-    private GridPoint2 playerSpawn = new GridPoint2(290,  335); // 9, 14...384, 256
+    private GridPoint2 playerSpawn = new GridPoint2(290,  335); // 9, 14...384, 256 // 290, 335
 
     private CombatTerrainFactory combatTerrainFactory;
     private static final GridPoint2 MAP_SIZE = new GridPoint2(1030, 590);
@@ -36,6 +37,9 @@ public class CombatArea extends GameArea {
     private Entity enemyDisplay;
 
     public enum CombatAnimation { IDLE, MOVE }
+    public enum KINGDOM {LAND, AIR, WATER }
+
+    public static KINGDOM kingdomType;
 
     /**
      * Initialise this ForestGameArea to use the provided CombatTerrainFactory and the enemy which player
@@ -58,25 +62,25 @@ public class CombatArea extends GameArea {
         loadAssets();
         displayUI();
         spawnTerrain();
-        spawnPlayer();
         // get the enemy type player collided into for combat and spawn that
         switch (enemy.getEnemyType()) {
-            case MONKEY -> spawnMonkey();
-            case FROG -> spawnFrog();
-            case CHICKEN -> spawnChicken();
-            case BEAR -> spawnBear();
-            case JOEY -> spawnJoey();
-            case KANGAROO -> spawnKangaBoss();
-            case WATER_BOSS -> spawnWaterBoss();
-            case AIR_BOSS -> spawnAirBoss();
-            case BEE -> spawnBee();
-            case PIGEON -> spawnPigeon();
-            case EEL -> spawnEel();
-            case OCTOPUS -> spawnOctopus();
-            case BIGSAWFISH -> spawnBigSawfish();
-            case MACAW -> spawnMacaw();
-            case null, default -> spawnCombatEnemy(); // Combat Enemy
+            case MONKEY -> {spawnMonkey(); kingdomType = KINGDOM.LAND;}
+            case FROG -> {spawnFrog(); kingdomType = KINGDOM.WATER;}
+            case CHICKEN -> {spawnChicken(); kingdomType = KINGDOM.LAND;}
+            case BEAR -> {spawnBear(); kingdomType = KINGDOM.LAND;}
+            case JOEY -> {spawnJoey(); kingdomType = KINGDOM.LAND;}
+            case KANGAROO -> {spawnKangaBoss(); kingdomType = KINGDOM.LAND;}
+            case WATER_BOSS -> {spawnWaterBoss(); kingdomType = KINGDOM.WATER;}
+            case AIR_BOSS -> {spawnAirBoss(); kingdomType = KINGDOM.AIR;}
+            case BEE -> {spawnBee(); kingdomType = KINGDOM.AIR;}
+            case PIGEON -> {spawnPigeon(); kingdomType = KINGDOM.AIR;}
+            case EEL -> {spawnEel(); kingdomType = KINGDOM.WATER;}
+            case OCTOPUS -> {spawnOctopus(); kingdomType = KINGDOM.WATER;}
+            case BIGSAWFISH -> {spawnBigSawfish(); kingdomType = KINGDOM.WATER;}
+            case MACAW -> {spawnMacaw(); kingdomType = KINGDOM.AIR;}
+            // case null, default -> spawnCombatEnemy(); // Combat Enemy
         }
+        spawnPlayer();
         playMusic();
     }
 
@@ -90,7 +94,13 @@ public class CombatArea extends GameArea {
      * combat using combat terrain factory
      */
     public void spawnTerrain() {
-        terrain = combatTerrainFactory.createBackgroundTerrain2(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
+        if(kingdomType == KINGDOM.LAND){
+          terrain = combatTerrainFactory.createBackgroundTerrainLand(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
+        } else if (kingdomType == KINGDOM.AIR) {
+           terrain = combatTerrainFactory.createBackgroundTerrainAir(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
+        } else { // water
+           terrain = combatTerrainFactory.createBackgroundTerrainWater(TerrainType.FOREST_DEMO, playerSpawn, MAP_SIZE);
+        }
         Entity terrainEntity = new Entity();
         spawnEntityAt((terrainEntity.addComponent(terrain)), new GridPoint2(-10, 0), true, true);
     }
@@ -111,12 +121,36 @@ public class CombatArea extends GameArea {
         String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         if (imagePath.equals("images/croc.png")){
-            playerSpawn = new GridPoint2(332, 335);
+            if (kingdomType == KINGDOM.WATER) {
+                playerSpawn = new GridPoint2(330, 337);
+            } else if (kingdomType == KINGDOM.AIR) {
+                playerSpawn = new GridPoint2(370, 240);
+                newPlayer.scaleHeight(130f);
+            } else {
+                playerSpawn = new GridPoint2(332, 210);
+                newPlayer.scaleHeight(150f);
+            }
+            // newPlayer.scaleHeight(60f);
         } else if (imagePath.equals("images/dog.png")){
-            playerSpawn = new GridPoint2(337, 330);
+            if(kingdomType == KINGDOM.WATER) {
+                playerSpawn = new GridPoint2(360, 330);
+            } else if  (kingdomType == KINGDOM.AIR) {
+                playerSpawn = new GridPoint2(337, 215);
+            } else {
+                playerSpawn = new GridPoint2(337, 190);
+            }
         } else { //animal is bird
-            playerSpawn = new GridPoint2(350, 335);
-            newPlayer.scaleHeight(150);
+            if(kingdomType == KINGDOM.WATER) {
+                // newPlayer.setScale(5f, 5f); // 2.5f, 2.5f
+                playerSpawn = new GridPoint2(380, 340);
+                newPlayer.scaleHeight(180f);
+            } else if (kingdomType == KINGDOM.AIR) {
+                playerSpawn = new GridPoint2(337, 220);
+                newPlayer.scaleHeight(160);
+            } else {
+                playerSpawn = new GridPoint2(350, 200);
+                newPlayer.scaleHeight(200);
+            }
         }
         spawnEntityAt(newPlayer, playerSpawn, true, true);
     }
@@ -134,7 +168,11 @@ public class CombatArea extends GameArea {
         String iP = AnimalRouletteActions1.getSelectedAnimalImagePath();
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
-        nP.setPosition(520, 250);
+        if (kingdomType == KINGDOM.WATER) {
+            nP.setPosition(520, 250); // water background
+        } else {
+            nP.setPosition(520, 250);
+        }
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
@@ -146,21 +184,21 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnKangaBoss() {
         Entity newEnemy = CombatAnimalFactory.createKangaBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 230), true, true);
         this.enemyDisplay = newEnemy;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnWaterBoss() {
         Entity newEnemy = CombatAnimalFactory.createWaterBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 390), true, true);
         this.enemyDisplay = newEnemy;
     }
 
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnAirBoss() {
         Entity newEnemy = CombatAnimalFactory.createAirBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 346), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 330), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -168,7 +206,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnChicken() {
         Entity newEnemy = CombatAnimalFactory.createChickenCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 328), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(760, 190), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -177,7 +215,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnFrog() {
         Entity newEnemy = CombatAnimalFactory.createFrogCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 311), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 320), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -186,7 +224,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnMonkey() {
         Entity newEnemy = CombatAnimalFactory.createMonkeyCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(750, 190), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -195,7 +233,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnBear() {
         Entity newEnemy = CombatAnimalFactory.createBearCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(750, 185), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -204,7 +242,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnMacaw() {
         Entity newEnemy = CombatAnimalFactory.createMacawCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 237), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -213,7 +251,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnBee() {
         Entity newEnemy = CombatAnimalFactory.createBeeCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 217), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -231,7 +269,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnPigeon() {
         Entity newEnemy = CombatAnimalFactory.createPigeonCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 217), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -240,7 +278,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnEel() {
         Entity newEnemy = CombatAnimalFactory.createEelCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(780, 337), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -258,7 +296,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnJoey() {
         Entity newEnemy = CombatAnimalFactory.createJoeyCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(796, 331), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(796, 180), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -292,25 +330,28 @@ public class CombatArea extends GameArea {
         }
     }
 
-    /** Play the music for combat
-     *
+    /**
+     * Play the music for combat
      */
     public void playMusic() {
-        Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
-                Music.class);
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        music.play();
+        AudioManager.stopMusic();
+        if (this.enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+            AudioManager.playMusic("sounds/combat-land-boss.mp3", true);
+        } else if (this.enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            AudioManager.playMusic("sounds/combat-water-boss.mp3", true);
+        } else if (this.enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            AudioManager.playMusic("sounds/combat-air-boss.mp3", true);
+        } else {
+            AudioManager.playMusic(CombatAreaConfig.COMBATBACKGROUND_MUSIC, true);
+        }
     }
 
     /** Pause the music for combat. Will be finalised and used when
      * combat pause is implemented
      */
     public void pauseMusic() {
-        Music music =
-                ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC, Music.class);
-        music.pause();
+        // Stop the music using AudioManager
+        AudioManager.stopMusic();
     }
 
     private void loadAssets() {
@@ -321,6 +362,8 @@ public class CombatArea extends GameArea {
         resourceService.loadSounds(CombatAreaConfig.forestSounds);
         resourceService.loadMusic(CombatAreaConfig.forestMusic);
         resourceService.loadSounds(CombatAreaConfig.questSounds);
+        resourceService.loadSounds(CombatAreaConfig.combatSounds);
+        resourceService.loadMusic(CombatAreaConfig.combatBackgroundMusic);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
@@ -336,12 +379,14 @@ public class CombatArea extends GameArea {
         resourceService.unloadAssets(CombatAreaConfig.forestSounds);
         resourceService.unloadAssets(CombatAreaConfig.forestMusic);
         resourceService.unloadAssets(CombatAreaConfig.questSounds);
+        resourceService.unloadAssets(CombatAreaConfig.combatSounds);
+        resourceService.unloadAssets(CombatAreaConfig.combatBackgroundMusic);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(CombatAreaConfig.BACKGROUND_MUSIC,
+        ServiceLocator.getResourceService().getAsset(CombatAreaConfig.COMBATBACKGROUND_MUSIC,
                 Music.class).stop();
         this.unloadAssets();
     }

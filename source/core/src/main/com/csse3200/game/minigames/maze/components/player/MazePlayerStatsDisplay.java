@@ -42,13 +42,14 @@ public class MazePlayerStatsDisplay extends UIComponent {
         table.padTop(45f).padLeft(5f);
 
         // Heart image
-        float heartSideLength = 30f;
+        float heartSideLength = 20f;
         heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/heart.png", Texture.class));
 
         // Health text
         int health = entity.getComponent(MazeCombatStatsComponent.class).getHealth();
         CharSequence healthText = String.format("Health: %d", health);
         healthLabel = new Label(healthText, skin, "large-white");
+        healthLabel.setFontScale(0.7f);
 
         table.add(heartImage).size(heartSideLength).pad(5);
         table.add(healthLabel);

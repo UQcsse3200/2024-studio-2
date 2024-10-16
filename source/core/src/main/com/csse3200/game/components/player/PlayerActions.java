@@ -232,15 +232,7 @@ public class PlayerActions extends Component {
   public void startCombat(Entity enemy) {
     // Stop player movement
     stopWalking();
-    // Check if the enemy is a boss type
-    if (enemy.getEnemyType() == Entity.EnemyType.KANGAROO ||
-            enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS ||
-            enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
-      // Add a boss cutscene screen for boss encounters
-      game.addBossCutsceneScreen(player, enemy);
-    } else {
-      // Add a standard enemy cutscene screen for regular encounters
-      game.addEnemyCutsceneScreen(player, enemy);
-    }
+    // Goes into the pre-combat cutscene
+    game.addPreCombatCutsceneScreen(player, enemy);
   }
 }

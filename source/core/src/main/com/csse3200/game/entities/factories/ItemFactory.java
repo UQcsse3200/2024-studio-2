@@ -58,10 +58,13 @@ public class ItemFactory {
         return createItem(target, new DefensePotion(1));
     }
 
-    public static Entity createSpeedPotion(Entity target) {
 
-        return createItem(target, new SpeedPotion(1));
-    }
+    /**
+     * Creates a speed potion that interacts with the specified target
+     * @param target the entity the speed potion will interact with
+     * @return the created health potion entity
+     */
+    public static Entity createSpeedPotion(Entity target) { return createItem(target, new SpeedPotion(1));}
 
     /**
      * Creates an attack potion entity that interacts with the specified target.
@@ -101,6 +104,28 @@ public class ItemFactory {
 
     public static Entity createMeat(Entity target) {
         return createItem(target, new Foods.Meat(1));
+    }
+
+    // Ocean food
+    public static Entity createShrimp(Entity target) {
+        return createItem(target, new Foods.Shrimp(1));
+    }
+
+    public static Entity createFriedFish(Entity target) {
+        return createItem(target, new Foods.FriedFish(1));
+    }
+
+    // Sky Food
+    public static Entity createCloudCupcakes(Entity target) {
+        return createItem(target, new Foods.CloudCupcake(1));
+    }
+
+    public static Entity createCloudCookie(Entity target) {
+        return createItem(target, new Foods.CloudCookie(1));
+    }
+
+    public static Entity createCottonCLoud(Entity target) {
+        return createItem(target, new Foods.CottonCloud(1));
     }
     
     private ItemFactory() {
