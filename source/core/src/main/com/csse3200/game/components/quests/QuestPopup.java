@@ -1,6 +1,5 @@
 package com.csse3200.game.components.quests;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.csse3200.game.ui.UIComponent;
