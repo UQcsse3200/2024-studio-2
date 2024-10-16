@@ -132,42 +132,42 @@ combat_idle
 combat_move
   rotate: false
   xy: 2, 12
-  size: 31, 25
-  orig: 31, 25
+  size: 35, 25
+  orig: 35, 25
   offset: 0, 0
   index: 0
 combat_move
   rotate: false
   xy: 50, 12
-  size: 31, 25
-  orig: 31, 25
+  size: 35, 25
+  orig: 35, 25
   offset: 0, 0
   index: 1
 combat_move
   rotate: false
   xy: 99, 12
-  size: 31, 25
-  orig: 31, 25
+  size: 35, 25
+  orig: 35, 25
   offset: 0, 0
   index: 2
 combat_move
   rotate: false
-  xy: 157, 12
-  size: 31, 25
-  orig: 31, 25
+  xy: 150, 12
+  size: 35, 30
+  orig: 35, 30
   offset: 0, 0
   index: 3
 combat_move
   rotate: false
   xy: 206, 12
-  size: 31, 25
-  orig: 31, 25
+  size: 35, 25
+  orig: 35, 25
   offset: 0, 0
   index: 4
 combat_move
   rotate: false
-  xy: 149, 12
-  size: 31, 25
-  orig: 31, 25
+  xy: 248, 12
+  size: 35, 25
+  orig: 35, 25
   offset: 0, 0
   index: 5
