@@ -6,12 +6,15 @@ import com.csse3200.game.files.FileLoader;
 public class OceanGameAreaConfig {public SoundsConfig sounds;
     public ForestSpawnConfig spawns;
     public TexturesConfig textures;
+    public TexturesConfig spawnsUnlocked;
 
     public OceanGameAreaConfig() {
         textures = FileLoader.readClass(TexturesConfig.class,
                 "configs/OceanGameAreaConfigs/textures.json");
         spawns = FileLoader.readClass(ForestSpawnConfig.class,
                 "configs/OceanGameAreaConfigs/entitySpawn.json");
+        spawnsUnlocked = FileLoader.readClass(TexturesConfig.class,
+                "configs/OceanGameAreaConfigs/texturesLocked.json");
         sounds = FileLoader.readClass(SoundsConfig.class,
                 "configs/OceanGameAreaConfigs/sounds.json");
     }

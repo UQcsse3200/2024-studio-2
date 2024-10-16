@@ -290,8 +290,7 @@ public class CombatButtonDisplay extends UIComponent {
         if (winStatus) {
             endText = new String[][]{{"You tamed the wild animal. Say hi to your new friend!"}};
         } else {
-            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
-                    "before battling again."}};
+            endText = new String[][]{{"You lost. Try leveling up, and try again."}};
         }
         ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }
