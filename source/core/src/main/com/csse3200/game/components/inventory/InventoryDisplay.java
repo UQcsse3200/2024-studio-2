@@ -48,11 +48,16 @@ public abstract class InventoryDisplay extends UIComponent {
     private final ImageButton[] slots; // Each slot corresponding to a position in the inventory
 
     // Skins (created by @PratulW5):
-    private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
-    private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
+    Skin inventorySkin= new Skin(Gdx.files.internal("Inventory/InventorySkin/InventorySkin.json"));
+    //Textures (created by @PratulW5)
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
+
+    private final Texture descriptionbg= new Texture("Inventory/descp.png");
+    Label descriptionLabel = new Label("", inventorySkin);
+
     private final Texture alert = new Texture(Gdx.files.internal("Inventory/skinforalert.png"));
     Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(alert));
+
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
@@ -67,14 +72,12 @@ public abstract class InventoryDisplay extends UIComponent {
             String msg = String.format("numCols (%d) must be positive", numCols);
             throw new IllegalArgumentException(msg);
         }
-
         if (hotBarCapacity < 0) {
             String msg = String.format("hotBarCapacity (%d) must be positive", hotBarCapacity);
             throw new IllegalArgumentException(msg);
         }
         this.hotBarCapacity = hotBarCapacity;
         this.hasHotBar = displayHotBar;
-
         int capacity = inventory.getCapacity() - hotBarCapacity;
         if (capacity % numCols != 0) {
             String msg = String.format("numCols (%d) must divide capacity (%d)", numCols, capacity);
@@ -83,11 +86,12 @@ public abstract class InventoryDisplay extends UIComponent {
         this.inventory = inventory;
         this.numCols = numCols;
         this.numRows = capacity / numCols;
+
         this.game = game;
+
 
         this.slots = new ImageButton[inventory.getCapacity()];
     }
-
     /**
      * Checks if the current screen is an instance of MainGameScreen.
      *
@@ -105,13 +109,10 @@ public abstract class InventoryDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-
         dragAndDrop = new DragAndDrop();
         initDisplays();
-
         if (hasHotBar) {generateHotBar();}
         generateInventory();
-
         entity.getEvents().addListener(toggleMsg(), this::toggleDisplay);
         entity.getEvents().addListener("addItem", this::addItem);
     }
@@ -120,17 +121,14 @@ public abstract class InventoryDisplay extends UIComponent {
         for (int i = 0; i < inventory.getCapacity(); i++) {
             createSlot(i);
         }
-
         // Initialise the inventory window (pop-up)
         mainInventoryDisplay = new Window("Inventory", inventorySkin);
         Label.LabelStyle titleStyle = new Label.LabelStyle(mainInventoryDisplay.getTitleLabel().getStyle());
         titleStyle.fontColor = Color.BLACK;
         mainInventoryDisplay.getTitleLabel().setAlignment(Align.center);
-        mainInventoryDisplay.getTitleTable().padTop(150).padBottom(10);
-
+        mainInventoryDisplay.getTitleTable().padTop(140).padBottom(20);
         // Create the table for inventory slots
         mainInventoryDisplay.getTitleLabel().setStyle(titleStyle);
-
         stage.addActor(mainInventoryDisplay);
         mainInventoryDisplay.setVisible(false); // Not displayed to start with
     }
@@ -237,6 +235,7 @@ public abstract class InventoryDisplay extends UIComponent {
             @Override
             public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
                 int sourceIndex = (int) payload.getObject();
+
                 inventory.swap(sourceIndex, targetIndex);
                 createSlot(sourceIndex);
                 createSlot(targetIndex);
@@ -260,9 +259,8 @@ public abstract class InventoryDisplay extends UIComponent {
             }
             table.row(); // Move to the next row in the table
         }
-
-        // Add sort button:
-        TextButton sortButton = new TextButton("Sort", skin);
+        // Add sort button
+        TextButton sortButton = new TextButton("Sort", inventorySkin);
         sortButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -270,6 +268,25 @@ public abstract class InventoryDisplay extends UIComponent {
                 regenerateDisplay();
             }
         });
+
+        table.pack();
+        ScrollPane scrollPane = new ScrollPane(table, skin);// Create the scroll pane with the table
+        Table description= new Table();// For description
+        description.setBackground(new TextureRegionDrawable(descriptionbg));
+        descriptionLabel.setWrap(true);
+        descriptionLabel.setText("");
+        descriptionLabel.setAlignment(Align.topLeft);
+        description.setSize(400, 461);
+        description.add(descriptionLabel).pad(10).top().left().width(400).padLeft(60);
+        description.top().left();
+        mainInventoryDisplay.add(scrollPane).width(450).height(450).align(Align.left).padTop(60).padLeft(45).padRight(-22);
+        mainInventoryDisplay.add(description).height(461).align(Align.top | Align.right).padTop(68).padRight(10).padLeft(-23); // Align to top-right
+        mainInventoryDisplay.row();// Create a button table and add the buttons
+        Table buttonTable = new Table();
+        buttonTable.add(sortButton).size(100, 50).padLeft(700);
+        mainInventoryDisplay.add(buttonTable).colspan(2).bottom().padTop(5);
+        scrollPane.setScrollingDisabled(true, false);
+
         table.row();
         table.add(sortButton);
         if (inventory.isFull()) {
@@ -277,9 +294,8 @@ public abstract class InventoryDisplay extends UIComponent {
         }
         // Add the table to the window
         mainInventoryDisplay.add(table).expand().fill();
-        mainInventoryDisplay.pack();
 
-        // Set position in stage top-center
+        mainInventoryDisplay.pack();
         mainInventoryDisplay.setPosition(
                 (stage.getWidth() - mainInventoryDisplay.getWidth()) / 2 - 10,  // Center horizontally
                 (stage.getHeight() - mainInventoryDisplay.getHeight()) / 2 // Center vertically
@@ -295,6 +311,7 @@ public abstract class InventoryDisplay extends UIComponent {
         dialog.text("Inventory is full!").padTop(50).padLeft(50);
         dialog.button("OK", true);
 
+
         dialog.setBackground(backgroundDrawable);
         dialog.setSize(600,150);
         dialog.setPosition(
@@ -304,6 +321,7 @@ public abstract class InventoryDisplay extends UIComponent {
 
         stage.addActor(dialog);  // Show the dialog on the stage
     }
+
     /**
      * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
      */
@@ -332,8 +350,7 @@ public abstract class InventoryDisplay extends UIComponent {
     }
 
     private void createSlot(int index) {
-        slots[index] = new ImageButton(slotSkin);
-
+        slots[index] = new ImageButton(inventorySkin);
         AbstractItem item = inventory.getAt(index);
         if (item != null) {
             // Add event listeners and the image to the slot
@@ -366,10 +383,12 @@ public abstract class InventoryDisplay extends UIComponent {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //double calls when mouse held, to be fixed
                 enterSlot(item);
+                descriptionLabel.setText(item.getDescription());
             }
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 exitSlot(item);
+                descriptionLabel.setText("");
             }
         });
 
