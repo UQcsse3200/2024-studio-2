@@ -242,6 +242,7 @@ public class MainMenuDisplay extends UIComponent {
 
         achievementsBtn = createMenuButton("Achievements", () -> {
             logger.info("Achievements button clicked");
+            AudioManager.stopMusic();
             entity.getEvents().trigger("achievements");
         });
 
