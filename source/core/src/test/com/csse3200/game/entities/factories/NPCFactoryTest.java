@@ -662,7 +662,8 @@ class NPCFactoryTest {
     void TestMagpieHasCorrectBaseHint() {
         String[][] baseHint = configs.magpie.getBaseHint();
         assertNotNull(baseHint);
-        Assertions.assertArrayEquals(new String[][]{{"I LOVE GOLD!!"}}, baseHint);
+        Assertions.assertArrayEquals(new String[][]{{"I LOVE GOLD!!",
+                ",/mbHelp me collect all the coins"}}, baseHint);
     }
 
     /**
