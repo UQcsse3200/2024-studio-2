@@ -1,5 +1,7 @@
 package com.csse3200.game.entities.configs;
 
+import com.badlogic.gdx.utils.compression.lzma.Base;
+
 /**
  * Defines all NPC configs to be loaded by the NPC Factory.
  */
@@ -15,9 +17,19 @@ public class NPCConfigs {
   public BaseFriendlyEntityConfig friendlyChicken = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig friendlyFrog = new BaseFriendlyEntityConfig();
   public BaseFriendlyEntityConfig friendlyMonkey = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig friendlyBear = new BaseFriendlyEntityConfig();
+  
+  public BaseFriendlyEntityConfig friendlyOctopus = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig friendlyBee = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig friendlyPigeon = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig friendlyMacaw = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig friendlyEel = new BaseFriendlyEntityConfig();
+  public BaseFriendlyEntityConfig friendlyBigsawfish = new BaseFriendlyEntityConfig();
+  
   public BaseEnemyEntityConfig chicken = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig frog = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig monkey = new BaseEnemyEntityConfig();
+  public BaseEnemyEntityConfig octopus = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig kangarooBoss = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig joey = new BaseEnemyEntityConfig();
   public BaseEnemyEntityConfig bear = new BaseEnemyEntityConfig();

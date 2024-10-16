@@ -9,7 +9,7 @@ import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for the SleepMove class.
- * This test ensures that SleepMove restores health and stamina to the user when executed.
+ * This test ensures that SleepMove restores health and hunger to the user when executed.
  */
 class SleepMoveTest {
 
@@ -22,7 +22,7 @@ class SleepMoveTest {
      */
     @BeforeEach
     void setUp() {
-        // Create a SleepMove object with a name and stamina cost
+        // Create a SleepMove object with a name and hunger cost
         sleepMove = new SleepMove("Basic Sleep", 5);
 
         // Mock CombatStatsComponent for the attacker
@@ -30,20 +30,20 @@ class SleepMoveTest {
     }
 
     /**
-     * Tests that the execute() method restores stamina and health for the attacker.
-     * Ensures that the correct percentage of health and stamina are restored.
+     * Tests that the execute() method restores hunger and health for the attacker.
+     * Ensures that the correct percentage of health and hunger are restored.
      */
     @Test
-    void testExecuteRestoresStaminaAndHealth() {
-        // Mock the max stamina and health values for the attacker
-        when(attackerStats.getMaxStamina()).thenReturn(100);
+    void testExecuteRestoresHungerAndHealth() {
+        // Mock the max hunger and health values for the attacker
+        when(attackerStats.getMaxHunger()).thenReturn(100);
         when(attackerStats.getMaxHealth()).thenReturn(200);
 
         // Execute the SleepMove
         sleepMove.execute(attackerStats);
 
-        // Verify that 25% of stamina and 10% of health are restored
-        verify(attackerStats).addStamina(25);
+        // Verify that 25% of hunger and 10% of health are restored
+        verify(attackerStats).addHunger(25);
         verify(attackerStats).addHealth(20);
     }
 
@@ -68,15 +68,15 @@ class SleepMoveTest {
         // Mock target stats
         CombatStatsComponent targetStats = mock(CombatStatsComponent.class);
 
-        // Mock the max stamina and health values for the attacker
-        when(attackerStats.getMaxStamina()).thenReturn(100);
+        // Mock the max hunger and health values for the attacker
+        when(attackerStats.getMaxHunger()).thenReturn(100);
         when(attackerStats.getMaxHealth()).thenReturn(200);
 
         // Execute the SleepMove with both attacker and target stats
         sleepMove.execute(attackerStats, targetStats);
 
-        // Verify that only the attacker's stamina and health are restored
-        verify(attackerStats).addStamina(25);
+        // Verify that only the attacker's hunger and health are restored
+        verify(attackerStats).addHunger(25);
         verify(attackerStats).addHealth(20);
         verify(targetStats, never()).setHealth(anyInt());
     }
@@ -90,15 +90,15 @@ class SleepMoveTest {
         // Mock target stats
         CombatStatsComponent targetStats = mock(CombatStatsComponent.class);
 
-        // Mock the max stamina and health values for the attacker
-        when(attackerStats.getMaxStamina()).thenReturn(100);
+        // Mock the max hunger and health values for the attacker
+        when(attackerStats.getMaxHunger()).thenReturn(100);
         when(attackerStats.getMaxHealth()).thenReturn(200);
 
         // Execute the SleepMove with attacker, target, and guarding status
         sleepMove.execute(attackerStats, targetStats, true);
 
-        // Verify that only the attacker's stamina and health are restored
-        verify(attackerStats).addStamina(25);
+        // Verify that only the attacker's hunger and health are restored
+        verify(attackerStats).addHunger(25);
         verify(attackerStats).addHealth(20);
         verify(targetStats, never()).setHealth(anyInt());
     }
@@ -112,15 +112,15 @@ class SleepMoveTest {
         // Mock target stats
         CombatStatsComponent targetStats = mock(CombatStatsComponent.class);
 
-        // Mock the max stamina and health values for the attacker
-        when(attackerStats.getMaxStamina()).thenReturn(100);
+        // Mock the max hunger and health values for the attacker
+        when(attackerStats.getMaxHunger()).thenReturn(100);
         when(attackerStats.getMaxHealth()).thenReturn(200);
 
         // Execute the SleepMove with multiple hits (this parameter is ignored for SleepMove)
         sleepMove.execute(attackerStats, targetStats, false, 3);
 
-        // Verify that only the attacker's stamina and health are restored
-        verify(attackerStats).addStamina(25);
+        // Verify that only the attacker's hunger and health are restored
+        verify(attackerStats).addHunger(25);
         verify(attackerStats).addHealth(20);
         verify(targetStats, never()).setHealth(anyInt());
     }

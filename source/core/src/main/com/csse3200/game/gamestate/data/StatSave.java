@@ -3,7 +3,6 @@ package com.csse3200.game.gamestate.data;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.csse3200.game.components.quests.QuestBasic;
 import com.csse3200.game.components.stats.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

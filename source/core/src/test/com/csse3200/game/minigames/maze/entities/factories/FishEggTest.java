@@ -8,6 +8,7 @@ import com.csse3200.game.lighting.LightingEngine;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
+import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.physics.components.ColliderComponent;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
-public class FishEggTest {
+class FishEggTest {
 
     private Entity fishEgg;
     private static final String[] TEXTURE_MAZE = { "images/minigames/fishegg.png" };
@@ -34,7 +35,7 @@ public class FishEggTest {
     private static final String PARTICLE_EFFECT_IMAGES_DIR = "images/minigames";
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         LightingEngine mockLightingEngine = mock(LightingEngine.class);
         LightingService mockLightingService = mock(LightingService.class);
         when(mockLightingService.getLighting()).thenReturn(mockLightingEngine);
@@ -49,12 +50,14 @@ public class FishEggTest {
         resourceService.loadTextures(TEXTURE_MAZE);
         resourceService.loadParticleEffects(PARTICLE_EFFECTS, PARTICLE_EFFECT_IMAGES_DIR);
         resourceService.loadAll();
-        FishEgg.resetParticlePool();
+
+        ServiceLocator.registerParticleService(mock(ParticleService.class));
+
         fishEgg = MazeNPCFactory.createFishEgg();
     }
 
     @Test
-    public void testFishEggInstantiation() {
+    void testFishEggInstantiation() {
         assertNotNull(fishEgg);
 
         assertNotNull(fishEgg.getComponent(LightingComponent.class),
@@ -71,14 +74,14 @@ public class FishEggTest {
     }
 
     @Test
-    public void testFishEggScale() {
+    void testFishEggScale() {
         Vector2 scale = fishEgg.getScale();
         assertEquals(new Vector2(0.1f, 0.1f), scale, "Scale should be 0.1f");
 
     }
 
     @Test
-    public void testFishEggHitboxLayer() {
+    void testFishEggHitboxLayer() {
         // Check if the hitbox layer is set correctly
         HitboxComponent hitboxComponent = fishEgg.getComponent(HitboxComponent.class);
         assertNotNull(hitboxComponent);

@@ -81,4 +81,14 @@ public class AITaskComponent extends Component implements TaskRunner {
       desiredTask.start();
     }
   }
+
+  /**
+   * Returns the list of priority tasks.
+   *
+   * @return list of priority tasks
+   */
+  public List<PriorityTask> getTasks() {
+    return Collections.unmodifiableList(priorityTasks);
+  }
+
 }

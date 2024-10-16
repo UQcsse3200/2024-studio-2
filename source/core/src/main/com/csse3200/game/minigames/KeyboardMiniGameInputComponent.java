@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.csse3200.game.input.InputComponent;
 import com.csse3200.game.overlays.Overlay;
-import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Input handler for the snake mini-game.
@@ -47,12 +46,10 @@ public class KeyboardMiniGameInputComponent extends InputComponent {
         if(!this.enabled){
             return false;
         }
-        return switch (keycode) {
-            case Keys.BACKSPACE -> {
-                entity.getEvents().trigger("exit");
-                yield true;
-            }
-            default -> false;
-        };
+        if (keycode == Keys.BACKSPACE) {
+            entity.getEvents().trigger("exit");
+            return true;
+        }
+        return false;
     }
 }

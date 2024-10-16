@@ -11,8 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.ui.UIComponent;
 
-import java.util.Objects;
-
 public class NotifManager extends UIComponent {
 
     private static Texture notifNormalBackground;
@@ -35,12 +33,12 @@ public class NotifManager extends UIComponent {
         notifTable.setSize(600, 65);
         notifTable.setPosition(
                 (Gdx.graphics.getWidth()- notifTable.getWidth())/2 ,
-                Gdx.graphics.getHeight()/2 + 450);
+                Gdx.graphics.getHeight() / 2f + 450);
         notifTable.setVisible(false);
         notifTable.add(notifLabel).top().right().padTop(-5);
         return notifTable;
     }
-    public static void displayNotif(String contents, Boolean isSucceed) {
+    public static void displayNotif(String contents, boolean isSucceed) {
         if (isSucceed) {
             notifTable.setBackground(new TextureRegionDrawable(new TextureRegion(notifSuccessBackground)));
         } else {
@@ -50,7 +48,7 @@ public class NotifManager extends UIComponent {
         notifLabel.setText(contents);
         notifTable.addAction(Actions.moveTo(
                 (Gdx.graphics.getWidth()- notifTable.getWidth())/2,
-                Gdx.graphics.getHeight() / 2 + 300,
+                Gdx.graphics.getHeight() / 2f + 300,
                 dropDuration
         ));
         // Schedule the notification to disappear after 2 seconds
@@ -69,7 +67,7 @@ public class NotifManager extends UIComponent {
         notifLabel.setText(contents);
         notifTable.addAction(Actions.moveTo(
                 (Gdx.graphics.getWidth()- notifTable.getWidth())/2,
-                Gdx.graphics.getHeight() / 2 + 300,
+                Gdx.graphics.getHeight() / 2f + 300,
                 dropDuration
         ));
         // Schedule the notification to disappear after 2 seconds
@@ -85,17 +83,13 @@ public class NotifManager extends UIComponent {
         notifTable.setVisible(false);
         notifTable.addAction(Actions.moveTo(
                 (Gdx.graphics.getWidth()- notifTable.getWidth())/2,
-                Gdx.graphics.getHeight() / 2 + 450,
+                Gdx.graphics.getHeight() / 2f + 450,
                 0
         ));
-    }
-    @Override
-    public void update() {
-
     }
 
     @Override
     protected void draw(SpriteBatch batch) {
-
+        //needs to override because of abstract class, but this is never used.
     }
 }

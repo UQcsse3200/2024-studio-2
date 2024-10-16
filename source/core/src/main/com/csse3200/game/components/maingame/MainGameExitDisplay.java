@@ -2,11 +2,11 @@ package com.csse3200.game.components.maingame;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +48,11 @@ public class MainGameExitDisplay extends UIComponent {
                 });
 
         table.add(mainMenuBtn).padTop(10f).padRight(10f);
+
+        // Add the time label directly next to the exit button
+        table.row();
+        Label timeLabel = new Label("", skin); // Create a time label
+        table.add(timeLabel).padTop(5f).padRight(0f); // Adjust padding
 
         stage.addActor(table);
     }

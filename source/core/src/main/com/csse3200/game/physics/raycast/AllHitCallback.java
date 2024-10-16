@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
  */
 public class AllHitCallback implements RayCastCallback {
   private final Array<RaycastHit> raycastHits;
-  public short layerMask = ~0;
+  private short layerMask = ~0;
 
   public AllHitCallback() {
     this.raycastHits = new Array<>(false, 4);
@@ -27,12 +27,14 @@ public class AllHitCallback implements RayCastCallback {
   public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
     if ((fixture.getFilterData().categoryBits & layerMask) != 0) {
       RaycastHit hit = new RaycastHit();
-      hit.fixture = fixture;
-      hit.normal = normal;
-      hit.point = point;
+      hit.setFixture(fixture);
+      hit.setNormal(normal);
+      hit.setPoint(point);
       raycastHits.add(hit);
       return fraction;
     }
     return 1;
   }
+
+  public void setLayerMask(short layerMask) {this.layerMask = layerMask;}
 }

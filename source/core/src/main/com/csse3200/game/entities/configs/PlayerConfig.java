@@ -5,6 +5,6 @@ package com.csse3200.game.entities.configs;
  */
 public class PlayerConfig extends BaseFriendlyEntityConfig  {
     public boolean isPlayer() {
-        return isPlayer();
+        return isPlayer;
     }
 }

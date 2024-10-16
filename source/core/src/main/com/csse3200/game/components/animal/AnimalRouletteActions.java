@@ -3,15 +3,10 @@ package com.csse3200.game.components.animal;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.ui.PopUpDialogBox.PopUpHelper;
-import com.csse3200.game.components.animal.AnimalRouletteDisplay;
-import com.csse3200.game.screens.LoadingScreen;
-import com.csse3200.game.screens.StoryScreen;
-import com.csse3200.game.ui.AlertBox;
+import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 
 public class AnimalRouletteActions extends Component {

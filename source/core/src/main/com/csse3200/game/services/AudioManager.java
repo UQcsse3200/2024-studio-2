@@ -131,7 +131,7 @@ public class AudioManager {
     public static void setMusicVolume(float volume) {
         desiredMusicVolume = volume;  // Always save the desired value
         if (!isMuted) {
-            musicVolume = (float) scaleVolume(volume);
+            musicVolume = scaleVolume(volume);
             if (currentMusic != null) {
                 currentMusic.setVolume(musicVolume);
             }
@@ -146,7 +146,7 @@ public class AudioManager {
     public static void setSoundVolume(float volume) {
         desiredSoundVolume = volume;  // Always save the desired value
         if (!isMuted) {
-            soundVolume = (float)scaleVolume(volume);
+            soundVolume = scaleVolume(volume);
             for (Map.Entry<Sound, Long> entry : soundInstances.entrySet()) {
                 entry.getKey().setVolume(entry.getValue(), soundVolume);
             }
@@ -176,4 +176,9 @@ public class AudioManager {
     public static float getDesiredSoundVolume() {
         return desiredSoundVolume;  // Return the desired volume even if muted
     }
+    
+    private AudioManager() {
+        throw new IllegalStateException("Instantiating static util class");
+    }
+    
 }

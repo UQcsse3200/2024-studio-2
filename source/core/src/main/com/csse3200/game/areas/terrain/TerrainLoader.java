@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 public class TerrainLoader {
     private static TerrainComponent terrainComponent;
     private static final Logger logger = LoggerFactory.getLogger(TerrainLoader.class);
-    public static GridPoint2 currentChunk;
+    private static GridPoint2 currentChunk;
 
     public static boolean movedChunk(Vector2 position) {
         GridPoint2 chunk = posToChunk(position);
@@ -37,7 +37,7 @@ public class TerrainLoader {
         return new GridPoint2((int) pos.x / TerrainFactory.CHUNK_SIZE,(int) pos.y / TerrainFactory.CHUNK_SIZE);
     }
 
-    public TerrainLoader() throws InstantiationException {
-        throw new InstantiationException("Cannot instantiate static util class TerrainLoader!");
+    private TerrainLoader() {
+        throw new IllegalArgumentException("Cannot instantiate static util class TerrainLoader!");
     }
 }

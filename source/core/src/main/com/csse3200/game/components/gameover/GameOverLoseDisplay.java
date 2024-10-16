@@ -160,7 +160,7 @@ public class GameOverLoseDisplay extends UIComponent {
                 }
                 updateSettingMenu();
                 updateToggleWindowButtonText(); // Update text after toggling
-                logger.info("Fullscreen toggled: " + !isFullscreen);
+                logger.info("Fullscreen toggled: {}", !isFullscreen);
                 sizeTable();
             }
         });
@@ -367,10 +367,10 @@ public class GameOverLoseDisplay extends UIComponent {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch = new SpriteBatch();
-        batch.begin();
-        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        SpriteBatch batchDupe = new SpriteBatch();
+        batchDupe.begin();
+        batchDupe.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batchDupe.end();
     }
 
     @Override

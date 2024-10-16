@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
-public class LightingServiceTest {
+class LightingServiceTest {
     @Test
     void shouldGetSetEngine() {
         LightingEngine engine = mock(LightingEngine.class);

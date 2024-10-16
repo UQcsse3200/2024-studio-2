@@ -8,7 +8,7 @@ import com.csse3200.game.entities.Entity;
  */
 public class ItemUsageContext {
     private final int numInputs;
-    public Entity player;
+    public final Entity player;
 
     /**
      * Find number of inputs of a context (used for testing)
@@ -21,6 +21,7 @@ public class ItemUsageContext {
      * Empty context (used for items which require no inputs).
      */
     public ItemUsageContext() {
+        this.player = null;
         this.numInputs = 0;
     }
 

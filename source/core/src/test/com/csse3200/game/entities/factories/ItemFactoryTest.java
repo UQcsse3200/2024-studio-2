@@ -1,5 +1,6 @@
 package com.csse3200.game.entities.factories;
 
+import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.physics.PhysicsService;
@@ -8,6 +9,7 @@ import com.csse3200.game.rendering.RenderService;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
-public class ItemFactoryTest {
+class ItemFactoryTest {
     private Entity apple;
     private Entity healthPotion;
 
@@ -64,5 +66,20 @@ public class ItemFactoryTest {
     @Test
     void TestHealthPotionEntity(){
         assert(healthPotion.getClass() == Entity.class);
+    }
+
+    @Test
+    void TestHealthPotionSpawnPos() {
+        Vector2 pos = new Vector2(0f, 0f);
+        healthPotion.setPosition(pos);
+        Assertions.assertEquals(pos, healthPotion.getPosition());
+    }
+
+    @Test
+    void TestAppleSpawnPos() {
+        Vector2 pos = new Vector2(0f, 0f);
+        apple.setPosition(pos);
+
+        Assertions.assertEquals(pos, apple.getPosition());
     }
 }

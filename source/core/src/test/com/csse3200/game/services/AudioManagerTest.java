@@ -1,19 +1,19 @@
 package com.csse3200.game.services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.csse3200.game.extensions.GameExtension;
-import com.csse3200.game.services.ResourceService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
+import org.mockito.ArgumentCaptor;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @ExtendWith(GameExtension.class)
 class AudioManagerTest {
@@ -24,7 +24,7 @@ class AudioManagerTest {
     void setUp() {
         // Mock the ResourceService to return mock Sound and Music assets
         resourceService = mock(ResourceService.class);
-        ServiceLocator.registerResourceService(resourceService);  // Assuming ServiceLocator is a singleton
+        ServiceLocator.registerResourceService(resourceService);  // ServiceLocator is a singleton
     }
 
     @Test
@@ -81,22 +81,6 @@ class AudioManagerTest {
 
         // Verify that the music was stopped
         verify(music).stop();
-    }
-
-    @Test
-    void shouldSetMusicVolume() {
-        // Mock music
-        Music music = mock(Music.class);
-        when(resourceService.getAsset("musicPath", Music.class)).thenReturn(music);
-
-        // Play music first
-        AudioManager.playMusic("musicPath", false);
-
-        // Set music volume
-        AudioManager.setMusicVolume(0.5f);  // Set volume to 50%
-
-        // Verify that the volume was scaled and set on the currently playing music
-        verify(music).setVolume(0.25f);  // Quadratic scaling: 0.5 * 0.5 = 0.25
     }
 
     @Test
@@ -183,4 +167,260 @@ class AudioManagerTest {
         assert AudioManager.getMusicVolume() - 0.49f <= epsilon; // Stays same after muted
         assert AudioManager.getSoundVolume() - 0.64f <= epsilon; // Stays same since music was empty
     }
+    @Test
+    void shouldHandleMissingSoundAsset() {
+        // No sound is returned for the given path
+        when(resourceService.getAsset("missingSoundPath", Sound.class)).thenReturn(null);
+
+        // Attempt to play missing sound
+        AudioManager.playSound("missingSoundPath");
+
+        // Verify that getAsset was called but no interaction beyond that
+        verify(resourceService).getAsset("missingSoundPath", Sound.class);
+        verifyNoMoreInteractions(resourceService);
+    }
+
+    @Test
+    void shouldHandleMissingMusicAsset() {
+        // No music is returned for the given path
+        when(resourceService.getAsset("missingMusicPath", Music.class)).thenReturn(null);
+
+        // Attempt to play missing music
+        AudioManager.playMusic("missingMusicPath", true);
+
+        // Verify that getAsset was called but no interaction beyond that
+        verify(resourceService).getAsset("missingMusicPath", Music.class);
+        verifyNoMoreInteractions(resourceService);
+    }
+    @Test
+    void shouldNotCrashOnStopMissingSound() {
+        // No sound for the given path, expect no crash
+        when(resourceService.getAsset("missingSoundPath", Sound.class)).thenReturn(null);
+
+        // Attempt to stop missing sound
+        AudioManager.stopSound("missingSoundPath");
+
+        // Verify that getAsset was called but no interaction beyond that
+        verify(resourceService).getAsset("missingSoundPath", Sound.class);
+        verifyNoMoreInteractions(resourceService);
+    }
+
+    @Test
+    void shouldNotCrashOnStopMissingMusic() {
+        // No music for the given path, expect no crash
+        when(resourceService.getAsset("missingMusicPath", Music.class)).thenReturn(null);
+
+        // Attempt to stop missing music
+        AudioManager.stopMusic();
+
+        // Nothing should be stopped, verify no interaction
+        verifyNoMoreInteractions(resourceService);
+    }
+    @Test
+    void shouldScaleMusicVolumeCorrectlyAtLowVolume() {
+        // Mock music
+        Music music = mock(Music.class);
+        when(resourceService.getAsset("musicPath", Music.class)).thenReturn(music);
+
+        // Play music
+        AudioManager.playMusic("musicPath", true);
+
+        // Set a low music volume (0.1 -> squared to 0.01)
+        AudioManager.setMusicVolume(0.1f);
+
+        // Use ArgumentCaptor to capture the volume
+        ArgumentCaptor<Float> volumeCaptor = ArgumentCaptor.forClass(Float.class);
+        verify(music, atLeastOnce()).setVolume(volumeCaptor.capture());
+
+        // Assert the volume with a small tolerance
+        Assertions.assertEquals(0.01f, volumeCaptor.getValue(), 0.0001f);
+    }
+
+
+    @Test
+    void shouldScaleSoundVolumeCorrectlyAtHighVolume() {
+        // Mock sound
+        Sound sound = mock(Sound.class);
+        when(resourceService.getAsset("soundPath", Sound.class)).thenReturn(sound);
+        when(sound.play(anyFloat())).thenReturn(1L);
+
+        // Simulate playing the sound
+        AudioManager.playSound("soundPath");
+
+        // Set a high sound volume (0.9 -> squared to 0.81)
+        AudioManager.setSoundVolume(0.9f);
+
+        // Use ArgumentCaptor to capture the volume
+        ArgumentCaptor<Float> volumeCaptor = ArgumentCaptor.forClass(Float.class);
+        verify(sound).setVolume(eq(1L), volumeCaptor.capture());
+
+        // Assert the volume with a small tolerance
+        Assertions.assertEquals(0.81f, volumeCaptor.getValue(), 0.0001f);  // Use a tolerance for floating-point values
+    }
+
+
+    @Test
+    void shouldHandleMaxVolumeScaling() {
+        // Mock music and sound
+        Music music = mock(Music.class);
+        Sound sound = mock(Sound.class);
+        when(resourceService.getAsset("musicPath", Music.class)).thenReturn(music);
+        when(resourceService.getAsset("soundPath", Sound.class)).thenReturn(sound);
+        when(sound.play(anyFloat())).thenReturn(1L);
+
+        // Play music and sound
+        AudioManager.playMusic("musicPath", true);
+        AudioManager.playSound("soundPath");
+
+        // Set volume to max (1.0)
+        AudioManager.setMusicVolume(1f);
+        AudioManager.setSoundVolume(1f);
+
+        // Verify that the volume is 1 after scaling
+        verify(music).setVolume(1f);
+        verify(sound).setVolume(eq(1L), eq(1f));
+    }
+
+    @Test
+    void shouldReturnCorrectDesiredVolumeWhenMuted() {
+        // Set music and sound volumes
+        AudioManager.setMusicVolume(0.7f);
+        AudioManager.setSoundVolume(0.8f);
+
+        // Mute audio
+        AudioManager.muteAudio();
+
+        // Ensure the desired volumes remain unchanged even when muted
+        assert AudioManager.getDesiredMusicVolume() == 0.7f;
+        assert AudioManager.getDesiredSoundVolume() == 0.8f;
+    }
+
+    @Test
+    void shouldCorrectlyPlayLoopingMusic() {
+        // Mock music
+        Music music = mock(Music.class);
+        when(resourceService.getAsset("loopingMusicPath", Music.class)).thenReturn(music);
+
+        // Play looping music
+        AudioManager.playMusic("loopingMusicPath", true);
+
+        // Verify music was set to loop and played
+        verify(music).setLooping(true);
+        verify(music).play();
+    }
+
+    @Test
+    void shouldNotSetVolumeWhenMuted() {
+        // Mock music and sound
+        Music music = mock(Music.class);
+        Sound sound = mock(Sound.class);
+        when(resourceService.getAsset("musicPath", Music.class)).thenReturn(music);
+        when(resourceService.getAsset("soundPath", Sound.class)).thenReturn(sound);
+        when(sound.play(anyFloat())).thenReturn(1L);
+
+        // Mute audio
+        AudioManager.muteAudio();
+
+        // Try setting volumes while muted
+        AudioManager.setMusicVolume(0.5f);
+        AudioManager.setSoundVolume(0.5f);
+
+        // Verify that no volume is set on the music and sound while muted
+        verify(music, never()).setVolume(anyFloat());
+        verify(sound, never()).setVolume(eq(1L), anyFloat());
+    }
+    @Test
+    void shouldReturnDesiredMusicVolume() {
+        // Set the music volume to a specific value
+        AudioManager.setMusicVolume(0.7f);
+
+        // Verify the desired music volume is returned
+        Assertions.assertEquals(0.7f, AudioManager.getDesiredMusicVolume(), 0.0001f);
+    }
+
+    @Test
+    void shouldReturnDesiredSoundVolume() {
+        // Set the sound volume to a specific value
+        AudioManager.setSoundVolume(0.8f);
+
+        // Verify the desired sound volume is returned
+        Assertions.assertEquals(0.8f, AudioManager.getDesiredSoundVolume(), 0.0001f);
+    }
+
+    @Test
+    void shouldReturnCorrectDesiredVolumesWhenMuted() {
+        // Set the volumes
+        AudioManager.setMusicVolume(0.6f);
+        AudioManager.setSoundVolume(0.5f);
+
+        // Mute the audio
+        AudioManager.muteAudio();
+
+        // Check that the desired volume is still the original, not affected by muting
+        Assertions.assertEquals(0.6f, AudioManager.getDesiredMusicVolume(), 0.0001f);
+        Assertions.assertEquals(0.5f, AudioManager.getDesiredSoundVolume(), 0.0001f);
+    }
+
+    @Test
+    void shouldReturnMutedState() {
+        // Initially, the audio should not be muted
+        assertFalse(AudioManager.isMuted(), "Audio should not be muted initially");
+
+        // Mute the audio and check the state
+        AudioManager.muteAudio();
+        assertTrue(AudioManager.isMuted(), "Audio should be muted after calling muteAudio()");
+
+        // Unmute the audio and check the state
+        AudioManager.unmuteAudio();
+        assertFalse(AudioManager.isMuted(), "Audio should not be muted after calling unmuteAudio()");
+    }
+
+    @Test
+    void shouldHandleNullSoundAsset() {
+        // Simulate the ResourceService returning a null sound asset
+        when(resourceService.getAsset("invalidSoundPath", Sound.class)).thenReturn(null);
+
+        // Try to play a sound, expecting no exceptions or crashes
+        AudioManager.playSound("invalidSoundPath");
+
+        // Ensure no interactions occurred because the sound asset was null
+        verify(resourceService).getAsset("invalidSoundPath", Sound.class); // Asset retrieval attempted
+    }
+
+    @Test
+    void shouldHandleNullMusicAsset() {
+        // Simulate the ResourceService returning a null music asset
+        when(resourceService.getAsset("invalidMusicPath", Music.class)).thenReturn(null);
+
+        // Try to play music, expecting no exceptions or crashes
+        AudioManager.playMusic("invalidMusicPath", false);
+
+        // Ensure no interactions occurred because the music asset was null
+        verify(resourceService).getAsset("invalidMusicPath", Music.class); // Asset retrieval attempted
+    }
+
+    @Test
+    void shouldNotCrashOnStopNullSound() {
+        // Simulate the ResourceService returning a null sound asset
+        when(resourceService.getAsset("invalidSoundPath", Sound.class)).thenReturn(null);
+
+        // Try to stop a sound, expecting no exceptions or crashes
+        AudioManager.stopSound("invalidSoundPath");
+
+        // Ensure no interactions occurred because the sound asset was null
+        verify(resourceService).getAsset("invalidSoundPath", Sound.class); // Asset retrieval attempted
+    }
+
+    @Test
+    void shouldNotCrashOnStopNullMusic() {
+        // Simulate the ResourceService returning a null music asset
+        when(resourceService.getAsset("invalidMusicPath", Music.class)).thenReturn(null);
+
+        // Try to stop music, expecting no exceptions or crashes
+        AudioManager.stopMusic();
+
+        // No interactions needed because the music asset was null
+    }
+
+
 }

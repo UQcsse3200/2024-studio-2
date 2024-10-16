@@ -60,7 +60,7 @@ public class DogSoundPlayer {
     public void playBarkingSound(float volume) {
         if (barkingSound != null) {
             barkingSound.play(volume);
-            logger.info("Barking sound played with volume: " + volume);
+            logger.info("Barking sound played with volume: {}", volume);
         }
     }
 }

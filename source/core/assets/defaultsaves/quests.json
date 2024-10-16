@@ -1,279 +1,559 @@
 {
-quests: [
-	{
-		questName: First Steps
-		questDescription: Take your first steps in this world!
-		tasks: [
-			{
-				taskName: steps
-				description: Take your first steps
-				hint: Just start moving!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Guide's Intro
-		questDescription: Follow the guide's teachings to start your journey.
-		tasks: [
-			{
-				taskName: talkToGuide
-				description: Talk to the cow
-				hint: Speak with the Guide to start your journey.
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=4}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+	quests: [
+
+		{
+			questName: Guide's Intro
+			questDescription: Follow the guide's teachings to start your journey.
+			tasks: [
+				{
+					taskName: talkToGuide
+					description: Talk to the Guide
+					hint: Speak with the Guide to begin your adventure.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=3}: [
-				I need five potions! TheyÅfre scattered around. Keep your eyes peeled.
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							"Moo there adventurer, welcome to the Animal Kingdom! "
+							"I am your guide."
+							"To prove your worth, you will need to complete a few tasks. "
+							"Are you ready?"
+						]
+					]
+				}
 			]
-			TupleKey{str='Cow', num=2}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: true
+			taskCompletionTriggers: null,
+			followQuests: null
+		}
+		{
+			questName: Guide's Request
+			questDescription: Follow the cow's request and collect items.
+			tasks: [
+				{
+					taskName: pickUpDefense Potion
+					description: Go Collect Potions
+					hint: Find 1 defense potion throughout the kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=1}: [
-				"Moo there, adventurer! Welcome to the kingdom."
-				WeÅfll be your guides but before you can roam free you must complete the first steps and 2 step quests.
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							"I need one potion to help our people!"
+							"They are scattered throughout the kingdom."
+							"Can you find them?"
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: true
+			taskCompletionTriggers: null,
+			followQuests: null
+		}
+		{
+			questName: Defeat Chickens
+			questDescription: Defeat 3 chickens
+			tasks: [
+				{
+					taskName: defeatCHICKEN,
+					description: Defeat the kangaroos' 3 followers
+					hint: Look out for 3 chickens
+					requiredTriggers: 6
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Now go and defeat the wild chickens
+							that threaten the peace of our land.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: true
+			taskCompletionTriggers: null,
+			followQuests: null
+		}
+		{
+			questName: Play Snake
+			questDescription: Play the minigame to gain skills.
+			tasks: [
+				{
+					taskName: completeSNAKE
+					description: Play the Snake Minigame
+					hint: Complete the minigame to retrieve the Eucalyptus sword.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							Help the snake eat apples
+							to train for your upcoming final battle!
+						]
+					]
+
+				}
+				{
+					npcName: Snake
+					dialogue: [
+						["HHIISSSSSSS, I am the mighty Snake of the Jungle!"
+							"You look very tasty and I am very hungry"
+							"Go play a game and collect me some apples..."
+							"/msOr I will eat you whole!"]
+					]
+				}
+			],
+			currentTaskIndex: 0
+			isFailed: false,
+			taskCompletionTriggers: [
+				"spawnLandBoss"
+			],
+			isActive: false
+			followQuests: [
+				"Guide's Intro",
+				"Guide's Request",
+				"Defeat Chickens"
 			]
 		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Teachings
-		questDescription: Follow the cow's teachings and complete further quests.
-		tasks: [
-			{
-				taskName: followCowsTeachings
-				description: Complete further quests
-				hint: Complete first steps and 2 step quest or a combat quest
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=4}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
+		{
+			questName: Defeat Kangaroo
+			questDescription: Defeat the boss aftr completing minigame.
+			tasks: [
+				{
+					taskName: defeatKANGAROO
+					description: Challenge the kangaroo boss!
+					hint: Face the Kangaroo Boss to bring peace to the kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=3}: [
-				I need five potions! TheyÅfre scattered around. Keep your eyes peeled.
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Cow
+					dialogue: [
+						[
+							"Once you have completed your tasks,"
+							"face the Kangaroo Boss "
+							"and bring peace back to the kingdom."
+						]
+					]
+				}
 			]
-			TupleKey{str='Cow', num=2}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
-			]
-			TupleKey{str='Cow', num=1}: [
-				"Moo there, adventurer! Welcome to the kingdom."
-				WeÅfll be your guides but before you can roam free you must complete the first steps and 2 step quests.
-			]
-		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Potion Collection
-		questDescription: Collect 5 defense potions scattered around the kingdom.
-		tasks: [
-			{
-				taskName: item collection task successful
-				description: Collect Potions
-				hint: Collect 5 defense potions scattered around the kingdom.
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=4}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
-			]
-			TupleKey{str='Cow', num=3}: [
-				I need five potions! TheyÅfre scattered around. Keep your eyes peeled.
-			]
-			TupleKey{str='Cow', num=2}: [
-				Heads up! This world is controlled by the Kanga - the most powerful animal in the kingdom.
-			]
-			TupleKey{str='Cow', num=1}: [
-				"Moo there, adventurer! Welcome to the kingdom."
-				WeÅfll be your guides but before you can roam free you must complete the first steps and 2 step quests.
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Play Snake"
 			]
 		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Guide's Advice
-		questDescription: Listen to the guide's advice to progress further.
-		tasks: [
-			{
-				taskName: listenToGuide
-				description: Visit cow again
-				hint: Go visit the cow!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Exploration
-		questDescription: Explore the kingdom and gather information about Kanga.
-		tasks: [
-			{
-				taskName: exploration
-				description: Explore and ask around
-				hint: Ask other animals about Kanga!
-				requiredTriggers: 1
-				triggerCount: 1
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: Weapon Retrieval
-		questDescription: Retrieve a weapon by completing the snake minigame.
-		tasks: [
-			{
-				taskName: retrieveWeapon
-				description: Complete the minigame
-				hint: Play the snake minigame!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-	{
-		questName: 2 Task Quest
-		questDescription: Move then Attack for a Test Quest
-		tasks: [
-			{
-				taskName: steps
-				description: Take your first steps
-				hint: Just start moving!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-			{
-				taskName: attack
-				description: Swing your first sword
-				hint: Just Attack!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: {
-			class: java.util.ImmutableCollections$MapN
-			TupleKey{str='Cow', num=2}: [
-				Yippeee!
-				You completed your Quest!
+		{
+			questName: Talk to Tilly
+			questDescription: Speak to the turtle
+			tasks: [
+				{
+					taskName: talkToWaterSage
+					description: Talk to the turtle
+					hint: Speak with the guide to gain their trust and begin your quest.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
 			]
-			TupleKey{str='Cow', num=1}: [
-				Welcome to Animal Kingdom!
-				Here let me help with your quest...
-				Press Spacebar!
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Turtle
+					dialogue: [
+						[
+							"Greetings, brave adventurer! "
+							"You have entered the Water Kingdom."
+							"To gain my trust, you must complete some essential tasks."
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Defeat Kangaroo"
 			]
 		}
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: [
-			""
-			spawnKangaBoss
-		]
-	}
-	{
-		questName: Final Boss
-		questDescription: Complete quest 1 and 2 to summon the boss
-		tasks: [
-			{
-				taskName: spawnKangaBoss
-				description: He is Coming...
-				hint: RUN
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-			{
-				taskName: steps
-				description: Take your first steps
-				hint: Just start moving!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-			{
-				taskName: attack
-				description: Swing your first sword
-				hint: Just Attack!
-				requiredTriggers: 1
-				triggerCount: 0
-				completed: false
-				failed: false
-			}
-		]
-		isSecretQuest: false
-		questDialogue: null
-		currentTaskIndex: 0
-		isFailed: false
-		isActive: false
-		taskCompletionTriggers: null
-	}
-]
+		{
+			questName: Sea Pearl Collection
+			questDescription: Find and collect 1 pearl
+			tasks: [
+				{
+					taskName: pickUpApple
+					description: Collect Sea Pearl (Apple)
+					hint: Find one Pearl (Apple) hidden around.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Turtle
+					dialogue: [
+						[
+							I need one sea pearl for my research.
+							They are hidden in the underwater caverns.
+							Can you help me?
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Defeat Kangaroo"
+			]
+		}
+		{
+			questName: Defeat Frogs
+			questDescription: Defeat 3 frogs
+			tasks: [
+				{
+					taskName: defeatFROG
+					description: Defeat 3 frogs
+					hint: Defeat water boss's followers - the frogs
+					requiredTriggers: 6
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Turtle
+					dialogue: [
+						[
+							Defeat the wild creatures that threaten the peace of our land.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Defeat Kangaroo"
+			]
+		}
+		{
+			questName: Play Flappy Game
+			questDescription: Win a flappy game medal
+			tasks: [
+				{
+					taskName: completeBIRD,
+					description: Complete the minigame
+					hint: Complete the Flappy Bird-inspired minigame to unlock the next stage!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+
+			questDialogue: [
+				{
+					npcName: Turtle
+					dialogue: [
+						[
+							Play the flappy bird minigame
+							to unlock the next stage of your quest!
+							Go talk to the fish!
+						]
+					]
+				}
+				{
+					npcName: Fish
+					dialogue: [
+						["Help me please!",
+							"A strong current just scattered all my eggs and now I am lost",
+							"It is getting dark now, they are in great danger!",
+							"I must get them back and find my way home!",
+							"/muHelp me collect all the fish eggs an get back home before it is too late"]
+					]
+				}
+
+			],
+			currentTaskIndex: 0
+			isFailed: false
+			taskCompletionTriggers: [
+				"spawnWaterBoss"
+			],
+			isActive: false
+			followQuests: [
+				"Talk to Tilly",
+				"Sea Pearl Collection",
+				"Defeat Frogs"
+			]
+		}
+		{
+			questName: Defeat Leviathan
+			questDescription: Defeat the Leviathan!
+			tasks: [
+				{
+					taskName: defeatWATER_BOSS
+					description: Defeat the Water Boss
+					hint: Prepare yourself and face the Water Boss to protect the kingdom.
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Turtle
+					dialogue: [
+						[
+							"Once you are ready, "
+							"face the Water Leviathan and protect our kingdom."
+							"Good luck, brave adventurer!"
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Play Flappy Game"
+			]
+		}
+		{
+			questName: Talk to Eagle
+			questDescription: Embark on a quest in the Sky Kingdom to aid the guide
+			tasks: [
+				{
+					taskName: talkToCloudSage
+					description: Go and talk to the Eagle
+					hint: Speak with the guide to begin your quest in the Sky Kingdom
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Eagle
+					dialogue: [
+						[
+							"Welcome, traveler of the skies! "
+							"You have arrived in the Sky Kingdom."
+							"Complete these tasks to challenge the Griffin."
+						]
+					]
+				}
+			],
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Defeat Leviathan"
+			]
+		}
+		{
+			questName: Gathering Sky Crystals
+			questDescription: Help collect Sky Crystals scattered across the kingdom
+			tasks: [
+				{
+					taskName: pickUpCandy,
+					description: Collect Sky Crystals (Candy)
+					hint: Gather 2 Sky Crystals (Candy) for the Cloud Sage
+					requiredTriggers: 2
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Eagle
+					dialogue: [
+						[
+							I need seven Sky Crystals that drift on the winds.
+							Will you help me gather them?
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Defeat Leviathan"
+			]
+		}
+		{
+			questName: Defeat Bees
+			questDescription: Defeat 3 bees
+			tasks: [
+				{
+					taskName: defeatBEE,
+					description: Defeat the sky boss' followers
+					hint: Defeat the sky boss' 3 bee followers
+					requiredTriggers: 6
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Eagle
+					dialogue: [
+						[
+							Defeat the wild creatures
+							that threaten the peace of our land.
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Defeat Leviathan"
+			]
+		}
+		{
+			questName: Underwater Challenge
+			questDescription: Complete the Maze Minigame
+			tasks: [
+				{
+					taskName: completeMAZE
+					description: Calm the UnderWater Minigame
+					hint: Complete the minigame to go onto your next quest!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Eagle
+					dialogue: [
+						[
+							Complete the maze minigame to move onto the next stage!
+							Go and talk to the magpie to play game!
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: [
+				"spawnAirBoss"
+			],
+			followQuests: [
+				"Talk to Eagle",
+				"Gathering Sky Crystals",
+				"Defeat Bees"
+			]
+		}
+		{
+			questName: Defeat Griffin
+			questDescription: Confront the Griffin and defeat it!
+			tasks: [
+				{
+					taskName: defeatAIR_BOSS
+					description: Defeat the Air Boss
+					hint: Go and find the boss!
+					requiredTriggers: 1
+					triggerCount: 0
+					completed: false
+					failed: false
+				}
+			]
+			isSecretQuest: false
+			questDialogue: [
+				{
+					npcName: Eagle
+					dialogue: [
+						[
+							When you are prepared,
+							confront the Griffin in an epic battle!
+						]
+					]
+				}
+			]
+			currentTaskIndex: 0
+			isFailed: false
+			isActive: false
+			taskCompletionTriggers: null,
+			followQuests: [
+				"Underwater Challenge"
+			]
+		}
+	]
 }

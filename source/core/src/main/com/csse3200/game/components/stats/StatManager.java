@@ -45,7 +45,7 @@ public class StatManager extends Component {
      * Subscribes to item triggers and sends it as a specific stat collection trigger.
      */
     void handleCollection(AbstractItem item){
-        player.getEvents().trigger(item.getName() + "Collected");
+        player.getEvents().trigger(item.getName() + " Collected");
     }
 
     /**

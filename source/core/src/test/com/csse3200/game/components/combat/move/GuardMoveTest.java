@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for the GuardMove class using JUnit.
- * These tests ensure that the GuardMove behaves correctly, including reducing stamina when executed,
+ * These tests ensure that the GuardMove behaves correctly, including reducing hunger when executed,
  * and properly handling cases with null attacker stats.
  */
 class GuardMoveTest {
@@ -22,7 +22,7 @@ class GuardMoveTest {
      */
     @BeforeEach
     void setUp() {
-        // Create a GuardMove object with a name and stamina cost
+        // Create a GuardMove object with a name and hunger cost
         guardMove = new GuardMove("Basic Guard", 5);
 
         // Mock CombatStatsComponent for the attacker
@@ -30,16 +30,16 @@ class GuardMoveTest {
     }
 
     /**
-     * Tests that the execute() method correctly reduces the attacker's stamina.
-     * Ensures that the GuardMove reduces stamina by the expected amount.
+     * Tests that the execute() method correctly reduces the attacker's hunger.
+     * Ensures that the GuardMove reduces hunger by the expected amount.
      */
     @Test
-    void testExecuteReducesStamina() {
+    void testExecuteReducesHunger() {
         // Execute the GuardMove with the mock attacker stats
         guardMove.execute(attackerStats);
 
-        // Verify that stamina is reduced by the expected amount (5 in this case)
-        verify(attackerStats).addStamina(-5);
+        // Verify that hunger is reduced by the expected amount (5 in this case)
+        verify(attackerStats).addHunger(-5);
     }
 
     /**
@@ -52,7 +52,7 @@ class GuardMoveTest {
         guardMove.execute(null);
 
         // No exception should be thrown, and no interactions should occur
-        verify(attackerStats, never()).addStamina(anyInt());
+        verify(attackerStats, never()).addHunger(anyInt());
     }
 
     /**
@@ -67,8 +67,8 @@ class GuardMoveTest {
         // Execute the GuardMove with both attacker and target stats
         guardMove.execute(attackerStats, targetStats);
 
-        // Verify that only the attacker's stamina is reduced, and the target's stats are unaffected
-        verify(attackerStats).addStamina(-5);
+        // Verify that only the attacker's hunger is reduced, and the target's stats are unaffected
+        verify(attackerStats).addHunger(-5);
         verify(targetStats, never()).setHealth(anyInt());
     }
 
@@ -84,8 +84,8 @@ class GuardMoveTest {
         // Execute the GuardMove with attacker, target, and guarding status
         guardMove.execute(attackerStats, targetStats, true);
 
-        // Verify that only the attacker's stamina is reduced, and the target's stats are unaffected
-        verify(attackerStats).addStamina(-5);
+        // Verify that only the attacker's hunger is reduced, and the target's stats are unaffected
+        verify(attackerStats).addHunger(-5);
         verify(targetStats, never()).setHealth(anyInt());
     }
 
@@ -101,8 +101,8 @@ class GuardMoveTest {
         // Execute the GuardMove with multiple hits (this parameter is ignored for GuardMove)
         guardMove.execute(attackerStats, targetStats, false, 3);
 
-        // Verify that only the attacker's stamina is reduced, and the target's stats are unaffected
-        verify(attackerStats).addStamina(-5);
+        // Verify that only the attacker's hunger is reduced, and the target's stats are unaffected
+        verify(attackerStats).addHunger(-5);
         verify(targetStats, never()).setHealth(anyInt());
     }
 }

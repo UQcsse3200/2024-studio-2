@@ -1,18 +1,20 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.areas.ForestGameArea;
-import com.csse3200.game.areas.MapHandler;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
+
+import java.util.Objects;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
@@ -24,9 +26,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     protected final DebugRenderer debugRenderer;
     protected final RaycastHit hit = new RaycastHit();
     protected MovementTask movementTask;
-    private Music heartbeatSound;
     private final boolean isBoss;
-    private static final String heartbeat = "sounds/heartbeat.mp3";
     private final Vector2 bossSpeed;
     private boolean chaseDir = false; // 0 left, 1 right
     private Vector2 speed;
@@ -63,13 +63,18 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         // Set movementTask based on npc type
         Vector2 currentPos = owner.getEntity().getPosition();
         Vector2 targetPos = target.getPosition();
-        movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
-                new MovementTask(targetPos, speed);
+        // temporary fix as the behaviour of this was changed without changing the maze game.
+        if (owner.getEntity() instanceof MazeEntity) {
+            movementTask = new MovementTask(targetPos);
+        } else {
+            movementTask = this.isBoss ? new MovementTask(target.getPosition(), bossSpeed) :
+                    new MovementTask(targetPos, speed);
+        }
         movementTask.create(owner);
         movementTask.start();
         
         if (this.isBoss) {
-            playTensionSound();
+            playTensionMusic();
             this.target.getEvents().trigger("startHealthBarBeating");
         }
 
@@ -81,23 +86,31 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
             this.owner.getEntity().getEvents().trigger("chaseRight");
         }
     }
-    
-    void playTensionSound() {
-        if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
-            heartbeatSound = ServiceLocator.getResourceService().getAsset(heartbeat, Music.class);
-            heartbeatSound.setLooping(true);
-            heartbeatSound.setVolume(1.0f);
-        }
-        if (heartbeatSound != null) {
-            ForestGameArea.puMusic();
-            heartbeatSound.play();
-        }
+
+    /**
+     * Plays the tension music to enhance the experience during the chase.
+     */
+    void playTensionMusic() {
+        // Play the music using AudioManager
+        AudioManager.stopMusic();
+        AudioManager.playMusic("sounds/tension-land-boss.mp3", true);
     }
-    
-    void stopTensionSound() {
-        if (heartbeatSound != null) {
-            ForestGameArea.pMusic();
-            heartbeatSound.stop();
+
+    /**
+     * Stops playing the tension music and play the background music.
+     */
+    void stopTensionMusic() {
+        // Stop the music using AudioManager
+        AudioManager.stopMusic();
+
+        // Get the selected music track from the user settings
+        UserSettings.Settings settings = UserSettings.get();
+        String selectedTrack = settings.selectedMusicTrack; // This will be "Track 1" or "Track 2"
+
+        if (Objects.equals(selectedTrack, "Track 1")) {
+            AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+        } else if (Objects.equals(selectedTrack, "Track 2")) {
+            AudioManager.playMusic("sounds/track_2.mp3", true);
         }
     }
     
@@ -135,7 +148,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         movementTask.stop();
         
         if (this.isBoss) {
-            stopTensionSound();
+            stopTensionMusic();
             this.target.getEvents().trigger("stopHealthBarBeating");
         }
     }
@@ -158,14 +171,12 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         
         // If there is an obstacle in the path to the player, not visible.
         if (physics.raycast(from, to, PhysicsLayer.OBSTACLE, hit)) {
-            debugRenderer.drawLine(from, hit.point);
+            debugRenderer.drawLine(from, hit.getPoint());
             return false;
         }
         debugRenderer.drawLine(from, to);
         return true;
     }
-
-    //targetPos.x - currentPos.x < 0
 
     public void eelChase(Vector2 targetPos, Vector2 currentPos) {
         float deltaX = targetPos.x - currentPos.x;

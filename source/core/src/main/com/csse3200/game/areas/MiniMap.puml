@@ -1,0 +1,74 @@
+@startuml
+package com.csse3200.game.screens {
+    class MainGameScreen {
+        - static Logger logger
+        - static String[] mainGameTextures
+        - static Vector2 CAMERA_POSITION
+        - boolean isPaused
+        - Renderer renderer
+        - PhysicsEngine physicsEngine
+        - LightingEngine lightingEngine
+        - DayNightCycle dayNightCycle
+        - GameArea gameArea
+
+        + MainGameScreen(GdxGame game)
+        + void setMap(MapHandler.MapType mapType)
+        + void render(float delta)
+        + void resize(int width, int height)
+        + void pause()
+        + void resume()
+        + void dispose()
+        - void loadAssets()
+        - void unloadAssets()
+        - void createUI()
+        + void rest()
+        + void wake()
+        + GameArea getGameArea()
+    }
+
+    class Renderer {
+        + void render()
+        + void resize(int width, int height)
+        + void dispose()
+    }
+
+    class PhysicsEngine {
+        + void update()
+    }
+
+    class GameArea {
+        + void pauseMusic()
+        + void playMusic()
+        + Entity getPlayer()
+        + List<Entity> getEnemies()
+    }
+}
+
+package com.csse3200.game.areas {
+    class MiniMapDisplay {
+        - Entity player
+        - List<Entity> enemies
+        - Texture miniMapBackground
+        - Image greenDotPointImage
+        - List<Image> redDotPointImages
+        - GameArea gameArea
+        - int scaleFactor
+        - float miniMapX
+        - float miniMapY
+        - int miniMapSize
+
+        + MiniMapDisplay(GameArea gameArea)
+        + void create()
+        - void addActors()
+        - void initializeImages()
+        - Vector2 transferToMiniMapPos(Entity entity)
+        + void update()
+        + void draw(SpriteBatch batch)
+    }
+}
+
+MainGameScreen --> Renderer
+MainGameScreen --> PhysicsEngine
+MainGameScreen --> GameArea
+GameArea --> MiniMapDisplay
+@enduml

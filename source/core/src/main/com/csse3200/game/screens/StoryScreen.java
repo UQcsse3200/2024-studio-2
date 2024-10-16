@@ -26,6 +26,7 @@ public class StoryScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(StoryScreen.class);
     private final GdxGame game;
     private final Renderer renderer;
+    private final String selectedAnimal;
     private Texture[] backgroundTextures;
 
     // Different story backgrounds for each animal
@@ -35,10 +36,15 @@ public class StoryScreen extends ScreenAdapter {
             "images/Story/DogStory5.png", "images/Story/DogStory6.png"
     };
     private static final String[] CROC_STORY_PATHS = {
-            "images/croc.png", "images/croc.png",
+            "images/Story/CrocStory1.png", "images/Story/CrocStory2.png",
+            "images/Story/CrocStory3.png", "images/Story/CrocStory4.png",
+            "images/Story/CrocStory5.png", "images/Story/CrocStory6.png",
+            "images/Story/CrocStory7.png"
     };
     private static final String[] BIRD_STORY_PATHS = {
-            "images/bird.png", "images/bird.png",
+            "images/Story/BirdStory1.png", "images/Story/BirdStory2.png",
+            "images/Story/BirdStory3.png", "images/Story/BirdStory4.png",
+            "images/Story/BirdStory5.png"
     };
 
 
@@ -56,7 +62,7 @@ public class StoryScreen extends ScreenAdapter {
         // Load background textures based on selected animal
         backgroundTextures = loadStoryTextures(selectedAnimal);
 
-
+        this.selectedAnimal = selectedAnimal;
         createUI();
     }
 
@@ -95,9 +101,9 @@ public class StoryScreen extends ScreenAdapter {
         logger.debug("Creating UI");
         Stage stage = ServiceLocator.getRenderService().getStage();
         Entity ui = new Entity();
-        ui.addComponent(new StoryDisplay(backgroundTextures, 0))
+        ui.addComponent(new StoryDisplay(backgroundTextures, 0, selectedAnimal))
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(new StoryActions(game, backgroundTextures));
+                .addComponent(new StoryActions(game, backgroundTextures, selectedAnimal));
         ServiceLocator.getEntityService().register(ui);
     }
     /**

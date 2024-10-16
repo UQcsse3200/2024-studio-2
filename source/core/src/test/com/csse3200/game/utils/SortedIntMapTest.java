@@ -4,6 +4,8 @@ import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.Spliterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(GameExtension.class)
@@ -26,9 +28,15 @@ class SortedIntMapTest {
     assertFalse(map.containsKey(4));
     assertFalse(map.contains(5));
 
+    //  Test with both iterator and spliterator
     map.put(2, 5);
-    assertTrue(map.contains(5));
+    map.forEach(i -> assertEquals(5, (int) i));
+
+    Spliterator<Integer> spliterator = map.spliterator();
+    spliterator.forEachRemaining(i -> assertEquals(5, (int) i));
+
     assertTrue(map.containsKey(2));
+    assertTrue(map.contains(5));
   }
 
   @Test

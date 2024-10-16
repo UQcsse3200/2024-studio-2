@@ -55,11 +55,8 @@ public class KeyboardDialogueBoxInputComponent extends InputComponent {
         if (!this.enabled) {
             return false;
         }
-        if (buttonPressed.containsKey(keycode)) {
-            buttonPressed.put(keycode, false);
-            return true;
-        }
-        return false;
+
+        return buttonPressed.computeIfPresent(keycode, (k, v) -> false) != null;
     }
 
     private void triggerRightArrowPress() {

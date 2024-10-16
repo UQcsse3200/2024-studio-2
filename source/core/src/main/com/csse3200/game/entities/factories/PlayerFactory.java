@@ -64,19 +64,18 @@ public class PlayerFactory {
         moveSet.add(new ItemMove("Player Item", 0));
 
         player.addComponent(new CombatMoveComponent(moveSet));
-
         player.addComponent(new PlayerActions(game, player, imagePath));
 
         // Set different stats for each animal type
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, 100, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, true, false, 1));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, 100, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, true, false, 1));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, 100, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, true, false, 1));
             default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
 
         }
         InputComponent inputComponent =
@@ -102,8 +101,7 @@ public class PlayerFactory {
         PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
         player.getComponent(ColliderComponent.class).setDensity(1.5f);
         player.getComponent(TextureRenderComponent.class).scaleEntity();
-        //player.getComponent(StatManager.class).addStat(new Stat("EnemyDefeated", "Enemies Defeated"));
-        player.getComponent(QuestManager.class).loadQuests();
+
 
         PositionalLight light = LightingComponent.createPointLight(4f, Color.GOLDENROD);
         player.addComponent(new LightingComponent().attach(light))
@@ -124,7 +122,7 @@ public class PlayerFactory {
 
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true, false, 1));
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, true, false, 1));
 
         combatPlayer.scaleHeight(90.0f);
 

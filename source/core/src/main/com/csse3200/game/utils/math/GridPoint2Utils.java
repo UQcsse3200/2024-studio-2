@@ -11,7 +11,12 @@ public class GridPoint2Utils {
   public static final GridPoint2 DOWN = new GridPoint2(0, -1);
   public static final GridPoint2 LEFT = new GridPoint2(-1, 0);
   public static final GridPoint2 RIGHT = new GridPoint2(1, 0);
-  public static final GridPoint2[] GRID_DIRECTIONS = {UP, DOWN, LEFT, RIGHT};
+  private static final GridPoint2[] GRID_DIRECTIONS = {UP, DOWN, LEFT, RIGHT};
+
+  // Public Getter since SonarCloud is unhappy that this is a mutable object
+  public static GridPoint2[] directions() {
+    return GRID_DIRECTIONS;
+  }
 
   private GridPoint2Utils() {
     throw new IllegalStateException("Instantiating static util class");

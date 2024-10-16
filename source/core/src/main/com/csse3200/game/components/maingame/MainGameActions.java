@@ -3,8 +3,6 @@ package com.csse3200.game.components.maingame;
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.Component;
-import com.csse3200.game.gamestate.GameState;
-import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -32,6 +32,7 @@ public class MazeGameAreaDisplay extends UIComponent {
      */
     private void addActors() {
         title = new Label(this.gameAreaName, skin, "large-white");
+        title.setFontScale(0.7f);
         stage.addActor(title);
     }
 

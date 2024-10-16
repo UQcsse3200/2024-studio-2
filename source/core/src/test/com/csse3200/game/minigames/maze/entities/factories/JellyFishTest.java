@@ -33,7 +33,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class JellyFishTest {
+class JellyFishTest {
 
     private Jellyfish jellyfish;
     private static final String[] TEXTURE_ATLASES = {"images/minigames/Jellyfish.atlas"};
@@ -67,7 +67,7 @@ public class JellyFishTest {
     }
 
     @Test
-    public void testDefaultMazeEntityComponents() {
+    void testDefaultMazeEntityComponents() {
         assertNotNull(jellyfish.getComponent(PhysicsComponent.class),
                 "Jellyfish should have a PhysicsComponent from MazeEntity");
         assertNotNull(jellyfish.getComponent(PhysicsMovementComponent.class),
@@ -85,7 +85,7 @@ public class JellyFishTest {
     }
 
     @Test
-    public void testJellyFishHasComponents() {
+    void testJellyFishHasComponents() {
         assertNotNull(jellyfish.getComponent(MazeEntityAnimationController.class),
                 "Jellyfish should have a MazeEntityAnimationController");
         assertNotNull(jellyfish.getComponent(LightingComponent.class),
@@ -100,7 +100,7 @@ public class JellyFishTest {
     }
 
     @Test
-    public void testMazeCombatStatsComponent() {
+    void testMazeCombatStatsComponent() {
         MazeCombatStatsComponent combatStats = jellyfish.getComponent(MazeCombatStatsComponent.class);
         assertNotNull(combatStats, "Jellyfish should have a MazeCombatStatsComponent");
         assertEquals(100, combatStats.getHealth(), "Health should be set from config");
@@ -108,7 +108,7 @@ public class JellyFishTest {
     }
 
     @Test
-    public void testEntityScale() {
+    void testEntityScale() {
         Vector2 scale = jellyfish.getScale();
         assertEquals(0.3f, scale.x, 0.001, "Scale x should be 0.3f");
         assertEquals(0.3f, scale.y, 0.001, "Scale y should be 0.3f");

@@ -4,8 +4,6 @@ import com.csse3200.game.events.listeners.EventListener1;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
 import com.badlogic.gdx.math.Vector2;
-import com.csse3200.game.ai.tasks.Task.Status;
-import com.csse3200.game.ai.tasks.TaskRunner;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.csse3200.game.entities.Entity;
@@ -19,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.*;
 import org.mockito.ArgumentCaptor;
-import java.util.function.Consumer;
-
 
 
 @ExtendWith(GameExtension.class)

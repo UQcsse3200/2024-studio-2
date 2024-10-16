@@ -19,13 +19,13 @@ import static org.mockito.Mockito.*;
  * multiple lights.
  */
 @ExtendWith(MockitoExtension.class)
-public class LightingComponentTest {
+class LightingComponentTest {
     private Entity entity;
 
     private LightingComponent component;
     @Mock
     PositionalLight light;
-    private final static Vector2 offset = new Vector2(1.3f, 0.2f);
+    private static final Vector2 offset = new Vector2(1.3f, 0.2f);
 
 
     /**
@@ -33,7 +33,7 @@ public class LightingComponentTest {
      * with an offset to the component.
      */
     @BeforeEach
-    public void setup() {
+    void setup() {
         entity = new Entity();
         entity.setPosition(0,0);
         component = new LightingComponent().attach(light, offset);
@@ -46,14 +46,14 @@ public class LightingComponentTest {
      * Tests that the attached light is correctly retrieved from the component.
      */
     @Test
-    public void testGetLights() {
+    void testGetLights() {
         assertEquals(Collections.singletonList(light), component.getLights());
     }
     /**
      * Tests that the attached offset is correctly retrieved from the component.
      */
     @Test
-    public void testGetOffsets() {
+    void testGetOffsets() {
         assertEquals(Collections.singletonList(offset), component.getOffsets());
     }
 
@@ -61,7 +61,7 @@ public class LightingComponentTest {
      * Tests that the light's position is updated correctly when the entity's position changes.
      */
     @Test
-    public void testUpdateLightPosition() {
+    void testUpdateLightPosition() {
         entity.setPosition(1,1);
         entity.update();
         verify(light).setPosition(entity.getCenterPosition().add(offset));
@@ -71,7 +71,7 @@ public class LightingComponentTest {
      * Tests that the light is removed when the component is disposed.
      */
     @Test
-    public void testDisposeLight() {
+    void testDisposeLight() {
         component.dispose();
         verify(light).remove(true);
     }
@@ -80,7 +80,7 @@ public class LightingComponentTest {
      * Tests attaching a light without an offset. The default offset should be Vector2.Zero.
      */
     @Test
-    public void testAttachLightWithoutOffset() {
+    void testAttachLightWithoutOffset() {
         PositionalLight newLight = mock(PositionalLight.class);
         component.attach(newLight);  // No offset
         assertEquals(2, component.getLights().size());
@@ -91,7 +91,7 @@ public class LightingComponentTest {
      * Tests detaching a light and ensures that the light is removed from the component.
      */
     @Test
-    public void testDetachLight() {
+    void testDetachLight() {
         boolean result = component.detach(light);
         assertTrue(result, "Light should be detached successfully.");
         assertEquals(0, component.getLights().size(), "Lights list should be empty after detachment.");
@@ -102,7 +102,7 @@ public class LightingComponentTest {
      * Ensures that the component's state remains unchanged.
      */
     @Test
-    public void testDetachNonexistentLight() {
+    void testDetachNonexistentLight() {
         PositionalLight nonExistentLight = mock(PositionalLight.class);
         boolean result = component.detach(nonExistentLight);
         assertFalse(result, "Detaching a nonexistent light should return false.");
@@ -114,7 +114,7 @@ public class LightingComponentTest {
      * attached and stored correctly.
      */
     @Test
-    public void testAttachMultipleLights() {
+    void testAttachMultipleLights() {
         PositionalLight light1 = mock(PositionalLight.class);
         PositionalLight light2 = mock(PositionalLight.class);
 
@@ -134,7 +134,7 @@ public class LightingComponentTest {
      * update correctly with the entity's position changes.
      */
     @Test
-    public void testUpdateMultipleLightPositions() {
+    void testUpdateMultipleLightPositions() {
         PositionalLight light1 = mock(PositionalLight.class);
         PositionalLight light2 = mock(PositionalLight.class);
 
@@ -155,7 +155,7 @@ public class LightingComponentTest {
      * Tests attaching a light with a null offset. The offset should default to Vector2.Zero.
      */
     @Test
-    public void testAttachNullOffset() {
+    void testAttachNullOffset() {
         PositionalLight newLight = mock(PositionalLight.class);
         component.attach(newLight, null);  // Null offset should default to zero offset
         assertEquals(2, component.getLights().size());
@@ -166,7 +166,7 @@ public class LightingComponentTest {
      * Tests that a LightingComponent with no attached lights or offsets behaves as expected.
      */
     @Test
-    public void testAttachWithoutLights() {
+    void testAttachWithoutLights() {
         LightingComponent emptyComponent = new LightingComponent();
         entity.addComponent(emptyComponent);
         entity.create();
@@ -179,7 +179,7 @@ public class LightingComponentTest {
      * Tests that updating an entity with no lights attached does not result in any actions.
      */
     @Test
-    public void testUpdateWithoutLights() {
+    void testUpdateWithoutLights() {
         LightingComponent emptyComponent = new LightingComponent();
         entity.addComponent(emptyComponent);
         entity.create();
@@ -192,7 +192,7 @@ public class LightingComponentTest {
      * Tests detaching all attached lights and verifies that no lights remain after detachment.
      */
     @Test
-    public void testDetachAllLights() {
+    void testDetachAllLights() {
         PositionalLight newLight = mock(PositionalLight.class);
         component.attach(newLight);
 
@@ -207,7 +207,7 @@ public class LightingComponentTest {
      * the remaining lights are updated.
      */
     @Test
-    public void testUpdateAfterLightDetachment() {
+    void testUpdateAfterLightDetachment() {
         PositionalLight newLight = mock(PositionalLight.class);
         component.attach(newLight, offset);
 
@@ -229,7 +229,7 @@ public class LightingComponentTest {
      * Tests detaching a light that has already been detached to ensure it behaves as expected.
      */
     @Test
-    public void testDetachLightAlreadyDetached() {
+    void testDetachLightAlreadyDetached() {
         PositionalLight newLight = mock(PositionalLight.class);
         component.attach(newLight);
 
@@ -246,7 +246,7 @@ public class LightingComponentTest {
      * Tests attaching the same light multiple times with different offsets.
      */
     @Test
-    public void testAddSameLightMultipleTimes() {
+    void testAddSameLightMultipleTimes() {
         PositionalLight duplicateLight = mock(PositionalLight.class);
 
         // Attach the same light twice with different offsets
@@ -262,7 +262,7 @@ public class LightingComponentTest {
      * Tests attaching and detaching all lights and verifies no lights remain afterward.
      */
     @Test
-    public void testAttachAndDetachAllLights() {
+    void testAttachAndDetachAllLights() {
         PositionalLight light1 = mock(PositionalLight.class);
         PositionalLight light2 = mock(PositionalLight.class);
 
@@ -282,7 +282,7 @@ public class LightingComponentTest {
      * Tests that an empty component has no attached offsets.
      */
     @Test
-    public void testEmptyOffsetsList() {
+    void testEmptyOffsetsList() {
         LightingComponent emptyComponent = new LightingComponent();
         entity.addComponent(emptyComponent);
         entity.create();
@@ -296,7 +296,7 @@ public class LightingComponentTest {
      * Tests that a light with a zero offset is updated to match the entity's position exactly.
      */
     @Test
-    public void testAttachAndUpdateWithZeroOffset() {
+    void testAttachAndUpdateWithZeroOffset() {
         PositionalLight newLight = mock(PositionalLight.class);
 
         // Attach a light with zero offset
@@ -313,7 +313,7 @@ public class LightingComponentTest {
      * Tests multiple updates of light positions as the entity's position changes.
      */
     @Test
-    public void testMultipleUpdates() {
+    void testMultipleUpdates() {
         PositionalLight light1 = mock(PositionalLight.class);
         Vector2 offset1 = new Vector2(1, 1);
 

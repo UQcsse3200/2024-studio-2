@@ -9,7 +9,7 @@
     "isEnemy": 1
   },
   "frog": {
-    "spritePath": "images/enemy-frog.atlas",
+    "spritePath": "images/frog.atlas",
     "health": 4,
     "baseAttack": 25,
     "defense": 1,
@@ -27,7 +27,7 @@
     "isEnemy": 1
   },
   "bear": {
-    "spritePath": "images/bear.atlas",
+    "spritePath": "images/enemy-bear.atlas",
     "health": 15,
     "baseAttack": 10,
     "defense": 15,
@@ -42,6 +42,15 @@
     "defense": 2,
     "speed": 200,
     "experience": 10,
+    "isEnemy": 1
+  },
+  "octopus": {
+    "spritePath": "images/octopus.atlas",
+    "health": 8,
+    "baseAttack": 2,
+    "defense": 5,
+    "speed": 170,
+    "experience": 15,
     "isEnemy": 1
   },
   "bee": {
@@ -85,7 +94,8 @@
     "health": 150,
     "baseAttack": 50,
     "defense": 50,
-    "speed": 25,
+    "speed": 70,
+    "experience": 300,
     "isEnemy": 1
   },
   "joey": {
@@ -93,7 +103,8 @@
     "health": 50,
     "baseAttack": 25,
     "defense": 25,
-    "speed": 3,
+    "speed": 400,
+    "experience": 100,
     "isEnemy": 1
   },
   "banana": {
@@ -106,10 +117,10 @@
   },
   "waterSpiral": {
     "spritePath": "images/effects.atlas",
-    "health": 100,
-    "baseAttack": 100,
-    "defense": 100,
-    "speed": 2,
+    "health": 0,
+    "baseAttack": 3,
+    "defense": 0,
+    "speed": 6,
     "isEnemy": 1
   },
   "waterBoss": {
@@ -117,7 +128,8 @@
     "health": 150,
     "baseAttack": 50,
     "defense": 50,
-    "speed": 25,
+    "speed": 40,
+    "experience": 400,
     "isEnemy": 1
   },
   "airBoss": {
@@ -125,14 +137,15 @@
     "health": 150,
     "baseAttack": 50,
     "defense": 50,
-    "speed": 25,
+    "speed": 80,
+    "experience": 500,
     "isEnemy": 1
   },
   "windGust": {
     "spritePath": "images/griffinEffects.atlas",
-    "health": 100,
-    "baseAttack": 100,
-    "defense": 100,
+    "health": 0,
+    "baseAttack": 4,
+    "defense": 0,
     "speed": 3,
     "isEnemy": 1
   },

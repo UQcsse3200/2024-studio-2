@@ -70,7 +70,7 @@ public class AirAnimalSoundPlayer {
     public void playScreechSound(float volume) {
         if (screechSound != null) {
             screechSound.play(volume);
-            logger.info("Bird screech sound played with volume: " + volume);
+            logger.info(String.format("Bird screech sound played with volume: %.2f", volume));
         }
     }
 }

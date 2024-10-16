@@ -1,7 +1,7 @@
 {
   stats: [
     {
-      "statName": "AppleCollected",
+      "statName": "Apple Collected",
       "statDescription": "Apples collected by player",
       "statCurrent": 0,
       "statHasMax": false,
@@ -9,7 +9,7 @@
       "type": "ITEM"
     },
     {
-      "statName": "CandyCollected",
+      "statName": "Candy Collected",
       "statDescription": "Candy collected by player",
       "statCurrent": 0,
       "statHasMax": false,
@@ -17,7 +17,7 @@
       "type": "ITEM"
     },
     {
-      "statName": "MeatCollected",
+      "statName": "Meat Collected",
       "statDescription": "Meat collected by player",
       "statCurrent": 0,
       "statHasMax": false,
@@ -25,8 +25,64 @@
       "type": "ITEM"
     },
     {
-      "statName": "CarrotCollected",
+      "statName": "Carrot Collected",
       "statDescription": "Carrots collected by player",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "ITEM"
+    },
+    {
+      "statName": "Chicken_Leg Collected",
+      "statDescription": "Chicken legs collected by player",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "ITEM"
+    },
+    {
+      "statName": "Milk Collected",
+      "statDescription": "Milk collected by player",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "ITEM"
+    },
+    {
+      "statName": "Caviar Collected",
+      "statDescription": "Caviar collected by player",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "ITEM"
+    },
+    {
+      "statName": "KANGAROO Boss Defeated",
+      "statDescription": "Kangaroo boss Defeated by player",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "ITEM"
+    },
+    {
+      "statName": "Water Boss Defeated",
+      "statDescription": "Water boss Defeated by player",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "ITEM"
+    },
+    {
+      "statName": "Air Boss Defeated",
+      "statDescription": "Air boss Defeated by player",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "ITEM"
+    },
+    {
+      "statName": "Chicken Defeated",
+      "statDescription": "Kangaroo boss Defeated by player",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,

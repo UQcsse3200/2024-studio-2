@@ -15,52 +15,52 @@ public class EelAnimationController extends Component {
         super.create();
         // Get the AnimationRenderComponent associated with the entity and store it in the animator field
         animator = this.entity.getComponent(AnimationRenderComponent.class);
-        entity.getEvents().addListener("runLeft", this::swim_left);
-        entity.getEvents().addListener("runLeftUp", this::swim_up_left);
-        entity.getEvents().addListener("runUp", this::swim_up);
-        entity.getEvents().addListener("runRightUp", this::swim_up_right);
-        entity.getEvents().addListener("runRight", this::swim_right);
-        entity.getEvents().addListener("runRightDown", this::swim_down_right);
-        entity.getEvents().addListener("runDown", this::swim_down);
-        entity.getEvents().addListener("runLeftDown", this::swim_down_left);
+        entity.getEvents().addListener("runLeft", this::swimLeft);
+        entity.getEvents().addListener("runLeftUp", this::swimUpLeft);
+        entity.getEvents().addListener("runUp", this::swimUp);
+        entity.getEvents().addListener("runRightUp", this::swimUpRight);
+        entity.getEvents().addListener("runRight", this::swimRight);
+        entity.getEvents().addListener("runRightDown", this::swimDownRight);
+        entity.getEvents().addListener("runDown", this::swimDown);
+        entity.getEvents().addListener("runLeftDown", this::swimDownLeft);
     }
 
-    private void swim_left() {
+    private void swimLeft() {
         animator.setFlipX(true);
         animator.startAnimation("swim_right");
     }
 
-    private void swim_up_left() {
+    private void swimUpLeft() {
         animator.setFlipX(true);
         animator.startAnimation("swim_up_right");
     }
 
-    private void swim_up() {
+    private void swimUp() {
         animator.setFlipX(false);
         animator.startAnimation("swim_up");
     }
 
-    private void swim_up_right() {
+    private void swimUpRight() {
         animator.setFlipX(false);
         animator.startAnimation("swim_up_right");
     }
 
-    private void swim_right() {
+    private void swimRight() {
         animator.setFlipX(false);
         animator.startAnimation("swim_right");
     }
 
-    private void swim_down_right() {
+    private void swimDownRight() {
         animator.setFlipX(false);
         animator.startAnimation("swim_down_right");
     }
 
-    private void swim_down() {
+    private void swimDown() {
         animator.setFlipX(false);
         animator.startAnimation("swim_down");
     }
 
-    private void swim_down_left() {
+    private void swimDownLeft() {
         animator.setFlipX(true);
         animator.startAnimation("swim_down_right");
     }

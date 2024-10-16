@@ -4,9 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.ai.tasks.Task;
-import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.components.npc.FrogAnimationController;
-import com.csse3200.game.entities.configs.BaseEntityConfig;
+import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,7 +115,11 @@ public class WanderTask extends DefaultTask implements PriorityTask {
             logger.debug("wandering left");
             this.owner.getEntity().getEvents().trigger(RIGHT);
         }
-        movementTask = new MovementTask(newPos, wanderRange);
+        if (owner.getEntity() instanceof MazeEntity) {
+            movementTask = new MovementTask(newPos);
+        } else {
+            movementTask = new MovementTask(newPos, wanderRange);
+        }
         movementTask.create(owner);
         movementTask.start();
         currentTask = movementTask;
@@ -143,9 +146,9 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     }
 
     if (newPos.x - startPos.x < 0) {
-      this.owner.getEntity().getEvents().trigger("wanderLeft");
+      this.owner.getEntity().getEvents().trigger(LEFT);
     } else {
-      this.owner.getEntity().getEvents().trigger("wanderRight");
+      this.owner.getEntity().getEvents().trigger(RIGHT);
     }
     logger.debug("Starting moving");
 

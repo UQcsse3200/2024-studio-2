@@ -9,8 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.csse3200.game.areas.combat.CombatArea;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.entities.Entity;
+import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
 import com.csse3200.game.services.ServiceContainer;
@@ -23,16 +25,17 @@ import org.slf4j.LoggerFactory;
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
 public class CombatButtonDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(CombatExitDisplay.class);
+    private static final Logger logger = LoggerFactory.getLogger(CombatButtonDisplay.class);
     private static final float Z_INDEX = 1f;
     private Table table;
     private final Screen screen;
     private final ServiceContainer container;
-    TextButton AttackButton;
-    TextButton GuardButton;
-    TextButton SleepButton;
-    TextButton ItemsButton;
+    TextButton attackButton;
+    TextButton guardButton;
+    TextButton sleepButton;
+    TextButton itemsButton;
     ChangeListener dialogueBoxListener;
+    CombatArea combatArea;
     // Create a Table to hold the hover text with a background
     private Table hoverTextTable;
     private Label hoverTextLabel;
@@ -47,9 +50,10 @@ public class CombatButtonDisplay extends UIComponent {
      * @param screen    The current screen that the buttons are being rendered onto
      * @param container The container that
      */
-    public CombatButtonDisplay(Screen screen, ServiceContainer container) {
+    public CombatButtonDisplay(Screen screen, ServiceContainer container, CombatArea combatArea) {
         this.screen = screen;
         this.container = container;
+        this.combatArea = combatArea;
     }
 
     @Override
@@ -62,13 +66,29 @@ public class CombatButtonDisplay extends UIComponent {
         entity.getEvents().addListener("hideCurrentOverlay", this::addActors);
         entity.getEvents().addListener("disposeCurrentOverlay", this::addActors);
         entity.getEvents().addListener("endOfCombatDialogue", this::displayEndCombatDialogue);
+
+        // Start idle animations
+        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
+
         // Add a listener to the stage to monitor the DialogueBox visibility
+        dialogueBoxListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    logger.info("DialogueBox is no longer visible, adding actors back.");
+                    addActors();
+                }
+            }
+        };
+        entity.getEvents().addListener("endOfBossCombatDialogue", this::displayBossEndCombatDialogue);
         dialogueBoxListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
                     logger.debug("DialogueBox is no longer visible, adding actors back.");
                     addActors();
+                    // Resume idle animations
+                    combatArea.startEnemyAnimation(CombatArea.CombatAnimation.IDLE);
                 }
             }
         };
@@ -81,8 +101,8 @@ public class CombatButtonDisplay extends UIComponent {
      * Create a text box pop up to provide the user with description on moves when hovering over with mouse upon
      */
     private void createTextForHints() {
-        hoverTextLabel = new Label("", SKIN, "default-white");
-        hoverTextTable = new Table(SKIN);
+        hoverTextLabel = new Label("", skin, "default-white");
+        hoverTextTable = new Table(skin);
         hoverTextTable.clear();
         hoverTextTable.setBackground("white");  // Set a white background (ensure you have this drawable in your skin)
         hoverTextTable.add(hoverTextLabel).pad(10f);  // Add padding around the text
@@ -130,23 +150,24 @@ public class CombatButtonDisplay extends UIComponent {
         table.bottom();
         table.setFillParent(true);
 
-        AttackButton = new TextButton("Attack", skin);
-        GuardButton = new TextButton("Guard", skin);
-        SleepButton = new TextButton("Sleep", skin);
-        ItemsButton = new TextButton("Items", skin);
+        attackButton = new TextButton("Attack", skin);
+        guardButton = new TextButton("Guard", skin);
+        sleepButton = new TextButton("Sleep", skin);
+        itemsButton = new TextButton("Items", skin);
 
-        AttackButton.addListener(
+        attackButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Attack", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
-        AttackButton.addListener(new InputListener() {
+        attackButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over attack button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Lower enemy HP but drains stamina!");
+                setTextForCombatHint("Lower enemy HP but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the attack button
@@ -157,18 +178,19 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        GuardButton.addListener(
+        guardButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Guard", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
-        GuardButton.addListener(new InputListener() {
+        guardButton.addListener(new InputListener() {
             // Brings up the combat hint when the user hovers over guard button
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Reduces damage of the next attack but drains stamina!");
+                setTextForCombatHint("Reduces damage of the next attack but drains hunger!");
                 return true;
             }
             // hides the combat hint when the user is no longer hovering over the guard button
@@ -179,17 +201,18 @@ public class CombatButtonDisplay extends UIComponent {
             }
         });
 
-        SleepButton.addListener(
+        sleepButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Sleep", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                     }
                 });
-        SleepButton.addListener(new InputListener() {
+        sleepButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Recover health and stamina but potentially take more damage!");
+                setTextForCombatHint("Recover health and hunger but potentially take more damage!");
                 return true;
             }
 
@@ -199,18 +222,19 @@ public class CombatButtonDisplay extends UIComponent {
                 backgroundImage.setVisible(false);
             }
         });
-        ItemsButton.addListener(
+        itemsButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         entity.getEvents().trigger("Items", screen, container);
+                        combatArea.startEnemyAnimation(CombatArea.CombatAnimation.MOVE);
                         hideButtons();
                     }
                 });
-        ItemsButton.addListener(new InputListener() {
+        itemsButton.addListener(new InputListener() {
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                setTextForCombatHint("Access items to either buff yourself or debuff the enemy");
+                setTextForCombatHint("Access items to either buff yourself or de-buff the enemy");
                 return true;
             }
 
@@ -222,10 +246,10 @@ public class CombatButtonDisplay extends UIComponent {
         });
 
         // Position the button on the central bottom part and make them a lil bigger
-        table.add(AttackButton).padBottom(50).width(300).height(60).padLeft(10f);
-        table.add(GuardButton).padBottom(50).width(300).height(60).padLeft(10f);
-        table.add(SleepButton).padBottom(50).width(300).height(60).padLeft(10f);
-        table.add(ItemsButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(attackButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(guardButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(sleepButton).padBottom(50).width(300).height(60).padLeft(10f);
+        table.add(itemsButton).padBottom(50).width(300).height(60).padLeft(10f);
 
         stage.addActor(table);
     }
@@ -247,6 +271,9 @@ public class CombatButtonDisplay extends UIComponent {
         String[][] endText;
         stage.removeListener(dialogueBoxListener);
 
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
         ChangeListener endDialogueListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -263,10 +290,51 @@ public class CombatButtonDisplay extends UIComponent {
         if (winStatus) {
             endText = new String[][]{{"You tamed the wild animal. Say hi to your new friend!"}};
         } else {
-            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
-                    "before battling again."}};
+            endText = new String[][]{{"You lost. Try leveling up, and try again."}};
         }
-        ServiceLocator.getDialogueBoxService().updateText(endText);
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
+    }
+
+    /**
+     * Function used to display the specific text for the DialogueBox at the end of combat
+     * with the land Kangaroo Boss
+     * @param bossEntity Entity of the boss enemy that was encountered in combat
+     * @param winStatus Boolean that states if the player has won in combat or not (false)
+     */
+    public void displayBossEndCombatDialogue(Entity bossEntity, boolean winStatus) {
+        String[][] endText;
+        stage.removeListener(dialogueBoxListener);
+
+        // Hide buttons before displaying dialogue
+        entity.getEvents().trigger("displayCombatResults");
+
+        ChangeListener endDialogueListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Check if the DialogueBox is not visible
+                if (!ServiceLocator.getDialogueBoxService().getIsVisible()) {
+                    if (!winStatus) {
+                        logger.info("Switching screens to gamer over lose after losing to boss.");
+                        entity.getEvents().trigger("finishedBossLossCombatDialogue");
+                    } else if (bossEntity.getEnemyType() == Entity.EnemyType.AIR_BOSS){
+                        logger.info("Switching screen to end game stats.");
+                        entity.getEvents().trigger("finishedFinalCombatDialogue");
+                    } else {
+                        logger.info("DialogueBox is no longer visible, combat screen can be exited.");
+                        entity.getEvents().trigger("finishedEndCombatDialogue", bossEntity);
+                    }
+                }
+            }
+        };
+
+        // New listener for end of game
+        stage.addListener(endDialogueListener);
+
+        // Get dialogue from DialogueData class
+        BossCombatDialogueData dialogueData = new BossCombatDialogueData();
+        endText = dialogueData.getDialogue(bossEntity.getEnemyType().toString(), winStatus);
+
+        ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }
 
     /**
@@ -278,7 +346,7 @@ public class CombatButtonDisplay extends UIComponent {
     private void onItemClicked(AbstractItem item, int index, ItemUsageContext context) {
         logger.debug(String.format("Item %s was clicked.", item.getName()));
         String[][] checkText = {{String.format("You are selecting %s as your move.", item.getName())}};
-        ServiceLocator.getDialogueBoxService().updateText(checkText);
+        ServiceLocator.getDialogueBoxService().updateText(checkText, DialogueBoxService.DialoguePriority.BATTLE);
 
         entity.getEvents().trigger("toggleCombatInventory");
         entity.getEvents().trigger("itemConfirmed", item, index, context);

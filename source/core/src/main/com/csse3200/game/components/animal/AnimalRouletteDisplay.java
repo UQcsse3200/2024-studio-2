@@ -1,13 +1,12 @@
 package com.csse3200.game.components.animal;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.csse3200.game.components.Component;
+import com.csse3200.game.ui.UIComponent;
 
-public class AnimalRouletteDisplay extends Component {
+public class AnimalRouletteDisplay extends UIComponent {
     private Table table;
     private Image animalImage;
     private final String[] animalImages = {
@@ -15,8 +14,8 @@ public class AnimalRouletteDisplay extends Component {
             "images/croc.png",
             "images/bird.png"};
     private int currentAnimalIndex = 0;
-    private Skin skin;
-    private Stage stage;
+    private TextButton leftButton;
+    private TextButton rightButton;
 
     @Override
     public void create() {
@@ -35,8 +34,8 @@ public class AnimalRouletteDisplay extends Component {
         animalImage = new Image(new Texture(animalImages[currentAnimalIndex]));
 
         // Add left and right buttons for navigation
-        TextButton leftButton = new TextButton("<", skin);
-        TextButton rightButton = new TextButton(">", skin);
+        leftButton = new TextButton("<", skin);
+        rightButton = new TextButton(">", skin);
 
         leftButton.addListener(event -> {
             currentAnimalIndex = (currentAnimalIndex - 1 + animalImages.length) % animalImages.length;
@@ -58,12 +57,35 @@ public class AnimalRouletteDisplay extends Component {
         stage.addActor(table);
     }
 
+    @Override
+    public void draw(SpriteBatch batch) {
+        // draw is handled by the stage
+    }
+
     public String getSelectedAnimal() {
         return animalImages[currentAnimalIndex];
     }
 
     public int getCurrentAnimalIndex() {
         return currentAnimalIndex;
+    }
+
+    /**
+     * Retrieve the left roulette button
+     *
+     * @return the left button
+     */
+    public TextButton getLeftButton() {
+        return this.leftButton;
+    }
+
+    /**
+     * Retrieve the right roulette button
+     *
+     * @return the right button
+     */
+    public TextButton getRightButton() {
+        return this.rightButton;
     }
 
 }

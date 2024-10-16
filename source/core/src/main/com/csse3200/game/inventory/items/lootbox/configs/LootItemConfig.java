@@ -2,6 +2,7 @@ package com.csse3200.game.inventory.items.lootbox.configs;
 
 import com.csse3200.game.inventory.items.AbstractItem;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * LootItemConfig is a configuration class representing a specific loot item, including its class type,
@@ -42,11 +43,16 @@ public class LootItemConfig {
      * This method finds the correct constructor based on the parameter types and instantiates the item.
      *
      * @return A new instance of the specified AbstractItem.
-     * @throws Exception If the item cannot be instantiated, including issues with constructor access or parameter mismatches.
+     * @throws NoSuchMethodException See below
+     * @throws InvocationTargetException See below
+     * @throws InstantiationException See below
+     * @throws IllegalAccessException If the item cannot be instantiated,
+     *     including issues with constructor access or parameter mismatches.
      */
-    public AbstractItem createNewItem() throws Exception {
-        // Get the constructor with specified parameter types
+    public AbstractItem createNewItem() throws NoSuchMethodException, InvocationTargetException,
+            InstantiationException, IllegalAccessException {
+        // Use the constructor with specified parameter types
         Constructor<? extends AbstractItem> constructor = item.getDeclaredConstructor(parameterTypes);
-        return constructor.newInstance(parameters); // Create a new instance with specified parameters
+        return constructor.newInstance(parameters);
     }
 }

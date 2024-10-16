@@ -3,18 +3,18 @@ package com.csse3200.game.gamestate.data;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.csse3200.game.components.quests.DialogueKey;
-import com.csse3200.game.components.quests.QuestBasic;
+import com.csse3200.game.components.quests.Quest;
 import com.csse3200.game.components.quests.Task;
 
 import java.util.*;
 
 public class QuestSave implements Json.Serializable {
-    public List<QuestBasic> quests = new ArrayList<>();
+    public List<Quest> quests = new ArrayList<>();
 
     @Override
     public void write(Json json) {
         json.writeArrayStart("quests");
-        for(QuestBasic element : quests) {
+        for(Quest element : quests) {
             json.writeValue(element);
         }
         json.writeArrayEnd();
@@ -22,7 +22,7 @@ public class QuestSave implements Json.Serializable {
 
     @Override
     public void read(Json json, JsonValue jsonData) {
-        ArrayList<QuestBasic> newQuests = new ArrayList<>();
+        ArrayList<Quest> newQuests = new ArrayList<>();
         for (JsonValue quest : jsonData.child) {
             Iterator<JsonValue> taskList;
 
@@ -33,7 +33,7 @@ public class QuestSave implements Json.Serializable {
             }
 
             Iterator<JsonValue> dialogueList;
-            if(quest.get("taskCompletionTriggers").isNull()) {
+            if(quest.get("questDialogue").isNull()) {
                 dialogueList = null;
             } else {
                 dialogueList = quest.get("questDialogue").iterator();
@@ -49,10 +49,10 @@ public class QuestSave implements Json.Serializable {
 
             List<Task> newTasks = new ArrayList<>();
 
-            Map<DialogueKey, String[]> newDialogues;
+            ArrayList<DialogueKey> newDialogues;
 
             if(dialogueList != null) {
-                newDialogues = new HashMap<>();
+                newDialogues = new ArrayList<>();
             } else {
                 newDialogues = null;
             }
@@ -79,13 +79,35 @@ public class QuestSave implements Json.Serializable {
                 newTasks.add(task);
             }
 
+
             if(dialogueList != null) {
                 while (dialogueList.hasNext()) {
-                    //TODO: fill with functional loading for NPC integration
-                    dialogueList.next();
+                    JsonValue dialogue = dialogueList.next();
+                    DialogueKey newKey;
+                    String npc = dialogue.getString("npcName");
+
+                    String[][] dialogueArray;
+                    Iterator<JsonValue> dialogueIterator = dialogue.get("dialogue").iterator();
+                    List<String[]> dialogueIteratorList = new ArrayList<>();
+
+                    while(dialogueIterator.hasNext()) {
+                        JsonValue dialogueItem = dialogueIterator.next();
+                        Iterator<JsonValue> dialogueLineIterator = dialogueItem.iterator();
+                        List<String> dialogueLines = new ArrayList<>();
+
+                        while(dialogueLineIterator.hasNext()) {
+                            JsonValue dialogueLine = dialogueLineIterator.next();
+                            dialogueLines.add(dialogueLine.asString());
+                        }
+
+                        dialogueIteratorList.add(dialogueLines.toArray(new String[0]));
+                    }
+
+                    dialogueArray = dialogueIteratorList.toArray(new String[0][0]);
+                    newKey = new DialogueKey(npc, dialogueArray);
+                    newDialogues.add(newKey);
                 }
             }
-
             if(taskCompletionList != null) {
                 while (taskCompletionList.hasNext()) {
                     newTriggers.add(taskCompletionList.next().toString());
@@ -93,7 +115,24 @@ public class QuestSave implements Json.Serializable {
                 finalTriggers = newTriggers.toArray(new String[newTriggers.size()]);
             }
 
-            QuestBasic nextQuest = new QuestBasic(quest.getString("questName"),
+            Iterator<JsonValue> followList;
+            if(!quest.has("followQuests")) {
+                followList = null;
+            } else {
+                followList = quest.get("followQuests").iterator();
+            }
+
+            quest.get("followQuests");
+            List<String> newFollows = new ArrayList<>();
+            if(followList != null) {
+                while(followList.hasNext()) {
+                    JsonValue follow = followList.next();
+                    newFollows.add(follow.asString());
+                }
+            }
+
+
+            Quest nextQuest = new Quest(quest.getString("questName"),
                     quest.getString("questDescription"),
                     newTasks,
                     quest.getBoolean("isSecretQuest"),
@@ -101,7 +140,8 @@ public class QuestSave implements Json.Serializable {
                     finalTriggers,
                     quest.getBoolean("isActive"),
                     quest.getBoolean("isFailed"),
-                    quest.getInt("currentTaskIndex"));
+                    quest.getInt("currentTaskIndex"),
+                    newFollows.toArray(new String[]{}));
             newQuests.add(nextQuest);
         }
         quests = newQuests;

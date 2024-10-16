@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(GameExtension.class)
-public class ConsumableItemTest {
+class ConsumableItemTest {
     private TestableItem item;
     private static ItemUsageContext context;
 

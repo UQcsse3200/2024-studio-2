@@ -3,15 +3,8 @@ package com.csse3200.game.components.tasks;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.ai.tasks.Task;
-import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.factories.EnemyFactory;
-import com.csse3200.game.utils.math.RandomUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -20,9 +13,7 @@ import java.util.ArrayList;
  * Requires an entity with a PhysicsMovementComponent.
  */
 public class HiveTask extends DefaultTask implements PriorityTask {
-    private static final Logger logger = LoggerFactory.getLogger(HiveTask.class);
-
-    private WaitTask waitTask;
+    WaitTask waitTask;
     private final Entity target;
     ArrayList<Entity> bees;
 
@@ -34,7 +25,7 @@ public class HiveTask extends DefaultTask implements PriorityTask {
      */
     public HiveTask(Entity target) {
         this.target = target;
-        bees = new ArrayList<Entity>();
+        bees = new ArrayList<>();
     }
     
     @Override

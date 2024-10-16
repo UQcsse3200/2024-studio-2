@@ -17,7 +17,7 @@ public class MazePlayerFactory {
     private static final MazePlayerConfig stats =
             FileLoader.readClass(MazePlayerConfig.class, "configs/minigames/maze/player.json");
 
-    public MazePlayerFactory() {
+    private MazePlayerFactory() {
         throw new IllegalStateException("Instantiating static util class");
     }
 

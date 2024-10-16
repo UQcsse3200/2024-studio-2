@@ -76,8 +76,7 @@ public class LootBoxFactory {
             try {
                 lootTable.addItem((Class<? extends AbstractItem>) itemClass, weight, paramTypes, constructorArgs);
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException("Error creating item: " + itemJson.getString("class"), e);
+                throw new ClassNotFoundException("Error creating item: " + itemJson.getString("class"), e);
             }
         }
 
@@ -100,7 +99,7 @@ public class LootBoxFactory {
 
             // Check the type and assign both the argument and its corresponding class type
             if (arg.isNumber()) {
-                if (arg.asFloat() == (float) arg.asInt()) {
+                if (arg.asFloat() == arg.asInt()) {
                     constructorArgs[i] = arg.asInt();  // It's an integer
                     paramTypes[i] = int.class;  // Set the parameter type as int.class
                 } else {
@@ -110,12 +109,9 @@ public class LootBoxFactory {
             } else if (arg.isBoolean()) {
                 constructorArgs[i] = arg.asBoolean();  // It's a boolean
                 paramTypes[i] = boolean.class;  // Set the parameter type as boolean.class
-            } else if (arg.isString()) {
-                constructorArgs[i] = arg.asString();  // It's a string
+            } else { // Is a string or does not fall into above
+                constructorArgs[i] = arg.asString();
                 paramTypes[i] = String.class;  // Set the parameter type as String.class
-            } else {
-                constructorArgs[i] = arg.asString();  // Default fallback to string
-                paramTypes[i] = String.class;  // Fallback to String class
             }
         }
 

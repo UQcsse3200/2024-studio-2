@@ -8,6 +8,6 @@ import java.util.*;
 public class OceanTileConfig {
     public String id;
     public String fp;
-    public ArrayList<String> edges;
+    public List<String> edges;
     public String centre;
 }

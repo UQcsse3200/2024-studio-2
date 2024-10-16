@@ -1,6 +1,9 @@
 package com.csse3200.game.inventory.items.lootbox.configs;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.csse3200.game.inventory.items.AbstractItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.List;
  * and calculate their probabilities based on the assigned weights.
  */
 public class BaseLootTable {
+    private static final Logger logger = LoggerFactory.getLogger(BaseLootTable.class);
 
     // List to hold loot items and their weights
     protected List<LootItemConfig> items;
@@ -53,7 +57,7 @@ public class BaseLootTable {
      */
     public AbstractItem getRandomItem() {
         double totalWeight = items.stream().mapToDouble(LootItemConfig::getWeight).sum();
-        double randomValue = Math.random() * totalWeight;
+        double randomValue = MathUtils.random() * totalWeight;
         double cumulativeWeight = 0.0;
 
         for (LootItemConfig item : items) {
@@ -62,7 +66,8 @@ public class BaseLootTable {
                 try {
                     return item.createNewItem();  // Create a new item instance with parameters
                 } catch (Exception e) {
-                    e.printStackTrace();  // Handle instantiation exceptions
+                    // Handle instantiation exceptions
+                    logger.warn("Could not create the new specified item!");
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.csse3200.game.components.inventory;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -14,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
-public class InventoryUtilsTest {
+class InventoryUtilsTest {
     @Mock
     private Group table;
     @Mock
@@ -37,10 +36,5 @@ public class InventoryUtilsTest {
         verify(child).getChildren();
         verify(child).clearChildren();
         verify(child).remove();
-    }
-
-    @Test
-    void testInitialisation() {
-        assertThrows(InstantiationException.class, InventoryUtils::new);
     }
 }

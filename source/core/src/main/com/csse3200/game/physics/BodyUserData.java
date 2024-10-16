@@ -11,5 +11,8 @@ public class BodyUserData {
   /**
    * The entity to which this body is attached
    */
-  public Entity entity;
+  private Entity entity;
+
+  public Entity getEntity() {return entity;}
+  public void setEntity(Entity entity) {this.entity = entity;}
 }

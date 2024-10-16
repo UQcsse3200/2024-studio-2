@@ -46,7 +46,7 @@ public class TouchAttackComponent extends Component {
         if (checkHitboxAndLayer(me, other)) return;
         
         // Try to attack target.
-        Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
+        Entity target = ((BodyUserData) other.getBody().getUserData()).getEntity();
         CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
         if (targetStats != null) {
             // Trigger event to start combat screen

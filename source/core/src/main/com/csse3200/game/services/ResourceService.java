@@ -21,7 +21,6 @@ public class ResourceService implements Disposable {
 
   private static final Logger logger = LoggerFactory.getLogger(ResourceService.class);
   private AssetManager assetManager;
-  private AssetManager hiddenAssetManager;
 
   public ResourceService() {
     this(new AssetManager());

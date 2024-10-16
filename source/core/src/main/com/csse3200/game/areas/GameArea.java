@@ -1,15 +1,14 @@
 package com.csse3200.game.areas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.csse3200.game.areas.terrain.TerrainComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.utils.math.RandomUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents an area in the game, such as a level, indoor area, etc. An area has a terrain and
@@ -74,13 +73,22 @@ public abstract class GameArea implements Disposable {
   }
 
   public abstract Entity getPlayer();
+
+  public abstract List<Entity> getEnemies();
+
+
+  public abstract List<Entity> getBosses();
+
+  public abstract List<Entity> getFriendlyNPCs();
+
+  public abstract List<Entity> getMinigameNPCs();
   public abstract void unloadAssets();
 
   public abstract void pauseMusic();
 
   public abstract void playMusic();
 
-  public abstract List<Entity> getEnemies();
+  public void unlockArea(String area) {};
 
   /**
    * Spawns an entity at a specified world position.
@@ -96,6 +104,8 @@ public abstract class GameArea implements Disposable {
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
+  
+  public void spawnConvertedNPCs(Entity defeatedEnemy) {}
 
   /**
    * Spawns an entity centered at a specified world position.

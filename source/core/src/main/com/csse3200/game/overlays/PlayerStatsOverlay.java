@@ -3,7 +3,6 @@ package com.csse3200.game.overlays;
 
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.entities.Entity;
-import com.csse3200.game.overlays.PlayerStatsDisplay2;
 import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.slf4j.Logger;

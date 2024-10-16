@@ -1,12 +1,12 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.utils.Logger;
+import com.csse3200.game.components.quests.DialogueKey;
+import com.csse3200.game.components.quests.Quest;
+import com.csse3200.game.components.quests.QuestManager;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.ConfigComponent;
 import com.csse3200.game.entities.configs.*;
-import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
-
 import java.util.Objects;
 
 /**
@@ -14,13 +14,13 @@ import java.util.Objects;
  * Extends the ChaseTask to include pausing behavior when in proximity to a target.
  */
 public class PauseTask extends ChaseTask {
-    private static final Logger logger = new Logger("PauseTask");
-
     private final float maxPauseDistance;
     private boolean hasApproached;
     private Entity entity;
     private BaseFriendlyEntityConfig config;
+    QuestManager questManager;
     private String animalName;
+    private String taskName;
     private boolean hasEndedConversation;
 
     /**
@@ -36,6 +36,8 @@ public class PauseTask extends ChaseTask {
         this.maxPauseDistance = maxPauseDistance;
         this.hasApproached = false;
         this.config = null;
+        this.questManager = target.getComponent(QuestManager.class);
+        this.taskName = "";
         this.hasEndedConversation = false;
     }
 
@@ -62,6 +64,14 @@ public class PauseTask extends ChaseTask {
             String[][] hintText = this.config.getBaseHint();
             animalName = (config).getAnimalName();
             String eventName = String.format("PauseStart%s", animalName);
+
+            if (questManager != null) {
+                hintText = findDialogueHint(hintText);
+            } else {
+                // Try resetting it for next time
+                this.questManager = target.getComponent(QuestManager.class);
+            }
+
             entity.getEvents().trigger(eventName, hintText, entity);
         } else {
             entity.getEvents().trigger("PauseStart");
@@ -69,15 +79,40 @@ public class PauseTask extends ChaseTask {
     }
 
     /**
+     * Helper function to find the correct dialogue hint text from the quest manager.
+     *
+     * @param hintText the base hintText to return if nothing is found.
+     */
+    private String[][] findDialogueHint(String[][] hintText) {
+        for (Quest quest: questManager.getAllQuests()) {
+            int progression = quest.getProgression();
+            if (!quest.isActive()) {
+                continue;
+            }
+
+            for (DialogueKey dialogueKey : quest.getQuestDialogue()) {
+                String npcName = dialogueKey.getNpcName();
+                if (Objects.equals(npcName, animalName) && Objects.equals(this.taskName, "") && !quest.isQuestCompleted()) {
+                    this.taskName = quest.getTasks().get(progression).getTaskName();
+                    return dialogueKey.getDialogue();
+                }
+            }
+        }
+        return hintText;
+    }
+
+
+    /**
      * Triggers an event to end the pause behavior.
-     * If the entity has a config component, it fetches the dialogue or hint text
-     * associated with the entity to provide context for the pause event.
      */
     protected void triggerPauseEventEnd() {
         if (this.config != null) {
-            String animalName = (config).getAnimalName();
-            String eventName = String.format("PauseEnd%s", animalName);
+            String eventName = String.format("PauseEnd%s", (config).getAnimalName());
             entity.getEvents().trigger(eventName);
+            if (this.taskName.equals("talkToGuide") || this.taskName.equals("talkToWaterSage") || this.taskName.equals("talkToCloudSage")) {
+                this.target.getEvents().trigger(this.taskName);
+            }
+            this.taskName = "";
         } else {
             entity.getEvents().trigger("pauseEnd");
         }

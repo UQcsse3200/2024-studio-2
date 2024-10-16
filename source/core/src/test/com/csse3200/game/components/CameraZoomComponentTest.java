@@ -136,7 +136,7 @@ class CameraZoomComponentTest {
             }
         }
         assertTrue(i < LOOP_TIME_OUT);
-        assertEquals(camera.viewportWidth, MAX_ZOOM_AMOUNT);
+        assertEquals(MAX_ZOOM_AMOUNT, camera.viewportWidth);
     }
 
     /**
@@ -159,7 +159,7 @@ class CameraZoomComponentTest {
             }
         }
         assertTrue(i < LOOP_TIME_OUT);
-        assertEquals(camera.viewportWidth, MIN_ZOOM_AMOUNT);
+        assertEquals(MIN_ZOOM_AMOUNT, camera.viewportWidth);
     }
 
     /**

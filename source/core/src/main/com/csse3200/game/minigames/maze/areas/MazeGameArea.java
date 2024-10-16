@@ -2,6 +2,7 @@ package com.csse3200.game.minigames.maze.areas;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
 import com.csse3200.game.areas.GameArea;
@@ -14,20 +15,14 @@ import com.csse3200.game.minigames.maze.components.tasks.PatrolTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
-import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
-import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.utils.math.GridPoint2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.csse3200.game.utils.math.GridPoint2Utils.GRID_DIRECTIONS;
+import java.util.*;
 
 /**
  * Forest area for the demo game with trees, a player, and some enemies.
@@ -39,28 +34,34 @@ public class MazeGameArea extends GameArea {
     // Number of entities spawned onto the maze
     public static final int NUM_WALL_BREAKS = 20;
     public static final int NUM_ANGLERS = 1;
-    public static final int NUM_EELS = 5;
+    public static final int NUM_OCTOPI = 2;
+    public static final int NUM_EELS = 4;
+    public static final int NUM_TURTLES = 4;
     public static final int NUM_JELLYFISH = 20;
     public static final int NUM_EGGS = 16;
 
-    Map<Entity.EnemyType, List<Entity>> enemies;
+    EnumMap<Entity.EnemyType, List<Entity>> enemies;
 
     // entities textures and music
     private static final String[] mazeEnvironmentTextures = {
             "images/minigames/water.png",
-            "images/minigames/wall.png",
+            "images/minigames/wall_h.png",
+            "images/minigames/wall_v.png",
             "images/minigames/fishegg.png",
             "images/PauseOverlay/TitleBG.png",
-            "images/PauseOverlay/Button.png",
+            "images/PauseOverlay/Button2.png",
             "images/QuestsOverlay/Quest_BG.png",
             "images/QuestsOverlay/Quest_SBG.png",
+            "images/minigames/inksplat.png"
     };
     private static final String[] mazeTextureAtlases = {
             "images/minigames/angler.atlas", "images/minigames/fish.atlas",
             "images/minigames/Jellyfish.atlas", "images/minigames/eels.atlas",
-            "images/minigames/GreenJellyfish.atlas"
+            "images/minigames/GreenJellyfish.atlas",
+            "images/minigames/octopus.atlas",
+            "images/minigames/turtle.atlas"
     };
-    private static final String mazeParticleEffectImageDir = "images/minigames";
+    private static final String MAZE_PARTICLE_EFFECT_IMAGE_DIR = "images/minigames";
     private static final String[] mazeParticleEffects = {
             "images/minigames/trail.p",
             "images/minigames/electricparticles.p",
@@ -71,13 +72,16 @@ public class MazeGameArea extends GameArea {
             "sounds/minigames/eel-zap.mp3",
             "sounds/minigames/eel-electricity.mp3",
             "sounds/minigames/maze-hit.mp3",
-            "sounds/minigames/collect-fishegg.mp3"
+            "sounds/minigames/collect-fishegg.mp3",
+            "sounds/minigames/ink-splat.mp3",
+            "sounds/minigames/octopus-move.mp3"
     };
-    private static final String mazeBackgroundMusic = "sounds/minigames/maze-bg.mp3";
-    private static final String[] mazeMusic = {mazeBackgroundMusic};
+    private static final String MAZE_BACKGROUND_MUSIC = "sounds/minigames/maze-bg.mp3";
+    private static final String[] mazeMusic = {MAZE_BACKGROUND_MUSIC};
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
     private Maze maze;  // The maze instance
     private Entity player;  // THe player instance
+    private final List<Entity> fishEggs;
 
     /**
      * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -87,7 +91,8 @@ public class MazeGameArea extends GameArea {
     public MazeGameArea(MazeTerrainFactory terrainFactory) {
         super();
         this.terrainFactory = terrainFactory;
-        this.enemies = new HashMap<>();
+        this.enemies = new EnumMap<>(Entity.EnemyType.class);
+        this.fishEggs = new ArrayList<>();
     }
 
     /**
@@ -96,8 +101,6 @@ public class MazeGameArea extends GameArea {
     @Override
     public void create() {
         loadAssets();
-        ElectricEel.resetParticlePool();
-        FishEgg.resetParticlePool();
 
         displayUI();
 
@@ -108,10 +111,12 @@ public class MazeGameArea extends GameArea {
         spawnWalls();
         player = spawnPlayer();
         spawnAngler();
+        spawnOctopi();
         spawnJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnGreenJellyfish(MazeGameArea.NUM_JELLYFISH, 1f);
         spawnEels();
         spawnFishEggs();
+        spawnTurtles();
 
         playMusic();
     }
@@ -147,7 +152,7 @@ public class MazeGameArea extends GameArea {
     private void spawnWalls() {
         for (int x = 0; x < maze.getWidth(); x++) {
             for (int y = 0; y < maze.getHeight(); y++) {
-                for (GridPoint2 direction : GRID_DIRECTIONS) {
+                for (GridPoint2 direction : GridPoint2Utils.directions()) {
                     if (maze.isWall(x, y, direction)) {
                         float width = 1 + WALL_THICKNESS - Math.abs(direction.x);
                         float height = 1 + WALL_THICKNESS - Math.abs(direction.y);
@@ -196,6 +201,17 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
+     * Spawns the octopus entities
+     */
+    private void spawnOctopi() {
+        for (int i = 0; i < MazeGameArea.NUM_OCTOPI; i++) {
+            Entity octopus = MazeNPCFactory.createOctopus(player);
+            spawnEntityAt(octopus, getSimpleStartLocation(3f), true, true);
+            getEnemies(Entity.EnemyType.MAZE_OCTOPUS).add(octopus);
+        }
+    }
+
+    /**
      * Spawns in the jellyfish npc. Jellyfish wander around, and do not actively seek
      * the player.
      */
@@ -215,7 +231,7 @@ public class MazeGameArea extends GameArea {
      * @return the random number
      */
     private float randomRange(float min, float max) {
-        return (float) Math.random() * (max - min) + min;
+        return MathUtils.random() * (max - min) + min;
     }
 
     /**
@@ -228,7 +244,7 @@ public class MazeGameArea extends GameArea {
             spawnEntityAt(jellyfish, getSimpleStartLocation(minDistToPlayer), true, true);
             GridPoint2 cell = MazeTerrainFactory.worldPosToGridPos(jellyfish.getCenterPosition());
             Vector2[] patrolPoints;
-            double rand = Math.random();
+            double rand = MathUtils.random();
             if (rand < 0.5) {
                 // adjacent cells are already in random order from random maze generation algorithm
                 // so okay to just take first
@@ -276,12 +292,25 @@ public class MazeGameArea extends GameArea {
     }
 
     /**
+     * Spawns the turtle entities
+     */
+    private void spawnTurtles() {
+        assert NUM_TURTLES <= NUM_EGGS;
+        for (int i = 0; i < MazeGameArea.NUM_TURTLES; i++) {
+            Entity fishEgg = fishEggs.get(i);
+            Entity turtle = MazeNPCFactory.createTurtle(fishEgg);
+            spawnEntityAt(turtle, MazeTerrainFactory.worldPosToGridPos(fishEgg.getCenterPosition()), true, true);
+        }
+    }
+
+    /**
      * Spawns in the fish egg npc.
      */
     private void spawnFishEggs() {
         for (int i = 0; i < MazeGameArea.NUM_EGGS; i++) {
             Entity fishEgg = MazeNPCFactory.createFishEgg();
             spawnEntityAt(fishEgg, maze.getNextStartLocation(), true, true);
+            fishEggs.add(fishEgg);
         }
     }
 
@@ -290,7 +319,7 @@ public class MazeGameArea extends GameArea {
      */
     @Override
     public void playMusic() {
-        AudioManager.playMusic("sounds/minigames/maze-bg.mp3", true);
+        AudioManager.playMusic(MAZE_BACKGROUND_MUSIC, true);
     }
 
     /**
@@ -310,7 +339,7 @@ public class MazeGameArea extends GameArea {
         resourceService.loadTextureAtlases(mazeTextureAtlases);
         resourceService.loadSounds(mazeSounds);
         resourceService.loadMusic(mazeMusic);
-        resourceService.loadParticleEffects(mazeParticleEffects, mazeParticleEffectImageDir);
+        resourceService.loadParticleEffects(mazeParticleEffects, MAZE_PARTICLE_EFFECT_IMAGE_DIR);
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
             logger.info("Loading... {}%", resourceService.getProgress());
@@ -337,7 +366,7 @@ public class MazeGameArea extends GameArea {
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(mazeBackgroundMusic, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(MAZE_BACKGROUND_MUSIC, Music.class).stop();
         this.unloadAssets();
     }
 
@@ -372,9 +401,33 @@ public class MazeGameArea extends GameArea {
      * @return the list of enemies
      */
     public List<Entity> getEnemies(Entity.EnemyType enemyType) {
-        if (!enemies.containsKey(enemyType)) {
-            enemies.put(enemyType, new ArrayList<>());
-        }
-        return enemies.get(enemyType);
+        return enemies.computeIfAbsent(enemyType, k -> new ArrayList<>());
+    }
+
+
+    /**
+     * Gets the list of fish eggs
+     *
+     * @return the list of eggs
+     */
+    public List<Entity> getEggs() {
+        return fishEggs;
+    }
+
+    @Override
+    public List<Entity> getBosses() {
+        throw new UnsupportedOperationException("Unimplemented method 'getBosses'");
+    }
+
+
+    @Override
+    public List<Entity> getFriendlyNPCs() {
+        throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
+    }
+
+
+    @Override
+    public List<Entity> getMinigameNPCs() {
+        throw new UnsupportedOperationException("Unimplemented method 'getFriendlyNPCs'");
     }
 }

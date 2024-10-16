@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.ai.tasks.Task;
-import com.csse3200.game.areas.ForestGameArea;
+import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.entities.Entity;
@@ -67,7 +67,7 @@ public class StealTask extends DefaultTask implements PriorityTask {
 
     @Override
     public void update() {
-        if (currentTask.getStatus() != Status.ACTIVE) {
+        if (currentTask.getStatus() != Status.ACTIVE ) {
             if (currentTask == waitTask && isSpawned) {
                 startWandering();
             } else if (currentTask == movementTask) {
@@ -82,7 +82,6 @@ public class StealTask extends DefaultTask implements PriorityTask {
             currentitem = null;
             currentId = null;
         }
-        currentTask.update();
     }
 
     @Override

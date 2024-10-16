@@ -40,8 +40,13 @@ public class AbstractFood extends ConsumableItem {
     @Override
     public void useItem(ItemUsageContext context) {
         super.useItem(context);
-        context.player.getComponent(CombatStatsComponent.class).addHunger(this.feedingAmount);
-        String msg = String.format("Ate food %s and increased by %d", this.getName(), this.feedingAmount);
-        logger.debug(msg);
+        if (context.player == null) {
+            logger.warn("Using item that requires a player without providing a player!");
+        } else {
+            context.player.getComponent(CombatStatsComponent.class).addHunger(this.feedingAmount);
+            String msg = String.format(
+                    "Ate food %s and increased hunger by %d", this.getName(), this.feedingAmount);
+            logger.debug(msg);
+        }
     }
 }

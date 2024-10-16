@@ -16,9 +16,9 @@ public class SnakeRenderer implements MinigameRenderable {
     private final Snake snake;
     private final SnakeGrid grid;
     private final Texture snakeTexture;
-    private final Texture snakeBodyHorizontalTexture;
     private final Texture snakeBodyVerticalTexture;
     private final Texture snakeBodyBentTexture;
+    private final Texture snakeTailTexture;
     private final MinigameRenderer renderer;
 
     /**
@@ -27,20 +27,20 @@ public class SnakeRenderer implements MinigameRenderable {
      * @param snake The snake to render.
      * @param grid The grid the snake is on.
      * @param snakeTexture The texture for the snake's head.
-     * @param snakeBodyHorizontalTexture The texture for the snake's horizontal body segments.
      * @param snakeBodyVerticalTexture The texture for the snake's vertical body segments.
      * @param snakeBodyBentTexture The texture for the snake's bent body segments.
      * @param renderer The renderer used for drawing.
      */
     public SnakeRenderer(Snake snake, SnakeGrid grid, Texture snakeTexture,
-                         Texture snakeBodyHorizontalTexture, Texture snakeBodyVerticalTexture,
-                         Texture snakeBodyBentTexture, MinigameRenderer renderer) {
+                         Texture snakeBodyVerticalTexture,
+                         Texture snakeBodyBentTexture,
+                         Texture snakeTailTexture, MinigameRenderer renderer) {
         this.snake = snake;
         this.grid = grid;
         this.snakeTexture = snakeTexture;
-        this.snakeBodyHorizontalTexture = snakeBodyHorizontalTexture;
         this.snakeBodyVerticalTexture = snakeBodyVerticalTexture;
         this.snakeBodyBentTexture = snakeBodyBentTexture;
+        this.snakeTailTexture = snakeTailTexture;
         this.renderer = renderer;
     }
 
@@ -49,8 +49,8 @@ public class SnakeRenderer implements MinigameRenderable {
      */
     public void render() {
         // Calculate the top-left corner of the grid, centered in the camera's view
-        float gridWidthInWorldUnits = grid.getWidth() * CELL_SIZE;
-        float gridHeightInWorldUnits = grid.getHeight() * CELL_SIZE;
+        float gridWidthInWorldUnits = (float) grid.getWidth() * CELL_SIZE;
+        float gridHeightInWorldUnits = (float) grid.getHeight() * CELL_SIZE;
 
         float startX = renderer.getCam().position.x - gridWidthInWorldUnits / 2f;
         float startY = renderer.getCam().position.y - gridHeightInWorldUnits / 2f;
@@ -94,24 +94,41 @@ public class SnakeRenderer implements MinigameRenderable {
      */
     private void renderSnakeBody(float startX, float startY) {
         Direction prevDirection = snake.getDirection();
-        float segmentX, segmentY;
-        Snake.Segment lastSegment = snake.getLastSegment();
+        float segmentX;
+        float segmentY;
+        Snake.Segment tail = snake.getLastSegment();
+
 
         for (Snake.Segment segment : snake.getBodySegments()) {
             Direction currentDirection = segment.direction();
             Texture bodyTexture;
-            float rotation = 0f;
+            float rotation;
 
             segmentX = startX + segment.x() * CELL_SIZE;
             segmentY = startY + segment.y() * CELL_SIZE;
 
-            if (prevDirection != currentDirection && !segment.equals(lastSegment)) {
+            if (prevDirection != currentDirection && !segment.equals(tail)) {
                 bodyTexture = snakeBodyBentTexture;
                 rotation = getBentRotation(prevDirection, currentDirection);
-            } else {
-                bodyTexture = (currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT)
-                        ? snakeBodyHorizontalTexture
-                        : snakeBodyVerticalTexture;
+            } else if (segment.equals(tail)){
+                bodyTexture = snakeTailTexture;
+                switch(currentDirection) {
+                    case UP -> rotation = 0;
+                    case DOWN -> rotation = 180;
+                    case LEFT -> rotation = 90;
+                    case RIGHT -> rotation = 270;
+                    default -> throw new IllegalArgumentException("Unknown tail direction");
+                }
+            }else {
+                bodyTexture = snakeBodyVerticalTexture;
+                switch(currentDirection) {
+                    case UP -> rotation = 0;
+                    case DOWN -> rotation = 180;
+                    case LEFT -> rotation = 90;
+                    case RIGHT -> rotation = 270;
+                    default -> throw new IllegalArgumentException("Unknown body direction");
+                }
+
             }
 
             renderer.getSb().draw(
@@ -160,14 +177,11 @@ public class SnakeRenderer implements MinigameRenderable {
      * @return The rotation angle in degrees.
      */
     private float getBentRotation(Direction prevDirection, Direction currentDirection) {
-        if (prevDirection == Direction.UP) {
-            return (currentDirection == Direction.RIGHT) ? 0f : 270f;
-        } else if (prevDirection == Direction.RIGHT) {
-            return (currentDirection == Direction.DOWN) ? 270f : 180f;
-        } else if (prevDirection == Direction.DOWN) {
-            return (currentDirection == Direction.LEFT) ? 180f : 90f;
-        } else {
-            return (currentDirection == Direction.UP) ? 90f : 0f;
-        }
+        return switch (prevDirection) {
+            case UP -> (currentDirection == Direction.RIGHT) ? 0f : 270f;
+            case RIGHT -> (currentDirection == Direction.DOWN) ? 270f : 180f;
+            case DOWN -> (currentDirection == Direction.LEFT) ? 180f : 90f;
+            default -> (currentDirection == Direction.UP) ? 90f : 0f;
+        };
     }
 }

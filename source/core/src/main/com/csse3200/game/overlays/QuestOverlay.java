@@ -3,7 +3,6 @@ package com.csse3200.game.overlays;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputDecorator;
-import com.csse3200.game.screens.MainGameScreen;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;

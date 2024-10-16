@@ -9,19 +9,24 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
  * none if no hit occurred.
  */
 public class SingleHitCallback implements RayCastCallback {
-  public short layerMask = ~0;
-  public RaycastHit hit;
-  public boolean didHit;
+  private short layerMask = ~0;
+  private RaycastHit hit;
+  private boolean didHit;
 
   @Override
   public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
     if ((fixture.getFilterData().categoryBits & layerMask) != 0) {
       didHit = true;
-      hit.fixture = fixture;
-      hit.point = point;
-      hit.normal = normal;
+      hit.setFixture(fixture);
+      hit.setPoint(point);
+      hit.setNormal(normal);
       return fraction; // Continue in case of closer object
     }
     return 1; // Ignore this collision, it wasn't in the layer mask.
   }
+
+  public boolean getDidHit() {return didHit;}
+  public void setLayerMask(short layerMask) {this.layerMask = layerMask;}
+  public void setHit(RaycastHit hit) {this.hit = hit;}
+  public void setDidHit(boolean didHit) {this.didHit = didHit;}
 }

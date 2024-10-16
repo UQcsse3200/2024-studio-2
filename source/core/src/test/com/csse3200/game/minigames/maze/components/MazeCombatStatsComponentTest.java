@@ -2,11 +2,13 @@ package com.csse3200.game.minigames.maze.components;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.csse3200.game.extensions.GameExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(GameExtension.class)
 class MazeCombatStatsComponentTest {
-
     private MazeCombatStatsComponent player;
     private MazeCombatStatsComponent enemy;
 
@@ -32,7 +34,7 @@ class MazeCombatStatsComponentTest {
     }
 
     @Test
-    public void testAddHealth() {
+    void testAddHealth() {
         enemy.addHealth(10); // Assuming this method increases health
 
         // Assert the expected health after adding
@@ -40,7 +42,7 @@ class MazeCombatStatsComponentTest {
     }
 
     @Test
-    public void testHit() {
+    void testHit() {
         // Assuming the hit method reduces enemy's health based on player's attack value
         enemy.hit(player); // Pass the player to the enemy's hit method
 

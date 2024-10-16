@@ -255,3 +255,101 @@ swim_up
   orig: 67, 67
   offset: 0, 0
   index: 6
+combat_idle
+  rotate: false
+  xy: 21, 178
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 99, 184
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 183, 182
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 264, 182
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 3
+combat_idle
+  rotate: false
+  xy: 343, 180
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 4
+combat_idle
+  rotate: false
+  xy: 428, 183
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 5
+combat_idle
+  rotate: false
+  xy: 505, 182
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 6
+combat_move
+  rotate: false
+  xy: 21, 178
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 99, 184
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 183, 182
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 264, 182
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 343, 180
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 428, 183
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 5
+combat_move
+  rotate: false
+  xy: 505, 182
+  size: 67, 18
+  orig: 67, 18
+  offset: 0, 0
+  index: 6

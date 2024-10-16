@@ -1,0 +1,9 @@
+{
+  "fogTiles": [
+    {
+      "id": "fog2TL",
+      "fp": "images/fog-gate.jpg",
+      "edges": ["DDD", "DDD", "DDD", "DDD"]
+    }
+  ]
+}

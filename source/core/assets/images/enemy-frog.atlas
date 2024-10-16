@@ -115,3 +115,80 @@ jump
   orig: 47, 37
   offset: 0, 0
   index: 6
+combat_idle
+  rotate: false
+  xy: 13, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 0
+combat_idle
+  rotate: false
+  xy: 102, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 191, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 283, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 3
+combat_idle
+  rotate: false
+  xy: 368, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 4
+combat_idle
+  rotate: false
+  xy: 454, 27
+  size: 57, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 5
+combat_move
+  rotate: false
+  xy: 13, 205
+  size: 67, 45
+  orig: 77, 37
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 102, 205
+  size: 67, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 191, 205
+  size: 67, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 283, 205
+  size: 77, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 368, 205
+  size: 77, 45
+  orig: 47, 37
+  offset: 0, 0
+  index: 4

@@ -1,0 +1,19 @@
+{
+  "FogTextures": [
+    "images/fog-gate.jpg"
+  ],
+  "forestTextureAtlases" : [
+    "images/terrain_iso_grass.atlas",
+    "images/chicken.atlas",
+    "images/frog.atlas",
+    "images/monkey.atlas",
+    "images/Cow.atlas",
+    "images/Fish.atlas",
+    "images/snake.atlas",
+    "images/lion.atlas",
+    "images/eagle.atlas",
+    "images/turtle.atlas",
+    "images/magpie.atlas",
+    "images/final_boss_kangaroo.atlas"
+  ]
+}

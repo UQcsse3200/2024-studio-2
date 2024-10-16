@@ -1,6 +1,5 @@
 package com.csse3200.game.minigames.maze.entities.factories;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.minigames.maze.entities.configs.MazeEntityConfig;
@@ -28,7 +27,7 @@ public class MazeNPCFactory {
     /**
      * Creates the angler fish NPC
      *
-     * @param target entity associated with angular fish
+     * @param target entity that the angler chases
      * @return the angular fish
      */
     public static AnglerFish createAngler(Entity target) {
@@ -37,9 +36,20 @@ public class MazeNPCFactory {
     }
 
     /**
+     * Creates the octopus NPC
+     *
+     * @param target entity that the octopus chases
+     * @return the octopus
+     */
+    public static Octopus createOctopus(Entity target) {
+        MazeEntityConfig config = configs.octopus;
+        return new Octopus(target, config);
+    }
+
+    /**
      * Creates the eel npc
      *
-     * @param target the entity to be associated with the Eel npc
+     * @param target entity that the eel chases
      * @return the eel npc
      */
     public static ElectricEel createEel(Entity target) {
@@ -65,6 +75,16 @@ public class MazeNPCFactory {
     public static GreenJellyfish createGreenJellyfish() {
         MazeEntityConfig config = configs.jellyfish;
         return new GreenJellyfish(config);
+    }
+
+    /**
+     * Creates the turtle npc
+     *
+     * @return the turtle
+     */
+    public static Turtle createTurtle(Entity carry) {
+        MazeEntityConfig config = configs.turtle;
+        return new Turtle(carry, config);
     }
 
 
