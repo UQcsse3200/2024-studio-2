@@ -57,15 +57,15 @@ public class GameAreaDisplay extends UIComponent {
         switch (playerImagePath) {
             case "images/dog.png" -> {
                 playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png"));
-                minimapFrameTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png"));
+                minimapFrameTexture = new Texture(Gdx.files.internal("images/minimap_icon_forest.png"));
             }
             case "images/croc.png" -> {
                 playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_sea.png"));
-                minimapFrameTexture = new Texture(Gdx.files.internal("images/player_icon_sea.png"));
+                minimapFrameTexture = new Texture(Gdx.files.internal("images/minimap_icon_sea.png"));
             }
             case "images/bird.png" -> {
                 playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_sky.png"));
-                minimapFrameTexture = new Texture(Gdx.files.internal("images/player_icon_sky.png"));
+                minimapFrameTexture = new Texture(Gdx.files.internal("images/minimap_icon_sky.png"));
             }
             default -> {
                 playerIconTexture = new Texture(Gdx.files.internal("images/player_icon_forest.png")); // Default icon
