@@ -27,10 +27,15 @@ import org.slf4j.LoggerFactory;
 public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
     private Table rootTable;
-    private PausableScreen screen;
-    private GdxGame game;
+    private final PausableScreen screen;
+    private final GdxGame game;
 
 
+    /**
+     * Constructs a PauseDisplay instance.
+     * @param screen The screen that can be paused and resumed.
+     * @param game   The game instance that manages the overall state.
+     */
     public PauseDisplay(PausableScreen screen, GdxGame game) {
      super();
      this.screen = screen;
@@ -43,16 +48,21 @@ public class PauseDisplay extends UIComponent {
         addActors();
     }
 
+    /**
+     * Adds UI actors to the pause display, including the title and buttons.
+     */
+
     private void addActors() {
         // Title label
-        Label title = new Label(" Game Paused", skin, "title", Color.WHITE);
+        Label title = new Label("Attack On Animals", skin, "title");
         Image titleBackGround = new Image(ServiceLocator.getResourceService().getAsset("images/PauseOverlay/TitleBG.png", Texture.class));
+        title.setColor(Color.RED);
         // Create tables
         Table menuBtns = makeMenuBtns();
         // Root table that holds everything
         rootTable = new Table();
         rootTable.setFillParent(true);
-        rootTable.add(titleBackGround).width(Gdx.graphics.getWidth() * 0.3f).height(Gdx.graphics.getHeight() * 0.1f).center();
+        rootTable.add(titleBackGround).size(titleBackGround.getWidth() * 0.75f, titleBackGround.getHeight() * 0.75f).center();
         rootTable.row();
         rootTable.add(title).center().padTop(-titleBackGround.getHeight() * 0.75f);
         // Buttons Here
@@ -64,22 +74,27 @@ public class PauseDisplay extends UIComponent {
         stage.addActor(rootTable);
     }
 
+
+    /**
+     * Creates a table of menu buttons for the pause display.
+     * @return A table containing buttons for game.
+     */
     private Table makeMenuBtns() {
         // Create buttons
         CustomButton resumeBtn = new CustomButton("Resume", skin);
-        resumeBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        resumeBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton restartMinigameBtn = new CustomButton("Restart Mini-Game", skin);
-        restartMinigameBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        restartMinigameBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton exitMinigameBtn = new CustomButton("Exit Mini-Game", skin);
-        exitMinigameBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        exitMinigameBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton questsBtn = new CustomButton("Quest Tracker", skin);
-        questsBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        questsBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton settingsBtn = new CustomButton("Settings", skin);
-        settingsBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        settingsBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton saveBtn = new CustomButton("Save Game", skin);
-        saveBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        saveBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton mainMenuBtn = new CustomButton("Return to Main Menu", skin);
-        mainMenuBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        mainMenuBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
 
         // Add listeners for buttons
         resumeBtn.addListener(new ChangeListener() {
@@ -158,6 +173,9 @@ public class PauseDisplay extends UIComponent {
         return table;
     }
 
+    /**
+     * Exits the pause overlay, resuming the game.
+     */
     private void exitOverlay() {
         screen.removeOverlay();
     }
@@ -170,10 +188,16 @@ public class PauseDisplay extends UIComponent {
         ((MiniGameScreen) screen).restartGame();
     }
 
+    /**
+     * Opens the quest tracker overlay.
+     */
     private void openQuests() {
         screen.addOverlay(Overlay.OverlayType.QUEST_OVERLAY);
     }
 
+    /**
+     * Opens the settings overlay.
+     */
     private void openSettings() {  // New method to open settings overlay
         screen.addOverlay(Overlay.OverlayType.SETTINGS_OVERLAY);
     }

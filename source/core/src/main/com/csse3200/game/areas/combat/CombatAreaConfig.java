@@ -95,11 +95,19 @@ public class CombatAreaConfig {
     static final String[] questSounds = {"sounds/QuestComplete.wav"};
     static final String[] forestSounds = {"sounds/Impact4.ogg"};
     static final String BACKGROUND_MUSIC = "sounds/BGM_03_mp3.mp3";
-    static final String[] forestMusic = {BACKGROUND_MUSIC};
-    static final String[] combatBackgroundMusic = {"sounds/combat_track1.mp3"};
+    static final String[] combatBackgroundMusic = {
+            "sounds/combat_track1.mp3",
+            "sounds/combat-land-boss.mp3",
+            "sounds/combat-water-boss.mp3",
+            "sounds/combat-air-boss.mp3",
+    };
     static final String COMBATBACKGROUND_MUSIC = "sounds/combat_track1.mp3";
     static final String[] combatSounds = {"sounds/combat/attack start.wav", "sounds/combat/attack hit.wav",
             "sounds/combat/attack blocked.wav", "sounds/combat/sleep.wav", "sounds/combat/guard.wav"};
+    static final String[] forestMusic = {
+            BACKGROUND_MUSIC,
+            "sounds/track_2.mp3",
+    };
 
     private CombatAreaConfig() {
         throw new IllegalArgumentException("Do not instantiate static util class!");

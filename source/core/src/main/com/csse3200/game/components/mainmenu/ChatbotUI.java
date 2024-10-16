@@ -158,7 +158,7 @@ public class ChatbotUI {
 
         Table contentTable = new Table();
         contentTable.add(titleLabel).padTop(20).center().row();
-        contentTable.add(instructionLabel).padTop(10).width(chatWidth).center().row();  // Added instructionLabel here
+        contentTable.add(instructionLabel).padTop(50).width(chatWidth).center().row();  // Added instructionLabel here
         contentTable.add(questionTable).expandX().fillX().padTop(30f).row();
         contentTable.add(userInputField).width(chatWidth).pad(10).row();
         contentTable.add(sendButton).pad(10).width(180f).height(45f).row();
