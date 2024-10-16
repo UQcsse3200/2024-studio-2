@@ -75,7 +75,6 @@ public class ForestGameArea extends GameArea {
     private boolean kangarooBossSpawned = false;
     private boolean waterBossSpawned = false;
     private boolean airBossSpawned = false;
-    private final MapTabComponent mapTabComponent;
 
     /**
      * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -92,7 +91,6 @@ public class ForestGameArea extends GameArea {
         this.minigameNPCs = new ArrayList<>();
         this.terrainFactory = terrainFactory;
         this.game = game;
-        this.mapTabComponent = new MapTabComponent(this);
     }
 
     /**
@@ -158,18 +156,18 @@ public class ForestGameArea extends GameArea {
     @Override
     public void unlockArea(String area) {
         terrain.getMap().getLayers().get(area).setVisible(false);
-        if (area.equals("sky")) {
+        if (area.equals("Air")) {
             unlockSkyArea();
         } else {
             unlockOceanArea();
         }
     }
     private void unlockSkyArea() {
-        mapTabComponent.setBlurSky(false);
+        MapTabComponent.blurSky = false;
     }
 
     private void unlockOceanArea() {
-        mapTabComponent.setBlurOcean(false);
+        MapTabComponent.blurOcean = false;
     }
 
     /**

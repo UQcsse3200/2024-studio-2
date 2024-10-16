@@ -21,7 +21,6 @@ import java.util.List;
  * Component responsible for displaying and handling the game map when the player presses 'M'.
  * Displays the map texture, player location, landmarks and a legend.
  * The map maintains its aspect ratio and adjusts according to window size (sometimes).
- *
  * Additionally, splits the map into three equal horizontal sections representing grass (bottom),
  * ocean (middle), and sky (top). Applies a blur effect to ocean and sky areas by default,
  * which can be toggled via (not yet implemented).
@@ -50,8 +49,8 @@ public class MapTabComponent extends Component {
     private static final float LEGEND_WIDTH = 200;
 
     // Boolean flags to control blur effect on locked areas
-    private boolean blurOcean = true;
-    private boolean blurSky = true;
+    public static boolean blurOcean = true;
+    public static boolean blurSky = true;
     private OrthographicCamera camera;
     private int prevWidth;
     private int prevHeight;
@@ -146,7 +145,6 @@ public class MapTabComponent extends Component {
      * - Legend displaying icons and their meanings.
      * - A north symbol indicating the map orientation.
      * - A top bar with the map title.
-     *
      * The map maintains its aspect ratio and adjusts according to the current window size.
      * If blurOcean or blurSky are enabled, respective areas of the map are overlaid with a blur effect.
      */
@@ -291,8 +289,10 @@ public class MapTabComponent extends Component {
      */
     private void preloadLandmarks() {
         landmarks = new ArrayList<>();
-        landmarks.add(new Vector2(50, 80));  // Example landmark position
-        // Add more landmarks as needed
+        landmarks.add(new Vector2(80, 41));  // Kangaroo Boss
+        landmarks.add(new Vector2(80, 87));  // Water Boss
+        landmarks.add(new Vector2(80, 128)); // Air Boss
+        // Add as needed
     }
 
     /**
@@ -353,3 +353,4 @@ public class MapTabComponent extends Component {
         font.dispose();
     }
 }
+
