@@ -42,8 +42,8 @@
 				{
 					taskName: pickUpDefense Potion
 					description: Go Collect Potions
-					hint: Find 5 defense potions scattered throughout the kingdom.
-					requiredTriggers: 5
+					hint: Find 1 defense potion throughout the kingdom.
+					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
 					failed: false
@@ -56,7 +56,7 @@
 					npcName: Cow
 					dialogue: [
 						[
-							"I need five potions to help our people!"
+							"I need one potion to help our people!"
 							"They are scattered throughout the kingdom."
 							"Can you find them?"
 						]
@@ -225,13 +225,13 @@
 		}
 		{
 			questName: Sea Pearl Collection
-			questDescription: Find and collect 6 pearls
+			questDescription: Find and collect 1 pearl
 			tasks: [
 				{
 					taskName: pickUpApple
-					description: Collect Sea Pearls (Apples)
-					hint: Find six Sea Pearls (Apples) hidden around.
-					requiredTriggers: 6
+					description: Collect Sea Pearl (Apple)
+					hint: Find one Pearl (Apple) hidden around.
+					requiredTriggers: 1
 					triggerCount: 0
 					completed: false
 					failed: false
@@ -244,7 +244,7 @@
 					npcName: Turtle
 					dialogue: [
 						[
-							I need six Sea Pearls for my research.
+							I need one sea pearl for my research.
 							They are hidden in the underwater caverns.
 							Can you help me?
 						]
@@ -421,8 +421,8 @@
 				{
 					taskName: pickUpCandy,
 					description: Collect Sky Crystals (Candy)
-					hint: Gather seven Sky Crystals (Candy) for the Cloud Sage
-					requiredTriggers: 7
+					hint: Gather 2 Sky Crystals (Candy) for the Cloud Sage
+					requiredTriggers: 2
 					triggerCount: 0
 					completed: false
 					failed: false
