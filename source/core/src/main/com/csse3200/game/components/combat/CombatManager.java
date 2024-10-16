@@ -278,7 +278,7 @@ public class CombatManager extends Component {
 
         // Fallback to random action if no choice was made
         List<Action> availableActions = new ArrayList<>(normalizedProbabilities.keySet());
-        int randomIndex = (int) (Math.random() * availableActions.size());
+        int randomIndex = (int) (MathUtils.random() * availableActions.size());
         return availableActions.get(randomIndex);
     }
 
