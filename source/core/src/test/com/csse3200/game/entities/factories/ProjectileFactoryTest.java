@@ -150,7 +150,7 @@ class ProjectileFactoryTest {
         Entity waterSpiral = ProjectileFactory.createWaterSpiral(new Entity());
         PhysicsMovementComponent movementComponent = waterSpiral.getComponent(PhysicsMovementComponent.class);
 
-        Vector2 expectedSpeed = new Vector2(2.0f, 2.0f);
+        Vector2 expectedSpeed = new Vector2(6.0f, 6.0f);
         assertEquals(expectedSpeed, movementComponent.getMaxSpeed());
     }
 

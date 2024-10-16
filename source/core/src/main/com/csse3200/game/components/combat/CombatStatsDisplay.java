@@ -324,8 +324,8 @@ public class CombatStatsDisplay extends UIComponent {
      */
     public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
         logger.trace("Adding status effect label and bar in CombatStatsDisplay");
-        float tableTopPadding = 40f;
-        float tableLeftPadding = 750f;
+        float tableTopPadding = 200f; // 40f
+        float tableLeftPadding = 450f; // 750f
         String statusFilePath = String.format("images/statuses/%s_stat.png", statusEffect.name().toLowerCase());
         statusEffectImage = new Image (ServiceLocator.getResourceService().getAsset(statusFilePath, Texture.class));
         statusTable = new Table();

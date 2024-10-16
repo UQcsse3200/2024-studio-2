@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
  * Displays the stats and add buttons to exit and restart.
  * Gives loot box and achievements to player based on the medal
  */
-//TODO: Change transparency on the medal images, add different backgrounds for each game
 public class EndMiniGameScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(EndMiniGameScreen.class);
 
@@ -72,7 +71,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
             "sounds/minigames/gold.mp3",
     };
 
-    private final String errorMessage = "Unknown Mini-Game";
+    private final static String addItemsEvent = "addItem";
+    private final static String errorMessage = "Unknown Mini-Game";
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
@@ -341,18 +341,19 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 case BRONZE -> {
                     // Create and add EarlyGameLootBox using the factory
                     UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", earlyGameLootBox);
+                    display.getEntity().getEvents().trigger(addItemsEvent, earlyGameLootBox);
                 }
                 case SILVER -> {
                     // Create and add MediumGameLootBox using the factory
                     UniversalLootBox mediumGameLootBox = lootBoxFactory.createLootBox("MediumGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", mediumGameLootBox);
+                    display.getEntity().getEvents().trigger(addItemsEvent, mediumGameLootBox);
                 }
                 case GOLD -> {
                     // Create and add LateGameLootBox using the factory
                     UniversalLootBox lateGameLootBox = lootBoxFactory.createLootBox("LateGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", lateGameLootBox);
+                    display.getEntity().getEvents().trigger(addItemsEvent, lateGameLootBox);
                 }
+                default -> throw new IllegalArgumentException("Unknown medal");
             }
         }
     }

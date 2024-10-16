@@ -83,13 +83,13 @@ spawn
 spawn
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
 spawn
   rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
@@ -125,13 +125,13 @@ alert
 alert
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
 alert
   rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
@@ -167,13 +167,13 @@ chase
 chase
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
 chase
   rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
@@ -209,13 +209,13 @@ combat_idle
 combat_idle
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
 combat_idle
   rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
@@ -251,13 +251,13 @@ combat_move
 combat_move
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
 combat_move
   rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0

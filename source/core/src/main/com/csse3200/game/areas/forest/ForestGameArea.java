@@ -70,7 +70,6 @@ public class ForestGameArea extends GameArea {
     private int totalForestItems = 0;
     private int totalOceanItems = 0;
     private int totalAirItems = 0;
-    private int totalItems = 0;
     private Entity player;
 
     private final GdxGame game;
@@ -814,8 +813,8 @@ public class ForestGameArea extends GameArea {
      * @param zone the area region of the map
      */
     private void spawnFixedItems(Supplier<Entity> creator, int numItems, int zone) {
-        if (zone == 1 && totalForestItems < 50) {
-            int forestItemsToSpawn = Math.min(numItems, 50 - totalForestItems);
+        if (zone == 1 && totalForestItems < 100) {
+            int forestItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -823,11 +822,11 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                //dynamicItems.put(totalForestItems, item);
+                dynamicItems.put(totalForestItems, item);
                 totalForestItems++;
             }
-        } else if (zone == 2 && totalForestItems < 50) {
-            int oceamItemsToSpawn = Math.min(numItems, 50 - totalForestItems);
+        } else if (zone == 2 && totalForestItems < 100) {
+            int oceamItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -835,11 +834,11 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                //dynamicItems.put(totalOceanItems, item);
+                dynamicItems.put(totalOceanItems, item);
                 totalOceanItems++;
             }
-        } else if (zone == 3 && totalAirItems < 50) {
-            int airItemsToSpawn = Math.min(numItems, 50 - totalAirItems);
+        } else if (zone == 3 && totalAirItems < 100) {
+            int airItemsToSpawn = Math.min(numItems, 100 - totalAirItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -906,9 +905,10 @@ public class ForestGameArea extends GameArea {
 
     public void playMusic() {
         // Get the selected music track from the user settings
+
         UserSettings.Settings settings = UserSettings.get();
         String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
-
+        AudioManager.stopMusic();
         if (Objects.equals(selectedTrack, "Track 1")) {
             loadAssets(); // Music was not loading after resuming combat
             AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
