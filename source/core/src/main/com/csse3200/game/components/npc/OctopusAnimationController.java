@@ -20,6 +20,8 @@ public class OctopusAnimationController extends Component {
     entity.getEvents().addListener("wanderRight", this::animateRight);
     entity.getEvents().addListener("chaseLeft", this::animateChaseLeft);
     entity.getEvents().addListener("chaseRight", this::animateChaseRight);
+    entity.getEvents().addListener("pullRight", this::animatePullRight);
+    entity.getEvents().addListener("pullLeft", this::animatePullLeft);
   }
   
   //The following methods will be updated with new animations in future sprints,
@@ -47,5 +49,16 @@ public class OctopusAnimationController extends Component {
     animator.setFlipX(false);
     animator.startAnimation("chase");
   }
+
+  private void animatePullRight() {
+    animator.setFlipX(false);
+    animator.startAnimation("pull");
+  }
+
+  private void animatePullLeft() {
+    animator.setFlipX(true);
+    animator.startAnimation("pull");
+  }
+
 
 }

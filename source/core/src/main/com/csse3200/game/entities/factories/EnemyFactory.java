@@ -193,6 +193,7 @@ public class EnemyFactory {
 
         animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation("pull", 0.7f, Animation.PlayMode.NORMAL);
 
         octopus
                 .addComponent(animator)
@@ -273,8 +274,9 @@ public class EnemyFactory {
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
         animator.addAnimation("jump", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("alert", 1.0f, Animation.PlayMode.LOOP);
-        animator.addAnimation("spawn",0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("pull", 0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("alert", 0.1f, Animation.PlayMode.LOOP);
 
         frog
                 .addComponent(animator)
@@ -403,34 +405,44 @@ public class EnemyFactory {
         };
 
         switch (type) {
-            case EnemyType.MONKEY -> {
+            case MONKEY -> {
                 // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new RunTask(target, 10, 3f));
                 aiComponent.addTask(new ShootTask(1000, target, 5f));
             }
-            case EnemyType.BEAR -> {
+            case BEAR -> {
                 //BlindBear makes bears wonder away from the player when the player isn't moving
                 aiComponent.addTask(new BlindBearTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 1f, 3, target, 6f));
                 aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
                 aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2((float) configStats.getSpeed() / 100 * 4, (float) configStats.getSpeed() / 100 * 4), false));
             }
-            case EnemyType.EEL -> {
+            case EEL -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new ChaseTask(target, 4, 10f, 8f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
                 aiComponent.addTask(new ShootTask(5000, target, 10f));
             }
-            case EnemyType.PIGEON -> aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
-            case EnemyType.MACAW -> {
+            case PIGEON -> aiComponent.addTask(new StealTask(((ForestGameArea)MapHandler.getCurrentMap()).getDynamicItems(), 2f));
+            case MACAW -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
                 aiComponent.addTask(new ShootTask(5000, target, 6f));
             }
-            case EnemyType.JOEY -> {
+            case FROG -> {
+                aiComponent.addTask(new PullTask(1001, target, 6f, 3f));
+                aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
+                aiComponent.addTask(new ChaseTask(target, 2, 6f, 7f, new Vector2((float) configStats.getSpeed() / 100 * 4, (float) configStats.getSpeed() / 100 * 4), false));
+            }
+            case OCTOPUS -> {
+                aiComponent.addTask(new PullTask(1002, target, 7f, 4f));
+                aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
+                aiComponent.addTask(new ChaseTask(target, 2, 6f, 6f, new Vector2((float) configStats.getSpeed() / 100 * 4, (float) configStats.getSpeed() / 100 * 4), false));
+            }
+            case JOEY -> {
                 aiComponent.addTask(new SpecialWanderTask(new Vector2(configStats.getSpeed(), configStats.getSpeed()), 2f));
                 aiComponent.addTask(new ChaseTask(target, 10, 10f, 12f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
             }
-            case EnemyType.BEE -> {
+            case BEE -> {
                 aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
                 aiComponent.addTask(new ChaseTask(target, 10, 1000f, 1000f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
             }
@@ -456,7 +468,7 @@ public class EnemyFactory {
                                 config.getHunger(), Math.max(0,
                                 config.getBaseAttack() + (int)(MathUtils.random() * 5) - 2),
                                 config.getDefense() + (int)(MathUtils.random() * 2), config.getSpeed(),
-                                config.getExperience(), false, false, 1))
+                                config.getExperience(), 100, false, false, 1))
                         .addComponent(new CombatMoveComponent(moveSet))
                         .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))
                         .addComponent(new FadeLightsDayTimeComponent());
