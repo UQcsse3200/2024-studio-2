@@ -97,7 +97,7 @@ public class CutSceneScreen extends ScreenAdapter {
     private void loadAssets() {
         logger.debug("Loading CutScene assets");
         resourceService.loadAll();
-        cutSceneTexture = new Texture(Gdx.files.internal("images/SplashScreen/MainSplash.png"));
+        cutSceneTexture = new Texture(Gdx.files.internal("images/animal/Black and White Modern Forest Scenery At Night Desktop Wallpapaer.png"));
 
         // Load the cutscene sound
         cutSceneSound = Gdx.audio.newSound(Gdx.files.internal("sounds/animal/birds-and-animals-before-sunrise-246785.mp3"));
@@ -110,7 +110,7 @@ public class CutSceneScreen extends ScreenAdapter {
         logger.debug("Creating CutScene UI");
 
         font = new BitmapFont(Gdx.files.internal("default.fnt"));
-        font.setColor(Color.BLACK);
+        font.setColor(Color.WHITE);
 
 
         LabelStyle labelStyle = new LabelStyle();
