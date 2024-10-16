@@ -189,7 +189,11 @@ class QuestManagerTest {
     void TestProgressThroughMultipleTasks() {
         Task task1 = new Task("task1", "Task 1", "Description", 1, 0, false, false);
         Task task2 = new Task("task2", "Task 2", "Description", 1, 0, false, false);
-        Quest quest = new Quest("Multi Task Quest", "Description", List.of(task1, task2), false, null, null, true, false, 0, new String[] {});
+        Quest quest = new Quest.QuestBuilder("Multi Task Quest")
+                .setActive(true)
+                .addTask(task1)
+                .addTask(task2)
+                .build();
         questManager.addQuest(quest);
 
         questManager.progressQuest("Multi Task Quest", "task1");
@@ -201,10 +205,17 @@ class QuestManagerTest {
     @Test
     void TestFollowQuest() {
         Task task1 = new Task("task1", "Task 1", "Description", 1, 0, false, false);
-        Quest quest1 = new Quest("Quest 1", "Description", List.of(task1), false, null, null, true, false, 0, new String[] {});
+        Quest quest1 = new Quest.QuestBuilder("Quest 1")
+                .addTask(task1)
+                .setActive(true)
+                .build();
 
         Task task2 = new Task("task2", "Task 2", "Description", 1, 0, false, false);
-        Quest quest2 = new Quest("Quest 2", "Description", List.of(task2), false, null, null, false, false, 0, new String[] {"Quest 1"});
+        Quest quest2 = new Quest.QuestBuilder("Quest 2")
+                .addTask(task2)
+                .setActive(false)
+                .addFollowQuest("Quest 1")
+                .build();
 
         questManager.addQuest(quest1);
         questManager.addQuest(quest2);
