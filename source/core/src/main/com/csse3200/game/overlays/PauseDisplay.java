@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 public class PauseDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(PauseDisplay.class);
     private Table rootTable;
-    private static final String BUTTONTEXTURE = "images/PauseOverlay/Button2.png";
     private final PausableScreen screen;
     private final GdxGame game;
 
@@ -81,19 +80,19 @@ public class PauseDisplay extends UIComponent {
     private Table makeMenuBtns() {
         // Create buttons
         CustomButton resumeBtn = new CustomButton("Resume", skin);
-        resumeBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        resumeBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton restartMinigameBtn = new CustomButton("Restart Mini-Game", skin);
-        restartMinigameBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        restartMinigameBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton exitMinigameBtn = new CustomButton("Exit Mini-Game", skin);
-        exitMinigameBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        exitMinigameBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton questsBtn = new CustomButton("Quest Tracker", skin);
-        questsBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        questsBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton settingsBtn = new CustomButton("Settings", skin);
-        settingsBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        settingsBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton saveBtn = new CustomButton("Save Game", skin);
-        saveBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        saveBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
         CustomButton mainMenuBtn = new CustomButton("Return to Main Menu", skin);
-        mainMenuBtn.setButtonStyle(CustomButton.Style.BROWN_WIDE, skin);
+        mainMenuBtn.setButtonStyle(CustomButton.Style.WOODEN_PLANK, skin);
 
         // Add listeners for buttons
         resumeBtn.addListener(new ChangeListener() {
