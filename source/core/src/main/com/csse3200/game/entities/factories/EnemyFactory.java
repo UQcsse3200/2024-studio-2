@@ -78,7 +78,8 @@ public class EnemyFactory {
 
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         animator.addAnimation(WALK, 0.25f, Animation.PlayMode.LOOP);
-
+        
+        animator.startAnimation(SPAWN);
 
         chicken
                 .addComponent(animator)
@@ -107,6 +108,8 @@ public class EnemyFactory {
         animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
+        
+        animator.startAnimation(FLOAT);
 
         bear
                 .addComponent(animator)
@@ -136,6 +139,8 @@ public class EnemyFactory {
         animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
+        
+        animator.startAnimation(FLOAT);
 
         bigsawfish
                 .addComponent(animator)
@@ -165,6 +170,8 @@ public class EnemyFactory {
         animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(WALK, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
+        
+        animator.startAnimation(CHASE);
 
         macaw
                 .addComponent(animator)
@@ -193,6 +200,8 @@ public class EnemyFactory {
 
         animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
         animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
+        
+        animator.startAnimation(FLOAT);
 
         octopus
                 .addComponent(animator)
@@ -221,6 +230,8 @@ public class EnemyFactory {
         animator.addAnimation(FLOAT, 1.0f, Animation.PlayMode.LOOP);
         animator.addAnimation(CHASE, 1.0f,Animation.PlayMode.LOOP);
         animator.addAnimation("alert", 1.0f, Animation.PlayMode.NORMAL);
+        
+        animator.startAnimation("alert");
 
         bee
                 .addComponent(animator)
@@ -248,6 +259,8 @@ public class EnemyFactory {
 
         animator.addAnimation(FLOAT, 0.06f, Animation.PlayMode.LOOP);
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
+        
+        animator.startAnimation(SPAWN);
 
         pigeon
                 .addComponent(animator)
@@ -272,12 +285,15 @@ public class EnemyFactory {
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation("jump", 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation("still", 0.1f, Animation.PlayMode.LOOP);
-
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.1f, Animation.PlayMode.LOOP);
+        
+        //to prevent null pointer
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         frog
                 .addComponent(animator)
-                .addComponent(new FrogAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
         frog.getComponent(AnimationRenderComponent.class).scaleEntity();
 
@@ -370,10 +386,10 @@ public class EnemyFactory {
         animator.addAnimation(WANDER, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(CHASE, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
+        
+        animator.startAnimation(SPAWN);
 
         joey
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, false, 1))
-                .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new JoeyAnimationController());
 
@@ -412,7 +428,6 @@ public class EnemyFactory {
 
         switch (type) {
             case EnemyType.MONKEY -> {
-                // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
                 aiComponent.addTask(new SpecialWanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f));
                 aiComponent.addTask(new RunTask(target, 10, 3f));
                 aiComponent.addTask(new ShootTask(1000, target, 5f));
@@ -439,7 +454,6 @@ public class EnemyFactory {
                 aiComponent.addTask(new ChaseTask(target, 10, 10f, 12f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
             }
             default -> {
-                // Adding SpecialWanderTask with correct entity speed, changes all animal movement speed
                 aiComponent.addTask(new WanderTask(new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), 2f, false));
                 aiComponent.addTask(new ChaseTask(target, 10, 3f, 4f, new Vector2((float) configStats.getSpeed() / 100, (float) configStats.getSpeed() / 100), false));
             }
@@ -466,6 +480,9 @@ public class EnemyFactory {
                         .addComponent(new FadeLightsDayTimeComponent());
 
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        
+        npc.setIsNormalEnemy(true);
+        
         return npc;
     }
 

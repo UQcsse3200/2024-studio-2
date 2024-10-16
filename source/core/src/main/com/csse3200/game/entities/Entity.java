@@ -38,6 +38,7 @@ public class Entity {
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
   private boolean isPlayer = false;
+  private boolean isNormalEnemy = false;
   private EnemyType enemyType;
   public enum EnemyType {
     KANGAROO,
@@ -377,4 +378,11 @@ public class Entity {
   public Boolean isEnabled(){
     return this.enabled;
   }
+  
+  /**
+   * @return if this entity is a normal entity
+   */
+  public boolean isNormalEnemy() {return isNormalEnemy;}
+  
+  public void setIsNormalEnemy(boolean isNormalEnemy) {this.isNormalEnemy = isNormalEnemy;}
 }

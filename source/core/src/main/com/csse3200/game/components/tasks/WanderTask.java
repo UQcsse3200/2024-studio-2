@@ -108,13 +108,16 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     private void startWandering() {
         logger.debug("Starting wandering");
         Vector2 newPos = getRandomPosInRange();
-        if (newPos.x - startPos.x < 0) {
+        if (owner.getEntity().isNormalEnemy()) {
+            owner.getEntity().getEvents().trigger("animate", newPos, owner.getEntity().getPosition());
+        } else if (newPos.x - startPos.x < 0) {
             logger.debug("wandering right");
             this.owner.getEntity().getEvents().trigger(LEFT);
         } else {
             logger.debug("wandering left");
             this.owner.getEntity().getEvents().trigger(RIGHT);
         }
+        
         if (owner.getEntity() instanceof MazeEntity) {
             movementTask = new MovementTask(newPos);
         } else {
@@ -128,7 +131,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
     private void startWaiting() {
         logger.debug("Starting waiting");
         if (owner.getEntity().getComponent(FrogAnimationController.class) != null) {
-            owner.getEntity().getEvents().trigger("spawnStart"); //plays still animation
+            owner.getEntity().getEvents().trigger("wait"); //plays still animation
         }
         waitTask = new WaitTask(waitTime);
         waitTask.create(owner);

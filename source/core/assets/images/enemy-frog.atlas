@@ -3,56 +3,56 @@ size: 704, 176
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-still
+wait
   rotate: false
   xy: 0, 0
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 0
-still
+wait
   rotate: false
   xy: 88, 0
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 1
-still
+wait
   rotate: false
   xy: 176, 0
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 2
-still
+wait
   rotate: false
   xy: 264, 0
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 3
-still
+wait
   rotate: false
   xy: 352, 0
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 4
-still
+wait
   rotate: false
   xy: 440, 0
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 5
-still
+wait
   rotate: false
   xy: 528, 0
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 6
-still
+wait
   rotate: false
   xy: 616, 0
   size: 88, 88
@@ -66,49 +66,49 @@ default
   orig: 0, 0
   offset: 0, 0
   index: 0
-jump
+runRight
   rotate: false
   xy: 0, 88
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 0
-jump
+runRight
   rotate: false
   xy: 88, 88
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 1
-jump
+runRight
   rotate: false
   xy: 176, 88
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 2
-jump
+runRight
   rotate: false
   xy: 264, 88
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 3
-jump
+runRight
   rotate: false
   xy: 352, 88
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 4
-jump
+runRight
   rotate: false
   xy: 440, 88
   size: 88, 88
   orig: 47, 37
   offset: 0, 0
   index: 5
-jump
+runRight
   rotate: false
   xy: 528, 88
   size: 88, 88
