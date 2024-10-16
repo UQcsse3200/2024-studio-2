@@ -150,9 +150,9 @@ public class CombatStatsDisplay extends UIComponent {
     private Table initialiseEnemyStatBars() {
         logger.trace("Enemy stat bars are being initialised");
         // Padding to separate enemy bar from buttons
-        float barButtonPadding = 50f;
+        float barButtonPadding = 0f;
         float barLabelGap = 2f;
-        float generalPadding = 30f;
+        float generalPadding = 10f;
 
         // Enemy Bars Display
         Table enemyTable = new Table();
