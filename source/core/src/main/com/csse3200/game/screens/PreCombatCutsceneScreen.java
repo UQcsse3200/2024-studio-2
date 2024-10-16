@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.areas.combat.CombatArea;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.input.InputService;
@@ -42,6 +43,8 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
   private final ServiceContainer oldScreenServices;
   private final Entity player;
   private final Entity enemy;
+
+  public static CombatArea.KINGDOM kingdomType;
 
   /**
    * Creates a new cutscene screen.
@@ -162,10 +165,22 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Load background texture and create Image actor
     Texture backgroundTexture;
     switch (enemy.getEnemyType()) {
-      case MONKEY, CHICKEN, BEAR, JOEY, KANGAROO -> backgroundTexture = new Texture("images/transitionBg.jpg");
-      case FROG, EEL, OCTOPUS, BIGSAWFISH, WATER_BOSS -> backgroundTexture = new Texture("images/Water_Transition.jpg");
-      case BEE, PIGEON, MACAW, AIR_BOSS -> backgroundTexture = new Texture("images/Air_Transition.jpg");
-      default -> backgroundTexture = new Texture("images/transitionBg.jpg"); // Default background
+      case MONKEY, CHICKEN, BEAR, JOEY, KANGAROO -> {
+        backgroundTexture = new Texture("images/transitionBg.jpg");
+        kingdomType = CombatArea.KINGDOM.LAND;
+      }
+      case FROG, EEL, OCTOPUS, BIGSAWFISH, WATER_BOSS -> {
+        backgroundTexture = new Texture("images/Water_Transition.jpg");
+        kingdomType = CombatArea.KINGDOM.WATER;
+      }
+      case BEE, PIGEON, MACAW, AIR_BOSS -> {
+        backgroundTexture = new Texture("images/Air_Transition.jpg");
+        kingdomType = CombatArea.KINGDOM.AIR;
+      }
+      default -> {
+        backgroundTexture = new Texture("images/transitionBg.jpg"); // Default background
+        kingdomType = CombatArea.KINGDOM.LAND;
+      }
     }
     Image backgroundImage = new Image(backgroundTexture);
 
@@ -199,7 +214,7 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Create label style with the font
     Label.LabelStyle labelStyle = new Label.LabelStyle();
     labelStyle.font = defaultFont;
-    labelStyle.fontColor = Color.BLACK;
+    labelStyle.fontColor = (kingdomType == CombatArea.KINGDOM.WATER) ? Color.WHITE : Color.BLACK;
 
     Label enemyNameLabel;
     Texture enemyImageTexture;
@@ -272,7 +287,7 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
 
     // Create labels for stats
     CombatStatsComponent stats = enemy.getComponent(CombatStatsComponent.class);
-    Label healthLabel = new Label("Health: " + stats.getHealth() + "/" + stats.getMaxHealth(), labelStyle);
+    Label healthLabel = new Label("Health: " + stats.getHealth(), labelStyle);
     Label strengthLabel = new Label("Strength: " + stats.getStrength(), labelStyle);
     Label defenseLabel = new Label("Defense: " + stats.getDefense(), labelStyle);
     Label speedLabel = new Label("Speed: " + stats.getSpeed(), labelStyle);
@@ -382,7 +397,7 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
 
   public void setLabelBuffer(Entity.EnemyType enemy) {
     switch (enemy) {
-      case FROG -> this.labelBuffer =  220;
+      case FROG -> this.labelBuffer = 220;
       case BEAR -> {
         this.labelBuffer = 220;
         this.imageBuffer = -55;
@@ -392,7 +407,7 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
         this.imageBuffer = -30;
       }
       default -> {
-        this.labelBuffer =  200;
+        this.labelBuffer = 200;
         this.imageBuffer = 0;
       }
     }
