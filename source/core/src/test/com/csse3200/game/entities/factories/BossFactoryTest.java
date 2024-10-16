@@ -165,6 +165,16 @@ class BossFactoryTest {
     }
 
     /**
+     * Tests Water Boss's position.
+     */
+    @Test
+    void TestWaterBossSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        waterBoss.setPosition(pos);
+        assertEquals(pos, waterBoss.getPosition());
+    }
+
+    /**
      * Tests Creation of Air Boss.
      */
     @Test
@@ -209,6 +219,17 @@ class BossFactoryTest {
         assertTrue(airBoss.getComponent(AnimationRenderComponent.class).hasAnimation("wander"),
                 "Air Boss should have wander animation.");
     }
+
+    /**
+     * Tests Air Boss's position.
+     */
+    @Test
+    void TestAirBossSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        airBoss.setPosition(pos);
+        assertEquals(pos, airBoss.getPosition());
+    }
+
     /**
      * Tests Creation of Kanga combat boss.
      */
