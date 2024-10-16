@@ -45,7 +45,7 @@ public class MainMenuScreen extends ResizableScreen {
     mainMenuDisplay.updateLeaderboardTable();
     mainMenuDisplay.updateTopLeftToggle();
     chatbotUI = mainMenuDisplay.getChatbotUI();
-    chatbotUI.updateChatbotWindowPosition();
+    chatbotUI.updatechatbotTablePosition();
   }
 
   @Override

@@ -295,10 +295,10 @@ public class MainMenuDisplay extends UIComponent {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Chatbot", "Monkey icon clicked!"); // Log to verify the click
                 clickSound.play(); // Play the click sound
-                if (chatbotUI.isChatbotWindowVisible()) {
-                    chatbotUI.closeChatbotWindow(); // Close the chatbot window if it's visible
+                if (chatbotUI.ischatbotTableVisible()) {
+                    chatbotUI.closechatbotTable(); // Close the chatbot window if it's visible
                 } else {
-                    chatbotUI.openChatbotWindow(); // Open the chatbot window if it's not visible
+                    chatbotUI.openchatbotTable(); // Open the chatbot window if it's not visible
                 }
             }
         });
