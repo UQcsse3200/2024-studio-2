@@ -197,12 +197,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Adds a specified amount to the entity's defense.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/combat/CombatManager.html#addDialogueBoxListener()" class="member-name-link">addDialogueBoxListener()</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.html" title="class in com.csse3200.game.components.combat">CombatManager</a></dt>
-<dd>
-<div class="block">Add listener to continue button in dialogue box in combat to allow syncing of
- enemy animations after player animations and when continue button is pressed as enemy attack is
- described in dialogue box</div>
-</dd>
 <dt><a href="com/csse3200/game/GdxGame.html#addEnemyCutsceneScreen(com.csse3200.game.entities.Entity,com.csse3200.game.entities.Entity)" class="member-name-link">addEnemyCutsceneScreen(Entity, Entity)</a> - Method in class com.csse3200.game.<a href="com/csse3200/game/GdxGame.html" title="class in com.csse3200.game">GdxGame</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/CombatStatsComponent.html#addExperience(int)" class="member-name-link">addExperience(int)</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.html" title="class in com.csse3200.game.components">CombatStatsComponent</a></dt>
@@ -313,6 +307,8 @@ loadScripts(document, 'script');</script>
  to the bottom-left corner of the entity.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/quests/Achievement.AchievementType.html#ADVANCEMENT" class="member-name-link">ADVANCEMENT</a> - Enum constant in enum class com.csse3200.game.components.quests.<a href="com/csse3200/game/components/quests/Achievement.AchievementType.html" title="enum class in com.csse3200.game.components.quests">Achievement.AchievementType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html#AIR" class="member-name-link">AIR</a> - Enum constant in enum class com.csse3200.game.areas.combat.<a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html" title="enum class in com.csse3200.game.areas.combat">CombatArea.KINGDOM</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/MapHandler.MapType.html#AIR" class="member-name-link">AIR</a> - Enum constant in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a></dt>
 <dd>&nbsp;</dd>
@@ -430,6 +426,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/screens/AnimalRouletteScreen1.html#%3Cinit%3E(com.csse3200.game.GdxGame)" class="member-name-link">AnimalRouletteScreen1(GdxGame)</a> - Constructor for class com.csse3200.game.screens.<a href="com/csse3200/game/screens/AnimalRouletteScreen1.html" title="class in com.csse3200.game.screens">AnimalRouletteScreen1</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#animateCombat(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.combat.CombatManager.Action,java.lang.Boolean)" class="member-name-link">animateCombat(CombatManager.Action, CombatManager.Action, Boolean)</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
+<dd>
+<div class="block">Resolves how to animation combat based on player and enemy action and which one is faster</div>
+</dd>
 <dt><a href="com/csse3200/game/rendering/AnimationRenderComponent.html#animationPlayTime" class="member-name-link">animationPlayTime</a> - Variable in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/AnimationRenderComponent.html" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/rendering/AnimationRenderComponent.html" class="type-name-link" title="class in com.csse3200.game.rendering">AnimationRenderComponent</a> - Class in <a href="com/csse3200/game/rendering/package-summary.html">com.csse3200.game.rendering</a></dt>
@@ -544,10 +544,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatManager.Action.html#ATTACK" class="member-name-link">ATTACK</a> - Enum constant in enum class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#attackAnimation()" class="member-name-link">attackAnimation()</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
-<dd>
-<div class="block">Triggers fireball to be thrown at enemy entity's position</div>
-</dd>
 <dt><a href="com/csse3200/game/components/combat/move/AttackMove.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">AttackMove</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
 <dd>
 <div class="block">Represents an attack move in combat.</div>
@@ -1222,6 +1218,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/areas/combat/CombatArea.CombatAnimation.html" class="type-name-link" title="enum class in com.csse3200.game.areas.combat">CombatArea.CombatAnimation</a> - Enum Class in <a href="com/csse3200/game/areas/combat/package-summary.html">com.csse3200.game.areas.combat</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html" class="type-name-link" title="enum class in com.csse3200.game.areas.combat">CombatArea.KINGDOM</a> - Enum Class in <a href="com/csse3200/game/areas/combat/package-summary.html">com.csse3200.game.areas.combat</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/combat/CombatAreaConfig.html" class="type-name-link" title="class in com.csse3200.game.areas.combat">CombatAreaConfig</a> - Class in <a href="com/csse3200/game/areas/combat/package-summary.html">com.csse3200.game.areas.combat</a></dt>
 <dd>
 <div class="block">This is a config class for the CombatArea.</div>
@@ -1266,6 +1264,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructor to initialize the move name and hunger cost.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/CombatMoveAudio.html" class="type-name-link" title="class in com.csse3200.game.components.combat.quicktimeevent">CombatMoveAudio</a> - Class in <a href="com/csse3200/game/components/combat/quicktimeevent/package-summary.html">com.csse3200.game.components.combat.quicktimeevent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/CombatMoveAudio.html#%3Cinit%3E()" class="member-name-link">CombatMoveAudio()</a> - Constructor for class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/CombatMoveAudio.html" title="class in com.csse3200.game.components.combat.quicktimeevent">CombatMoveAudio</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/combat/move/CombatMoveComponent.html" class="type-name-link" title="class in com.csse3200.game.components.combat.move">CombatMoveComponent</a> - Class in <a href="com/csse3200/game/components/combat/move/package-summary.html">com.csse3200.game.components.combat.move</a></dt>
 <dd>
 <div class="block">The CombatMoveComponent class manages a set of combat moves for an entity.</div>
@@ -1620,6 +1622,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets a listener for when the score has been updated</div>
 </dd>
+<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/overlays/PauseDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/PauseDisplay.html" title="class in com.csse3200.game.overlays">PauseDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/overlays/PlayerStatsDisplay2.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/PlayerStatsDisplay2.html" title="class in com.csse3200.game.overlays">PlayerStatsDisplay2</a></dt>
@@ -1700,7 +1704,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an attack potion entity that interacts with the specified target.</div>
 </dd>
-<dt><a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html#createBackgroundTerrain2(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrain2(CombatTerrainFactory.TerrainType, GridPoint2, GridPoint2)</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html" title="class in com.csse3200.game.areas.terrain">CombatTerrainFactory</a></dt>
+<dt><a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html#createBackgroundTerrainAir(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrainAir(CombatTerrainFactory.TerrainType, GridPoint2, GridPoint2)</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html" title="class in com.csse3200.game.areas.terrain">CombatTerrainFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html#createBackgroundTerrainLand(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrainLand(CombatTerrainFactory.TerrainType, GridPoint2, GridPoint2)</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html" title="class in com.csse3200.game.areas.terrain">CombatTerrainFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html#createBackgroundTerrainWater(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrainWater(CombatTerrainFactory.TerrainType, GridPoint2, GridPoint2)</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/CombatTerrainFactory.html" title="class in com.csse3200.game.areas.terrain">CombatTerrainFactory</a></dt>
 <dd>
 <div class="block">Creates the background terrain for the combat screen</div>
 </dd>
@@ -3602,6 +3610,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html#getBosses()" class="member-name-link">getBosses()</a> - Method in class com.csse3200.game.minigames.maze.areas.<a href="com/csse3200/game/minigames/maze/areas/MazeGameArea.html" title="class in com.csse3200.game.minigames.maze.areas">MazeGameArea</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#getBothAttackAnimationDelay()" class="member-name-link">getBothAttackAnimationDelay()</a> - Static method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
+<dd>
+<div class="block">Getter method for delay between animations for audio purposes</div>
+</dd>
 <dt><a href="com/csse3200/game/minigames/birdiedash/entities/Pipe.html#getBottomPipe()" class="member-name-link">getBottomPipe()</a> - Method in class com.csse3200.game.minigames.birdiedash.entities.<a href="com/csse3200/game/minigames/birdiedash/entities/Pipe.html" title="class in com.csse3200.game.minigames.birdiedash.entities">Pipe</a></dt>
 <dd>
 <div class="block">Get the bottom pipe</div>
@@ -4527,6 +4539,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/animal/AnimalRouletteDisplay1.html#getRightButton()" class="member-name-link">getRightButton()</a> - Method in class com.csse3200.game.components.animal.<a href="com/csse3200/game/components/animal/AnimalRouletteDisplay1.html" title="class in com.csse3200.game.components.animal">AnimalRouletteDisplay1</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#getRockTravelTime()" class="member-name-link">getRockTravelTime()</a> - Static method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
+<dd>
+<div class="block">Getter method for rock travel time for audio purposes</div>
+</dd>
 <dt><a href="com/csse3200/game/components/stats/StatDisplay.html#getRootTable()" class="member-name-link">getRootTable()</a> - Method in class com.csse3200.game.components.stats.<a href="com/csse3200/game/components/stats/StatDisplay.html" title="class in com.csse3200.game.components.stats">StatDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/MinigameRenderer.html#getSb()" class="member-name-link">getSb()</a> - Method in class com.csse3200.game.minigames.<a href="com/csse3200/game/minigames/MinigameRenderer.html" title="class in com.csse3200.game.minigames">MinigameRenderer</a></dt>
@@ -5232,11 +5248,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Initializes the layout of the table.</div>
 </dd>
-<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#initiateAnimation(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">initiateAnimation(CombatManager.Action)</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
-<dd>
-<div class="block">Initialise the intended animation passed as an animationType from the
- combat manager class based on chosen / randomised player or enemy attack</div>
-</dd>
 <dt><a href="com/csse3200/game/entities/factories/NPCFactory.html#initiateDialogue(java.lang.String%5B%5D,java.lang.String%5B%5D%5B%5D)" class="member-name-link">initiateDialogue(String[], String[][])</a> - Static method in class com.csse3200.game.entities.factories.<a href="com/csse3200/game/entities/factories/NPCFactory.html" title="class in com.csse3200.game.entities.factories">NPCFactory</a></dt>
 <dd>
 <div class="block">Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.</div>
@@ -5246,6 +5257,11 @@ loadScripts(document, 'script');</script>
 <div class="block">Initiates a dialogue by updating the dialogue box with the given text and optionally playing sounds.</div>
 </dd>
 <dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#initiateEnemyAnimation(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">initiateEnemyAnimation(CombatManager.Action)</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
+<dd>
+<div class="block">Initialise the intended animation passed as an animationType from the
+ combat manager class based on chosen / randomised player or enemy attack</div>
+</dd>
+<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#initiatePlayerAnimation(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">initiatePlayerAnimation(CombatManager.Action)</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
 <dd>
 <div class="block">Initialise the intended animation passed as an animationType from the
  combat manager class based on chosen / randomised player or enemy attack</div>
@@ -5742,9 +5758,13 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Handles input if the terminal is open.</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/combat/CombatArea.html#kingdomType" class="member-name-link">kingdomType</a> - Static variable in class com.csse3200.game.areas.combat.<a href="com/csse3200/game/areas/combat/CombatArea.html" title="class in com.csse3200.game.areas.combat">CombatArea</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:L">L</h2>
 <dl class="index">
+<dt><a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html#LAND" class="member-name-link">LAND</a> - Enum constant in enum class com.csse3200.game.areas.combat.<a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html" title="enum class in com.csse3200.game.areas.combat">CombatArea.KINGDOM</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/animal/LandAnimalSelectionDisplay.html" class="type-name-link" title="class in com.csse3200.game.components.animal">LandAnimalSelectionDisplay</a> - Class in <a href="com/csse3200/game/components/animal/package-summary.html">com.csse3200.game.components.animal</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/animal/LandAnimalSelectionDisplay.html#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage,com.badlogic.gdx.scenes.scene2d.ui.Skin)" class="member-name-link">LandAnimalSelectionDisplay(Stage, Skin)</a> - Constructor for class com.csse3200.game.components.animal.<a href="com/csse3200/game/components/animal/LandAnimalSelectionDisplay.html" title="class in com.csse3200.game.components.animal">LandAnimalSelectionDisplay</a></dt>
@@ -6893,6 +6913,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#playBarkingSound(float)" class="member-name-link">playBarkingSound(float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/combat/quicktimeevent/CombatMoveAudio.html#playCombatSound(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">playCombatSound(CombatManager.Action, CombatManager.Action)</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/CombatMoveAudio.html" title="class in com.csse3200.game.components.combat.quicktimeevent">CombatMoveAudio</a></dt>
+<dd>
+<div class="block">Plays the sound for combat based on the moves of the enemy and player</div>
+</dd>
 <dt><a href="com/csse3200/game/particles/ParticleService.html#playEffect(com.csse3200.game.particles.ParticleService.ParticleType,com.badlogic.gdx.math.Vector2)" class="member-name-link">playEffect(ParticleService.ParticleType, Vector2)</a> - Method in class com.csse3200.game.particles.<a href="com/csse3200/game/particles/ParticleService.html" title="class in com.csse3200.game.particles">ParticleService</a></dt>
 <dd>
 <div class="block">Plays a particle effect to completion at a given x,y location.</div>
@@ -6918,6 +6942,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/player/PlayerAnimationController.html#%3Cinit%3E()" class="member-name-link">PlayerAnimationController()</a> - Constructor for class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerAnimationController.html" title="class in com.csse3200.game.components.player">PlayerAnimationController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/overlays/CombatAnimationDisplay.html#playerAttackAnimation()" class="member-name-link">playerAttackAnimation()</a> - Method in class com.csse3200.game.overlays.<a href="com/csse3200/game/overlays/CombatAnimationDisplay.html" title="class in com.csse3200.game.overlays">CombatAnimationDisplay</a></dt>
+<dd>
+<div class="block">Triggers fireball to be thrown at enemy entity's position</div>
+</dd>
 <dt><a href="com/csse3200/game/entities/configs/PlayerConfig.html" class="type-name-link" title="class in com.csse3200.game.entities.configs">PlayerConfig</a> - Class in <a href="com/csse3200/game/entities/configs/package-summary.html">com.csse3200.game.entities.configs</a></dt>
 <dd>
 <div class="block">Defines the properties stored in player config files to be loaded by the Player Factory.</div>
@@ -9921,6 +9949,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.csse3200.game.areas.combat.<a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html" title="enum class in com.csse3200.game.areas.combat">CombatArea.KINGDOM</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="com/csse3200/game/areas/MapHandler.MapType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -10023,6 +10055,11 @@ loadScripts(document, 'script');</script>
 the order they are declared.</div>
 </dd>
 <dt><a href="com/csse3200/game/areas/combat/CombatArea.CombatAnimation.html#values()" class="member-name-link">values()</a> - Static method in enum class com.csse3200.game.areas.combat.<a href="com/csse3200/game/areas/combat/CombatArea.CombatAnimation.html" title="enum class in com.csse3200.game.areas.combat">CombatArea.CombatAnimation</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html#values()" class="member-name-link">values()</a> - Static method in enum class com.csse3200.game.areas.combat.<a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html" title="enum class in com.csse3200.game.areas.combat">CombatArea.KINGDOM</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
@@ -10206,6 +10243,8 @@ the order they are declared.</div>
 <dt><a href="com/csse3200/game/components/tasks/WanderTask.html#%3Cinit%3E(com.badlogic.gdx.math.Vector2,float,boolean)" class="member-name-link">WanderTask(Vector2, float, boolean)</a> - Constructor for class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/WanderTask.html" title="class in com.csse3200.game.components.tasks">WanderTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/inventory/items/TimedUseItem.html#warn" class="member-name-link">warn</a> - Variable in class com.csse3200.game.inventory.items.<a href="com/csse3200/game/inventory/items/TimedUseItem.html" title="class in com.csse3200.game.inventory.items">TimedUseItem</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html#WATER" class="member-name-link">WATER</a> - Enum constant in enum class com.csse3200.game.areas.combat.<a href="com/csse3200/game/areas/combat/CombatArea.KINGDOM.html" title="enum class in com.csse3200.game.areas.combat">CombatArea.KINGDOM</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/areas/MapHandler.MapType.html#WATER" class="member-name-link">WATER</a> - Enum constant in enum class com.csse3200.game.areas.<a href="com/csse3200/game/areas/MapHandler.MapType.html" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a></dt>
 <dd>&nbsp;</dd>

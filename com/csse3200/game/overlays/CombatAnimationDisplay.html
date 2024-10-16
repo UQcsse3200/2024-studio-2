@@ -137,61 +137,83 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attackAnimation()" class="member-name-link">attackAnimation</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#animateCombat(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.combat.CombatManager.Action,java.lang.Boolean)" class="member-name-link">animateCombat</a><wbr>(<a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;playerAction,
+ <a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;enemyAction,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;playerFaster)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Triggers fireball to be thrown at enemy entity's position</div>
+<div class="block">Resolves how to animation combat based on player and enemy action and which one is faster</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Called when the component is disposed.</div>
+<div class="block">Called when the entity is created and registered.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Draw the renderable.</div>
+<div class="block">Called when the component is disposed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enemyAttackAnimation()" class="member-name-link">enemyAttackAnimation</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Draw the renderable.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enemyAttackAnimation()" class="member-name-link">enemyAttackAnimation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Generates fireball animation from enemy entity position to
  player position</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enemyGuardAnimation()" class="member-name-link">enemyGuardAnimation</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enemyGuardAnimation()" class="member-name-link">enemyGuardAnimation</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Triggers generalised guard animation when guard button pressed for all
  players/</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enemySleepAnimation()" class="member-name-link">enemySleepAnimation</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#enemySleepAnimation()" class="member-name-link">enemySleepAnimation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Triggers identical sleep animation for enemy</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#guardAnimation()" class="member-name-link">guardAnimation</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Triggers generalised guard animation when guard button pressed for all
- players/</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getBothAttackAnimationDelay()" class="member-name-link">getBothAttackAnimationDelay</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Getter method for delay between animations for audio purposes</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getRockTravelTime()" class="member-name-link">getRockTravelTime</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Getter method for rock travel time for audio purposes</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initiateAnimation(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">initiateAnimation</a><wbr>(<a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;animationType)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#guardAnimation()" class="member-name-link">guardAnimation</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initialise the intended animation passed as an animationType from the
- combat manager class based on chosen / randomised player or enemy attack</div>
+<div class="block">Triggers generalised guard animation when guard button pressed for all
+ players/</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initiateEnemyAnimation(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">initiateEnemyAnimation</a><wbr>(<a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;animationType)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Initialise the intended animation passed as an animationType from the
  combat manager class based on chosen / randomised player or enemy attack</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initiatePlayerAnimation(com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">initiatePlayerAnimation</a><wbr>(<a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;animationType)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initialise the intended animation passed as an animationType from the
+ combat manager class based on chosen / randomised player or enemy attack</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playerAttackAnimation()" class="member-name-link">playerAttackAnimation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Triggers fireball to be thrown at enemy entity's position</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sleepAnimation()" class="member-name-link">sleepAnimation</a>()</code></div>
@@ -209,7 +231,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.ui.UIComponent">Methods inherited from class&nbsp;com.csse3200.game.ui.<a href="../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></h3>
-<code><a href="../ui/UIComponent.html#create()">create</a>, <a href="../ui/UIComponent.html#getLayer()">getLayer</a>, <a href="../ui/UIComponent.html#getZIndex()">getZIndex</a>, <a href="../ui/UIComponent.html#setStage(com.badlogic.gdx.scenes.scene2d.Stage)">setStage</a></code></div>
+<code><a href="../ui/UIComponent.html#getLayer()">getLayer</a>, <a href="../ui/UIComponent.html#getZIndex()">getZIndex</a>, <a href="../ui/UIComponent.html#setStage(com.badlogic.gdx.scenes.scene2d.Stage)">setStage</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.csse3200.game.rendering.RenderComponent">Methods inherited from class&nbsp;com.csse3200.game.rendering.<a href="../rendering/RenderComponent.html" title="class in com.csse3200.game.rendering">RenderComponent</a></h3>
 <code><a href="../rendering/RenderComponent.html#compareTo(com.csse3200.game.rendering.Renderable)">compareTo</a>, <a href="../rendering/RenderComponent.html#render(com.badlogic.gdx.graphics.g2d.SpriteBatch)">render</a></code></div>
@@ -252,9 +274,45 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="initiateAnimation(com.csse3200.game.components.combat.CombatManager.Action)">
-<h3>initiateAnimation</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initiateAnimation</span><wbr><span class="parameters">(<a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;animationType)</span></div>
+<section class="detail" id="getRockTravelTime()">
+<h3>getRockTravelTime</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRockTravelTime</span>()</div>
+<div class="block">Getter method for rock travel time for audio purposes</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getBothAttackAnimationDelay()">
+<h3>getBothAttackAnimationDelay</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getBothAttackAnimationDelay</span>()</div>
+<div class="block">Getter method for delay between animations for audio purposes</div>
+</section>
+</li>
+<li>
+<section class="detail" id="create()">
+<h3>create</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../components/Component.html#create()">Component</a></code></span></div>
+<div class="block">Called when the entity is created and registered. Initial logic such as calls to GetComponent
+ should be made here, not in the constructor which is called before an entity is finished.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../ui/UIComponent.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="animateCombat(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.combat.CombatManager.Action,java.lang.Boolean)">
+<h3>animateCombat</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">animateCombat</span><wbr><span class="parameters">(<a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;playerAction,
+ <a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;enemyAction,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;playerFaster)</span></div>
+<div class="block">Resolves how to animation combat based on player and enemy action and which one is faster</div>
+</section>
+</li>
+<li>
+<section class="detail" id="initiatePlayerAnimation(com.csse3200.game.components.combat.CombatManager.Action)">
+<h3>initiatePlayerAnimation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initiatePlayerAnimation</span><wbr><span class="parameters">(<a href="../components/combat/CombatManager.Action.html" title="enum class in com.csse3200.game.components.combat">CombatManager.Action</a>&nbsp;animationType)</span></div>
 <div class="block">Initialise the intended animation passed as an animationType from the
  combat manager class based on chosen / randomised player or enemy attack</div>
 </section>
@@ -299,9 +357,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="attackAnimation()">
-<h3>attackAnimation</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">attackAnimation</span>()</div>
+<section class="detail" id="playerAttackAnimation()">
+<h3>playerAttackAnimation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playerAttackAnimation</span>()</div>
 <div class="block">Triggers fireball to be thrown at enemy entity's position</div>
 </section>
 </li>

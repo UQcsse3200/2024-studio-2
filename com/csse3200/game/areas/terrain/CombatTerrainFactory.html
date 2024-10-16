@@ -144,7 +144,17 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createBackgroundTerrain2(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrain2</a><wbr>(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createBackgroundTerrainAir(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrainAir</a><wbr>(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
+ com.badlogic.gdx.math.GridPoint2&nbsp;playerPosition,
+ com.badlogic.gdx.math.GridPoint2&nbsp;screenSize)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createBackgroundTerrainLand(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrainLand</a><wbr>(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
+ com.badlogic.gdx.math.GridPoint2&nbsp;playerPosition,
+ com.badlogic.gdx.math.GridPoint2&nbsp;screenSize)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createBackgroundTerrainWater(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">createBackgroundTerrainWater</a><wbr>(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
  com.badlogic.gdx.math.GridPoint2&nbsp;playerPosition,
  com.badlogic.gdx.math.GridPoint2&nbsp;screenSize)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -216,9 +226,25 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="createBackgroundTerrain2(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)">
-<h3>createBackgroundTerrain2</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></span>&nbsp;<span class="element-name">createBackgroundTerrain2</span><wbr><span class="parameters">(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
+<section class="detail" id="createBackgroundTerrainAir(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)">
+<h3>createBackgroundTerrainAir</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></span>&nbsp;<span class="element-name">createBackgroundTerrainAir</span><wbr><span class="parameters">(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
+ com.badlogic.gdx.math.GridPoint2&nbsp;playerPosition,
+ com.badlogic.gdx.math.GridPoint2&nbsp;screenSize)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="createBackgroundTerrainLand(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)">
+<h3>createBackgroundTerrainLand</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></span>&nbsp;<span class="element-name">createBackgroundTerrainLand</span><wbr><span class="parameters">(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
+ com.badlogic.gdx.math.GridPoint2&nbsp;playerPosition,
+ com.badlogic.gdx.math.GridPoint2&nbsp;screenSize)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="createBackgroundTerrainWater(com.csse3200.game.areas.terrain.CombatTerrainFactory.TerrainType,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2)">
+<h3>createBackgroundTerrainWater</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TerrainComponent.html" title="class in com.csse3200.game.areas.terrain">TerrainComponent</a></span>&nbsp;<span class="element-name">createBackgroundTerrainWater</span><wbr><span class="parameters">(<a href="CombatTerrainFactory.TerrainType.html" title="enum class in com.csse3200.game.areas.terrain">CombatTerrainFactory.TerrainType</a>&nbsp;terrainType,
  com.badlogic.gdx.math.GridPoint2&nbsp;playerPosition,
  com.badlogic.gdx.math.GridPoint2&nbsp;screenSize)</span></div>
 <div class="block">Creates the background terrain for the combat screen</div>
