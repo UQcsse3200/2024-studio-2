@@ -27,19 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BossFactory {
-
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/enemyNPCs.json");
-    
-    
-    private static final List<CombatMove> moveSet = new ArrayList<>(
-            Arrays.asList(
-                    new AttackMove("Enemy Attack", 10),
-                    new GuardMove("Enemy Guard", 5),
-                    new SleepMove("Enemy Sleep", 0),
-                    new SpecialAirMove("Enemy Special", 25)
-            )
-    );
 
     /**
      * Creates a Kangaroo Boss entity.
@@ -51,9 +40,16 @@ public class BossFactory {
         BaseEnemyEntityConfig config = configs.kangarooBoss;
         Entity kangarooBoss = createBossNPC(target, Entity.EnemyType.KANGAROO, config);
 
-        kangarooBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
-                .addComponent(new BossAnimationController());
+        List<CombatMove> moveSet = new ArrayList<>(
+                Arrays.asList(
+                        new AttackMove("Jumping Jab", 10),
+                        new GuardMove("Defensive Stance", 5),
+                        new SleepMove("Rest and Recover", 0),
+                        new SpecialKangaMove("Ground Slam", 25)
+                )
+        );
+
+        kangarooBoss.addComponent(new CombatMoveComponent(moveSet));
 
         kangarooBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         kangarooBoss.scaleHeight(4.0f);
@@ -70,11 +66,17 @@ public class BossFactory {
     public static Entity createWaterBossEntity(Entity target) {
         BaseEnemyEntityConfig config = configs.waterBoss;
         Entity waterBoss = createBossNPC(target, Entity.EnemyType.WATER_BOSS, config);
-        
 
-        waterBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
-                .addComponent(new BossAnimationController());
+        List<CombatMove> moveSet = new ArrayList<>(
+                Arrays.asList(
+                        new AttackMove("Tidal Strike", 5),
+                        new GuardMove("Ocean's Shield", 15),
+                        new SleepMove("Deep Rest", 0),
+                        new SpecialWaterMove("Maelstrom Fury", 15)
+                )
+        );
+
+        waterBoss.addComponent(new CombatMoveComponent(moveSet));
 
         waterBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         waterBoss.scaleHeight(5.0f);
@@ -91,10 +93,17 @@ public class BossFactory {
     public static Entity createAirBossEntity(Entity target) {
         BaseEnemyEntityConfig config = configs.airBoss;
         Entity airBoss = createBossNPC(target, Entity.EnemyType.AIR_BOSS, config);
-        
-        airBoss
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
-                .addComponent(new BossAnimationController());
+
+        List<CombatMove> moveSet = new ArrayList<>(
+                Arrays.asList(
+                        new AttackMove("Wind Slash", 5),
+                        new GuardMove("Feather Guard", 5),
+                        new SleepMove("Soaring Rest", 0),
+                        new SpecialAirMove("Hurricane Dive", 20)
+                )
+        );
+
+        airBoss.addComponent(new CombatMoveComponent(moveSet));
 
         airBoss.getComponent(AnimationRenderComponent.class).scaleEntity();
         airBoss.scaleHeight(6.0f);
@@ -138,7 +147,8 @@ public class BossFactory {
                 .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
                 .addComponent(aiComponent)
                 .addComponent(animator)
-                .addComponent(new CombatMoveComponent(moveSet));
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, true, 1))
+                .addComponent(new BossAnimationController());
         
         npc.setEnemyType(type);
         
