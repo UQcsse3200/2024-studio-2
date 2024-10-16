@@ -84,7 +84,7 @@ public class ChatbotUI {
      */
     private void createChatbotWindow() {
         int chatWidth = 600;
-        chatbotWindow = new Window("Chatbot", skin);
+        chatbotWindow = new Window("", skin);
 
         final float WINDOW_WIDTH = Gdx.graphics.getWidth() * 0.9f;
         final float WINDOW_HEIGHT = Gdx.graphics.getHeight() * 0.9f;
@@ -101,11 +101,6 @@ public class ChatbotUI {
         Label titleLabel = new Label("Chatbot", skin, "title-white");
         titleLabel.setAlignment(Align.center);
 
-        // Instruction label to guide the user to type predefined keywords
-        instructionLabel = new Label("Type keywords like: hello, move, attack, save, etc. OR click on common FAQs", skin);
-        instructionLabel.setWrap(true);
-        instructionLabel.setAlignment(Align.center);
-
         Table questionTable = new Table();
         for (String question : predefinedQuestions) {
             CustomButton questionButton = new CustomButton(question, skin);
@@ -120,7 +115,7 @@ public class ChatbotUI {
         }
 
         userInputField = new TextField("", skin);
-        userInputField.setMessageText("Type your question...");
+        userInputField.setMessageText("Type keywords like: hello, move, attack, save, etc. OR click on common FAQs");
         userInputField.setAlignment(Align.center);
 
         CustomButton sendButton = new CustomButton("Send", skin);
