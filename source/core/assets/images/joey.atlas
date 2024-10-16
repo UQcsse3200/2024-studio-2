@@ -164,3 +164,17 @@ combat_move
     orig: 20, 25
     offset: 0, 0
     index: 5
+combat_move
+    rotate: false
+    xy: 3, 65
+    size: 23, 25
+    orig: 23, 25
+    offset: 0, 0
+    index: 6
+combat_move
+    rotate: false
+    xy: 35, 65
+    size: 23, 25
+    orig: 23, 25
+    offset: 0, 0
+    index: 7
