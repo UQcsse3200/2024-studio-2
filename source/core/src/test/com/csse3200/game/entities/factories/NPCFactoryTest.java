@@ -353,7 +353,7 @@ class NPCFactoryTest {
         Assertions.assertArrayEquals(baseHint, new String[][]{
                 {"Welcome to Animal Kingdom!", "I am Lenny the Lion.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
                 {"Potions heals you by (n) HP!", "I hope this helped."},
-                {"Final boss?? That Kangaroo??", "idk"},
+                {"Final boss?? That Kanga??", "idk"},
                 {"Good luck!"}
         });
     }
@@ -436,7 +436,7 @@ class NPCFactoryTest {
         Assertions.assertArrayEquals(baseHint, new String[][]{
                 {"Welcome to Animal Kingdom!", "I am Ethan the Eagle.", "/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
                 {"Potions heals you by (n) HP!", "I hope this helped."},
-                {"Final boss?? That Kangaroo??", "idk"},
+                {"Final boss?? That Griffin??", "idk"},
                 {"Good luck!"}
         });
     }
@@ -507,6 +507,21 @@ class NPCFactoryTest {
         String[] sound = configs.turtle.getSoundPath();
         assertNotNull(sound);
         assert(Arrays.equals(sound, new String[]{"sounds/turtle-hiss.wav"}));
+    }
+
+    /**
+     * Tests that the lion has the correct base hint.
+     */
+    @Test
+    void TestTurtleHasCorrectBaseHint() {
+        String[][] baseHint = configs.turtle.getBaseHint();
+        assertNotNull(baseHint);
+        Assertions.assertArrayEquals(baseHint, new String[][]{
+                {"Welcome to Animal Kingdom!","I am Tilly the Turtle.","/cWhich tip do you wanna hear about?/s01What do potions do???/s02How to beat the final boss/s03Nothing. Bye"},
+                {"Potions heals you by (n) HP!","I hope this helped."},
+                {"Final boss?? That Leviathan??","idk"},
+                {"Good luck!"}
+        });
     }
 
     /**
