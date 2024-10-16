@@ -20,15 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 public class AchievementPopup extends UIComponent {
     // Flag to see if popup is displaying.
     private boolean showing;
-    // Image for achievement completion. */
+    // Container for the popup
     private Table popup;
-
-
-
 
     public AchievementPopup() {
         this.showing = false;
-
     }
 
     /**
@@ -41,7 +37,7 @@ public class AchievementPopup extends UIComponent {
     }
 
     /**
-     * Displays the popup on the current screen and save the completed achievement.
+     * Display the popup on the current screen and save the completed achievement.
      */
     private void showPopup(Achievement achievement) {
         if (!showing) {
@@ -60,16 +56,17 @@ public class AchievementPopup extends UIComponent {
     }
 
     /**
-     * Creates the popup and adds it to the stage.
+     * Creates and animates the popup, adds it to the stage.
+     * @param achievement the achievement being completed.
      */
     public void generate(Achievement achievement) {
         this.popup = new Table();
         showing = true;
-        // Create the popup image
+        // Create the relevant image for the achievement and the book image
         Image book = new Image(new Texture(Gdx.files.internal("images/logbook-popup.png")));
         Image popupImage = new Image(new Texture(Gdx.files.internal(achievement.getPath())));
         book.setSize(100, 100);
-        popupImage.setSize(100,100);
+        popupImage.setSize(50,50);
 
         popup.addActor(book);
         popup.addActor(popupImage);
@@ -82,16 +79,15 @@ public class AchievementPopup extends UIComponent {
         popup.setPosition(displayX, displayY);
         popup.setSize(200, 100);
 
-
-        // Add actions to the popup
+        // Animate the popup.
         SequenceAction sequence = new SequenceAction();
         sequence.addAction(Actions.delay(2f));
         sequence.addAction(Actions.fadeOut(1f));
         sequence.addAction(Actions.run(this::dispose));
-
+        // Animate the images on the popup.
         SequenceAction sequence2 = new SequenceAction();
-        sequence2.addAction(Actions.moveBy(-60, 0));
-        sequence2.addAction(Actions.moveBy(60, 0, 0.5f));
+        sequence2.addAction(Actions.moveBy(-50, book.getHeight() / 4));
+        sequence2.addAction(Actions.moveBy(50 + book.getWidth() / 4, 0, 0.5f));
         sequence2.addAction(Actions.fadeOut(1f));
         popupImage.addAction(sequence2);
         popup.addAction(sequence);
