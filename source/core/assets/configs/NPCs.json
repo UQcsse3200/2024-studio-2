@@ -60,10 +60,7 @@
   },
 
   "magpie": {
-    "baseHint": [
-      ["I LOVE GOLD!!",
-      ",/mbHelp me collect all the coins"]
-    ],
+    "baseHint": [["I LOVE GOLD!!"]],
     "spritePath": "images/friendly_npcs/magpie.atlas",
     "animationSpeed": 0.2,
     "soundPath": ["sounds/aus-magpie.wav"],
