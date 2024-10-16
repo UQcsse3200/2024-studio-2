@@ -135,7 +135,8 @@ public class MapTabComponent extends Component {
         float availableHeight = Gdx.graphics.getHeight() - TOP_BAR_HEIGHT;
 
         // Calculate the maximum width and height for the map while maintaining aspect ratio
-        float mapWidth, mapHeight;
+        float mapWidth;
+        float mapHeight;
 
         if (availableWidth / availableHeight > mapAspectRatio) {
             // Available area is wider than the map aspect ratio, so limit by height
@@ -279,9 +280,8 @@ public class MapTabComponent extends Component {
      * @return The corresponding position on the map as it appears on the screen.
      */
     private Vector2 convertGamePositionToMap(Vector2 gamePosition, float mapX, float mapY, float mapWidth, float mapHeight) {
-        // Assuming world is 5000x5000
-        float worldWidth = 175f;
-        float worldHeight = 175f;
+        float worldWidth = 160f;
+        float worldHeight = 144f;
 
         float normalizedX = gamePosition.x / worldWidth;
         float normalizedY = gamePosition.y / worldHeight;

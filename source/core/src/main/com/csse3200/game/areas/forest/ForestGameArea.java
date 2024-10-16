@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.components.gamearea.MapTabComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,7 @@ public class ForestGameArea extends GameArea {
     private boolean kangarooBossSpawned = false;
     private boolean waterBossSpawned = false;
     private boolean airBossSpawned = false;
+    private final MapTabComponent mapTabComponent;
 
     /**
      * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -90,6 +92,7 @@ public class ForestGameArea extends GameArea {
         this.minigameNPCs = new ArrayList<>();
         this.terrainFactory = terrainFactory;
         this.game = game;
+        this.mapTabComponent = new MapTabComponent(this);
     }
 
     /**
@@ -155,6 +158,18 @@ public class ForestGameArea extends GameArea {
     @Override
     public void unlockArea(String area) {
         terrain.getMap().getLayers().get(area).setVisible(false);
+        if (area.equals("sky")) {
+            unlockSkyArea();
+        } else {
+            unlockOceanArea();
+        }
+    }
+    private void unlockSkyArea() {
+        mapTabComponent.setBlurSky(false);
+    }
+
+    private void unlockOceanArea() {
+        mapTabComponent.setBlurOcean(false);
     }
 
     /**
