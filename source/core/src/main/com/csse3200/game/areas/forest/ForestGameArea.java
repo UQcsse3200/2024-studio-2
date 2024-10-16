@@ -50,7 +50,7 @@ public class ForestGameArea extends GameArea {
     // INFO: The Map is equally divided into three areas. Each area is 160x48 tiles wide.
     private static final GridPoint2 AREA_SIZE = new GridPoint2(10, 3); // modify this to change the dimension of the number of chunk in the area
     public static final GridPoint2 MAP_SIZE = new GridPoint2(16 * AREA_SIZE.x, 16 * AREA_SIZE.y * 3);
-    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(MAP_SIZE.x / 2, 30);
+    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(MAP_SIZE.x / 2, 10);
     private static final float WALL_LENGTH = 0.1f;
     private static final String UNLOCK_AREA_EVENT = "unlockArea";
     private final TerrainFactory terrainFactory;
@@ -70,7 +70,6 @@ public class ForestGameArea extends GameArea {
 
     private final GdxGame game;
 
-    // first barrier 
     private Entity waterAreaWall;
     private Entity airAreaWall;
 
@@ -210,22 +209,13 @@ public class ForestGameArea extends GameArea {
         GridPoint2 tileBounds = terrain.getMapBounds(0);
         Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-        //waterAreaWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_LENGTH);
         waterAreaWall = ObstacleFactory.createVisibleWall(worldBounds.x, WALL_LENGTH);
-        //Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_LENGTH) ;
         spawnEntityAt(
                 waterAreaWall,
                 new GridPoint2(0, MAP_SIZE.y / 3),
                 false,
                 false);
-
-        //spawnEntityAt(
-        //        rightWall,
-        //        new GridPoint2((int) (worldBounds.x / 2), MAP_SIZE.y / 3),
-        //        false,
-        //        false);
         area1To2.add(waterAreaWall);
-        //area1To2.add(rightWall);
     }
 
     /**
@@ -236,20 +226,12 @@ public class ForestGameArea extends GameArea {
         GridPoint2 tileBounds = terrain.getMapBounds(0);
         Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-        //airAreaWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_LENGTH);
         airAreaWall = ObstacleFactory.createVisibleWall(worldBounds.x, WALL_LENGTH);
-        //Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_LENGTH);
         spawnEntityAt(
                 airAreaWall,
                 new GridPoint2(0, MAP_SIZE.y / 3 * 2),
                 false,
                 false);
-
-        //spawnEntityAt(
-        //        rightWall,
-        //        new GridPoint2((int) (worldBounds.x / 2), MAP_SIZE.y / 3 * 2),
-        //        false,
-        //        false);
     }
 
     private void handleNewChunks(Vector2 playerPos) {
