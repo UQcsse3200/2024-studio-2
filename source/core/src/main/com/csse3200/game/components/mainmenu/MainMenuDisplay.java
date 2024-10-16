@@ -221,6 +221,7 @@ public class MainMenuDisplay extends UIComponent {
 
         minigamesBtn = createMenuButton("Minigame", () -> {
             logger.info("Minigames button clicked");
+            AudioManager.stopMusic();  // Stop the music
             entity.getEvents().trigger("SnakeGame");
         });
         //minigamesBtn.setButtonStyle(CustomButton.Style.NORMAL, skin);
