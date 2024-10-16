@@ -45,7 +45,6 @@ public abstract class InventoryDisplay extends UIComponent {
     //Textures (created by @PratulW5)
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
     private final Texture descriptionbg= new Texture("Inventory/descp.png");
-    private final ImageButton  dustbin= new ImageButton(inventorySkin.get("dustbin", ImageButton.ImageButtonStyle.class));
     Label descriptionLabel = new Label("", inventorySkin);
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
