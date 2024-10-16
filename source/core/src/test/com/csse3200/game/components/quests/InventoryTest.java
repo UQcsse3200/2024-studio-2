@@ -32,7 +32,6 @@ class InventoryTest {
 
 
         questManager.addQuest(new Quest.QuestBuilder("Guide's Request test")
-                        .setDescription("Follow the cow's request and collect items.")
                         .addTask(task)
                         .setActive(true)
                         .build());

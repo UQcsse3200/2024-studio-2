@@ -44,10 +44,8 @@ class QuestManagerTest {
     @Test
     void AddQuest() {
         Quest quest = new Quest.QuestBuilder("Test Quest")
-                .setDescription("Test Description")
                 .setActive(true)
                 .build();
-//                ,  "Test Description", List.of(), false, null, null, true, false, 0, new String[] {});
         questManager.addQuest(quest);
 
         assertEquals(quest, questManager.getQuest("Test Quest"));
@@ -57,12 +55,10 @@ class QuestManagerTest {
     void GetAllQuests() {
 
         Quest quest1 = new Quest.QuestBuilder("Quest 1")
-                .setDescription("Description 1")
                 .setActive(true)
                 .build();
 
         Quest quest2 = new Quest.QuestBuilder("Quest 2")
-                .setDescription("Description 2")
                 .setActive(true)
                 .build();
 
@@ -78,7 +74,6 @@ class QuestManagerTest {
     void HandleProgressQuest() {
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
         Quest quest = new Quest.QuestBuilder("Test Quest")
-                .setDescription("Description")
                 .addTask(task)
                 .setActive(true)
                 .build();
@@ -93,7 +88,6 @@ class QuestManagerTest {
     void HandleQuestCompletion() {
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
         Quest quest = new Quest.QuestBuilder("Test Quest")
-                .setDescription("Description")
                 .addTask(task)
                 .setActive(true)
                 .build();
@@ -110,7 +104,6 @@ class QuestManagerTest {
     void HandleFailQuest() {
         Task task = new Task("testTask", "Test Task", "Description", 1, 0, false, false);
         Quest quest = new Quest.QuestBuilder("Test Quest")
-                .setDescription("Description")
                 .addTask(task)
                 .setActive(true)
                 .build();questManager.addQuest(quest);
@@ -129,7 +122,6 @@ class QuestManagerTest {
     @Test
     void shouldSaveLoadQuestProgression() {
         Quest quest1 = new Quest.QuestBuilder("Quest 1")
-                .setDescription("Description 1")
                 .setActive(true)
                 .setFailed(true)
                 .build();
@@ -161,7 +153,6 @@ class QuestManagerTest {
     @Test
     void HandleInvalidQuestProgression() {
         Quest quest = new Quest.QuestBuilder("Invalid Progression Quest")
-                .setDescription("Description")
                 .setActive(true)
                 .build();
 
@@ -177,7 +168,6 @@ class QuestManagerTest {
         Task talkToGuide = new Task("talkToGuide", "Talk to the cow", "Speak with the Guide to start your journey.", 1, 0, false, false);
         Task collectPotions = new Task("collectPotions", "Collect Potions", "Collect 5 potions scattered around the kingdom.", 1, 0, false, false);
         Quest guideQuest = new Quest.QuestBuilder("Guide's Journey")
-                .setDescription("Complete various tasks to progress.")
                 .setActive(true)
                 .addTask(talkToGuide)
                 .addTask(collectPotions)

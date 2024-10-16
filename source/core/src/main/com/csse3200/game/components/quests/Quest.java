@@ -190,7 +190,7 @@ public class Quest {
      */
     public static class QuestBuilder {
         String name;
-        String description;
+        String description = "";
         List<Task> tasks = new ArrayList<>();
         List<DialogueKey> dialogueKeys = new ArrayList<>();
         List<String> triggers = new ArrayList<>();
