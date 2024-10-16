@@ -15,16 +15,15 @@ public abstract class AnimalRouletteDisplay1 {
     private final Stage stage;
     private final Skin skin;
     private Image animalImage;
-    private final CustomButton selectButton;
     private final CustomButton backButton;
     private final CustomButton leftButton;
     private final CustomButton rightButton;
+    private Image backgroundImage;
 
     public AnimalRouletteDisplay1(Stage stage, Skin skin) {
         this.stage = stage;
         this.skin = skin;
 
-        this.selectButton = new CustomButton("Ready?", skin);
         this.backButton = new CustomButton("Go Back", skin);
         this.leftButton = new CustomButton("<", skin);
         this.rightButton = new CustomButton(">", skin);
@@ -35,7 +34,9 @@ public abstract class AnimalRouletteDisplay1 {
     protected abstract String getBackgroundImagePath();
 
     private void initializeDisplay() {
-        BackgroundImage backgroundImage = new BackgroundImage(getBackgroundImagePath());
+        // Initialize background with default (first animal)
+        backgroundImage = new Image(new Texture(getBackgroundPath(0)));
+        backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
         Table mainTable = new Table();
@@ -52,14 +53,20 @@ public abstract class AnimalRouletteDisplay1 {
 
         mainTable.add(animalTable).expand().center();
         mainTable.row();
+        mainTable.add(backButton).width(200).height(50).padBottom(50);
+    }
 
-        Table buttonTable = new Table();
+    private String getBackgroundPath(int animalIndex) {
+        String[] backgrounds = {
+                "images/animal/JungleAnimalSelectionBG.jpeg",  // Dog background
+                "images/animal/WaterAnimalSelectionBG.jpeg",   // Croc background
+                "images/animal/SkyAnimalSelectionBG.jpeg"      // Bird background
+        };
+        return backgrounds[animalIndex];
+    }
 
-
-        buttonTable.add(backButton).width(200).height(50).padRight(20);
-        buttonTable.add(selectButton).width(200).height(50);
-
-        mainTable.add(buttonTable).padBottom(50);
+    public void updateBackground(int animalIndex) {
+        backgroundImage.setDrawable(new Image(new Texture(getBackgroundPath(animalIndex))).getDrawable());
     }
 
 
@@ -102,10 +109,6 @@ public abstract class AnimalRouletteDisplay1 {
 
     public Image getAnimalImage() {
         return animalImage;
-    }
-
-    public CustomButton getSelectButton() {
-        return selectButton;
     }
 
     public CustomButton getBackButton() {

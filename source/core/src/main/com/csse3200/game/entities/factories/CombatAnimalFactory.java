@@ -42,8 +42,8 @@ public class CombatAnimalFactory {
         TextureAtlas textureAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
         AnimationRenderComponent animator = new AnimationRenderComponent(textureAtlas);
         
-        animator.addAnimation("combat_idle", 1.0f, Animation.PlayMode.LOOP);
-        animator.addAnimation("combat_move", 0.1f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_idle", 0.8f, Animation.PlayMode.LOOP);
+        animator.addAnimation("combat_move", 0.2f, Animation.PlayMode.LOOP);
         
         entity
                 .addComponent(animator)

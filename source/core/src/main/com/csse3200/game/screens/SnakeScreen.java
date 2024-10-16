@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
@@ -17,6 +20,7 @@ import com.csse3200.game.input.InputDecorator;
 import com.csse3200.game.overlays.Overlay;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceContainer;
+import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.graphics.Texture;
@@ -43,7 +47,7 @@ import static com.csse3200.game.minigames.snake.AssetPaths.SOUNDS;
  * Represents the screen for the Snake game.
  * Handles the rendering of the game components.
  */
-public class SnakeScreen extends PausableScreen {
+public class SnakeScreen extends MiniGameScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(SnakeScreen.class);
     private final SnakeGame snakeGame;
@@ -53,11 +57,10 @@ public class SnakeScreen extends PausableScreen {
     private final Skin skin;
     private final Stage stage;
     private float scale;
-    private final Screen oldScreen;
-    private final ServiceContainer oldScreenServices;
     private final Texture backgroundTexture;
     private final SpriteBatch spriteBatch;
     private final Entity ui;
+    private final SnakePopup snakePopup;
 
     /**
      * Initialises the SnakeScreen with the provided game instance.
@@ -65,12 +68,10 @@ public class SnakeScreen extends PausableScreen {
      * @param game The main game instance that controls the screen.
      */
     public SnakeScreen(GdxGame game, Screen screen, ServiceContainer container) {
-        super(game);
+        super(game, screen, container);
         this.scale = 1;
-        this.oldScreen = screen;
-        this.oldScreenServices = container;
         this.ui = new Entity();
-
+        this.snakePopup = new SnakePopup(this, "images/minigames/snakePopUp.png");
         this.backgroundTexture = new  Texture(Gdx.files.internal("images/minigames/Background.png"));
 
         this.spriteBatch = new SpriteBatch();
@@ -80,6 +81,7 @@ public class SnakeScreen extends PausableScreen {
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
+
         ServiceLocator.registerTimeSource(new GameTime());
 
         renderer = RenderFactory.createRenderer();
@@ -102,7 +104,37 @@ public class SnakeScreen extends PausableScreen {
 
         //setupExitButton();
         createUI();
+        createHelpButton();
+
+        // Add a slight delay before adding the overlay
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                game.initializeServices();
+                addSnakePopupOverlay("images/minigames/SnakePopUp.png");
+                snakePopup.show();
+            }
+        }, 0.01f);
+
     }
+    private void createHelpButton() {
+        // Create the help button
+        CustomButton helpButton = new CustomButton("Help", skin);
+        helpButton.setButtonSize(100, 50);
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Call the function to add the Snake popup overlay
+                addSnakePopupOverlay("images/minigames/SnakePopUp.png");
+                snakePopup.show();
+            }
+        });
+
+        helpButton.setPosition(10 * scale, Gdx.graphics.getHeight() - helpButton.getHeight() - 10 * scale);
+        stage.addActor(helpButton);
+    }
+
+
 
     /**
      * Renders the Snake game screen, including the grid and the apple.
@@ -123,8 +155,9 @@ public class SnakeScreen extends PausableScreen {
             snakeRenderer.render(snakeGame.getScore());
         }
 
-        stage.act(delta);   // Update the stage
-        stage.draw();       // Draw the UI (pause overlay)
+        stage.act(delta);
+        stage.draw();
+        snakePopup.render();
     }
 
     /**
@@ -174,10 +207,20 @@ public class SnakeScreen extends PausableScreen {
         stage.getViewport().update(width, height, true);
         if (scale == 0) {  // Screen has been minimised
             scale = 1;
-            ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            if (!resting) {
+                ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            }
+        } else {
+            stage.clear();
+            if (resting) {
+                removeOverlay();
+                ui.getEvents().trigger("addOverlay", Overlay.OverlayType.PAUSE_OVERLAY);
+            }
+            createHelpButton();
+            snakeRenderer.resize(width, height);
+            snakePopup.resize(width, height);
         }
         //setupExitButton();
-        snakeRenderer.resize(width, height);
     }
 
     /**
@@ -237,20 +280,5 @@ public class SnakeScreen extends PausableScreen {
      */
     void handleSnakeInput(Direction direction) {
         snakeGame.handleSnakeInput(direction);
-    }
-
-    /**
-     * Handles player input for restarting or exiting the game.
-     */
-    void restartGame() {
-        dispose();
-        game.setScreen(new SnakeScreen(game, oldScreen, oldScreenServices));
-    }
-
-    /**
-     * Exits the game
-     */
-    void exitGame() {
-        game.setOldScreen(oldScreen, oldScreenServices);
     }
 }
