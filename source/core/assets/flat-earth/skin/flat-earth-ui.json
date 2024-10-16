@@ -108,7 +108,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	scrollbar-c: {
 		name: scrollbar
-		color: color
+		color: gray
 	}
 	scrollbar-android-c: {
 		name: scrollbar-android
