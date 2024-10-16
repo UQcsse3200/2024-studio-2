@@ -37,7 +37,10 @@ public class MinigameHighscore implements Json.Serializable {
         return highscores.getOrDefault(gameToString(minigameName), 0);
     }
 
-    //TODO: add comment here
+    /**
+     * Write to the JSON file with the new high score
+     * @param json the file to write to
+     */
     @Override
     public void write(Json json) {
         json.writeObjectStart("highScores");
@@ -47,7 +50,11 @@ public class MinigameHighscore implements Json.Serializable {
         json.writeObjectEnd();
     }
 
-    //TODO: add comment ehre
+    /**
+     * Read from the JSON file to get the high score
+     * @param json the file to read from
+     * @param jsonData the data in the file
+     */
     @Override
     public void read(Json json, JsonValue jsonData) {
         JsonValue highScoresData = jsonData.get("highScores");
