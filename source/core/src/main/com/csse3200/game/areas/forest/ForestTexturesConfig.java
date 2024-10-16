@@ -160,6 +160,39 @@ public class ForestTexturesConfig {
             "images/tiles_with_corners/Grass_tile_with_water_corner.png",
             "images/tiles_with_corners/Sand_tile_with_grass_corner.png",
 
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_lower_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_lower_right.jpg",
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_upper_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_upper_right.jpg",
+            
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_lower_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_lower_right.jpg",
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_upper_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_upper_right.jpg",
+
+            "images/sloping_grass_edge_in_water_tile_1/sloping_grass_edge_in_water_tile_1_lower_left.jpg",
+
+            "images/sky_tile_with_cloud_1/sky_cloud_upper_left_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_upper_middle_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_upper_right_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_middle_left_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_middle_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_middle_right_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_lower_left_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_lower_middle_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_lower_right_1.jpg",
+
+            "images/sky_tile_with_cloud_2/sky_cloud_upper_left_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_upper_middle_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_upper_right_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_middle_left_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_middle_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_middle_right_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_lower_left_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_lower_middle_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_lower_right_2.jpg",
+
+
             "images/top_left_grass.png",
             "images/top_middle_grass.png",
             "images/top_right_grass.png",

@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csse3200.game.areas.FogGameAreaConfigs.FogMapTiles;
 import com.csse3200.game.areas.FogGameAreaConfigs.FogTileConfig;
 import com.csse3200.game.areas.MapHandler;
-import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
-import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
+//import com.csse3200.game.areas.OceanGameAreaConfigs.OceanMapTiles;
+//import com.csse3200.game.areas.OceanGameAreaConfigs.OceanTileConfig;
 import com.csse3200.game.areas.terrain.tiles.ForestTileConfig;
+import com.csse3200.game.areas.terrain.tiles.OceanTileConfig;
+import com.csse3200.game.areas.terrain.tiles.AirTileConfig;
 import com.csse3200.game.areas.terrain.tiles.Tile;
 import com.csse3200.game.areas.terrain.tiles.TileConfig;
 import com.csse3200.game.files.FileLoader;
@@ -58,12 +60,13 @@ public class TerrainResource {
                 forestSize = forestTiles.size();
 
                 // load water tiles
-                OceanMapTiles oceanTileConfig;
+                //OceanMapTiles oceanTileConfig;
                 FogMapTiles fogTileConfig;
-                oceanTileConfig = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/waterTiles.json");
+                //oceanTileConfig = FileLoader.readClass(OceanMapTiles.class, "configs/OceanGameAreaConfigs/waterTiles.json");
                 fogTileConfig = FileLoader.readClass(FogMapTiles.class, "configs/FogGameAreaConfigs/fogTiles.json");
 
-                for (OceanTileConfig tile : oceanTileConfig.waterMapTiles) {
+                //for (OceanTileConfig tile : oceanTileConfig.waterMapTiles) {
+                for (TileConfig tile : OceanTileConfig.getWaterMapTiles()) {
                     waterTiles.add(new Tile(tile.id,
                             new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
                             tile.edges,
@@ -79,6 +82,15 @@ public class TerrainResource {
                             tile.centre));
                 }
                 fogSize = fogTiles.size();
+
+                // load air tiles
+                for (TileConfig tile : AirTileConfig.getAirMapTiles()) {
+                    airTiles.add(new Tile(tile.id,
+                            new TextureRegion(resourceService.getAsset(tile.fp, Texture.class)),
+                            tile.edges,
+                            tile.centre));
+                }
+                airSize = airTiles.size();
 
                 break;
             case COMBAT:
@@ -126,6 +138,13 @@ public class TerrainResource {
             setPossibleRight(fogTiles.get(i), fogTiles);
             setPossibleDown(fogTiles.get(i), fogTiles);
             setPossibleLeft(fogTiles.get(i), fogTiles);
+        }
+
+        for (int i = 0; i < airTiles.size(); i++) {
+            setPossibleUp(airTiles.get(i), airTiles);
+            setPossibleRight(airTiles.get(i), airTiles);
+            setPossibleDown(airTiles.get(i), airTiles);
+            setPossibleLeft(airTiles.get(i), airTiles);
         }
     }
 
