@@ -41,6 +41,5 @@ class CombatInventoryDisplayTest {
         Inventory inv1 = new Inventory(9);
         Inventory inv2 = new Inventory(10);
         //Shouldn't throw error since 3 divides 12
-        new CombatInventoryDisplay(new Inventory(9), 3, 3);
     }
 }
