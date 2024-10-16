@@ -184,7 +184,17 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
   private void configureAndAddUIElements() {
     Stage stage = ServiceLocator.getRenderService().getStage();
     BitmapFont defaultFont = new BitmapFont();
-    defaultFont.getData().setScale(2.0f);
+    defaultFont.getData().setScale(2.5f);
+
+    // Vignette image setup
+    Texture vignetteImageTexture = new Texture("images/vignette.png");
+
+    Image vignetteImage = new Image(vignetteImageTexture);
+    vignetteImage.setFillParent(true); // Cover the entire screen
+    vignetteImage.setVisible(true); // Initially invisible
+    stage.addActor(vignetteImage);
+
+    vignetteImage.setName("vignetteImage");
 
     // Create label style with the font
     Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -291,6 +301,7 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Set names for elements to easily find them later for animations
     enemyImage.setName("enemyImage");
     enemyNameLabel.setName("enemyNameLabel");
+    table.setName("table");
   }
 
   /**
@@ -302,6 +313,20 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     logger.debug("Adding animations to cutscene UI components");
     Stage stage = ServiceLocator.getRenderService().getStage();
 
+    Image vignetteImage = (Image) stage.getRoot().findActor("vignetteImage");
+    vignetteImage.addAction(
+            Actions.sequence(
+                    Actions.alpha(0f),
+                    Actions.repeat(3,
+                            Actions.sequence(
+                                    Actions.fadeIn(0.2f),
+                                    Actions.fadeOut(0.2f)
+                            )
+                    ),
+                    Actions.fadeIn(0.2f) // Finally, keep it visible
+            )
+    );
+
     // Centered positions
     float centerX = (Gdx.graphics.getWidth() - 500) / 2f;
     float centerY = (Gdx.graphics.getHeight() - 150) / 2f;
@@ -309,6 +334,7 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Access UI elements by their names
     Image enemyImage = (Image) stage.getRoot().findActor("enemyImage");
     Label enemyNameLabel = (Label) stage.getRoot().findActor("enemyNameLabel");
+    Table table = (Table) stage.getRoot().findActor("table");
 
     // Initial positions for sliding animations
     enemyImage.setPosition(0, centerY); // Start from off-screen left
@@ -324,15 +350,15 @@ public class PreCombatCutsceneScreen extends ResizableScreen {
     // Animate enemy name label (slide-in effect)
     enemyNameLabel.addAction(
             Actions.sequence(
-                    Actions.moveTo(centerX + this.labelBuffer, centerY - 10, 2f, Interpolation.pow5Out)
+                    Actions.moveTo(centerX + this.labelBuffer, centerY - 40, 2f, Interpolation.pow5Out)
             )
     );
 
-    // Add fade-in and flash effect to the enemy label
-    enemyNameLabel.addAction(
+    // Add fade-in and flash effect to the table
+    table.addAction(
             Actions.sequence(
                     Actions.alpha(0f),
-                    Actions.repeat(5,
+                    Actions.repeat(3,
                             Actions.sequence(
                                     Actions.fadeIn(0.2f),
                                     Actions.fadeOut(0.2f)
