@@ -91,9 +91,10 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PlayFab</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">The PlayFab class handles user registration and login via PlayFab's client API.
- It allows initializing the PlayFab client with a Title ID and provides methods
- for user registration and login.</div>
+<div class="block">The PlayFab class handles user registration, login, and leaderboard management via
+ PlayFab's client API. It allows for initializing the PlayFab client with a Title ID,
+ and provides methods for user registration, login, updating leaderboards, and
+ submitting scores.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -157,13 +158,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHighscores()" class="member-name-link">getHighscores</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the list of high scores on the leaderboard.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getPlayerName()" class="member-name-link">getPlayerName</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Retrieves the name of the currently logged-in player.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUsernames()" class="member-name-link">getUsernames</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the list of usernames on the leaderboard.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="PlayFab.Response.html" title="class in com.csse3200.game.components.login">PlayFab.Response</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#loginUser(java.lang.String,java.lang.String)" class="member-name-link">loginUser</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password)</code></div>
@@ -182,10 +189,14 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#submitScore(java.lang.String,int)" class="member-name-link">submitScore</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameName,
  int&nbsp;score)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Submits the player's score for the specified game to the leaderboard.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#updateLeaderboard(java.lang.String)" class="member-name-link">updateLeaderboard</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Updates the leaderboard for the specified game by retrieving the top scores.</div>
+</div>
 </div>
 </div>
 </div>
@@ -276,12 +287,22 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getPlayerName()">
 <h3>getPlayerName</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getPlayerName</span>()</div>
+<div class="block">Retrieves the name of the currently logged-in player.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The name of the logged-in player, or "Guest" if no user is logged in.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="updateLeaderboard(java.lang.String)">
 <h3>updateLeaderboard</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateLeaderboard</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameName)</span></div>
+<div class="block">Updates the leaderboard for the specified game by retrieving the top scores.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>gameName</code> - The name of the game for which the leaderboard is being updated.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -289,18 +310,34 @@ loadScripts(document, 'script');</script>
 <h3>submitScore</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">submitScore</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameName,
  int&nbsp;score)</span></div>
+<div class="block">Submits the player's score for the specified game to the leaderboard.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>gameName</code> - The name of the game.</dd>
+<dd><code>score</code> - The score to be submitted.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getUsernames()">
 <h3>getUsernames</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getUsernames</span>()</div>
+<div class="block">Retrieves the list of usernames on the leaderboard.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>An <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link"><code>ArrayList</code></a> of usernames.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getHighscores()">
 <h3>getHighscores</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getHighscores</span>()</div>
+<div class="block">Retrieves the list of high scores on the leaderboard.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>An <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link"><code>ArrayList</code></a> of high scores.</dd>
+</dl>
 </section>
 </li>
 </ul>

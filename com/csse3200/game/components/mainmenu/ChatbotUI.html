@@ -91,7 +91,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ChatbotUI</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">A class that handles the chatbot UI and its functionality.</div>
+<div class="block">A class that handles the chatbot UI and its functionality.
+ It includes methods to create, display, and process user input for the chatbot window.
+ The chatbot service can answer predefined questions and also provides a keyword-based input system.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -106,7 +108,9 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.Stage,com.badlogic.gdx.scenes.scene2d.ui.Skin,com.csse3200.game.components.mainmenu.MainMenuDisplay)" class="member-name-link">ChatbotUI</a><wbr>(com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage,
  com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin,
  <a href="MainMenuDisplay.html" title="class in com.csse3200.game.components.mainmenu">MainMenuDisplay</a>&nbsp;mainMenuDisplay)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructor to initialize the Chatbot UI.</div>
+</div>
 </div>
 </section>
 </li>
@@ -122,21 +126,25 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#closeChatbotDialog()" class="member-name-link">closeChatbotDialog</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#closechatbotTable()" class="member-name-link">closechatbotTable</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Closes the chatbot window and makes the menu interactive again.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isChatbotDialogVisible()" class="member-name-link">isChatbotDialogVisible</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ischatbotTableVisible()" class="member-name-link">ischatbotTableVisible</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Checks if the chatbot dialog is visible.</div>
+<div class="block">Checks if the chatbot window is visible.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#openChatbotDialog()" class="member-name-link">openChatbotDialog</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#openchatbotTable()" class="member-name-link">openchatbotTable</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Opens the chatbot dialog in the center of the screen.</div>
+<div class="block">Opens the chatbot window in the center of the screen.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateChatbotDialogPosition()" class="member-name-link">updateChatbotDialogPosition</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatechatbotTablePosition()" class="member-name-link">updatechatbotTablePosition</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the position of the chatbot window when the screen size changes.</div>
+</div>
 </div>
 </div>
 </div>
@@ -160,6 +168,13 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ChatbotUI</span><wbr><span class="parameters">(com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage,
  com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin,
  <a href="MainMenuDisplay.html" title="class in com.csse3200.game.components.mainmenu">MainMenuDisplay</a>&nbsp;mainMenuDisplay)</span></div>
+<div class="block">Constructor to initialize the Chatbot UI.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stage</code> - The stage where the chatbot window will be added.</dd>
+<dd><code>skin</code> - The skin used to style the UI elements.</dd>
+<dd><code>mainMenuDisplay</code> - The main menu display that handles menu visibility and interaction.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -171,29 +186,35 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="openChatbotDialog()">
-<h3>openChatbotDialog</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">openChatbotDialog</span>()</div>
-<div class="block">Opens the chatbot dialog in the center of the screen.</div>
+<section class="detail" id="openchatbotTable()">
+<h3>openchatbotTable</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">openchatbotTable</span>()</div>
+<div class="block">Opens the chatbot window in the center of the screen.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="closeChatbotDialog()">
-<h3>closeChatbotDialog</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">closeChatbotDialog</span>()</div>
+<section class="detail" id="closechatbotTable()">
+<h3>closechatbotTable</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">closechatbotTable</span>()</div>
+<div class="block">Closes the chatbot window and makes the menu interactive again.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="isChatbotDialogVisible()">
-<h3>isChatbotDialogVisible</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isChatbotDialogVisible</span>()</div>
-<div class="block">Checks if the chatbot dialog is visible.</div>
+<section class="detail" id="ischatbotTableVisible()">
+<h3>ischatbotTableVisible</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">ischatbotTableVisible</span>()</div>
+<div class="block">Checks if the chatbot window is visible.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true if the chatbot window is visible, false otherwise.</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="updateChatbotDialogPosition()">
-<h3>updateChatbotDialogPosition</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateChatbotDialogPosition</span>()</div>
+<section class="detail" id="updatechatbotTablePosition()">
+<h3>updatechatbotTablePosition</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatechatbotTablePosition</span>()</div>
+<div class="block">Updates the position of the chatbot window when the screen size changes.</div>
 </section>
 </li>
 </ul>

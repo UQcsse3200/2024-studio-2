@@ -101,6 +101,10 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MiniMapDisplay</span>
 <span class="extends-implements">extends <a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></span></div>
+<div class="block">The MiniMapDisplay class is a UI component responsible for displaying a minimap
+ on the screen. It shows the player's position, as well as various entities like
+ enemies, bosses, friendly NPCs, and minigame NPCs, represented by different colored
+ dots. The minimap updates positions based on the entities' world coordinates.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -125,9 +129,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">MiniMapDisplay</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Default constructor for MiniMapDisplay.</div>
+</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.areas.GameArea)" class="member-name-link">MiniMapDisplay</a><wbr>(<a href="../GameArea.html" title="class in com.csse3200.game.areas">GameArea</a>&nbsp;gameArea)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Constructor that initializes the MiniMapDisplay with a specified GameArea.</div>
+</div>
 </div>
 </section>
 </li>
@@ -145,7 +153,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Called when the entity is created and registered.</div>
+<div class="block">Creates the minimap, initializing the player and entity lists from the GameArea.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
@@ -154,47 +162,65 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMiniMapDiameter()" class="member-name-link">getMiniMapDiameter</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the diameter of the minimap.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMiniMapX()" class="member-name-link">getMiniMapX</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the X position of the minimap on the screen.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMiniMapY()" class="member-name-link">getMiniMapY</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the Y position of the minimap on the screen.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the player entity displayed on the minimap.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeAllImages()" class="member-name-link">initializeAllImages</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initializes all dot images for player, enemies, bosses, friendly NPCs, and minigame NPCs.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeBlueDotImages()" class="member-name-link">initializeBlueDotImages</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initializes blue dot points for the friendly NPCs.</div>
+<div class="block">Initializes blue dot images for friendly NPCs on the minimap.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeGreenDotImages()" class="member-name-link">initializeGreenDotImages</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initializes the green dot image representing the player on the minimap.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeLargeRedPointImages()" class="member-name-link">initializeLargeRedPointImages</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initializes large red dot points for the friendly NPCs.</div>
+<div class="block">Initializes large red dot images for bosses on the minimap.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializePurplePointImages()" class="member-name-link">initializePurplePointImages</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initializes purple dot points for the minigame NPCs.</div>
+<div class="block">Initializes purple dot images for minigame NPCs on the minimap.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeRedDotImages()" class="member-name-link">initializeRedDotImages</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initializes red dot images for each enemy on the minimap.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMiniMapDiameter(int)" class="member-name-link">setMiniMapDiameter</a><wbr>(int&nbsp;size)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the diameter of the minimap.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMiniMapPosition(float,float)" class="member-name-link">setMiniMapPosition</a><wbr>(float&nbsp;posX,
  float&nbsp;posY)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the position of the minimap on the screen.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#transferToMiniMapPos(com.csse3200.game.entities.Entity)" class="member-name-link">transferToMiniMapPos</a><wbr>(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;entity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -207,7 +233,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateAllPoints()" class="member-name-link">updateAllPoints</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates all dot points on the minimap, including enemies, friendly NPCs, bosses, and minigame NPCs.</div>
+</div>
 </div>
 </div>
 </div>
@@ -244,12 +272,18 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>MiniMapDisplay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MiniMapDisplay</span>()</div>
+<div class="block">Default constructor for MiniMapDisplay. Initializes all entity lists.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="&lt;init&gt;(com.csse3200.game.areas.GameArea)">
 <h3>MiniMapDisplay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MiniMapDisplay</span><wbr><span class="parameters">(<a href="../GameArea.html" title="class in com.csse3200.game.areas">GameArea</a>&nbsp;gameArea)</span></div>
+<div class="block">Constructor that initializes the MiniMapDisplay with a specified GameArea.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>gameArea</code> - the game area from which to retrieve player and entities.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -264,9 +298,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="create()">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../../components/Component.html#create()">Component</a></code></span></div>
-<div class="block">Called when the entity is created and registered. Initial logic such as calls to GetComponent
- should be made here, not in the constructor which is called before an entity is finished.</div>
+<div class="block">Creates the minimap, initializing the player and entity lists from the GameArea.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../../ui/UIComponent.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="../../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></code></dd>
@@ -277,39 +309,42 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="initializeAllImages()">
 <h3>initializeAllImages</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeAllImages</span>()</div>
+<div class="block">Initializes all dot images for player, enemies, bosses, friendly NPCs, and minigame NPCs.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="initializeGreenDotImages()">
 <h3>initializeGreenDotImages</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeGreenDotImages</span>()</div>
+<div class="block">Initializes the green dot image representing the player on the minimap.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="initializeRedDotImages()">
 <h3>initializeRedDotImages</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeRedDotImages</span>()</div>
+<div class="block">Initializes red dot images for each enemy on the minimap.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="initializeBlueDotImages()">
 <h3>initializeBlueDotImages</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeBlueDotImages</span>()</div>
-<div class="block">Initializes blue dot points for the friendly NPCs.</div>
+<div class="block">Initializes blue dot images for friendly NPCs on the minimap.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="initializeLargeRedPointImages()">
 <h3>initializeLargeRedPointImages</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeLargeRedPointImages</span>()</div>
-<div class="block">Initializes large red dot points for the friendly NPCs.</div>
+<div class="block">Initializes large red dot images for bosses on the minimap.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="initializePurplePointImages()">
 <h3>initializePurplePointImages</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializePurplePointImages</span>()</div>
-<div class="block">Initializes purple dot points for the minigame NPCs.</div>
+<div class="block">Initializes purple dot images for minigame NPCs on the minimap.</div>
 </section>
 </li>
 <li>
@@ -329,6 +364,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="updateAllPoints()">
 <h3>updateAllPoints</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateAllPoints</span>()</div>
+<div class="block">Updates all dot points on the minimap, including enemies, friendly NPCs, bosses, and minigame NPCs.</div>
 </section>
 </li>
 <li>
@@ -359,24 +395,44 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getPlayer()">
 <h3>getPlayer</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a></span>&nbsp;<span class="element-name">getPlayer</span>()</div>
+<div class="block">Retrieves the player entity displayed on the minimap.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the player entity.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getMiniMapX()">
 <h3>getMiniMapX</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMiniMapX</span>()</div>
+<div class="block">Gets the X position of the minimap on the screen.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the X coordinate of the minimap.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getMiniMapY()">
 <h3>getMiniMapY</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMiniMapY</span>()</div>
+<div class="block">Gets the Y position of the minimap on the screen.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the Y coordinate of the minimap.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getMiniMapDiameter()">
 <h3>getMiniMapDiameter</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getMiniMapDiameter</span>()</div>
+<div class="block">Gets the diameter of the minimap.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the diameter of the minimap.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -384,12 +440,23 @@ loadScripts(document, 'script');</script>
 <h3>setMiniMapPosition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMiniMapPosition</span><wbr><span class="parameters">(float&nbsp;posX,
  float&nbsp;posY)</span></div>
+<div class="block">Sets the position of the minimap on the screen.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>posX</code> - the new X coordinate for the minimap.</dd>
+<dd><code>posY</code> - the new Y coordinate for the minimap.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setMiniMapDiameter(int)">
 <h3>setMiniMapDiameter</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMiniMapDiameter</span><wbr><span class="parameters">(int&nbsp;size)</span></div>
+<div class="block">Sets the diameter of the minimap.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>size</code> - the new diameter for the minimap.</dd>
+</dl>
 </section>
 </li>
 </ul>

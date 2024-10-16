@@ -101,8 +101,11 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MinigameLeaderboard</span>
 <span class="extends-implements">extends <a href="../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></span></div>
-<div class="block">This class represents the login and registration display for the game.
- It allows users to either login or register by using the PlayFab service.</div>
+<div class="block">Represents the leaderboard display for mini-games in the game.
+ It allows users to view the top scores for different mini-games
+ (Snake, Bird, Fish) and switch between them. The class interacts with
+ the PlayFab service to retrieve the leaderboard data and displays it
+ to the user.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -128,7 +131,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.components.mainmenu.MainMenuDisplay)" class="member-name-link">MinigameLeaderboard</a><wbr>(<a href="../components/mainmenu/MainMenuDisplay.html" title="class in com.csse3200.game.components.mainmenu">MainMenuDisplay</a>&nbsp;mainMenuDisplay)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructor for LoginRegisterDisplay.</div>
+<div class="block">Constructor for MinigameLeaderboard.</div>
 </div>
 </div>
 </section>
@@ -147,41 +150,50 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Called when the component is disposed.</div>
+<div class="block">Releases all resources of Disposable object.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">draw</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Draw the renderable.</div>
+<div class="block">Draws the component.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHighscores()" class="member-name-link">getHighscores</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the list of high scores currently displayed on the leaderboard.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUsernames()" class="member-name-link">getUsernames</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves the list of usernames currently displayed on the leaderboard.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getZIndex()" class="member-name-link">getZIndex</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Z index controls rendering order within a layer.</div>
+<div class="block">Gets the Z-index used for rendering this UI component.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeTable()" class="member-name-link">initializeTable</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initializes the layout of the table.</div>
+<div class="block">Initializes the table layout for the leaderboard, including setting the background,
+ size, and title label.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Table</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#makeLeaderboardTable()" class="member-name-link">makeLeaderboardTable</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Constructs and returns the layout table containing all UI components, including input fields,
- buttons, and dynamic mode switching for login and registration.</div>
+<div class="block">Creates and returns the main table for the leaderboard UI.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshLeaderboard(java.lang.String)" class="member-name-link">refreshLeaderboard</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Refreshes the leaderboard data for the specified mini-game.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateLeaderboard()" class="member-name-link">updateLeaderboard</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates the leaderboard data by fetching the latest usernames and scores
+ from the PlayFab service and refreshing the UI.</div>
+</div>
 </div>
 </div>
 </div>
@@ -218,8 +230,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(com.csse3200.game.components.mainmenu.MainMenuDisplay)">
 <h3>MinigameLeaderboard</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MinigameLeaderboard</span><wbr><span class="parameters">(<a href="../components/mainmenu/MainMenuDisplay.html" title="class in com.csse3200.game.components.mainmenu">MainMenuDisplay</a>&nbsp;mainMenuDisplay)</span></div>
-<div class="block">Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
- and prepares the display for user interaction.</div>
+<div class="block">Constructor for MinigameLeaderboard. Initializes the PlayFab service
+ with the provided TitleId and sets up the main display.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mainMenuDisplay</code> - The main menu display to interact with</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -234,11 +250,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="makeLeaderboardTable()">
 <h3>makeLeaderboardTable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Table</span>&nbsp;<span class="element-name">makeLeaderboardTable</span>()</div>
-<div class="block">Constructs and returns the layout table containing all UI components, including input fields,
- buttons, and dynamic mode switching for login and registration.</div>
+<div class="block">Creates and returns the main table for the leaderboard UI. This includes
+ loading textures, setting up the table layout, and adding buttons for
+ user interaction.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>Table containing the login or registration form.</dd>
+<dd>A Table containing the leaderboard UI elements</dd>
 </dl>
 </section>
 </li>
@@ -246,47 +263,63 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="initializeTable()">
 <h3>initializeTable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeTable</span>()</div>
-<div class="block">Initializes the layout of the table.
- This includes setting up the background, size, and title label.</div>
+<div class="block">Initializes the table layout for the leaderboard, including setting the background,
+ size, and title label.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="updateLeaderboard()">
 <h3>updateLeaderboard</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateLeaderboard</span>()</div>
+<div class="block">Updates the leaderboard data by fetching the latest usernames and scores
+ from the PlayFab service and refreshing the UI.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="refreshLeaderboard(java.lang.String)">
 <h3>refreshLeaderboard</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshLeaderboard</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Refreshes the leaderboard data for the specified mini-game.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the mini-game ("Snake", "Bird", "Fish", or "Current")</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getUsernames()">
 <h3>getUsernames</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getUsernames</span>()</div>
+<div class="block">Retrieves the list of usernames currently displayed on the leaderboard.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A list of usernames</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getHighscores()">
 <h3>getHighscores</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getHighscores</span>()</div>
+<div class="block">Retrieves the list of high scores currently displayed on the leaderboard.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A list of high scores</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getZIndex()">
 <h3>getZIndex</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getZIndex</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../rendering/Renderable.html#getZIndex()">Renderable</a></code></span></div>
-<div class="block">Z index controls rendering order within a layer. Higher Z index is drawn on top.</div>
+<div class="block">Gets the Z-index used for rendering this UI component.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../rendering/Renderable.html#getZIndex()">getZIndex</a></code>&nbsp;in interface&nbsp;<code><a href="../rendering/Renderable.html" title="interface in com.csse3200.game.rendering">Renderable</a></code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="../ui/UIComponent.html#getZIndex()">getZIndex</a></code>&nbsp;in class&nbsp;<code><a href="../ui/UIComponent.html" title="class in com.csse3200.game.ui">UIComponent</a></code></dd>
 <dt>Returns:</dt>
-<dd>Z index</dd>
+<dd>The Z-index value</dd>
 </dl>
 </section>
 </li>
@@ -294,13 +327,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">
 <h3>draw</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../rendering/RenderComponent.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">RenderComponent</a></code></span></div>
-<div class="block">Draw the renderable. Should be called only by the renderer, not manually.</div>
+<div class="block">Draws the component. Currently not used as the drawing is handled by the Scene2D tables.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../rendering/RenderComponent.html#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch)">draw</a></code>&nbsp;in class&nbsp;<code><a href="../rendering/RenderComponent.html" title="class in com.csse3200.game.rendering">RenderComponent</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>batch</code> - Batch to render to.</dd>
+<dd><code>batch</code> - The SpriteBatch used for drawing</dd>
 </dl>
 </section>
 </li>
@@ -308,8 +340,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="dispose()">
 <h3>dispose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../components/Component.html#dispose()">Component</a></code></span></div>
-<div class="block">Called when the component is disposed. Dispose of any internal resources here.</div>
+<div class="block">Releases all resources of Disposable object.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>dispose</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.utils.Disposable</code></dd>

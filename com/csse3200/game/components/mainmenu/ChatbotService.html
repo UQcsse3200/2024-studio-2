@@ -91,6 +91,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ChatbotService</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">ChatbotService handles predefined responses for the chatbot.
+ It processes user input and returns appropriate responses based on predefined keywords.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -103,7 +105,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">ChatbotService</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructor for ChatbotService.</div>
+</div>
 </div>
 </section>
 </li>
@@ -121,7 +125,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResponse(java.lang.String)" class="member-name-link">getResponse</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userMessage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Processes user input and returns a corresponding response.</div>
+<div class="block">Processes the user's input and returns a response based on predefined keywords.</div>
 </div>
 </div>
 </div>
@@ -144,6 +148,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>ChatbotService</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ChatbotService</span>()</div>
+<div class="block">Constructor for ChatbotService.
+ Initializes the predefined responses that the chatbot can reply with.</div>
 </section>
 </li>
 </ul>
@@ -158,12 +164,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getResponse(java.lang.String)">
 <h3>getResponse</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getResponse</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userMessage)</span></div>
-<div class="block">Processes user input and returns a corresponding response.</div>
+<div class="block">Processes the user's input and returns a response based on predefined keywords.
+ If a keyword is found in the user's message, the corresponding response is returned.
+ If no keywords match, a default response is provided.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>userMessage</code> - The message entered by the user.</dd>
 <dt>Returns:</dt>
-<dd>The chatbot's response based on predefined keywords.</dd>
+<dd>The chatbot's response based on predefined keywords, or a default response if no match is found.</dd>
 </dl>
 </section>
 </li>

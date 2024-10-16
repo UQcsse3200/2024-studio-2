@@ -107,7 +107,9 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.scenes.scene2d.ui.Skin,com.badlogic.gdx.scenes.scene2d.Stage,com.badlogic.gdx.scenes.scene2d.utils.Drawable)" class="member-name-link">HelpWindow</a><wbr>(com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin,
  com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage,
  com.badlogic.gdx.scenes.scene2d.utils.Drawable&nbsp;settingDrawable)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructor to create a HelpWindow instance.</div>
+</div>
 </div>
 </section>
 </li>
@@ -125,12 +127,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setOnClose(java.lang.Runnable)" class="member-name-link">setOnClose</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;onClose)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the logic to be executed when the help window is closed.</div>
+<div class="block">Sets the action to be executed when the help window is closed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#show()" class="member-name-link">show</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Displays the help window by adding it to the stage and sets keyboard focus.</div>
+<div class="block">Displays the help window by adding it to the stage and sets keyboard focus for navigation.</div>
 </div>
 </div>
 </div>
@@ -155,6 +157,13 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HelpWindow</span><wbr><span class="parameters">(com.badlogic.gdx.scenes.scene2d.ui.Skin&nbsp;skin,
  com.badlogic.gdx.scenes.scene2d.Stage&nbsp;stage,
  com.badlogic.gdx.scenes.scene2d.utils.Drawable&nbsp;settingDrawable)</span></div>
+<div class="block">Constructor to create a HelpWindow instance.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>skin</code> - Skin to style the UI elements.</dd>
+<dd><code>stage</code> - The Stage to which the help window will be added.</dd>
+<dd><code>settingDrawable</code> - Drawable background for the help window.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -169,14 +178,18 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="show()">
 <h3>show</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">show</span>()</div>
-<div class="block">Displays the help window by adding it to the stage and sets keyboard focus.</div>
+<div class="block">Displays the help window by adding it to the stage and sets keyboard focus for navigation.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="setOnClose(java.lang.Runnable)">
 <h3>setOnClose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setOnClose</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;onClose)</span></div>
-<div class="block">Sets the logic to be executed when the help window is closed.</div>
+<div class="block">Sets the action to be executed when the help window is closed.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>onClose</code> - The Runnable to be executed on close.</dd>
+</dl>
 </section>
 </li>
 </ul>
