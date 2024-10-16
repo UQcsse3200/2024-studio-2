@@ -69,7 +69,6 @@ public class PlayFab {
             logger.debug(errorMsg);
             return new Response(errorMsg, false);
         }
-        //
     }
 
     /**
