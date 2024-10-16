@@ -104,4 +104,25 @@ public class StealTaskTest {
         // Verify if the current task is now waiting after returning
         assertTrue(stealTask.getCurrentTask() instanceof WaitTask);
     }
+
+//    @Test
+//    public void testStealingMultipleItems() {
+//        // Add multiple items to the map
+//        Entity secondItemEntity = mock(Entity.class);
+//        when(secondItemEntity.getPosition()).thenReturn(new Vector2(2, 2));
+//        items.put(2, secondItemEntity);
+//
+//        // Start the steal task and ensure it starts by targeting the first item
+//        stealTask.start();
+//        stealTask.update(); // Moving toward the first item
+//
+//        when(mockEntity.getPosition()).thenReturn(new Vector2(1, 1));
+//        stealTask.update(); // Should "steal" the first item
+//
+//        // Now target the second item
+//        when(mockEntity.getPosition()).thenReturn(new Vector2(2, 2));
+//        stealTask.update(); // Should "steal" the second item
+//
+//        assertTrue(stealTask.getCurrentTask() instanceof WaitTask); // Task ends after stealing
+//    }
 }
