@@ -77,11 +77,18 @@ public class CombatStatsChangePopup extends UIComponent {
         createStatsChangePopup(popupText, Color.ORANGE, isPlayer);
     }
 
+    /**
+     * Create stats change popups for changes caused by Boss Special Move status effects.
+     * This type of popup will also display the status effect name with its unique text color.
+     * @param healthChange the numeric change in health
+     * @param hungerChange the numeric change in hunger
+     * @param playerStats the CombatStatsComponent containing data about status effects currently applied to the player
+     */
     public void createStatusEffectStatsChangePopup(int healthChange, int hungerChange, CombatStatsComponent playerStats) {
         Color textColor;
         CombatStatsComponent.StatusEffect statusEffect;
         if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING)) {
-            textColor = Color.CORAL;
+            textColor = Color.MAROON;
             statusEffect = CombatStatsComponent.StatusEffect.BLEEDING;
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
             textColor = Color.FOREST;
