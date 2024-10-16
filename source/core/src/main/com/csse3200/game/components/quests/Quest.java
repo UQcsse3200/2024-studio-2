@@ -47,7 +47,7 @@ public class Quest {
     private String[] followQuests;
 
     /** Constructor design for implementing subclasses. */
-    Quest(String questName, String questDescription, List<Task> tasks,
+    private Quest(String questName, String questDescription, List<Task> tasks,
                  List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed,
                  int currentTaskIndex, String[] followQuests)
     {

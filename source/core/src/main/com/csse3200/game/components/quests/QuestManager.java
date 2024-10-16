@@ -218,7 +218,7 @@ public class QuestManager extends Component {
      * @param quest The quest to be completed.
      */
     private void completeTask(Quest quest) {
-        ; //advance quest progression
+        //advance quest progression
         if (quest.progressQuest(player)) {
             handleQuestCompletion(quest);
         } else {

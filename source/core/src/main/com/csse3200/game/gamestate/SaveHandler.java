@@ -17,7 +17,6 @@ public class SaveHandler {
 
     private SaveHandler() {}
     private final Logger logger = LoggerFactory.getLogger(SaveHandler.class);
-    private final String FILE_EXTENSION = ".json";
 
     private static SaveHandler instance;
 
@@ -104,7 +103,7 @@ public class SaveHandler {
      * @return String the converted path
      */
     private String toPath(String append, String dir) {
-        return dir + File.separator + append + FILE_EXTENSION;
+        return dir + File.separator + append + ".json";
     }
 
     /**
