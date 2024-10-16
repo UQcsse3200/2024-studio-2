@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.components.Component;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,9 @@ public class MapTabComponent extends Component {
     // Boolean flags to control blur effect on locked areas
     private boolean blurOcean = true;
     private boolean blurSky = true;
-
+    private OrthographicCamera camera;
+    private int prevWidth;
+    private int prevHeight;
     /**
      * Constructs a MapTabComponent associated with a specific GameArea.
      *
@@ -67,6 +70,15 @@ public class MapTabComponent extends Component {
     @Override
     public void create() {
         batch = new SpriteBatch();
+
+        // Initialise the camera
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.update();
+
+        prevWidth = Gdx.graphics.getWidth();
+        prevHeight = Gdx.graphics.getHeight();
+
         mapTexture = new Texture(Gdx.files.internal("map/MAP.png"));
         playerLocationTexture = new Texture(Gdx.files.internal("map/Lion_Icon.png"));
         landmarkIconTexture = new Texture(Gdx.files.internal("map/landmark_icon.png"));
@@ -96,6 +108,19 @@ public class MapTabComponent extends Component {
      */
     @Override
     public void update() {
+        int currentWidth = Gdx.graphics.getWidth();
+        int currentHeight = Gdx.graphics.getHeight();
+
+        // Update the camera if the window size has changed
+        if (currentWidth != prevWidth || currentHeight != prevHeight) {
+            camera.setToOrtho(false, currentWidth, currentHeight);
+            camera.update();
+
+            // Update previous width and height
+            prevWidth = currentWidth;
+            prevHeight = currentHeight;
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             isMapVisible = !isMapVisible; // Toggle map visibility
         }
@@ -126,6 +151,8 @@ public class MapTabComponent extends Component {
      * If blurOcean or blurSky are enabled, respective areas of the map are overlaid with a blur effect.
      */
     public void drawMap() {
+        // Set the projection matrix to the camera's combined matrix
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         // Get the aspect ratio of the map texture
         float mapAspectRatio = (float) mapTexture.getWidth() / mapTexture.getHeight();
