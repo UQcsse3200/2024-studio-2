@@ -49,7 +49,8 @@ public abstract class InventoryDisplay extends UIComponent {
     private final Skin inventorySkin = new Skin(Gdx.files.internal("Inventory/inventory.json"));
     private final Skin slotSkin = new Skin(Gdx.files.internal("Inventory/skinforslot.json"));
     private final Texture hotBarTexture = new Texture("Inventory/hotbar.png");
-
+    private final Texture alert = new Texture(Gdx.files.internal("Inventory/skinforalert.png"));
+    Drawable backgroundDrawable = new TextureRegionDrawable(new TextureRegion(alert));
     /**
      * Constructs a PlayerInventoryDisplay with the specified capacity and number of columns.
      * The capacity must be evenly divisible by the number of columns.
@@ -216,15 +217,18 @@ public abstract class InventoryDisplay extends UIComponent {
             });
         }
 
+        // Define the target
         dragAndDrop.addTarget(new DragAndDrop.Target(slot) {
             @Override
             public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
+                // Optional: Highlight the target slot to indicate a valid drop zone
                 getActor().setColor(Color.LIGHT_GRAY);
-                return true;
+                return true; // Return true to indicate the slot is a valid target
             }
 
             @Override
             public void reset(DragAndDrop.Source source, DragAndDrop.Payload payload) {
+                // Reset the color of the slot when dragging is reset
                 getActor().setColor(Color.WHITE);
             }
 
@@ -266,7 +270,9 @@ public abstract class InventoryDisplay extends UIComponent {
         });
         table.row();
         table.add(sortButton);
-
+        if (inventory.isFull()) {
+            showInventoryFullAlert();
+        }
         // Add the table to the window
         mainInventoryDisplay.add(table).expand().fill();
         mainInventoryDisplay.pack();
@@ -277,7 +283,25 @@ public abstract class InventoryDisplay extends UIComponent {
                 (stage.getHeight() - mainInventoryDisplay.getHeight()) / 2 // Center vertically
         );
     }
+    private void showInventoryFullAlert() {
+        Dialog dialog = new Dialog(" ", skin) {
+            public void result(Object obj) {
 
+            }
+        };
+
+        dialog.text("Inventory is full!").padTop(50).padLeft(50);
+        dialog.button("OK", true);
+
+        dialog.setBackground(backgroundDrawable);
+        dialog.setSize(600,150);
+        dialog.setPosition(
+            (stage.getWidth() - dialog.getWidth()) / 2 - 10,  // Center horizontally
+            (stage.getHeight() - dialog.getHeight()) / 2 // Center vertically
+    );  // Add a button to close the dialog
+
+        stage.addActor(dialog);  // Show the dialog on the stage
+    }
     /**
      * Creates the hot-bar UI, populates it with slots, and positions it on the stage.
      */
