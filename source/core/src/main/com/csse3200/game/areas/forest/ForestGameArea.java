@@ -68,9 +68,7 @@ public class ForestGameArea extends GameArea {
     private final List<Entity> minigameNPCs;
     private final Map<Integer, Entity> dynamicItems = new HashMap<>();
     private int totalForestItems = 0;
-    private int totalOceanItems = 0;
     private int totalAirItems = 0;
-    private int totalItems = 0;
     private Entity player;
 
     private final GdxGame game;
@@ -811,8 +809,8 @@ public class ForestGameArea extends GameArea {
      * @param zone the area region of the map
      */
     private void spawnFixedItems(Supplier<Entity> creator, int numItems, int zone) {
-        if (zone == 1 && totalForestItems < 50) {
-            int forestItemsToSpawn = Math.min(numItems, 50 - totalForestItems);
+        if (zone == 1 && totalForestItems < 100) {
+            int forestItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -823,8 +821,8 @@ public class ForestGameArea extends GameArea {
                 //dynamicItems.put(totalForestItems, item);
                 totalForestItems++;
             }
-        } else if (zone == 2 && totalForestItems < 50) {
-            int oceamItemsToSpawn = Math.min(numItems, 50 - totalForestItems);
+        } else if (zone == 2 && totalForestItems < 100) {
+            int oceamItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -833,10 +831,9 @@ public class ForestGameArea extends GameArea {
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
                 //dynamicItems.put(totalOceanItems, item);
-                totalOceanItems++;
             }
-        } else if (zone == 3 && totalAirItems < 50) {
-            int airItemsToSpawn = Math.min(numItems, 50 - totalAirItems);
+        } else if (zone == 3 && totalAirItems < 100) {
+            int airItemsToSpawn = Math.min(numItems, 100 - totalAirItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -845,7 +842,6 @@ public class ForestGameArea extends GameArea {
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
                 dynamicItems.put(totalAirItems, item);
-                totalAirItems++;
             }
         }
     }
