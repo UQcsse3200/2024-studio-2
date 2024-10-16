@@ -152,6 +152,7 @@ public class MapTabComponent extends Component {
         // Set the projection matrix to the camera's combined matrix
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         // Get the aspect ratio of the map texture
         float mapAspectRatio = (float) mapTexture.getWidth() / mapTexture.getHeight();
 
@@ -207,7 +208,7 @@ public class MapTabComponent extends Component {
         // Convert the player's game position to the map coordinates
         Vector2 playerMapPosition = convertGamePositionToMap(playerWorldPosition, mapX, mapY, mapWidth, mapHeight);
 
-        // Draw the player location icon (centered on position)
+        // Draw the player location icon centered on position
         batch.draw(playerLocationTexture, playerMapPosition.x - 16, playerMapPosition.y - 16, 32, 32);
 
         // Draw all landmarks on the map
@@ -223,7 +224,7 @@ public class MapTabComponent extends Component {
         float northSymbolWidth = 50;
         float northSymbolHeight = 50;
         float northSymbolX = mapX + mapWidth - northSymbolWidth - 10;
-        float northSymbolY = mapY + mapHeight - northSymbolHeight - 10; // 10 pixels from top edge of map
+        float northSymbolY = mapY + mapHeight - northSymbolHeight - 10;
         batch.draw(northSymbolTexture, northSymbolX, northSymbolY, northSymbolWidth, northSymbolHeight);
 
         // Draw the legend area on the right
@@ -262,12 +263,21 @@ public class MapTabComponent extends Component {
         layout.setText(font, "Landmark");
         font.draw(batch, "Landmark", icon2X + textOffsetX, icon2Y + iconSize / 2 + layout.height / 2);
 
-        // Draw the top bar with text in the middle
+        // Draw the top bar with text
         batch.setColor(0f, 0f, 0f, 0.5f);
         batch.draw(whitePixelTexture, 0, Gdx.graphics.getHeight() - TOP_BAR_HEIGHT, Gdx.graphics.getWidth() - LEGEND_WIDTH, TOP_BAR_HEIGHT);
         batch.setColor(Color.WHITE);
 
-        String topBarText = "Map";
+        // Determine the section name based on the player's Y-coordinate
+        String topBarText;
+        if (playerWorldPosition.y < 48) {
+            topBarText = "Forest Kingdom";
+        } else if (playerWorldPosition.y < 96) {
+            topBarText = "Ocean Kingdom";
+        } else {
+            topBarText = "Sky Kingdom";
+        }
+
         layout.setText(font, topBarText);
         float textWidth = layout.width;
         float textHeight = layout.height;
@@ -339,7 +349,6 @@ public class MapTabComponent extends Component {
 
     /**
      * Disposes of all resources used by this component, including textures, batch, and fonts.
-     * This method should be called when the component is no longer needed to free up resources.
      */
     @Override
     public void dispose() {
@@ -353,4 +362,3 @@ public class MapTabComponent extends Component {
         font.dispose();
     }
 }
-
