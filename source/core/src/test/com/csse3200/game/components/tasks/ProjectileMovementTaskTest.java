@@ -21,18 +21,33 @@ import java.util.Vector;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the ProjectileMovementTask class.
+ * This class tests the functionality of the projectile movement tasks,
+ * ensuring that events are triggered correctly and the priority is accurately returned.
+ */
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
 class ProjectileMovementTaskTest {
   @Mock
   GameTime gameTime;
 
+  /**
+   * Sets up the test environment before each test case.
+   * Registers the mock GameTime and PhysicsService with the ServiceLocator.
+   */
   @BeforeEach
   void beforeEach() {
     ServiceLocator.registerTimeSource(gameTime);
     ServiceLocator.registerPhysicsService(new PhysicsService());
   }
 
+  /**
+   * Tests that various movement events are triggered correctly.
+   * This method verifies that the ProjectileMovementTask correctly responds
+   * to event triggers for different movement directions, confirming that the
+   * expected events are handled properly.
+   */
   @Test
   void shouldTriggerEvent() {
     Entity target = new Entity();
@@ -84,6 +99,11 @@ class ProjectileMovementTaskTest {
     verify(callback).handle();
   }
 
+  /**
+   * Tests that the ProjectileMovementTask returns the correct priority.
+   * This method verifies that the priority value of the task is set
+   * correctly based on the input parameter.
+   */
   @Test
   void shouldReturnCorrectPriority() {
     Entity targetEntity = mock(Entity.class);
