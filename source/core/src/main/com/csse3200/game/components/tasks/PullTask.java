@@ -18,8 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Wander around by moving a random position within a range of the starting position. Wait a little
- * bit between movements. Requires an entity with a PhysicsMovementComponent.
+ * The PullTask class is responsible for pulling a target entity (e.g., a player) towards the frog
+ * when within a specified pull distance. This task listens for the target's position relative to
+ * the frog and triggers appropriate animations during the pulling process.
  */
 public class PullTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(PullTask.class);
@@ -37,6 +38,9 @@ public class PullTask extends DefaultTask implements PriorityTask {
     protected final DebugRenderer debugRenderer;
     protected final RaycastHit hit = new RaycastHit();
 
+    /**
+     * Gets the priority of the task based on the distance to the target and the visibility of the target
+     */
     @Override
     public int getPriority() {
         if (getDistanceToTarget() < viewDistance && isTargetVisible()) {
@@ -46,7 +50,12 @@ public class PullTask extends DefaultTask implements PriorityTask {
     }
 
     /**
-     * @param pullDistance Distance within which the frog will be pulled toward the player.
+     * Constructor to initialise the pull task with specified parameters.
+     *
+     * @param priority     The priority of this task
+     * @param target       The target entity that is being pulled (player)
+     * @param viewDistance The maximum distance target can be seen
+     * @param pullDistance The distance from where the target will be pulled
      */
     public PullTask(int priority, Entity target, float viewDistance, float pullDistance) {
         this.priority = priority;
@@ -57,10 +66,18 @@ public class PullTask extends DefaultTask implements PriorityTask {
         debugRenderer = ServiceLocator.getRenderService().getDebug();
     }
 
+    /**
+     * Gets the distance from the frog to the target entity.
+     * @return the distance between the frog and the target.
+     */
     private float getDistanceToTarget() {
         return owner.getEntity().getPosition().dst(target.getPosition());
     }
 
+    /**
+     * Checks if the target is visible to the frog by performing a raycast
+     * @return true if the target is visible, false if not
+     */
     private boolean isTargetVisible() {
         Vector2 from = owner.getEntity().getCenterPosition();
         Vector2 to = target.getCenterPosition();
@@ -87,6 +104,10 @@ public class PullTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     * Updates the task during game execution. If the target is within the pull distance,
+     * the enemy pulls the target towards it
+     */
     @Override
     public void update() {
         if (getDistanceToTarget() <= pullDistance) {
@@ -94,6 +115,10 @@ public class PullTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     * Pulls the target (player) towards the enemy if within the pull distance. Animations are triggered
+     * depending on the direction in which the target is pulled.
+     */
     private void pullToPlayer() {
         if (getDistanceToTarget() <= pullDistance) {
             logger.info("Pulling player to frog");
