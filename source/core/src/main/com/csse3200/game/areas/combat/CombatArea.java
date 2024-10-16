@@ -334,11 +334,13 @@ public class CombatArea extends GameArea {
      * Play the music for combat
      */
     public void playMusic() {
-        Entity.EnemyType[] bossTypes = {Entity.EnemyType.KANGAROO, Entity.EnemyType.WATER_BOSS, Entity.EnemyType.AIR_BOSS};
-
         AudioManager.stopMusic();
-        if (Arrays.asList(bossTypes).contains(this.enemy.getEnemyType())) {
-            AudioManager.playMusic("sounds/boss-combat-music.mp3", true);
+        if (this.enemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
+            AudioManager.playMusic("sounds/combat-land-boss.mp3", true);
+        } else if (this.enemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            AudioManager.playMusic("sounds/combat-water-boss.mp3", true);
+        } else if (this.enemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            AudioManager.playMusic("sounds/combat-air-boss.mp3", true);
         } else {
             AudioManager.playMusic(CombatAreaConfig.COMBATBACKGROUND_MUSIC, true);
         }
