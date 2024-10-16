@@ -11,7 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.ui.UIComponent;
+<<<<<<< HEAD
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
+=======
+import com.csse3200.game.entities.factories.PlayerFactory;
+>>>>>>> 324047075cc0262f5f8a3003fd5f0243072a2e95
 
 /**
  * Displays the player icon and a larger minimap frame based on the player's image corresponding to its kingdom.
@@ -21,7 +25,10 @@ public class GameAreaDisplay extends UIComponent {
     private Label title;
     private Texture playerIconTexture;
     private Texture minimapFrameTexture;
+<<<<<<< HEAD
     private PopUpHelper popUpHelper;  // Add PopUpHelper
+=======
+>>>>>>> 324047075cc0262f5f8a3003fd5f0243072a2e95
 
     /**
      * Constructs a GameAreaDisplay component.
@@ -95,18 +102,28 @@ public class GameAreaDisplay extends UIComponent {
 
         // Create a table for the top UI
         Table topTable = new Table();
+<<<<<<< HEAD
         Table tableTwo = new Table();
         topTable.setFillParent(true);
         tableTwo.setFillParent(true);
 
         topTable.top().left();
         tableTwo.bottom().left();
+=======
+        Table Tabletwo = new Table();
+        topTable.setFillParent(true);
+        Tabletwo.setFillParent(true);
+
+        // Align the table to the top left corner
+//        topTable.top().left();
+>>>>>>> 324047075cc0262f5f8a3003fd5f0243072a2e95
 
         // Add the player icon to the left side of the table
         topTable.add(playerIcon)
                 .size(titleHeight * playerIconScaleFactor, titleHeight * playerIconScaleFactor)
                 .align(Align.left | Align.top)
                 .pad(5); // Padding from the edges
+<<<<<<< HEAD
 
         // Add the minimap frame to the right side of the table
         tableTwo.add(minimapFrame)
@@ -166,6 +183,34 @@ public class GameAreaDisplay extends UIComponent {
     }
 
     /**
+=======
+
+        topTable.top().left();
+
+        // Add space to push the title and minimap frame to their respective locations
+//        topTable.add().expandX();
+
+        // Add the title in the center
+//        topTable.add(title).align(Align.center | Align.top).pad(10);
+
+        // Add space between the title and the minimap frame
+//        topTable.add().expandX();
+
+        // Add the minimap frame to the right side of the table
+        Tabletwo.add(minimapFrame)
+                .size(titleHeight * minimapScaleFactor, titleHeight * minimapScaleFactor)
+                .align(Align.left | Align.bottom)
+                .pad(5); // Padding from the edges
+
+        Tabletwo.bottom().left();
+
+        // Add the table to the stage
+        stage.addActor(topTable);
+        stage.addActor(Tabletwo);
+    }
+
+    /**
+>>>>>>> 324047075cc0262f5f8a3003fd5f0243072a2e95
      * Draws the UI component on the screen.
      *
      * @param batch the SpriteBatch used to draw the component
