@@ -16,7 +16,7 @@ import java.util.List;
 public class BirdieDashGame {
 
     // Initial speed of the game
-    private final float START_SPEED = 200;
+    private final float startSpeed = 200;
 
     // Items on the screen
     private final List<Pipe> pipes;
@@ -36,7 +36,7 @@ public class BirdieDashGame {
         this.coins = createCoins();
         this.bird = new Bird(920, 1200);
         this.spike = new Spike(0);
-        this.background = new Background(START_SPEED / 3, 1920);
+        this.background = new Background(startSpeed / 3, 1920);
         this.renderer = new MinigameRenderer();
         this.birdRenderer = new BirdRenderer(bird, renderer);
         this.isGameOver = false;
@@ -68,7 +68,7 @@ public class BirdieDashGame {
     private List<Coin> createCoins() {
         List<Coin> coins = new ArrayList<>();
         for(int i= 0; i < 3; i++) {
-            coins.add(new Coin((float) 1920 + 960 * i, START_SPEED));
+            coins.add(new Coin((float) 1920 + 960 * i, startSpeed));
         }
         return coins;
     }
@@ -91,7 +91,7 @@ public class BirdieDashGame {
         List<Pipe> pipes = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             // Only need three pipes
-            pipes.add(new Pipe((float) 1440 + 960 * i, START_SPEED));
+            pipes.add(new Pipe((float) 1440 + 960 * i, startSpeed));
         }
         return pipes;
     }

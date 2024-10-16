@@ -8,7 +8,7 @@ import com.csse3200.game.minigames.maze.components.tasks.MazeMovementUtils;
  * A component that let's turtles carry around an object on their backs.
  */
 public class TurtleCarryComponent extends Component {
-    private Entity carry;
+    private final Entity carry;
 
     public TurtleCarryComponent(Entity carry) {
         super();
