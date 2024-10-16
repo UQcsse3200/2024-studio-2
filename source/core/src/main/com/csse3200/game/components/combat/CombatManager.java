@@ -248,7 +248,6 @@ public class CombatManager extends Component {
         Action action;
 
         if (enemyStats.getHunger() < 25) {
-            updateEnemyMoveStore(Action.SLEEP);
             return Action.SLEEP;
         }
 
@@ -262,110 +261,8 @@ public class CombatManager extends Component {
             default -> null;
         };
 
-        //stores enemyAction
-        updateEnemyMoveStore(action);
         return action;
     }
-    /**
-     * Updates the stored sequence of enemy moves for a specific enemy type.
-     * This is used to determine if a special move can be executed after a certain move combination.
-     *
-     * @param value The enemy action to store.
-     */
-
-    private void updateEnemyMoveStore(Action value) {
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-
-        if (itemsList == null)
-        {
-            itemsList = new ArrayList<>();
-            logger.info("empty hashmap :: Updating special move list");
-        }
-        else
-        //particular enemy has already made a move
-        {
-            logger.info("removing existing record in hashmap");
-            itemsList = enemyMoveStore.remove(enemy.getEnemyType().toString());
-        }
-
-
-        itemsList.add(value);
-        enemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
-        if(itemsList.size()>2)
-        {
-            logger.info("1- item list size: {}", itemsList.size());
-            checkSpecialMoveCombination();
-        }
-
-    }
-    /**
-     * Verifies if the last three moves in the enemy's sequence match a predefined special move combination.
-     * Triggers special effects if the combination is achieved, otherwise removes outdated moves.
-     */
-
-    private void checkSpecialMoveCombination()
-    {
-        boolean noSpecialMoveComboFlag = false;
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-        logger.info("Checking special move combination");
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet())
-        {
-            logger.info("Map<String,ArrayList> :: {} :: {}", entry.getKey(), entry.getValue());
-        }
-        
-        StringBuilder enemyMoves = new StringBuilder("");
-
-        // compare enemy move seq to last 3 enemy moves)
-        switch (enemy.getEnemyType().toString())
-        {
-            case "FROG" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                logger.info("enemy move combination {}", enemyMoves);
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, ATTACK, ]")){
-                    logger.info("special move combination achieved");
-                    //special effect
-                }
-            }
-            case "CHICKEN" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, GUARD, ]")){
-                }
-
-            }
-            case "MONKEY" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, GUARD, ATTACK, ]")){
-                }
-
-            }
-            case "BEAR" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[GUARD, ATTACK, ATTACK, ]")){
-                }
-
-            }
-            default -> noSpecialMoveComboFlag = true;
-        }
-
-        if(noSpecialMoveComboFlag)
-        {
-            //remove outdated enemy action
-            itemsList.removeFirst();
-        } else {
-            //reset enemy move for next special move set
-            itemsList.clear();
-            //call special effect
-        }
-    }
-    
-    private StringBuilder moveHelper(StringBuilder enemyMoves) {
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet()){
-            enemyMoves.append(entry.getValue().toString()).append(", ");
-        }
-        enemyMoves.append("");
-        return enemyMoves;
-    }
-    
 
     /**
      * Executes the player's and enemy's selected moves in combination based on their respective actions.
@@ -702,16 +599,5 @@ public class CombatManager extends Component {
         };
 
         contButton.addListener(dialogueBoxCombatListener); // add the listener to the button for the duration of combat
-    }
-
-    /**
-     * Remove the input listener for the continue button of the dialogue box used to
-     * sync the animations of enemy players with when continue button was clicked
-     */
-    private void nullifyCombatDialogueListener(){
-        if (dialogueBoxCombatListener != null) {
-            contButton.removeListener(dialogueBoxCombatListener);
-            dialogueBoxCombatListener = null;
-        }
     }
 }
