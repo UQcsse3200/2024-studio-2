@@ -3,16 +3,27 @@ package com.csse3200.game.components.mainmenu;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ChatbotService handles predefined responses for the chatbot.
+ * It processes user input and returns appropriate responses based on predefined keywords.
+ */
 public class ChatbotService {
     // Store predefined keyword-response pairs
     private final Map<String, String> responses;
 
+    /**
+     * Constructor for ChatbotService.
+     * Initializes the predefined responses that the chatbot can reply with.
+     */
     public ChatbotService() {
         responses = new HashMap<>();
         initializeResponses();  // Initialize predefined responses
     }
 
-    // Initialize the keyword-response pairs
+    /**
+     * Initializes a set of predefined keyword-response pairs.
+     * These pairs are used by the chatbot to respond to user input.
+     */
     private void initializeResponses() {
         responses.put("objective", "Your goal is to defeat all the animals in each kingdom and ultimately become the overlord.");
         responses.put("start", "Simply click the \"Start\" button on the main menu to begin your adventure!");
@@ -36,9 +47,12 @@ public class ChatbotService {
     }
 
     /**
-     * Processes user input and returns a corresponding response.
+     * Processes the user's input and returns a response based on predefined keywords.
+     * If a keyword is found in the user's message, the corresponding response is returned.
+     * If no keywords match, a default response is provided.
+     *
      * @param userMessage The message entered by the user.
-     * @return The chatbot's response based on predefined keywords.
+     * @return The chatbot's response based on predefined keywords, or a default response if no match is found.
      */
     public String getResponse(String userMessage) {
         if (userMessage == null || userMessage.isEmpty()) {
