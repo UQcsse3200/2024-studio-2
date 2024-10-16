@@ -288,9 +288,9 @@ public class EndMiniGameScreen extends ScreenAdapter {
 
         // Align buttons in 1 row
         contentTable.row().expandX().fillX();
-        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).padLeft(500 * scale);
-        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center();
-        contentTable.add(oldScreenButton).width(oldScreenButton.getWidth() * scale).height(oldScreenButton.getHeight() * scale).padRight(500 * scale);
+        contentTable.add(tryAgainButton).size(250, 50).padLeft(500 * scale);
+        contentTable.add(menuButton).size(250, 50).center();
+        contentTable.add(oldScreenButton).size(250, 50).padRight(500 * scale);
     }
 
     /**
