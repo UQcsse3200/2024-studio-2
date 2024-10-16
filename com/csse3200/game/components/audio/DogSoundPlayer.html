@@ -104,8 +104,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.audio.Sound,com.badlogic.gdx.audio.Sound)" class="member-name-link">DogSoundPlayer</a><wbr>(com.badlogic.gdx.audio.Sound&nbsp;pantingSound,
- com.badlogic.gdx.audio.Sound&nbsp;barkingSound)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">DogSoundPlayer</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pantingSoundPath,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;barkingSoundPath)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -122,12 +122,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playBarkingSound(float)" class="member-name-link">playBarkingSound</a><wbr>(float&nbsp;volume)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playBarkingSound()" class="member-name-link">playBarkingSound</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Plays the barking sound once, using the volume from AudioManager.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playPantingSound(float)" class="member-name-link">playPantingSound</a><wbr>(float&nbsp;volume)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playPantingSound()" class="member-name-link">playPantingSound</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Plays the panting sound in a loop.</div>
+<div class="block">Plays the panting sound in a loop, using the volume from AudioManager.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopPantingSound()" class="member-name-link">stopPantingSound</a>()</code></div>
@@ -135,10 +137,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Stops the panting sound if it is playing.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePantingSound(boolean,float)" class="member-name-link">updatePantingSound</a><wbr>(boolean&nbsp;isMoving,
- float&nbsp;volume)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePantingSound(boolean)" class="member-name-link">updatePantingSound</a><wbr>(boolean&nbsp;isMoving)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the playing state of the panting sound.</div>
+<div class="block">Updates the playing state of the panting sound based on movement.</div>
 </div>
 </div>
 </div>
@@ -158,10 +159,10 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.badlogic.gdx.audio.Sound,com.badlogic.gdx.audio.Sound)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.String)">
 <h3>DogSoundPlayer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DogSoundPlayer</span><wbr><span class="parameters">(com.badlogic.gdx.audio.Sound&nbsp;pantingSound,
- com.badlogic.gdx.audio.Sound&nbsp;barkingSound)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DogSoundPlayer</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pantingSoundPath,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;barkingSoundPath)</span></div>
 </section>
 </li>
 </ul>
@@ -173,14 +174,10 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="playPantingSound(float)">
+<section class="detail" id="playPantingSound()">
 <h3>playPantingSound</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playPantingSound</span><wbr><span class="parameters">(float&nbsp;volume)</span></div>
-<div class="block">Plays the panting sound in a loop.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>volume</code> - the volume at which to play the sound (0.0f to 1.0f)</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playPantingSound</span>()</div>
+<div class="block">Plays the panting sound in a loop, using the volume from AudioManager.</div>
 </section>
 </li>
 <li>
@@ -191,22 +188,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="updatePantingSound(boolean,float)">
+<section class="detail" id="updatePantingSound(boolean)">
 <h3>updatePantingSound</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePantingSound</span><wbr><span class="parameters">(boolean&nbsp;isMoving,
- float&nbsp;volume)</span></div>
-<div class="block">Updates the playing state of the panting sound.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePantingSound</span><wbr><span class="parameters">(boolean&nbsp;isMoving)</span></div>
+<div class="block">Updates the playing state of the panting sound based on movement.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>isMoving</code> - whether the dog is moving and should be panting</dd>
-<dd><code>volume</code> - the volume at which to play the sound (0.0f to 1.0f)</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="playBarkingSound(float)">
+<section class="detail" id="playBarkingSound()">
 <h3>playBarkingSound</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playBarkingSound</span><wbr><span class="parameters">(float&nbsp;volume)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playBarkingSound</span>()</div>
+<div class="block">Plays the barking sound once, using the volume from AudioManager.</div>
 </section>
 </li>
 </ul>

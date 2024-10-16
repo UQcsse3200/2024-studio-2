@@ -91,8 +91,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">WaterAnimalSoundPlayer</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">WaterAnimalSoundPlayer class responsible for managing the playback of water-animal-related sounds.
- This class focuses on handling the swimming sounds.</div>
+<div class="block">This class is responsible for managing the playback of water-animal-related sounds,
+ specifically focusing on swimming sounds. It utilizes the AudioManager to handle
+ sound volume levels.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -104,9 +105,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.audio.Sound)" class="member-name-link">WaterAnimalSoundPlayer</a><wbr>(com.badlogic.gdx.audio.Sound&nbsp;swimmingSound)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String)" class="member-name-link">WaterAnimalSoundPlayer</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;swimmingSoundPath)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructor for WaterAnimalSoundPlayer.</div>
+<div class="block">Constructs a new WaterAnimalSoundPlayer with a specific path to the swimming sound asset.</div>
 </div>
 </div>
 </section>
@@ -123,20 +124,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playSwimmingSound(float)" class="member-name-link">playSwimmingSound</a><wbr>(float&nbsp;volume)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playSwimmingSound()" class="member-name-link">playSwimmingSound</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Plays the swimming sound in a loop.</div>
+<div class="block">Plays the swimming sound in a loop at the volume specified by the AudioManager.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopSwimmingSound()" class="member-name-link">stopSwimmingSound</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Stops the swimming sound if it is playing.</div>
+<div class="block">Stops the swimming sound if it is currently playing.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateSwimmingSound(boolean,float)" class="member-name-link">updateSwimmingSound</a><wbr>(boolean&nbsp;isSwimming,
- float&nbsp;volume)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateSwimmingSound(boolean)" class="member-name-link">updateSwimmingSound</a><wbr>(boolean&nbsp;isSwimming)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the playing state of the swimming sound.</div>
+<div class="block">Updates the playing state of the swimming sound based on the animal's movement.</div>
 </div>
 </div>
 </div>
@@ -156,13 +156,13 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.badlogic.gdx.audio.Sound)">
+<section class="detail" id="&lt;init&gt;(java.lang.String)">
 <h3>WaterAnimalSoundPlayer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">WaterAnimalSoundPlayer</span><wbr><span class="parameters">(com.badlogic.gdx.audio.Sound&nbsp;swimmingSound)</span></div>
-<div class="block">Constructor for WaterAnimalSoundPlayer.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">WaterAnimalSoundPlayer</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;swimmingSoundPath)</span></div>
+<div class="block">Constructs a new WaterAnimalSoundPlayer with a specific path to the swimming sound asset.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>swimmingSound</code> - The sound effect for swimming.</dd>
+<dd><code>swimmingSoundPath</code> - Path to the swimming sound file.</dd>
 </dl>
 </section>
 </li>
@@ -175,33 +175,30 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="playSwimmingSound(float)">
+<section class="detail" id="playSwimmingSound()">
 <h3>playSwimmingSound</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playSwimmingSound</span><wbr><span class="parameters">(float&nbsp;volume)</span></div>
-<div class="block">Plays the swimming sound in a loop.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>volume</code> - the volume at which to play the sound (0.0f to 1.0f)</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">playSwimmingSound</span>()</div>
+<div class="block">Plays the swimming sound in a loop at the volume specified by the AudioManager.
+ If the sound is already playing, this method does nothing.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="stopSwimmingSound()">
 <h3>stopSwimmingSound</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stopSwimmingSound</span>()</div>
-<div class="block">Stops the swimming sound if it is playing.</div>
+<div class="block">Stops the swimming sound if it is currently playing.
+ Resets the identifier to ensure it can be restarted.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="updateSwimmingSound(boolean,float)">
+<section class="detail" id="updateSwimmingSound(boolean)">
 <h3>updateSwimmingSound</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateSwimmingSound</span><wbr><span class="parameters">(boolean&nbsp;isSwimming,
- float&nbsp;volume)</span></div>
-<div class="block">Updates the playing state of the swimming sound.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateSwimmingSound</span><wbr><span class="parameters">(boolean&nbsp;isSwimming)</span></div>
+<div class="block">Updates the playing state of the swimming sound based on the animal's movement.
+ Plays or stops the swimming sound based on whether the animal is swimming.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>isSwimming</code> - whether the water animal is swimming and should play the swimming sound</dd>
-<dd><code>volume</code> - the volume at which to play the sound (0.0f to 1.0f)</dd>
+<dd><code>isSwimming</code> - True if the animal is swimming and the sound should be played; false otherwise.</dd>
 </dl>
 </section>
 </li>

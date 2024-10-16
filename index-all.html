@@ -330,11 +330,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" class="type-name-link" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a> - Class in <a href="com/csse3200/game/components/audio/package-summary.html">com.csse3200.game.components.audio</a></dt>
 <dd>
-<div class="block">AirAnimalSoundPlayer class responsible for managing the playback of air-animal-related sounds.</div>
+<div class="block">This class is responsible for managing the playback of air-animal-related sounds,
+ focusing on sounds such as wings flapping and bird screeching.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#%3Cinit%3E(com.badlogic.gdx.audio.Sound,com.badlogic.gdx.audio.Sound)" class="member-name-link">AirAnimalSoundPlayer(Sound, Sound)</a> - Constructor for class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">AirAnimalSoundPlayer(String, String)</a> - Constructor for class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Constructor for AirAnimalSoundPlayer.</div>
+<div class="block">Constructs a new AirAnimalSoundPlayer with specific paths to the flapping and screeching sound assets.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#airBoss" class="member-name-link">airBoss</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
 <dd>&nbsp;</dd>
@@ -2632,7 +2633,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">DogSoundPlayer class responsible for managing the playback of dog-related sounds.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#%3Cinit%3E(com.badlogic.gdx.audio.Sound,com.badlogic.gdx.audio.Sound)" class="member-name-link">DogSoundPlayer(Sound, Sound)</a> - Constructor for class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">DogSoundPlayer(String, String)</a> - Constructor for class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/minigames/Direction.html#DOWN" class="member-name-link">DOWN</a> - Enum constant in enum class com.csse3200.game.minigames.<a href="com/csse3200/game/minigames/Direction.html" title="enum class in com.csse3200.game.minigames">Direction</a></dt>
 <dd>&nbsp;</dd>
@@ -6923,8 +6924,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/minigames/birdiedash/rendering/PipeRenderer.html#%3Cinit%3E(java.util.List,com.csse3200.game.minigames.MinigameRenderer)" class="member-name-link">PipeRenderer(List&lt;Pipe&gt;, MinigameRenderer)</a> - Constructor for class com.csse3200.game.minigames.birdiedash.rendering.<a href="com/csse3200/game/minigames/birdiedash/rendering/PipeRenderer.html" title="class in com.csse3200.game.minigames.birdiedash.rendering">PipeRenderer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#playBarkingSound(float)" class="member-name-link">playBarkingSound(float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#playBarkingSound()" class="member-name-link">playBarkingSound()</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
+<dd>
+<div class="block">Plays the barking sound once, using the volume from AudioManager.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/combat/quicktimeevent/CombatMoveAudio.html#playCombatSound(com.csse3200.game.components.combat.CombatManager.Action,com.csse3200.game.components.combat.CombatManager.Action)" class="member-name-link">playCombatSound(CombatManager.Action, CombatManager.Action)</a> - Method in class com.csse3200.game.components.combat.quicktimeevent.<a href="com/csse3200/game/components/combat/quicktimeevent/CombatMoveAudio.html" title="class in com.csse3200.game.components.combat.quicktimeevent">CombatMoveAudio</a></dt>
 <dd>
 <div class="block">Plays the sound for combat based on the moves of the enemy and player</div>
@@ -7016,9 +7019,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A class used to return the result of a user action (registration/login).</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#playFlappingSound(float)" class="member-name-link">playFlappingSound(float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#playFlappingSound()" class="member-name-link">playFlappingSound()</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Plays the wings flapping sound in a loop.</div>
+<div class="block">Plays the wings flapping sound in a loop at the volume specified by the AudioManager.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/audio/CatSoundPlayer.html#playMeowSound(float)" class="member-name-link">playMeowSound(float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/CatSoundPlayer.html" title="class in com.csse3200.game.components.audio">CatSoundPlayer</a></dt>
 <dd>&nbsp;</dd>
@@ -7038,21 +7041,21 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Play the specified music with the current music volume level, retrieved via ResourceService.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#playPantingSound(float)" class="member-name-link">playPantingSound(float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#playPantingSound()" class="member-name-link">playPantingSound()</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
 <dd>
-<div class="block">Plays the panting sound in a loop.</div>
+<div class="block">Plays the panting sound in a loop, using the volume from AudioManager.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#playScreechSound(float)" class="member-name-link">playScreechSound(float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#playScreechSound()" class="member-name-link">playScreechSound()</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Plays the bird screech sound.</div>
+<div class="block">Plays the bird screech sound once at the volume specified by the AudioManager.</div>
 </dd>
 <dt><a href="com/csse3200/game/services/AudioManager.html#playSound(java.lang.String)" class="member-name-link">playSound(String)</a> - Static method in class com.csse3200.game.services.<a href="com/csse3200/game/services/AudioManager.html" title="class in com.csse3200.game.services">AudioManager</a></dt>
 <dd>
 <div class="block">Play the specified sound at the current sound volume level, retrieved via ResourceService.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#playSwimmingSound(float)" class="member-name-link">playSwimmingSound(float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#playSwimmingSound()" class="member-name-link">playSwimmingSound()</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Plays the swimming sound in a loop.</div>
+<div class="block">Plays the swimming sound in a loop at the volume specified by the AudioManager.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html#POISONED" class="member-name-link">POISONED</a> - Enum constant in enum class com.csse3200.game.components.<a href="com/csse3200/game/components/CombatStatsComponent.StatusEffect.html" title="enum class in com.csse3200.game.components">CombatStatsComponent.StatusEffect</a></dt>
 <dd>&nbsp;</dd>
@@ -9040,7 +9043,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#stopFlappingSound()" class="member-name-link">stopFlappingSound()</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Stops the wings flapping sound if it is playing.</div>
+<div class="block">Stops the wings flapping sound if it is currently playing.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/player/PlayerStatsDisplay.html#stopHealthBarBeating()" class="member-name-link">stopHealthBarBeating()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></dt>
 <dd>&nbsp;</dd>
@@ -9058,7 +9061,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#stopSwimmingSound()" class="member-name-link">stopSwimmingSound()</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Stops the swimming sound if it is playing.</div>
+<div class="block">Stops the swimming sound if it is currently playing.</div>
 </dd>
 <dt><a href="com/csse3200/game/GdxGame.ScreenType.html#STORY" class="member-name-link">STORY</a> - Enum constant in enum class com.csse3200.game.<a href="com/csse3200/game/GdxGame.ScreenType.html" title="enum class in com.csse3200.game">GdxGame.ScreenType</a></dt>
 <dd>&nbsp;</dd>
@@ -9798,9 +9801,9 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/mainmenu/MainMenuDisplay.html#updateDogRun()" class="member-name-link">updateDogRun()</a> - Method in class com.csse3200.game.components.mainmenu.<a href="com/csse3200/game/components/mainmenu/MainMenuDisplay.html" title="class in com.csse3200.game.components.mainmenu">MainMenuDisplay</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#updateFlappingSound(boolean,float)" class="member-name-link">updateFlappingSound(boolean, float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html#updateFlappingSound(boolean)" class="member-name-link">updateFlappingSound(boolean)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/AirAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">AirAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Updates the playing state of the wings flapping sound.</div>
+<div class="block">Updates the playing state of the wings flapping sound based on the animal's flying state.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/combat/CombatStatsDisplay.html#updateHealthUI(com.csse3200.game.components.CombatStatsComponent,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">updateHealthUI(CombatStatsComponent, CombatStatsComponent)</a> - Method in class com.csse3200.game.components.combat.<a href="com/csse3200/game/components/combat/CombatStatsDisplay.html" title="class in com.csse3200.game.components.combat">CombatStatsDisplay</a></dt>
 <dd>
@@ -9828,9 +9831,9 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/minigames/snake/Snake.html#updateMovePeriod(float)" class="member-name-link">updateMovePeriod(float)</a> - Method in class com.csse3200.game.minigames.snake.<a href="com/csse3200/game/minigames/snake/Snake.html" title="class in com.csse3200.game.minigames.snake">Snake</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#updatePantingSound(boolean,float)" class="member-name-link">updatePantingSound(boolean, float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/DogSoundPlayer.html#updatePantingSound(boolean)" class="member-name-link">updatePantingSound(boolean)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/DogSoundPlayer.html" title="class in com.csse3200.game.components.audio">DogSoundPlayer</a></dt>
 <dd>
-<div class="block">Updates the playing state of the panting sound.</div>
+<div class="block">Updates the playing state of the panting sound based on movement.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/player/PlayerStatsDisplay.html#updatePlayerExperienceUI(int,com.csse3200.game.components.CombatStatsComponent)" class="member-name-link">updatePlayerExperienceUI(int, CombatStatsComponent)</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerStatsDisplay.html" title="class in com.csse3200.game.components.player">PlayerStatsDisplay</a></dt>
 <dd>
@@ -9875,9 +9878,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Method used to display the relevant status effect that the player is afflicted with</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#updateSwimmingSound(boolean,float)" class="member-name-link">updateSwimmingSound(boolean, float)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#updateSwimmingSound(boolean)" class="member-name-link">updateSwimmingSound(boolean)</a> - Method in class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Updates the playing state of the swimming sound.</div>
+<div class="block">Updates the playing state of the swimming sound based on the animal's movement.</div>
 </dd>
 <dt><a href="com/csse3200/game/services/DialogueBoxService.html#updateText(java.lang.String%5B%5D%5B%5D,int)" class="member-name-link">updateText(String[][], int)</a> - Method in class com.csse3200.game.services.<a href="com/csse3200/game/services/DialogueBoxService.html" title="class in com.csse3200.game.services">DialogueBoxService</a></dt>
 <dd>
@@ -10307,11 +10310,12 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" class="type-name-link" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a> - Class in <a href="com/csse3200/game/components/audio/package-summary.html">com.csse3200.game.components.audio</a></dt>
 <dd>
-<div class="block">WaterAnimalSoundPlayer class responsible for managing the playback of water-animal-related sounds.</div>
+<div class="block">This class is responsible for managing the playback of water-animal-related sounds,
+ specifically focusing on swimming sounds.</div>
 </dd>
-<dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#%3Cinit%3E(com.badlogic.gdx.audio.Sound)" class="member-name-link">WaterAnimalSoundPlayer(Sound)</a> - Constructor for class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
+<dt><a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html#%3Cinit%3E(java.lang.String)" class="member-name-link">WaterAnimalSoundPlayer(String)</a> - Constructor for class com.csse3200.game.components.audio.<a href="com/csse3200/game/components/audio/WaterAnimalSoundPlayer.html" title="class in com.csse3200.game.components.audio">WaterAnimalSoundPlayer</a></dt>
 <dd>
-<div class="block">Constructor for WaterAnimalSoundPlayer.</div>
+<div class="block">Constructs a new WaterAnimalSoundPlayer with a specific path to the swimming sound asset.</div>
 </dd>
 <dt><a href="com/csse3200/game/entities/configs/NPCConfigs.html#waterBoss" class="member-name-link">waterBoss</a> - Variable in class com.csse3200.game.entities.configs.<a href="com/csse3200/game/entities/configs/NPCConfigs.html" title="class in com.csse3200.game.entities.configs">NPCConfigs</a></dt>
 <dd>&nbsp;</dd>
