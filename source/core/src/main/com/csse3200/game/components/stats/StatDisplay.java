@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.quests.TabButton;
 import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
@@ -36,19 +37,33 @@ public class StatDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(StatDisplay.class);
     private final GdxGame game;
     private Table rootTable;
-    /** Array to store stats. */
+    /**
+     * Array to store stats.
+     */
     private final Array<Stat> stats;
     final Actor[] lastPressedButton = {null};
+    private Float originalY;
+
 
     /**
      * Array of texture paths used in the Achievements game screen.
      */
-    private static final String[] StatTextures = {"images/logbook/lb-bg.png","images/logbook/lb-yellow-tab.png",
-            "images/logbook/lb-blue-tab.png", "images/logbook/lb-red-tab.png", "images/logbook/lb-blue-btn.png",
-            "images/logbook/lb-red-btn.png", "images/logbook/lb-yellow-btn.png", "images/logbook/lb-blue-btn-pressed.png", "images/logbook/lb-red-btn-pressed.png", "images/logbook/lb-yellow-btn-pressed.png"};
+    private static final String[] StatTextures = {
+            "images/logbook/lb-bg.png",
+            "images/logbook/lb-yellow-tab.png",
+            "images/logbook/lb-blue-tab.png",
+            "images/logbook/lb-red-tab.png",
+            "images/logbook/lb-blue-btn.png",
+            "images/logbook/lb-red-btn.png",
+            "images/logbook/lb-yellow-btn.png",
+            "images/logbook/lb-blue-btn-pressed.png",
+            "images/logbook/lb-red-btn-pressed.png",
+            "images/logbook/lb-yellow-btn-pressed.png",
+            "images/logbook/stats/lb-stats-land-tab.png",
+            "images/logbook/stats/lb-stats-water-tab.png",
+            "images/logbook/stats/lb-stats-air-tab.png"};
 
-
-    public StatDisplay(GdxGame game) {
+public StatDisplay(GdxGame game) {
         super();
         this.game = game;
         this.stats = GameState.stats.stats;
@@ -70,6 +85,12 @@ public class StatDisplay extends UIComponent {
      */
     private void addActors() {
         rootTable = new Table();
+        // Load and set the background texture for the entire screen
+        Image background = new Image(new Texture("images/BackgroundSplash.png"));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        // Add the background to the stage
+        stage.addActor(background);
         Image rootTableBG = new Image(ServiceLocator.getResourceService().getAsset("images/logbook/lb-bg.png",Texture.class));
         rootTable.setBackground(rootTableBG.getDrawable());
         rootTable.center();
@@ -88,18 +109,15 @@ public class StatDisplay extends UIComponent {
 
         // Populate tables with stat data
         Table itemsTable = makeLogbookTable(Stat.StatType.ITEM);
-
         Table enemiesTable = makeLogbookTable(Stat.StatType.ENEMY);
-        //enemiesTable.add(new Label("Content for Tab 2", skin));
-
         Table playerTable = makeLogbookTable(Stat.StatType.PLAYER);
-        //playerTable.add(new Label("Content for Tab 3", skin));
 
         // Initialise placeholder logbook tables for enemy sub-tabs
         Table landEnemyTable = makeLogbookTable(Stat.StatType.ENEMY);
-        Table waterEnemyTable = makeLogbookTable(Stat.StatType.ENEMY);
-        Table airEnemyTable = makeLogbookTable(Stat.StatType.ENEMY);
+        Table waterEnemyTable = makeLogbookTable(Stat.StatType.ITEM);
+        Table airEnemyTable = makeLogbookTable(Stat.StatType.PLAYER);
 
+        // Create tables for tabs
         Table tabs = makeTabs(itemsTable, enemiesTable, playerTable);
         Table enemyTabs = makeEnemyTabs(landEnemyTable, waterEnemyTable, airEnemyTable);
 
@@ -112,28 +130,27 @@ public class StatDisplay extends UIComponent {
         enemiesTable.setVisible(true);
         playerTable.setVisible(false);
 
-        // Add sub-tabs to the enemies table
-        enemiesTable.add(enemyTabs).colspan(4).fillX(); // Subtab layout
-        enemiesTable.row(); // Move to the next row for content
+        // Add the enemy content tables to the stack
+        enemyTypeStack.add(landEnemyTable);
+        enemyTypeStack.add(waterEnemyTable);
+        enemyTypeStack.add(airEnemyTable);
 
         // Initialize the visibility of the subtab content (only Land visible initially)
         landEnemyTable.setVisible(false);
         waterEnemyTable.setVisible(false);
         airEnemyTable.setVisible(true);
 
-        // Add the enemy content tables to the stack
-        enemyTypeStack.add(landEnemyTable);
-        enemyTypeStack.add(waterEnemyTable);
-        enemyTypeStack.add(airEnemyTable);
-
-        // Add the enemy stack to the enemies table
-        enemiesTable.add(enemyTypeStack).colspan(4).fillX();
-
-
-
+        // Populate the root table with tabs and content
         rootTable.add(tabs).fillX().row();
         rootTable.add(tabContentStack).expand().fill();
         rootTable.add(menuBtns).top().right().pad(10);
+
+        // Add sub-tabs to the enemies table
+        enemiesTable.add(enemyTabs).colspan(4).fillX(); // Subtab layout
+        enemiesTable.row(); // Move to the next row for content
+        // Add the enemy stack to the enemies table
+        enemiesTable.add(enemyTypeStack).colspan(4).fillX();
+
         stage.addActor(rootTable);
     }
 
@@ -159,87 +176,63 @@ public class StatDisplay extends UIComponent {
         Table tabButtonTable = new Table().padLeft(50);
 
         // Background images for the tabs
-        Image itemBG = new Image(ServiceLocator.getResourceService()
-                .getAsset("images/logbook/lb-yellow-tab.png", Texture.class));
-        Image enemyBG = new Image(ServiceLocator.getResourceService()
-                .getAsset("images/logbook/lb-red-tab.png", Texture.class));
-        Image playerBG = new Image(ServiceLocator.getResourceService()
-                .getAsset("images/logbook/lb-blue-tab.png", Texture.class));
+        Texture itemBG =
+                ServiceLocator.getResourceService()
+                        .getAsset("images/logbook/lb-yellow-tab.png", Texture.class);
+        Texture enemyBG =
+                ServiceLocator.getResourceService()
+                        .getAsset("images/logbook/lb-red-tab.png", Texture.class);
+        Texture playerBG =
+                ServiceLocator.getResourceService()
+                        .getAsset("images/logbook/lb-blue-tab.png", Texture.class);
 
         // Labels for the tab titles
-        Label itemLabel = new Label("Items", skin);
-        Label enemyLabel = new Label("Enemy", skin);
-        Label playerLabel = new Label("Player", skin);
-
-        // Set the alignment and font size for the labels
-        itemLabel.setFontScale(1.5f);
-        enemyLabel.setFontScale(1.5f);
-        playerLabel.setFontScale(1.5f);
-        itemLabel.setAlignment(Align.center);
-        enemyLabel.setAlignment(Align.center);
-        playerLabel.setAlignment(Align.center);
-
-        // Create tables for each button to simulate text over image
-        Table itemTable = new Table();
-        itemTable.add(itemBG).padBottom(-itemLabel.getHeight()); // Add image and adjust padding to overlay label
-        itemTable.row();
-        itemTable.add(itemLabel).center().padTop(-itemBG.getHeight() / 2f); // Overlay label on image
-
-        Table enemyTable = new Table();
-        enemyTable.add(enemyBG).padBottom(-enemyLabel.getHeight());
-        enemyTable.row();
-        enemyTable.add(enemyLabel).center().padTop(-enemyBG.getHeight() / 2f);
-
-        Table playerTable = new Table();
-        playerTable.add(playerBG).padBottom(-playerLabel.getHeight());
-        playerTable.row();
-        playerTable.add(playerLabel).center().padTop(-playerBG.getHeight() / 2f);
+        TabButton itemButton = new TabButton("Items", skin, itemBG);
+        TabButton enemyButton = new TabButton("Enemy", skin, enemyBG);
+        TabButton playerButton = new TabButton("Player", skin, playerBG);
 
         // Add the button tables to the main table
+        addButtonElevationEffect(itemButton);
+        addButtonElevationEffect(enemyButton);
+        addButtonElevationEffect(playerButton);
         tabButtonTable.left().top();
-        tabButtonTable.add(itemTable).left().padRight(10);
-        tabButtonTable.add(enemyTable).left().padRight(10);
-        tabButtonTable.add(playerTable).left();
+        tabButtonTable.add(itemButton).left();
+        tabButtonTable.add(enemyButton).left();
+        tabButtonTable.add(playerButton).left();
 
         // Add event listeners to simulate button clicks using ClickListener
-        itemTable.addListener(new ClickListener() {
+        itemButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(true);
                 enemiesTable.setVisible(false);
                 playersTable.setVisible(false);
-                updateHoverEffect(itemTable);  // Update hover effect
+                updateHoverEffect(itemButton);  // Update hover effect
             }
         });
 
-        enemyTable.addListener(new ClickListener() {
+        enemyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(true);
                 playersTable.setVisible(false);
-                updateHoverEffect(enemyTable);
+                updateHoverEffect(enemyButton);
             }
         });
 
-        playerTable.addListener(new ClickListener() {
+        playerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(false);
                 playersTable.setVisible(true);
-                updateHoverEffect(playerTable);
+                updateHoverEffect(playerButton);
             }
         });
-
-        // Add elevation effects to the tables
-        addTableElevationEffect(itemTable);
-        addTableElevationEffect(enemyTable);
-        addTableElevationEffect(playerTable);
-
         // Set the initial hover effect
-        updateHoverEffect(itemTable);
-
+        this.originalY = itemButton.getY();
+        updateHoverEffect(itemButton);
         return tabButtonTable;
     }
 
@@ -252,74 +245,62 @@ public class StatDisplay extends UIComponent {
      * @return Tabs for land water and air enemies.
      */
     Table makeEnemyTabs(Table landEnemyTable, Table waterEnemyTable, Table airEnemyTable) {
-        Table tabButtonTable = new Table().padLeft(50);
+        Table tabButtonTable = new Table().padLeft(15);
 
-        // Tab label names
-        Label landEnemyLabel = new Label("Land", skin);
-        Label waterEnemyLabel = new Label("Water", skin);
-        Label airEnemyLabel = new Label("Air", skin);
+        // Background images for the tabs
+        Texture itemBG =
+                ServiceLocator.getResourceService()
+                        .getAsset("images/logbook/stats/lb-stats-land-tab.png", Texture.class);
+        Texture enemyBG =
+                ServiceLocator.getResourceService()
+                        .getAsset("images/logbook/stats/lb-stats-water-tab.png", Texture.class);
+        Texture playerBG =
+                ServiceLocator.getResourceService()
+                        .getAsset("images/logbook/stats/lb-stats-air-tab.png", Texture.class);
 
-        // Set the alignment and font size for the labels
-        landEnemyLabel.setFontScale(1.5f);
-        waterEnemyLabel.setFontScale(1.5f);
-        airEnemyLabel.setFontScale(1.5f);
-        landEnemyLabel.setAlignment(Align.center);
-        waterEnemyLabel.setAlignment(Align.center);
-        airEnemyLabel.setAlignment(Align.center);
-
-        // Create tables for each tab to display stats
-        Table landEnemyTab = new Table();
-        landEnemyTab.add(landEnemyLabel).center();
-        Table waterEnemyTab = new Table();
-        waterEnemyTab.add(waterEnemyLabel).center();
-        Table airEnemyTab = new Table();
-        airEnemyTab.add(airEnemyLabel).center();
+        // Labels for the tab titles
+        TabButton landTypeButton = new TabButton("Land", skin, itemBG);
+        TabButton waterTypeButton = new TabButton("Water", skin, enemyBG);
+        TabButton airTypeButton = new TabButton("Air", skin, playerBG);
 
         // Add the button tables to the main table
+        addButtonElevationEffect(landTypeButton);
+        addButtonElevationEffect(waterTypeButton);
+        addButtonElevationEffect(airTypeButton);
         tabButtonTable.left().top();
-        tabButtonTable.add(landEnemyTab).left().padRight(20);
-        tabButtonTable.add(waterEnemyTab).left().padRight(20);
-        tabButtonTable.add(airEnemyTab).left();
+        tabButtonTable.add(landTypeButton).left();
+        tabButtonTable.add(waterTypeButton).left().padLeft(-25);
+        tabButtonTable.add(airTypeButton).left().padLeft(-25);
 
         // Add event listeners to simulate button clicks using ClickListener
-        landEnemyTab.addListener(new ClickListener() {
+        landTypeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 landEnemyTable.setVisible(true);
                 waterEnemyTable.setVisible(false);
                 airEnemyTable.setVisible(false);
-                updateHoverEffect(landEnemyTab);  // Update hover effect
             }
         });
 
-        waterEnemyTab.addListener(new ClickListener() {
+        waterTypeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 landEnemyTable.setVisible(false);
                 waterEnemyTable.setVisible(true);
                 airEnemyTable.setVisible(false);
-                updateHoverEffect(landEnemyTab);
             }
         });
 
-        airEnemyTab.addListener(new ClickListener() {
+        airTypeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 landEnemyTable.setVisible(false);
                 waterEnemyTable.setVisible(false);
                 airEnemyTable.setVisible(true);
-                updateHoverEffect(landEnemyTab);
             }
         });
-
-        // Add elevation effects to the tables
-        addTableElevationEffect(landEnemyTab);
-        addTableElevationEffect(waterEnemyTab);
-        addTableElevationEffect(airEnemyTab);
-
         // Set the initial hover effect
-        updateHoverEffect(landEnemyTab);
-
+        this.originalY = landTypeButton.getY();
         return tabButtonTable;
     }
 
@@ -337,7 +318,7 @@ public class StatDisplay extends UIComponent {
         titleLabel.setFontScale(2.0f); // Set the font size
         table.add(titleLabel).center().padTop(35).padBottom(20);  // Spanning across both columns and adding some padding below
         table.row();
-        int count = 0;
+        int nextRow = 0;
 
         // Log two stats per row with a line separator between them
         for (Stat stat : stats) {
@@ -355,9 +336,9 @@ public class StatDisplay extends UIComponent {
                 // Add stat labels to the table
                 table.add(statNameLabel).expandX().padBottom(5);
                 table.add(statCurrentLabel).expandX().padBottom(15);
-                count++;
+                nextRow++;
 
-                if (count % 2 == 0) {
+                if (nextRow % 2 == 0) {
                     logger.info("count is even");
                     table.row();
                     // Add a physical line as a separator
@@ -454,11 +435,11 @@ public class StatDisplay extends UIComponent {
     /**
      * Adds an elevation effect to tables when hovered.
      */
-    private void addTableElevationEffect(Table table) {
-        table.addListener(new InputListener() {
+    private void addButtonElevationEffect(Button button) {
+        button.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                table.addAction(Actions.parallel(
+                button.addAction(Actions.parallel(
                         Actions.moveBy(0, 5, 0.1f),
                         Actions.scaleTo(1.05f, 1.05f, 0.1f)
                 ));
@@ -466,7 +447,7 @@ public class StatDisplay extends UIComponent {
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                table.addAction(Actions.parallel(
+                button.addAction(Actions.parallel(
                         Actions.moveBy(0, -5, 0.1f),
                         Actions.scaleTo(1f, 1f, 0.1f)
                 ));
