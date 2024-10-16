@@ -142,7 +142,7 @@ public class Stat {
      * Define types for end game stats
      * */
     public enum StatType{
-        ITEM,ENEMY,PLAYER
+        ITEM,ENEMY,PLAYER,LAND_ENEMY,WATER_ENEMY,AIR_ENEMY
     }
 
     public Stat.StatType getType() {

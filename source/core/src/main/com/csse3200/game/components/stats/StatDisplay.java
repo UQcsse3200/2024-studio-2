@@ -113,9 +113,9 @@ public StatDisplay(GdxGame game) {
         Table playerTable = makeLogbookTable(Stat.StatType.PLAYER);
 
         // Initialise placeholder logbook tables for enemy sub-tabs
-        Table landEnemyTable = makeLogbookTable(Stat.StatType.ENEMY);
-        Table waterEnemyTable = makeLogbookTable(Stat.StatType.ITEM);
-        Table airEnemyTable = makeLogbookTable(Stat.StatType.PLAYER);
+        Table landEnemyTable = makeLogbookTable(Stat.StatType.LAND_ENEMY);
+        Table waterEnemyTable = makeLogbookTable(Stat.StatType.WATER_ENEMY);
+        Table airEnemyTable = makeLogbookTable(Stat.StatType.AIR_ENEMY);
 
         // Create tables for tabs
         Table tabs = makeTabs(itemsTable, enemiesTable, playerTable);
@@ -304,7 +304,6 @@ public StatDisplay(GdxGame game) {
         return tabButtonTable;
     }
 
-
     /**
      * Creates the Table for the visual representation of end game statistics.
      * @return The Table showing stats.
@@ -314,10 +313,14 @@ public StatDisplay(GdxGame game) {
 
         // Create and add the title label at the top of the table
         String modifiedType = type.name().charAt(0) + type.name().substring(1).toLowerCase();
-        Label titleLabel = new Label(modifiedType + " Statistics", skin);
-        titleLabel.setFontScale(2.0f); // Set the font size
-        table.add(titleLabel).center().padTop(35).padBottom(20);  // Spanning across both columns and adding some padding below
-        table.row();
+        if (type.name().equals("ITEM") || type.name().equals("ENEMY") || type.name().equals("PLAYER")) {
+            Label titleLabel = new Label(modifiedType + " Statistics", skin);
+            titleLabel.setFontScale(2.0f); // Set the font size
+            table.add(titleLabel).center().padTop(35).padBottom(20);
+            table.row();
+        } else {
+            table.row();
+        }
         int nextRow = 0;
 
         // Log two stats per row with a line separator between them

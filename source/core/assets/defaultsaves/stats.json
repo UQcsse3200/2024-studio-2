@@ -3,7 +3,7 @@
     {
       "statName": "Apple Collected",
       "statDescription": "Apples Collected",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
@@ -11,7 +11,7 @@
     {
       "statName": "Candy Collected",
       "statDescription": "Candy collected",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
@@ -19,7 +19,7 @@
     {
       "statName": "Meat Collected",
       "statDescription": "Meat collected",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
@@ -27,7 +27,7 @@
     {
       "statName": "Carrot Collected",
       "statDescription": "Carrots collected",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "ITEM"
@@ -59,18 +59,18 @@
     {
       "statName": "KANGAROO Defeated",
       "statDescription": "Kanga Kill",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ENEMY"
+      "type": "LAND_ENEMY"
     },
     {
       "statName": "WATER_BOSS Defeated",
       "statDescription": "Abbysdrake Kill",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ENEMY"
+      "type": "WATER_ENEMY"
     },
     {
       "statName": "AIR_BOSS Defeated",
@@ -78,7 +78,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ENEMY"
+      "type": "AIR_ENEMY"
     },
     {
       "statName": "CHICKEN Defeated",
@@ -86,7 +86,7 @@
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ENEMY"
+      "type": "LAND_ENEMY"
     }
   ]
 }
