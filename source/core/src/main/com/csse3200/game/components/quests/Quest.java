@@ -23,10 +23,6 @@ public class Quest {
      */
     private final List<Task> tasks;
     /**
-     * True if the quest is hidden (possible xp and levels).
-     */
-    private final boolean isSecretQuest;
-    /**
      * questDialogue is a dict that relates
      * DialogueKey(String npcName, Integer ProgressionLevel)
      * to a dialogue map relevant to the npc
@@ -50,14 +46,13 @@ public class Quest {
     private String[] followQuests;
 
     /** Constructor design for implementing subclasses. */
-    public Quest(String questName, String questDescription, List<Task> tasks, boolean isSecretQuest,
+    Quest(String questName, String questDescription, List<Task> tasks,
                  List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed,
                  int currentTaskIndex, String[] followQuests)
     {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
-        this.isSecretQuest = isSecretQuest;
         this.isActive = active;
         this.isFailed = failed;
         this.currentTaskIndex = currentTaskIndex;
@@ -112,11 +107,12 @@ public class Quest {
         }
         return tasks.get(currentTaskIndex).getHint();
     }
+
     /** Progress (increments) number of quest subtasks completed. */
     public boolean progressQuest(Entity player) {
         boolean questCompletionTrack = false;
         if (!isQuestCompleted() && !isFailed) {
-            if(taskCompletionTriggers!=null){
+            if(taskCompletionTriggers.length != 0){
                 player.getEvents().trigger(taskCompletionTriggers[currentTaskIndex]);
             }
             currentTaskIndex++;
@@ -126,7 +122,7 @@ public class Quest {
                 questCompletionTrack = true;
             }
             this.isActive = false;
-            if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
+            if(taskCompletionTriggers.length != 0){
                 player.getEvents().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
             }
         }
@@ -163,11 +159,6 @@ public class Quest {
      */
     public int getNumQuestTasks() {
         return tasks.size();
-    }
-
-    /** Returns true if the quest is secret (e.g. progression, XP, etc). */
-    public boolean isSecret() {
-        return isSecretQuest;
     }
 
     /** Returns true if the quest is active */

@@ -231,12 +231,10 @@ public class QuestManager extends Component {
      * @param quest The quest that has been completed.
      */
     private void handleQuestCompletion(Quest quest) {
-        if (!quest.isSecret()) {
-            questComplete.play();
-            player.getEvents().trigger("questCompleted");
-            player.getEvents().trigger(quest.getQuestName());
-            logger.info("{} completed!", quest.getQuestName());
-        }
+        questComplete.play();
+        player.getEvents().trigger("questCompleted");
+        player.getEvents().trigger(quest.getQuestName());
+        logger.info("{} completed!", quest.getQuestName());
 
         for(Quest questCheck : quests.values()) {
             boolean newActive = true;

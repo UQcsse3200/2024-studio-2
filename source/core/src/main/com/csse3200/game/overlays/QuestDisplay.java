@@ -97,9 +97,7 @@ public class QuestDisplay extends UIComponent {
 
 
             for (Quest quest : questDisplay) {
-                if (!quest.isSecret()) {
-                    addQuestComponents(table, quest);
-                }
+                addQuestComponents(table, quest);
             }
 
             updateQuestsCompletedLabel(table, listOfQuests);

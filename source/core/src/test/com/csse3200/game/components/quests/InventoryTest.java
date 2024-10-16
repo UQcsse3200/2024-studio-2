@@ -26,18 +26,22 @@ class InventoryTest {
 
         ServiceLocator.registerResourceService(resourceService);
 
-        QuestManager quest = new QuestManager(player);
+        QuestManager questManager = new QuestManager(player);
 
         Task task = new Task("collectPotionTest", "", "", 2, 0, false, false);
-        quest.addQuest(new Quest("Guide's Request test",
-        "Follow the cow's request and collect items.", List.of(task),
-        false, new ArrayList<>(), null, true, false, 0, null));
+
+
+        questManager.addQuest(new QuestBuilder("Guide's Request test")
+                        .setDescription("Follow the cow's request and collect items.")
+                        .addTask(task)
+                        .setActive(true)
+                        .build());
 
         player.getEvents().trigger("collectPotionTest");
-        assertFalse(quest.getQuest("Guide's Request test").isQuestCompleted());
+        assertFalse(questManager.getQuest("Guide's Request test").isQuestCompleted());
 
         player.getEvents().trigger("collectPotionTest");
-        assertTrue(quest.getQuest("Guide's Request test").isQuestCompleted());
+        assertTrue(questManager.getQuest("Guide's Request test").isQuestCompleted());
 
     }
 }

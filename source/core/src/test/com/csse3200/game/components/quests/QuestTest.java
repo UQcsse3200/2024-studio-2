@@ -17,17 +17,11 @@ class QuestTest {
         Task stepsTask = new Task("steps", "Take your first steps", "Just start moving!", 5, 0, false, false);
 
         // Create the quest with the task
-        quest = new Quest("First Steps",
-
-                "Take your first steps in this world!",
-                List.of(stepsTask),
-                false,
-                null,
-                null,
-                true,
-                false,
-                0,
-                null);
+        quest = new QuestBuilder("First Steps")
+                .addTask(stepsTask)
+                .setDescription("Take your first steps in this world!")
+                .setActive(true)
+                .build();
     }
 
     @Test
@@ -41,7 +35,6 @@ class QuestTest {
         assertEquals(1, quest.getNumTasksToComplete());
         assertEquals(1, quest.getNumQuestTasks());
         assertTrue(quest.isActive());
-        assertFalse(quest.isSecret());
 
     }
 
@@ -58,7 +51,6 @@ class QuestTest {
         assertEquals(0, quest.getNumTasksToComplete());
         assertEquals(1, quest.getNumQuestTasks());
         assertFalse(quest.isActive());
-        assertFalse(quest.isSecret());
     }
 
     @Test
@@ -74,6 +66,5 @@ class QuestTest {
         assertEquals(1, quest.getNumQuestTasks());
         assertTrue(quest.isFailed());
         assertFalse(quest.isActive());
-        assertFalse(quest.isSecret());
     }
 }
