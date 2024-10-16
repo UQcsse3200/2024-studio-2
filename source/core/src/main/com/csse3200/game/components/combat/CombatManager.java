@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
 import com.csse3200.game.entities.Entity;
@@ -21,7 +20,6 @@ import com.csse3200.game.overlays.CombatAnimationDisplay;
 import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,17 +48,12 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
-    private InputListener dialogueBoxCombatListener;
-    private CustomButton contButton;
     private AbstractItem playerItem;
     private int playerItemIndex;
     private ItemUsageContext playerItemContext;
 
     private int statusEffectDuration;
     private boolean moveChangedByConfusion;
-
-    // HashMap stores information on enemies when attack
-    private static final Map<String,ArrayList<Action>> enemyMoveStore = new LinkedHashMap<>();
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -569,9 +562,14 @@ public class CombatManager extends Component {
     public void addDialogueBoxListener() {
 
         // Get the continue button for the dialogue box
-        contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
+        CustomButton contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
 
-        dialogueBoxCombatListener = new InputListener() {
+        //            TODO: replace Label code with code below due in next PR
+        //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
+        //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
+        //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
+        //            String currentText = String.valueOf(fullText[index][index2]);
+        InputListener dialogueBoxCombatListener = new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
@@ -586,12 +584,10 @@ public class CombatManager extends Component {
                 //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
                 //            String currentText = String.valueOf(fullText[index][index2]);
 
-                if (currentText.equals("The enemy decided to ATTACK")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-                } else if (currentText.equals("The enemy decided to SLEEP")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-                } else if (currentText.equals("The enemy decided to GUARD")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
+                switch (currentText) {
+                    case "The enemy decided to ATTACK" -> combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
+                    case "The enemy decided to SLEEP" -> combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
+                    case "The enemy decided to GUARD" -> combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
                 }
 
                 return true;
