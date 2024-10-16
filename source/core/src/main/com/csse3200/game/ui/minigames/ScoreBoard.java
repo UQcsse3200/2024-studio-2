@@ -38,7 +38,7 @@ public class ScoreBoard {
         scoreBoardSetUp();
     }
 
-    private void scoreBoardSetUp () {
+    public void scoreBoardSetUp () {
 
         // Assign thresholds depending on game
 //<<<<<<< HEAD

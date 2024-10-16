@@ -341,32 +341,67 @@ run_right_up
   index: 5
 combat_idle
   rotate: false
-  xy: 0, 0
-  size: 160, 162
-  orig: 160, 162
+  xy: 333, 332
+  size: 130, 160
+  orig: 130, 160
   offset: 0, 0
   index: 0
 combat_idle
   rotate: false
-  xy: 480, 162
-  size: 160, 162
-  orig: 160, 162
+  xy: 494, 318
+  size: 130, 162
+  orig: 130, 162
   offset: 0, 0
   index: 1
+combat_idle
+  rotate: false
+  xy: 658, 332
+  size: 130, 160
+  orig: 130, 160
+  offset: 0, 0
+  index: 2
 combat_move
   rotate: false
-  xy: 642, 162
-  size: 160, 162
-  orig: 160, 162
+  xy: 19, 332
+  size: 130, 162
+  orig: 130, 162
   offset: 0, 0
   index: 0
 combat_move
   rotate: false
-  xy: 480, 162
-  size: 160, 162
-  orig: 160, 162
+  xy: 163, 321
+  size: 145, 160
+  orig: 145, 160
   offset: 0, 0
   index: 1
+combat_move
+  rotate: false
+  xy: 333, 332
+  size: 130, 160
+  orig: 130, 160
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 494, 318
+  size: 130, 162
+  orig: 130, 162
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 658, 332
+  size: 130, 160
+  orig: 130, 160
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 809, 320
+  size: 145, 162
+  orig: 145, 162
+  offset: 0, 0
+  index: 5
 default
   rotate: false
   xy: 0, 0

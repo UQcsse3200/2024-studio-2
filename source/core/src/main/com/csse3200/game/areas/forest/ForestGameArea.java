@@ -68,7 +68,6 @@ public class ForestGameArea extends GameArea {
     private final List<Entity> minigameNPCs;
     private final Map<Integer, Entity> dynamicItems = new HashMap<>();
     private int totalForestItems = 0;
-    private int totalOceanItems = 0;
     private int totalAirItems = 0;
     private Entity player;
 
@@ -125,11 +124,11 @@ public class ForestGameArea extends GameArea {
         spawnFirstBarrier();
         spawnSecondBarrier();
 
-        //Enemies
-        spawnEnemies();
-
         // items
         handleItems();
+
+        //Enemies
+        spawnEnemies();
 
         //Friendlies
         spawnFriendlyNPCs();
@@ -251,17 +250,11 @@ public class ForestGameArea extends GameArea {
     }
 
     private void handleItems() {
-        // Spawn items on new chunks
-//        for (GridPoint2 pos : terrain.getNewChunks()) {
-            spawnForestItems();
-           // if (!terrain.getMap().getLayers().get(ocean).isVisible()){
-                spawnOceanItems();
-            //}
-            //if (!terrain.getMap().getLayers().get(air).isVisible()){
-                spawnAirItems();
-            //}
-//        }
 
+        spawnForestItems();
+        spawnOceanItems();
+
+        spawnAirItems();
 
         // TODO: De-spawn items on old chunks:
         List<Integer> removals = new ArrayList<>();
@@ -530,7 +523,7 @@ public class ForestGameArea extends GameArea {
 
     /**
      * Spawns the ocean items on the map. Each item will have different spawning rate depending on
-     * how useful their effects are.
+     * how effective their effects are. M
      */
     private void spawnOceanItems() {
         Supplier<Entity> generator;
@@ -578,62 +571,66 @@ public class ForestGameArea extends GameArea {
         }
     }
 
+    /**
+     * Spawns the forest items on the map. Each item will have different spawning rate depending on
+     * how effective their effects are.
+     */
     private void spawnForestItems() {
         Supplier<Entity> generator;
 
-    // Health Potions
-      if (random.nextFloat() <= 0.30) {
-          generator = () -> ItemFactory.createHealthPotion(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_HEALTH_POTIONS, 1);
-      }
+        // Health Potions
+        if (random.nextFloat() <= 0.30) {
+            generator = () -> ItemFactory.createHealthPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_HEALTH_POTIONS, 1);
+        }
 
-      // Defense Potions
-      if (random.nextFloat() <= 0.10) {
-          generator = () -> ItemFactory.createDefensePotion(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 1);
-      }
+        // Defense Potions
+        if (random.nextFloat() <= 0.10) {
+            generator = () -> ItemFactory.createDefensePotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 1);
+        }
 
-      // Attack Potions
-      if (random.nextFloat() <= 0.10) {
-          generator = () -> ItemFactory.createAttackPotion(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_ATTACK_POTIONS, 1);
-      }
+        // Attack Potions
+        if (random.nextFloat() <= 0.10) {
+            generator = () -> ItemFactory.createAttackPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_ATTACK_POTIONS, 1);
+        }
 
-      // Speed Potions
-      if (random.nextFloat() <= 0.20) {
-          generator = () -> ItemFactory.createSpeedPotion(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_SPEED_POTIONS, 1);
-      }
+        // Speed Potions
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createSpeedPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_SPEED_POTIONS, 1);
+        }
 
-      // Apples
-      if (random.nextFloat() <= 0.40) {
-          generator = () -> ItemFactory.createApple(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_APPLES, 1);
-      }
+        // Apples
+        if (random.nextFloat() <= 0.40) {
+            generator = () -> ItemFactory.createApple(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_APPLES, 1);
+        }
 
-      // Carrots
-      if (random.nextFloat() <= 0.25) {
-          generator = () -> ItemFactory.createCarrot(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_CARROTS, 1);
-      }
+        // Carrots
+        if (random.nextFloat() <= 0.25) {
+            generator = () -> ItemFactory.createCarrot(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CARROTS, 1);
+        }
 
-      // Meat
-      if (random.nextFloat() <= 0.20) {
-          generator = () -> ItemFactory.createMeat(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_MEAT, 1);
-      }
+        // Meat
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createMeat(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_MEAT, 1);
+        }
 
-      // Chicken Legs
-      if (random.nextFloat() <= 0.20) {
-          generator = () -> ItemFactory.createChickenLeg(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_CHICKEN_LEGS, 1);
-      }
+        // Chicken Legs
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createChickenLeg(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CHICKEN_LEGS, 1);
+        }
 
-      // Candy
-      if (random.nextFloat() <= 0.10) {
-          generator = () -> ItemFactory.createCandy(player);
-          spawnFixedItems(generator, ForestSpawnConfig.NUM_CANDY, 1);
-      }
+        // Candy
+        if (random.nextFloat() <= 0.10) {
+            generator = () -> ItemFactory.createCandy(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CANDY, 1);
+        }
     }
 
     private void spawnEnemies() {
@@ -648,10 +645,9 @@ public class ForestGameArea extends GameArea {
         spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MONKEYS, 0.04, 1);
 
         // Pigeon
-//        if (!terrain.getMap().getLayers().get(air).isVisible()) {
-            generator = () -> EnemyFactory.createPigeon(player);
-            spawnRandomEnemy(generator, ForestSpawnConfig.NUM_PIGEONS, 0.06, 3);
-//        }
+        generator = () -> EnemyFactory.createPigeon(player);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_PIGEONS, 0.06, 3);
+
 
         // Frog
         generator = () -> EnemyFactory.createFrog(player);
@@ -666,27 +662,21 @@ public class ForestGameArea extends GameArea {
         spawnRandomEnemy(generator, ForestSpawnConfig.NUM_BEES, 0.1, 3);
 
         //Eel
-//        if (!terrain.getMap().getLayers().get(ocean).isVisible()) {
-            generator = () -> EnemyFactory.createEel(player);
-            spawnShooterEnemy(generator, ForestSpawnConfig.NUM_EELS, 0.1, 2);
-     //   }
+        generator = () -> EnemyFactory.createEel(player);
+        spawnShooterEnemy(generator, ForestSpawnConfig.NUM_EELS, 0.1, 2);
+
         //Octopus
-       // if (!terrain.getMap().getLayers().get(ocean).isVisible()) {
-            generator = () -> EnemyFactory.createOctopus(player);
-            spawnRandomEnemy(generator, ForestSpawnConfig.NUM_OCTOPUS, 0.06, 2);
-     //   }
+        generator = () -> EnemyFactory.createOctopus(player);
+        spawnRandomEnemy(generator, ForestSpawnConfig.NUM_OCTOPUS, 0.06, 2);
+        //   }
 
         //Big saw fish
-      //  if (!terrain.getMap().getLayers().get(ocean).isVisible()) {
-            generator = () -> EnemyFactory.createBigsawfish(player);
-            spawnShooterEnemy(generator, ForestSpawnConfig.NUM_BIGSAWFISH, 0.1, 2);
-        //}
+        generator = () -> EnemyFactory.createBigsawfish(player);
+        spawnShooterEnemy(generator, ForestSpawnConfig.NUM_BIGSAWFISH, 0.1, 2);
 
         //Macaw
-        //if (!terrain.getMap().getLayers().get(air).isVisible()) {
-            generator = () -> EnemyFactory.createMacaw(player);
-            spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MACAW, 0.1, 3);
-        //}
+        generator = () -> EnemyFactory.createMacaw(player);
+        spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MACAW, 0.1, 3);
 
         //Hive
         generator = () -> ProjectileFactory.createHive(player);
@@ -806,15 +796,21 @@ public class ForestGameArea extends GameArea {
         pos.x = Math.clamp(pos.x, 0, MAP_SIZE.x);
         pos.y = Math.clamp(pos.y, 0, MAP_SIZE.y);
 
-		return pos;
-	}
+        return pos;
+    }
 
     /**
-     * Spawns the items randomly at a fixed position across the map
+     * Spawns the items randomly at a fixed position across the map. This function ensures the items from specific
+     * regions are seperated by their given zone. Zone 1 is the forest, Zone 2 is the ocean and Zone 3 is the AIR
+     * The maximum amount of spawns in each region are
+     * 50 items
+     * @param creator the supplier entity to spawn the items
+     * @param numItems number of items to spawn
+     * @param zone the area region of the map
      */
     private void spawnFixedItems(Supplier<Entity> creator, int numItems, int zone) {
-        if (zone == 1 && totalForestItems < 50) {
-            int forestItemsToSpawn = Math.min(numItems, 50 - totalForestItems);
+        if (zone == 1 && totalForestItems < 100) {
+            int forestItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -822,11 +818,11 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                dynamicItems.put(totalForestItems, item);
+                //dynamicItems.put(totalForestItems, item);
                 totalForestItems++;
             }
-        } else if (zone == 2 && totalForestItems < 50) {
-            int oceamItemsToSpawn = Math.min(numItems, 50 - totalForestItems);
+        } else if (zone == 2 && totalForestItems < 100) {
+            int oceamItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -834,11 +830,10 @@ public class ForestGameArea extends GameArea {
                 GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
-                dynamicItems.put(totalOceanItems, item);
-                totalOceanItems++;
+                //dynamicItems.put(totalOceanItems, item);
             }
-        } else if (zone == 3 && totalAirItems < 50) {
-            int airItemsToSpawn = Math.min(numItems, 50 - totalAirItems);
+        } else if (zone == 3 && totalAirItems < 100) {
+            int airItemsToSpawn = Math.min(numItems, 100 - totalAirItems);
             GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
             GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
@@ -847,7 +842,6 @@ public class ForestGameArea extends GameArea {
                 Entity item = creator.get();
                 spawnEntityAt(item, randomPos, true, false);
                 dynamicItems.put(totalAirItems, item);
-                totalAirItems++;
             }
         }
     }
@@ -905,9 +899,10 @@ public class ForestGameArea extends GameArea {
 
     public void playMusic() {
         // Get the selected music track from the user settings
+
         UserSettings.Settings settings = UserSettings.get();
         String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
-
+        AudioManager.stopMusic();
         if (Objects.equals(selectedTrack, "Track 1")) {
             loadAssets(); // Music was not loading after resuming combat
             AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);

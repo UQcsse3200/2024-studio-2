@@ -60,10 +60,10 @@ com.badlogic.gdx.graphics.Color: {
 		a: 1
 	}
 	window: {
-		r: 0.76862746
-		g: 0.4509804
-		b: 0
-		a: 1
+		r: 0.46862746
+		g: 0.6509804
+		b: 0.8
+		a: 0.4
 	},
 
 	crimson: {
