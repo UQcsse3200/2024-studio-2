@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.csse3200.game.GdxGame;
@@ -263,6 +264,30 @@ public class MazeGameScreen extends MiniGameScreen {
      */
     private void restMenu() {
         logger.info("Sending Pause");
+        addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
+    }
+
+
+    /**
+     * Puts the exit button in the top right of the screen.
+     * Will take the user back to the Main menu screen or game
+     */
+    private void setupExitButton() {
+
+        CustomButton exitButton = new CustomButton("Exit", skin);
+
+        exitButton.addClickListener(() -> {
+                exitGame();
+        });
+
+        // Set up the table for UI layout
+        Table exitButtonTable = new Table();
+        exitButtonTable.setFillParent(true);
+        exitButtonTable.top().right();
+        exitButtonTable.add(exitButton).width(exitButton.getWidth() * scale).height(exitButton.getHeight() * scale).center().pad(10 * scale).row();
+
+        // Add the table to the stage
+        stage.addActor(exitButtonTable);
         if (!resting) {
             addOverlay(Overlay.OverlayType.PAUSE_OVERLAY);
         }

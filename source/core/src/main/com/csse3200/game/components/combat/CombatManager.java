@@ -1,6 +1,7 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.combat.move.CombatMove;
@@ -16,6 +17,7 @@ import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.overlays.CombatAnimationDisplay;
+import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
@@ -46,6 +48,8 @@ public class CombatManager extends Component {
     private Action enemyAction;
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
+    private InputListener dialogueBoxCombatListener;
+    private CustomButton contButton;
 
     private AbstractItem playerItem;
     private int playerItemIndex;

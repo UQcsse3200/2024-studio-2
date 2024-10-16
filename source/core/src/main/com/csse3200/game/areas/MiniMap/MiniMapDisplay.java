@@ -11,6 +11,12 @@ import com.csse3200.game.ui.UIComponent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The MiniMapDisplay class is a UI component responsible for displaying a minimap
+ * on the screen. It shows the player's position, as well as various entities like
+ * enemies, bosses, friendly NPCs, and minigame NPCs, represented by different colored
+ * dots. The minimap updates positions based on the entities' world coordinates.
+ */
 public class MiniMapDisplay extends UIComponent {
 
     private Entity player;
@@ -34,6 +40,9 @@ public class MiniMapDisplay extends UIComponent {
     float minimapRadius = (float) miniMapDiameter / 2;
     int frameCount;
 
+    /**
+     * Default constructor for MiniMapDisplay. Initializes all entity lists.
+     */
     public MiniMapDisplay() {
         player = new Entity();
         enemies = new ArrayList<>();
@@ -41,10 +50,19 @@ public class MiniMapDisplay extends UIComponent {
         friendlyNPCs = new ArrayList<>();
         minigameNPCs = new ArrayList<>();
     }
+
+    /**
+     * Constructor that initializes the MiniMapDisplay with a specified GameArea.
+     *
+     * @param gameArea the game area from which to retrieve player and entities.
+     */
     public MiniMapDisplay(GameArea gameArea) {
         this.gameArea = gameArea;
     }
 
+    /**
+     * Creates the minimap, initializing the player and entity lists from the GameArea.
+     */
     @Override
     public void create() {
         super.create();
@@ -60,6 +78,9 @@ public class MiniMapDisplay extends UIComponent {
         initializeMiniMap();
     }
 
+    /**
+     * Initializes the minimap's center, radius, and background image.
+     */
     private void initializeMiniMap() {
         centerX = miniMapX + (float) miniMapDiameter / 2;
         centerY = miniMapY + (float) miniMapDiameter / 2;
@@ -69,6 +90,9 @@ public class MiniMapDisplay extends UIComponent {
         initializeAllImages();
     }
 
+    /**
+     * Initializes all dot images for player, enemies, bosses, friendly NPCs, and minigame NPCs.
+     */
     public void initializeAllImages() {
         initializeGreenDotImages();
         initializeRedDotImages();
@@ -77,14 +101,18 @@ public class MiniMapDisplay extends UIComponent {
         initializePurplePointImages();
     }
 
-    // Initialize green dots to match the number of player
+    /**
+     * Initializes the green dot image representing the player on the minimap.
+     */
     public void initializeGreenDotImages() {
         greenDotPointImage = new Image(new Texture("images/minimap/greenDotPoint.png"));
         greenDotPointImage.setSize(15, 15);
         stage.addActor(greenDotPointImage);
     }
 
-    // Initialize red dots to match the number of enemies
+    /**
+     * Initializes red dot images for each enemy on the minimap.
+     */
     public void initializeRedDotImages() {
         for (int i = 0; i < enemies.size(); i++) {
             Image redDotImage = new Image(new Texture("images/minimap/redDotPoint.png"));
@@ -93,8 +121,9 @@ public class MiniMapDisplay extends UIComponent {
             stage.addActor(redDotImage);  // Add the red dot actor to the stage
         }
     }
+
     /**
-     * Initializes blue dot points for the friendly NPCs.
+     * Initializes blue dot images for friendly NPCs on the minimap.
      */
     public void initializeBlueDotImages() {
         for (int i = 0; i < friendlyNPCs.size(); i++) {
@@ -106,7 +135,7 @@ public class MiniMapDisplay extends UIComponent {
     }
 
     /**
-     * Initializes large red dot points for the friendly NPCs.
+     * Initializes large red dot images for bosses on the minimap.
      */
     public void initializeLargeRedPointImages() {
         for (int i = 0; i < bosses.size(); i++) {
@@ -118,7 +147,7 @@ public class MiniMapDisplay extends UIComponent {
     }
 
     /**
-     * Initializes purple dot points for the minigame NPCs.
+     * Initializes purple dot images for minigame NPCs on the minimap.
      */
     public void initializePurplePointImages() {
         for (int i = 0; i < minigameNPCs.size(); i++) {
@@ -182,12 +211,16 @@ public class MiniMapDisplay extends UIComponent {
         }
     }
 
+    /**
+     * Updates all dot points on the minimap, including enemies, friendly NPCs, bosses, and minigame NPCs.
+     */
     public void updateAllPoints() {
         updatePoints(redDotPointImages, enemies);
         updatePoints(blueDotPointImages, friendlyNPCs);
         updatePoints(largeRedPointImages, bosses);
         updatePoints(purplePointImages, minigameNPCs);
     }
+
     /**
      * Updates the minimap, adjusting the player and entity positions each frame.
      */
@@ -215,26 +248,58 @@ public class MiniMapDisplay extends UIComponent {
         batchDupe.end();
     }
 
-
-
+    /**
+     * Retrieves the player entity displayed on the minimap.
+     *
+     * @return the player entity.
+     */
     public Entity getPlayer() {
         return player;
     }
 
+    /**
+     * Gets the X position of the minimap on the screen.
+     *
+     * @return the X coordinate of the minimap.
+     */
     public float getMiniMapX() {
         return miniMapX;
     }
+
+    /**
+     * Gets the Y position of the minimap on the screen.
+     *
+     * @return the Y coordinate of the minimap.
+     */
     public float getMiniMapY() {
         return miniMapY;
     }
 
+    /**
+     * Gets the diameter of the minimap.
+     *
+     * @return the diameter of the minimap.
+     */
     public float getMiniMapDiameter() {
         return miniMapDiameter;
     }
+
+    /**
+     * Sets the position of the minimap on the screen.
+     *
+     * @param posX the new X coordinate for the minimap.
+     * @param posY the new Y coordinate for the minimap.
+     */
     public void setMiniMapPosition(float posX, float posY) {
         this.miniMapX = posX;
         this.miniMapY = posY;
     }
+
+    /**
+     * Sets the diameter of the minimap.
+     *
+     * @param size the new diameter for the minimap.
+     */
     public void setMiniMapDiameter(int size) {
         this.miniMapDiameter = size;
     }

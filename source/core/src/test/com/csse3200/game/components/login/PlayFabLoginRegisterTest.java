@@ -1,4 +1,3 @@
-/*
 package com.csse3200.game.components.login;
 
 
@@ -25,6 +24,7 @@ class PlayFabLoginRegisterTest {
 
     // Since sprint 3, this test has created 2k5 new users, so we decided to mark this test as a comment.
 
+    /*
     @Test
     void testRegisterUserSuccess() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -42,16 +42,18 @@ class PlayFabLoginRegisterTest {
         assertEquals("test" + random, result.Result.Username);
     }
 
+    */
 
     // RequireBothUsernameAndEmail is set to true, and not include email field.
-    // Total 4 cases.
+    // Total 4 cases. We only display 1 case, as too many cases run could result in throttling,
+    // which prevents user from using APIs for new minutes.
     /**
      * This test verifies that when:
      * - RequireBothUsernameAndEmail is set to true
      * - Existing username is used.
      * - Password is valid.
      * The registration fails and returns an appropriate error message.</p>
-      
+     */
     @Test
     void testExistingUsernameValidPasswordRequireBothTrue() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -65,7 +67,7 @@ class PlayFabLoginRegisterTest {
         assertEquals("Both username and email are required unless specified with RequireBothUsernameAndEmail.", result.Error.errorMessage);
     }
 
-
+    /*
     /**
      * This test verifies that when:
      * - RequireBothUsernameAndEmail is set to true
@@ -126,17 +128,19 @@ class PlayFabLoginRegisterTest {
         assertNotNull(result.Error, "Result should not be null");
         assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
-
+    */
 
     // RequireBothUsernameAndEmail is set to false, and not include email field.
     // Only 3 cases, as forth case, which is new username and valid password, will create a new user.
+    // We only display 1 case, as too many cases run could result in throttling,
+    // which prevents user from using APIs for new minutes.
     /**
      * This test verifies that when:
      * - RequireBothUsernameAndEmail is set to false
      * - Existing username is used
      * - Password is valid.
      * The registration fails and returns an appropriate error message.</p>
-      
+      */
     @Test
     void testRegisterExistingUsernameValidPasswordRequireBothFalse() {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
@@ -151,6 +155,7 @@ class PlayFabLoginRegisterTest {
     }
 
 
+    /*
     /**
      * This test verifies that when:
      * - RequireBothUsernameAndEmail is set to false
@@ -191,6 +196,7 @@ class PlayFabLoginRegisterTest {
         assertNotNull(result.Error, "Result should not be null");
         assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
+    */
 
     // RequireBothUsernameAndEmail is used and include email field.
     // Total 6 cases
@@ -201,6 +207,7 @@ class PlayFabLoginRegisterTest {
      * - Password is invalid.
      * - RequireBothUsernameAndEmail is set to false.
      * The registration fails and returns an appropriate error message.</p>
+     */
       
     @Test
     void testRegisterNewUsernameExistingEmailInvalidPasswordNotRequireBoth() {
@@ -216,6 +223,7 @@ class PlayFabLoginRegisterTest {
         assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
+    /*
 
 
     /**
@@ -548,8 +556,10 @@ class PlayFabLoginRegisterTest {
         assertEquals("Invalid input parameters", result.Error.errorMessage);
     }
 
-    // The login test could be implemented. H
-    // However, it will cause throttling when we run the test multiple times within a short period of time.
+    */
+
+    // Login Test
+    // The login test can be implemented; however, it may lead to throttling if executed multiple times in quick succession.
+    //Specifically, login attempts are limited to about 3 times within a minute, which is significantly lower than the limit for registration.
 
 }
-*/
