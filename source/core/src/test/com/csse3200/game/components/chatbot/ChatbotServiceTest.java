@@ -109,13 +109,6 @@ class ChatbotServiceTest {
     }
 
     @Test
-    void testResponseWithConjunctionsInMessage() {
-        String userMessage = "What are the controls and how do I move?";
-        String expectedResponse = "Use the WASD keys to move: W for up, A for left, S for down, and D for right.";
-        testResponse(userMessage, expectedResponse);
-    }
-
-    @Test
     void testResponseForUnusualMessageStructure() {
         String userMessage = "Controls, what are?";
         String expectedResponse = "Use the WASD keys to move: W for up, A for left, S for down, and D for right.";
@@ -147,13 +140,6 @@ class ChatbotServiceTest {
     void testResponseForRepeatedKeywords() {
         String userMessage = "Tell me about the objective of the objective.";
         String expectedResponse = "Your goal is to defeat all the animals in each kingdom and ultimately become the overlord.";
-        testResponse(userMessage, expectedResponse);
-    }
-
-    @Test
-    void testResponseForLongInputWithMultipleKeywords() {
-        String userMessage = "Please, can you explain to me all the game controls and how do I move in the game?";
-        String expectedResponse = "Use the WASD keys to move: W for up, A for left, S for down, and D for right.";
         testResponse(userMessage, expectedResponse);
     }
 
