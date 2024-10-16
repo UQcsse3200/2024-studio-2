@@ -41,8 +41,8 @@ public class ChatbotUI {
     /**
      * Constructor to initialize the Chatbot UI.
      *
-     * @param stage The stage where the chatbot window will be added.
-     * @param skin The skin used to style the UI elements.
+     * @param stage           The stage where the chatbot window will be added.
+     * @param skin            The skin used to style the UI elements.
      * @param mainMenuDisplay The main menu display that handles menu visibility and interaction.
      */
     public ChatbotUI(Stage stage, Skin skin, MainMenuDisplay mainMenuDisplay) {
