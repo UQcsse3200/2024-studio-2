@@ -3,12 +3,18 @@ package com.csse3200.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.rendering.RenderService;
@@ -24,7 +30,9 @@ import org.slf4j.LoggerFactory;
 public class CutSceneScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(CutSceneScreen.class);
     private final GdxGame game;
-    private Sound cutSceneSound;  // Sound to be played
+    private Sound cutSceneSound;
+    private BitmapFont font;
+    private Label label;
     private RenderService renderService;
     private EntityService entityService;
     private ResourceService resourceService;
@@ -88,7 +96,27 @@ public class CutSceneScreen extends ScreenAdapter {
      */
     private void createCutScene() {
         logger.debug("Creating CutScene UI");
-        // Logic for setting up the cutscene can go here
+
+
+        font = new BitmapFont(Gdx.files.internal("default.fnt"));
+        font.setColor(Color.BLACK);
+
+        // Create the label style
+        LabelStyle labelStyle = new LabelStyle();
+        labelStyle.font = font;
+
+        // Create the label with the specified text
+        label = new Label("Welcome to the Cutscene", labelStyle);
+        label.setFontScale(2); // Increase font size
+        label.setAlignment(Align.center);
+
+        // Set up the table for UI layout
+        Table table = new Table();
+        table.setFillParent(true);
+        table.add(label).expandX().padTop(50);
+
+        // Add the table to the stage
+        stage.addActor(table);
     }
 
     /**
@@ -118,7 +146,7 @@ public class CutSceneScreen extends ScreenAdapter {
         logger.debug("Disposing CutScene screen");
         renderService.dispose();
         entityService.dispose();
-        resourceService.loadAll();
+        resourceService.dispose();
         spriteBatch.dispose();
         stage.dispose();
         cutSceneTexture.dispose();
