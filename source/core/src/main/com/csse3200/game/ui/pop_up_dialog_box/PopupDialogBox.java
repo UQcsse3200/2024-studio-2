@@ -96,8 +96,8 @@ public class PopupDialogBox extends Dialog {
         contentTable.add(innerTable).expandX().center().row();
 
         Table buttonTable = new Table();
-        buttonTable.add(confirmButton).width(200).height(50).padRight(10);
-        buttonTable.add(backButton).width(200).height(50);
+        buttonTable.add(confirmButton).width(dialogWidth * 0.3f).height(dialogHeight * 0.1f).padRight(10);
+        buttonTable.add(backButton).width(dialogWidth * 0.3f).height(dialogHeight * 0.1f);
 
         contentTable.add(buttonTable).padTop(10).expandX().center();
 

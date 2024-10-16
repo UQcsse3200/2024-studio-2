@@ -1,5 +1,6 @@
 package com.csse3200.game.components.animal;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,6 +17,8 @@ public class AnimalRouletteDisplay1 {
     private final CustomButton leftButton;
     private final CustomButton rightButton;
     private Image backgroundImage;
+    private final float SCREEN_WIDTH = Gdx.graphics.getWidth();
+    private final float SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
     public AnimalRouletteDisplay1(Stage stage, Skin skin) {
         this.stage = stage;
@@ -24,6 +27,11 @@ public class AnimalRouletteDisplay1 {
         this.leftButton = new CustomButton("<", skin);
         this.rightButton = new CustomButton(">", skin);
         this.backButton = new CustomButton("Go Back to Main Menu", skin);
+
+        this.animalImages = new Image[getAnimalImagePaths().length];
+        for (int i = 0; i < animalImages.length; i++) {
+            animalImages[i] = new Image(new Texture(getAnimalImagePaths()[i]));
+        }
 
         initializeDisplay();
     }
@@ -37,20 +45,29 @@ public class AnimalRouletteDisplay1 {
         animalImage = new Image(new Texture(animalImagePaths[0]));
 
         Table animalTable = new Table();
-        animalTable.add(leftButton).size(50, 50).padRight(20);
-        animalTable.add(animalImage).size(700, 700);
-        animalTable.add(rightButton).size(50, 50).padLeft(20);
+        animalTable.add(leftButton).size(SCREEN_WIDTH * 0.05f, SCREEN_HEIGHT * 0.05f).padRight(SCREEN_WIDTH * 0.02f);
+        animalTable.add(animalImage).size(700, 700); // Keep original size
+        animalTable.add(rightButton).size(SCREEN_WIDTH * 0.05f, SCREEN_HEIGHT * 0.05f).padLeft(SCREEN_WIDTH * 0.02f);
 
         mainTable.add(animalTable).expand().center();
         mainTable.row();
 
-        mainTable.add(backButton).width(200).height(50).padBottom(50);
+        mainTable.add(backButton).width(SCREEN_WIDTH * 0.2f).height(SCREEN_HEIGHT * 0.05f).padBottom(SCREEN_HEIGHT * 0.05f);
 
         updateBackground(0);
     }
 
     public void updateAnimalImage(String imagePath) {
-        animalImage.setDrawable(new Image(new Texture(imagePath)).getDrawable());
+        int index = java.util.Arrays.asList(getAnimalImagePaths()).indexOf(imagePath);
+        animalImage.setDrawable(animalImages[index].getDrawable());
+    }
+
+    public void highlightAnimal(int index) {
+        animalImages[index].setColor(1, 0, 0, 1);
+    }
+
+    public void resetAnimalColor(int index) {
+        animalImages[index].setColor(1, 1, 1, 1);
     }
 
     public void updateBackground(int index) {

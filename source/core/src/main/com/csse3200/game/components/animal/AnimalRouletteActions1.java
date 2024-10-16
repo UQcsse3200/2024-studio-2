@@ -19,6 +19,8 @@ public class AnimalRouletteActions1 {
     private static String selectedAnimalImagePath;
     private int currentAnimalIndex = 0;
     private final String[] animalImagePaths;
+    private int lastViewedAnimalIndex = -1;
+    private int selectedAnimalIndex;  // Add this line to declare the variable
 
     public AnimalRouletteActions1(AnimalRouletteDisplay1 display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
@@ -97,7 +99,29 @@ public class AnimalRouletteActions1 {
         String title = "Animal " + (currentAnimalIndex + 1);
         String content = display.getAnimalDescription(currentAnimalIndex);
         String confirmButtonText = getConfirmButtonText(currentAnimalIndex);
-        dialogHelper.displayDialog(title, content, selectedAnimalImagePath, 900f, 500f, currentAnimalIndex, confirmButtonText, this::switchToStoryScreen);
+        selectedAnimalIndex = currentAnimalIndex;  // Store the current index
+        dialogHelper.displayDialog(
+                title,
+                content,
+                selectedAnimalImagePath,
+                900f,
+                500f,
+                currentAnimalIndex,
+                confirmButtonText,
+                this::switchToStoryScreen  // Use method reference
+        );
+
+        // Update last viewed animal
+        if (lastViewedAnimalIndex != -1) {
+            display.resetAnimalColor(lastViewedAnimalIndex);
+        }
+        lastViewedAnimalIndex = currentAnimalIndex;
+        display.highlightAnimal(currentAnimalIndex);
+    }
+
+    private void switchToStoryScreen() {
+        String animalType = display.getAnimalType(selectedAnimalIndex);
+        game.setScreen(new StoryScreen(game, animalType));
     }
 
     private String getConfirmButtonText(int index) {
@@ -105,9 +129,6 @@ public class AnimalRouletteActions1 {
         return confirmTexts[index];
     }
 
-    private void switchToStoryScreen() {
-        game.setScreen(new StoryScreen(game, display.getAnimalType(currentAnimalIndex)));
-    }
 
     public void resetSelection() {
         if (selectedAnimalImage != null) {
