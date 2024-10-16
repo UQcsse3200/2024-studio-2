@@ -138,7 +138,16 @@ public class CombatManager extends Component {
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
 
+        int initialHealth = playerStats.getHealth();
+        int initialHunger = playerStats.getHunger();
+
         handleStatusEffects();
+
+        // Trigger popups for stats changes from status effects
+        CombatMove.StatsChange[] statusEffectsStatsChange = new CombatMove.StatsChange[]{new CombatMove.StatsChange(
+                playerStats.getHealth() - initialHealth, playerStats.getHunger() - initialHunger)};
+        entity.getEvents().trigger("playerHungerStatsChangePopup", statusEffectsStatsChange[0].getHungerChange());
+        entity.getEvents().trigger("enemyHealthStatsChangePopup", statusEffectsStatsChange[0].getHealthChange());
 
         checkCombatEnd();
     }
