@@ -17,10 +17,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
-
 /**
- * This class represents the login and registration display for the game.
- * It allows users to either login or register by using the PlayFab service.
+ * Represents the leaderboard display for mini-games in the game.
+ * It allows users to view the top scores for different mini-games
+ * (Snake, Bird, Fish) and switch between them. The class interacts with
+ * the PlayFab service to retrieve the leaderboard data and displays it
+ * to the user.
  */
 public class MinigameLeaderboard extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MinigameLeaderboard.class);
@@ -50,9 +52,12 @@ public class MinigameLeaderboard extends UIComponent {
     private CustomButton birdButton;
     private CustomButton fishButton;
     private MainMenuDisplay mainMenuDisplay;
+
     /**
-     * Constructor for LoginRegisterDisplay. Initializes PlayFab settings with the TitleId
-     * and prepares the display for user interaction.
+     * Constructor for MinigameLeaderboard. Initializes the PlayFab service
+     * with the provided TitleId and sets up the main display.
+     *
+     * @param mainMenuDisplay The main menu display to interact with
      */
     public MinigameLeaderboard(MainMenuDisplay mainMenuDisplay) {
         super();
@@ -66,10 +71,11 @@ public class MinigameLeaderboard extends UIComponent {
     }
 
     /**
-     * Constructs and returns the layout table containing all UI components, including input fields,
-     * buttons, and dynamic mode switching for login and registration.
+     * Creates and returns the main table for the leaderboard UI. This includes
+     * loading textures, setting up the table layout, and adding buttons for
+     * user interaction.
      *
-     * @return Table containing the login or registration form.
+     * @return A Table containing the leaderboard UI elements
      */
     public Table makeLeaderboardTable() {// Create table for layout
         loadTextures();
@@ -88,8 +94,8 @@ public class MinigameLeaderboard extends UIComponent {
     }
 
     /**
-     * Initializes the layout of the table.
-     * This includes setting up the background, size, and title label.
+     * Initializes the table layout for the leaderboard, including setting the background,
+     * size, and title label.
      */
     public void initializeTable() {
         table = new Table();
@@ -99,12 +105,18 @@ public class MinigameLeaderboard extends UIComponent {
         table.setBackground(new TextureRegionDrawable(new TextureRegion(backgroundTexture)));
         table.setSize(300, 450);
         title = new Label("Leaderboard", skin, "title-white");
+        gameTitle = new Label("Snake", skin, "large-white");
         warningLabel = new Label("You need to login to see the leaderboard", skin, "large-white");
         warningLabel.setWrap(true);
         warningLabel.setAlignment(Align.center);
         userNameLabels = new ArrayList<>();
         highScoreLabel = new ArrayList<>();
     }
+
+    /**
+     * Updates the leaderboard data by fetching the latest usernames and scores
+     * from the PlayFab service and refreshing the UI.
+     */
     public void updateLeaderboard() {
         userNames = playFab.getUsernames();
         highScores = playFab.getHighscores();
@@ -125,7 +137,8 @@ public class MinigameLeaderboard extends UIComponent {
     }
 
     /**
-     * Adds buttons for form submission, switching between login/register modes, and closing the display.
+     * Adds buttons to the leaderboard display for refreshing data, switching between mini-games,
+     * and closing the leaderboard.
      */
     private void addButtons() {
         closeButton = new Button(new TextureRegionDrawable(new TextureRegion(closeButtonTexture)));
@@ -153,12 +166,15 @@ public class MinigameLeaderboard extends UIComponent {
     }
 
     /**
+     * Refreshes the leaderboard data for the specified mini-game.
      *
+     * @param name The name of the mini-game ("Snake", "Bird", "Fish", or "Current")
      */
     public void refreshLeaderboard(String name) {
         if (!name.equals("Current")) {
             currentIdx = gameName.indexOf(name);
         }
+        gameTitle.setText(gameName.get(currentIdx) + " Leaderboard");
         PlayFab.submitScore(gameName.get(currentIdx), 0);
         PlayFab.updateLeaderboard(gameName.get(currentIdx));
         updateLeaderboard();
@@ -166,7 +182,8 @@ public class MinigameLeaderboard extends UIComponent {
     }
 
     /**
-     * Updates the UI elements to reflect the current mode (login or register).
+     * Updates the UI elements to reflect the current leaderboard data.
+     * It clears the previous UI and adds new elements for the updated data.
      */
     private void updateUI() {
         topTable.clear();
@@ -180,6 +197,8 @@ public class MinigameLeaderboard extends UIComponent {
 
         if (PlayFab.isLogin) {
             // Add table headers for username and score
+            contentTable.add(gameTitle).top().padTop(30).center();
+            contentTable.row();
             contentTable.add(new Label("Username", skin, "large-white")).padRight(30f).left().top();
             contentTable.add(new Label("Score", skin, "large-white")).padLeft(30f).right().top();
 
@@ -212,24 +231,47 @@ public class MinigameLeaderboard extends UIComponent {
         }
     }
 
+    /**
+     * Retrieves the list of usernames currently displayed on the leaderboard.
+     *
+     * @return A list of usernames
+     */
     public ArrayList<String> getUsernames() {
         return userNames;
     }
 
+    /**
+     * Retrieves the list of high scores currently displayed on the leaderboard.
+     *
+     * @return A list of high scores
+     */
     public ArrayList<String> getHighscores() {
         return highScores;
     }
 
+    /**
+     * Gets the Z-index used for rendering this UI component.
+     *
+     * @return The Z-index value
+     */
     @Override
     public float getZIndex() {
         return Z_INDEX;
     }
 
+    /**
+     * Draws the component. Currently not used as the drawing is handled by the Scene2D tables.
+     *
+     * @param batch The SpriteBatch used for drawing
+     */
     @Override
     protected void draw(SpriteBatch batch) {
 
     }
 
+    /**
+     * Releases all resources of Disposable object.
+     */
     @Override
     public void dispose() {
         table.clear();

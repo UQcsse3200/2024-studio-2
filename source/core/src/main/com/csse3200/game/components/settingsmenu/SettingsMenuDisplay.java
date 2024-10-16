@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.utils.StringDecorator;
 import org.slf4j.Logger;
@@ -195,24 +196,16 @@ public class SettingsMenuDisplay extends UIComponent {
     }
 
     private Table makeMenuBtns() {
-        TextButton exitBtn = new TextButton("Exit", skin);
-        TextButton applyBtn = new TextButton("Apply", skin);
+        CustomButton exitBtn = new CustomButton("Exit", skin);
+        CustomButton applyBtn = new CustomButton("Apply", skin);
 
-        exitBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
+        exitBtn.addClickListener(() -> {
                         logger.info("Exit button clicked");
-                    }
                 });
 
-        applyBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
+        applyBtn.addClickListener(() -> {
                         logger.info("Apply button clicked");
                         applyChanges();
-                    }
                 });
 
 

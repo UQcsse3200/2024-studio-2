@@ -115,6 +115,7 @@ public class LoginRegisterDisplay extends UIComponent {
             NotifManager.displayNotif(response.getResult(), response.getIsSucceed());
             if (response.getIsSucceed()) {
                 table.setVisible(false);
+                mainMenuDisplay.setMenuTouchable();
             }
         });
 

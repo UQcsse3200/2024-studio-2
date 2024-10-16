@@ -250,6 +250,9 @@ public class ForestGameArea extends GameArea {
         }
     }
 
+    /**
+     * Handles the spawn of the three region items
+     */
     private void handleItems() {
 
         spawnForestItems();
