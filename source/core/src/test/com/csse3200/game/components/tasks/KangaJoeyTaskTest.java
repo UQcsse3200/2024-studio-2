@@ -66,26 +66,15 @@ public class KangaJoeyTaskTest {
     }
 
     @Test
-    public void shouldSpawnJoeyWhenInRangeAndUnderMaxSpawns() {
-        // Set the task's internal state
-        kangaJoeyTask.update(); // Update should check distance and trigger spawning
+    public void shouldReturnNegativePriorityWhenTooFar() {
+        // Set target's position out of range
+        when(targetEntity.getPosition()).thenReturn(new Vector2(10, 10)); // Far out of range
 
-        // Verify that the "spawnJoey" event was triggered
-        verify(eventHandler, times(1)).trigger(eq("spawnJoey"), eq(ownerEntity));
-    }
+        // Simulate task is active
+        kangaJoeyTask.start();
 
-    @Test
-    public void shouldNotSpawnJoeyWhenMaxSpawnsReached() {
-        // Simulate spawning Joeys up to the max spawn limit
-        for (int i = 0; i < maxSpawns; i++) {
-            kangaJoeyTask.update();
-        }
-
-        // Try to update after max spawns
-        kangaJoeyTask.update();
-
-        // Verify that the event was triggered only the maximum number of times (3 in this case)
-        verify(eventHandler, times(maxSpawns)).trigger(eq("spawnJoey"), eq(ownerEntity));
+        // Check that the priority is -1 when too far from the target
+        assertEquals(-1, kangaJoeyTask.getPriority());
     }
 
     @Test
@@ -104,4 +93,34 @@ public class KangaJoeyTaskTest {
         // Also verify no new Joey spawns after the target is out of range
         verify(eventHandler, times(1)).trigger(eq("spawnJoey"), eq(ownerEntity));
     }
+
+    @Test
+    public void shouldNotSpawnJoeyWhenMaxSpawnsReached() {
+        // Set target's position within range
+        when(targetEntity.getPosition()).thenReturn(new Vector2(3, 3));
+
+        // Simulate reaching the maximum number of spawns
+        for (int i = 0; i < maxSpawns; i++) {
+            kangaJoeyTask.update(); // This should spawn a joey each time
+        }
+
+        // Try to spawn another Joey, but maxSpawns has been reached
+        kangaJoeyTask.update();
+
+        // Verify that no more than maxSpawns Joeys are spawned
+        verify(eventHandler, times(maxSpawns)).trigger(eq("spawnJoey"), eq(ownerEntity));
+    }
+
+    @Test
+    public void shouldReturnPriorityWhenWithinRange() {
+        // Set target's position within range
+        when(targetEntity.getPosition()).thenReturn(new Vector2(3, 3));
+
+        // Simulate task is inactive
+        kangaJoeyTask.update(); // This should set it to inactive
+
+        // Check that the priority is the defined PRIORITY when in range
+        assertEquals(5, kangaJoeyTask.getPriority());
+    }
+
 }
