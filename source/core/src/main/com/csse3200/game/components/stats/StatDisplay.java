@@ -22,6 +22,11 @@ import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 
 /**
  * Display detailed stats after defeating the final boss of the game.
@@ -78,6 +83,7 @@ public class StatDisplay extends UIComponent {
         Table menuBtns = makeMenuBtns();
 
         Stack tabContentStack = new Stack();
+        Stack enemyTypeStack = new Stack();
 
         // Populate tables with stat data
         Table itemsTable = makeLogbookTable(Stat.StatType.ITEM);
@@ -88,7 +94,13 @@ public class StatDisplay extends UIComponent {
         Table playerTable = makeLogbookTable(Stat.StatType.PLAYER);
         //playerTable.add(new Label("Content for Tab 3", skin));
 
+        // Initialise placeholder logbook tables for enemy sub-tabs
+        Table landEnemyTable = makeLogbookTable(Stat.StatType.ENEMY);
+        Table waterEnemyTable = makeLogbookTable(Stat.StatType.ENEMY);
+        Table airEnemyTable = makeLogbookTable(Stat.StatType.ENEMY);
+
         Table tabs = makeTabs(itemsTable, enemiesTable, playerTable);
+        Table enemyTabs = makeEnemyTabs(landEnemyTable, waterEnemyTable, airEnemyTable);
 
         // Add content tables to the stack
         tabContentStack.add(itemsTable);
@@ -98,6 +110,25 @@ public class StatDisplay extends UIComponent {
         itemsTable.setVisible(false);
         enemiesTable.setVisible(true);
         playerTable.setVisible(false);
+
+        // Add sub-tabs to the enemies table
+        enemiesTable.add(enemyTabs).colspan(4).fillX(); // Subtab layout
+        enemiesTable.row(); // Move to the next row for content
+
+        // Initialize the visibility of the subtab content (only Land visible initially)
+        landEnemyTable.setVisible(false);
+        waterEnemyTable.setVisible(false);
+        airEnemyTable.setVisible(true);
+
+        // Add the enemy content tables to the stack
+        enemyTypeStack.add(landEnemyTable);
+        enemyTypeStack.add(waterEnemyTable);
+        enemyTypeStack.add(airEnemyTable);
+
+        // Add the enemy stack to the enemies table
+        enemiesTable.add(enemyTypeStack).colspan(4).fillX();
+
+
 
         rootTable.add(tabs).fillX().row();
         rootTable.add(tabContentStack).expand().fill();
@@ -123,7 +154,7 @@ public class StatDisplay extends UIComponent {
         lastPressedButton[0] = newButton;  // Update the last pressed "button"
     }
 
-    Table makeTabs(Table itemsTable, Table enemiesTable, Table achievementsTable) {
+    Table makeTabs(Table itemsTable, Table enemiesTable, Table playersTable) {
         Table tabButtonTable = new Table().padLeft(50);
 
         // Background images for the tabs
@@ -175,7 +206,7 @@ public class StatDisplay extends UIComponent {
             public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(true);
                 enemiesTable.setVisible(false);
-                achievementsTable.setVisible(false);
+                playersTable.setVisible(false);
                 updateHoverEffect(itemTable);  // Update hover effect
             }
         });
@@ -185,7 +216,7 @@ public class StatDisplay extends UIComponent {
             public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(true);
-                achievementsTable.setVisible(false);
+                playersTable.setVisible(false);
                 updateHoverEffect(enemyTable);
             }
         });
@@ -195,7 +226,7 @@ public class StatDisplay extends UIComponent {
             public void clicked(InputEvent event, float x, float y) {
                 itemsTable.setVisible(false);
                 enemiesTable.setVisible(false);
-                achievementsTable.setVisible(true);
+                playersTable.setVisible(true);
                 updateHoverEffect(playerTable);
             }
         });
@@ -211,21 +242,96 @@ public class StatDisplay extends UIComponent {
         return tabButtonTable;
     }
 
+    /**
+     * Create Enemy statistics sub-tabs to distinguish area (LAND, OCEAN, AIR)
+     * the enemy is from.
+     * @param landEnemyTable The table displaying land enemy stats.
+     * @param waterEnemyTable The table displaying water enemy stats.
+     * @param airEnemyTable The table displaying air enemy stats.
+     * @return Tabs for land water and air enemies.
+     */
+    Table makeEnemyTabs(Table landEnemyTable, Table waterEnemyTable, Table airEnemyTable) {
+        Table tabButtonTable = new Table().padLeft(50);
+
+        // Tab label names
+        Label landEnemyLabel = new Label("Land Enemies", skin);
+        Label waterEnemyLabel = new Label("Water Enemies", skin);
+        Label airEnemyLabel = new Label("Air Enemies", skin);
+
+        // Set the alignment and font size for the labels
+        landEnemyLabel.setFontScale(1.5f);
+        waterEnemyLabel.setFontScale(1.5f);
+        airEnemyLabel.setFontScale(1.5f);
+        landEnemyLabel.setAlignment(Align.center);
+        waterEnemyLabel.setAlignment(Align.center);
+        airEnemyLabel.setAlignment(Align.center);
+
+        // Create tables for each tab to display stats
+        Table landEnemyTab = new Table();
+        Table waterEnemyTab = new Table();
+        Table airEnemyTab = new Table();
+
+        // Add the button tables to the main table
+        tabButtonTable.left().top();
+        tabButtonTable.add(landEnemyTab).left().padRight(10);
+        tabButtonTable.add(waterEnemyTab).left().padRight(10);
+        tabButtonTable.add(airEnemyTab).left();
+
+        // Add event listeners to simulate button clicks using ClickListener
+        landEnemyTab.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                landEnemyTable.setVisible(true);
+                waterEnemyTable.setVisible(false);
+                airEnemyTable.setVisible(false);
+                updateHoverEffect(landEnemyTable);  // Update hover effect
+            }
+        });
+
+        waterEnemyTab.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                landEnemyTable.setVisible(false);
+                waterEnemyTable.setVisible(true);
+                airEnemyTable.setVisible(false);
+                updateHoverEffect(waterEnemyTable);
+            }
+        });
+
+        airEnemyTab.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                landEnemyTable.setVisible(false);
+                waterEnemyTable.setVisible(false);
+                airEnemyTable.setVisible(true);
+                updateHoverEffect(airEnemyTable);
+            }
+        });
+
+        // Add elevation effects to the tables
+        addTableElevationEffect(landEnemyTab);
+        addTableElevationEffect(waterEnemyTab);
+        addTableElevationEffect(airEnemyTab);
+
+        // Set the initial hover effect
+        updateHoverEffect(landEnemyTab);
+
+        return tabButtonTable;
+    }
+
 
     /**
      * Creates the Table for the visual representation of end game statistics.
      * @return The Table showing stats.
      */
     private Table makeLogbookTable(Stat.StatType type) {
-        Table table = new Table();
-        table.top().pad(10);  // Adds padding around the top of the table
-        table.padLeft(200);  // Adds padding around the left of the table
+        Table table = new Table().left().top().padLeft(50);
 
         // Create and add the title label at the top of the table
         String modifiedType = type.name().charAt(0) + type.name().substring(1).toLowerCase();
         Label titleLabel = new Label(modifiedType + " Statistics", skin);
         titleLabel.setFontScale(2.0f); // Set the font size
-        table.add(titleLabel).colspan(4).padLeft(-100).padBottom(35).padTop(35);  // Spanning across both columns and adding some padding below
+        table.add(titleLabel).center().padTop(35).padBottom(20);  // Spanning across both columns and adding some padding below
         table.row();
         int count = 0;
 
@@ -233,7 +339,7 @@ public class StatDisplay extends UIComponent {
         for (Stat stat : stats) {
             // Log 2 stats per row
             logger.info("stat is: {}", stat);
-            if (stat.getCurrent() != 0 && stat.getType() == type) {
+            if (stat.getType() == type) {
                 // Create labels to display stat information
                 Label statNameLabel = new Label(String.valueOf(stat.getStatDescription()), skin);
                 Label statCurrentLabel = new Label(String.valueOf(stat.getCurrent()), skin);
@@ -243,24 +349,45 @@ public class StatDisplay extends UIComponent {
                 statCurrentLabel.setFontScale(1.5f);
 
                 // Add stat labels to the table
-                table.add(statNameLabel).uniform().pad(10).padBottom(10);
-                table.add(statCurrentLabel).uniform().pad(10).padBottom(20);
+                table.add(statNameLabel).expandX().padBottom(5);
+                table.add(statCurrentLabel).expandX().padBottom(15);
                 count++;
 
                 if (count % 2 == 0) {
                     logger.info("count is even");
                     table.row();
                     // Add a physical line as a separator
-                    String statSeparator = "--------------------------------------------------------------------------------------------------";
-                    Label separator = new Label(statSeparator, skin);
-                    separator.setFontScale(1.2f); // Adjust line thickness/size
-                    separator.setAlignment(Align.center);
-                    table.add(separator).colspan(4).padLeft(-125);  // Spanning across both columns
+                    float lineHeight = 2f; // Set line height/thickness
+                    float lineWidth = Gdx.graphics.getWidth();
+                    Image separator = createSeparator(lineWidth, lineHeight, Color.BLACK); // Adjust width as needed
+                    table.add(separator).colspan(4).fillX().padBottom(20);
                     table.row();
                 }
             }
         }
         return table;
+    }
+
+    /**
+     * Helper function to create a line separator between statistics
+     * @param width the width of the separator
+     * @param height the height of the separator
+     * @param color the colour of the separator
+     * @return the drawable image line separator
+     */
+    private Image createSeparator(float width, float height, Color color) {
+        // Create a Pixmap for the line
+        Pixmap pixmap = new Pixmap((int) width, (int) height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(color);
+        pixmap.fill();
+
+        // Create a drawable from the pixmap
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new Texture(pixmap));
+
+        // Dispose of the pixmap to free up resources
+        pixmap.dispose();
+
+        return new Image(drawable);
     }
 
 

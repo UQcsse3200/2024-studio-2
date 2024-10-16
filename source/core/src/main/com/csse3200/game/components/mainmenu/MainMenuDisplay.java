@@ -74,6 +74,8 @@ public class MainMenuDisplay extends UIComponent {
     private CustomButton minigamesBtn;
     private CustomButton settingsBtn;
     private CustomButton achievementsBtn;
+    private CustomButton statsBtn;
+
     private CustomButton helpBtn;
     private CustomButton exitBtn;
     private Label versionLabel;
@@ -505,6 +507,11 @@ public class MainMenuDisplay extends UIComponent {
             entity.getEvents().trigger("achievements");
         });
 
+        statsBtn = createMenuButton("Stats", () -> {
+            logger.info("Stats button clicked");
+            entity.getEvents().trigger("stats");
+        });
+
         entity.getEvents().addListener("help", this::showHelpWindow);
         helpBtn = createMenuButton("Help", () -> {
             logger.info("Help button clicked");
@@ -558,6 +565,7 @@ public class MainMenuDisplay extends UIComponent {
         loadBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         minigamesBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         achievementsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        statsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         settingsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         helpBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         exitBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
@@ -573,6 +581,8 @@ public class MainMenuDisplay extends UIComponent {
         menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(achievementsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(statsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
         menuButtonTable.row();
