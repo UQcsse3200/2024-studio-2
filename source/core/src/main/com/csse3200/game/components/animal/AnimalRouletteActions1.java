@@ -96,11 +96,38 @@ public class AnimalRouletteActions1 {
     }
 
     private void selectCurrentAnimal() {
+        // Reset appearance of previously selected animal
+        if (selectedAnimalImage != null) {
+            resetAnimalAppearance(selectedAnimalImage);
+        }
+
+        // Select the new animal
         selectedAnimalImage = display.getAnimalImage();
         selectedAnimalImagePath = animalImagePaths[currentAnimalIndex];
         GameState.player.selectedAnimalPath = selectedAnimalImagePath;
         logger.debug("Animal selected: {}", selectedAnimalImagePath);
+
+        // Highlight the selected animal
+        highlightSelectedAnimal(selectedAnimalImage);
     }
+    /**
+     * Highlights the selected animal with a red border or tint.
+     * @param animalImage The Image of the selected animal to be highlighted.
+     */
+    private void highlightSelectedAnimal(Image animalImage) {
+
+        animalImage.setColor(1, 0, 0, 1);  // Red color (R, G, B, A)
+    }
+
+    /**
+     * Resets the appearance of the previously selected animal.
+     * @param animalImage The Image of the previously selected animal to be reset.
+     */
+    private void resetAnimalAppearance(Image animalImage) {
+        animalImage.setColor(1, 1, 1, 1);  // Reset to original
+    }
+
+
 
     private void showSelectionAlert() {
         AlertBox alertBox = new AlertBox("Please select an animal first.", display.getSkin(), 400f, 200f);
