@@ -167,12 +167,27 @@ public class Quest {
         return isActive;
     }
 
+    /**
+     * Sets the active state of the quest
+     * @param active whether the quest should become active
+     */
     public void setActive(boolean active) { this.isActive = active; }
 
+    /**
+     * Returns a list of DialogueKeys indicating the quest dialogue.
+     * @return the list of quest dialogue
+     */
     public List<DialogueKey> getQuestDialogue() { return questDialogue; }
 
+    /**
+     * Returns a list of strings indicating precursor quests.
+     * @return the list of quests that must be completed for this one to become active
+     */
     public String[] getFollowQuests() { return followQuests; }
 
+    /**
+     * A builder class for the quest, wrapping the private constructor.
+     */
     public static class QuestBuilder {
         String name;
         String description;
@@ -188,6 +203,10 @@ public class Quest {
             this.name = name;
         }
 
+        /**
+         * Constructs the final quest instance.
+         * @return the constructed quest instance
+         */
         public Quest build() {
             return new Quest(
                     name,
@@ -202,46 +221,81 @@ public class Quest {
             );
         }
 
-        public QuestBuilder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
+        /**
+         * Sets the description of the quest
+         * @param description the description of the quest
+         * @return this QuestBuilder
+         */
         public QuestBuilder setDescription(String description) {
             this.description = description;
             return this;
         }
 
+        /**
+         * Adds a task to the quest
+         * @param task the task to be added
+         * @return this QuestBuilder
+         */
         public QuestBuilder addTask(Task task) {
             this.tasks.add(task);
             return this;
         }
 
+        /**
+         * Adds dialogue to the quest
+         * @param dialogueKey the dialogue to be added
+         * @return this QuestBuilder
+         */
         public QuestBuilder addDialogueKey(DialogueKey dialogueKey) {
             this.dialogueKeys.add(dialogueKey);
             return this;
         }
 
+        /**
+         * Adds a trigger to the quest
+         * @param trigger the trigger to be added
+         * @return this QuestBuilder
+         */
         public QuestBuilder addTrigger(String trigger) {
             this.triggers.add(trigger);
             return this;
         }
 
+        /**
+         * Sets the active state of the quest
+         * @param active the new active state
+         * @return this QuestBuilder
+         */
         public QuestBuilder setActive(boolean active) {
             this.active = active;
             return this;
         }
 
+        /**
+         * Sets the task index of the quest
+         * @param index the new task index
+         * @return this QuestBuilder
+         */
         public QuestBuilder setIndex(int index) {
             this.index = index;
             return this;
         }
 
+        /**
+         * Adds a prerequisite quest to the quest
+         * @param follow the prerequisite quest name to be added
+         * @return this QuestBuilder
+         */
         public QuestBuilder addFollowQuest(String follow) {
             this.follow.add(follow);
             return this;
         }
 
+        /**
+         * Sets the failed state of the quest
+         * @param failed the new failed state
+         * @return this QuestBuilder
+         */
         public QuestBuilder setFailed(boolean failed) {
             this.failed = failed;
             return this;
