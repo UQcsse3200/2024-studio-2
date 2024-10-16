@@ -26,12 +26,15 @@ public class CombatMoveComponent extends Component {
      * Executes a move based on the provided action. Uses the entity's own stats as the attacker.
      *
      * @param action the action that specifies which move to execute.
+     * @return an array of {@link CombatMove.StatsChange}, representing the changes in stats
+     *         after the move execution. If no valid move is found, an empty array is returned.
      */
-    public void executeMove(CombatManager.Action action) {
+    public CombatMove.StatsChange[] executeMove(CombatManager.Action action) {
         CombatMove move = getMoveAction(action);
         if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class));
+            return move.execute(entity.getComponent(CombatStatsComponent.class));
         }
+        return new CombatMove.StatsChange[0];
     }
 
     /**
@@ -39,12 +42,15 @@ public class CombatMoveComponent extends Component {
      *
      * @param action the action that specifies which move to execute.
      * @param target the target's combat stats component.
+     * @return an array of {@link CombatMove.StatsChange}, representing the changes in stats
+     *         after the move execution. If no valid move is found, an empty array is returned.
      */
-    public void executeMove(CombatManager.Action action, CombatStatsComponent target) {
+    public CombatMove.StatsChange[] executeMove(CombatManager.Action action, CombatStatsComponent target) {
         CombatMove move = getMoveAction(action);
         if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class), target); // entity is the attacker
+            return move.execute(entity.getComponent(CombatStatsComponent.class), target); // entity is the attacker
         }
+        return new CombatMove.StatsChange[0];
     }
 
     /**
@@ -54,12 +60,15 @@ public class CombatMoveComponent extends Component {
      * @param action         the action that specifies which move to execute.
      * @param target         the target's combat stats component.
      * @param targetIsGuarded whether the target is guarding, reducing the effectiveness of the attack.
+     * @return an array of {@link CombatMove.StatsChange}, representing the changes in stats
+     *         after the move execution. If no valid move is found, an empty array is returned.
      */
-    public void executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded) {
+    public CombatMove.StatsChange[] executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded) {
         CombatMove move = getMoveAction(action);
         if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded); // entity is the attacker
+            return move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded); // entity is the attacker
         }
+        return new CombatMove.StatsChange[0];
     }
 
     /**
@@ -70,13 +79,16 @@ public class CombatMoveComponent extends Component {
      * @param target         the target's combat stats component.
      * @param targetIsGuarded whether the target is guarding.
      * @param numHitsLanded  the number of hits landed in a multi-hit move.
+     * @return an array of {@link CombatMove.StatsChange}, representing the changes in stats
+     *         after the move execution. If no valid move is found, an empty array is returned.
      */
-    public void executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded,
-                            int numHitsLanded) {
+    public CombatMove.StatsChange[] executeMove(CombatManager.Action action, CombatStatsComponent target, boolean targetIsGuarded,
+                                              int numHitsLanded) {
         CombatMove move = getMoveAction(action);
         if (move != null) {
-            move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded, numHitsLanded); // entity is the attacker
+            return move.execute(entity.getComponent(CombatStatsComponent.class), target, targetIsGuarded, numHitsLanded); // entity is the attacker
         }
+        return new CombatMove.StatsChange[0];
     }
 
     /**

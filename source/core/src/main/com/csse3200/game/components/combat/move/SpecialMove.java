@@ -27,10 +27,13 @@ public abstract class SpecialMove extends CombatMove {
      * a default error message if invoked with insufficient parameters.
      *
      * @param attackerStats the combat stats of the attacker.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
         logger.error("Special move needs more arguments.");
+        return new StatsChange[0];
     }
 
     /**
@@ -40,10 +43,12 @@ public abstract class SpecialMove extends CombatMove {
      *
      * @param attackerStats the combat stats of the attacker.
      * @param targetStats   the combat stats of the target.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats, targetStats, false);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -53,11 +58,13 @@ public abstract class SpecialMove extends CombatMove {
      * @param targetStats     the combat stats of the target.
      * @param targetIsGuarded whether the target is guarded.
      * @param numHitsLanded   the number of hits landed (not used in this implementation).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats, targetStats, false);
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -67,9 +74,12 @@ public abstract class SpecialMove extends CombatMove {
      * @param attackerStats   the combat stats of the attacker.
      * @param targetStats     the combat stats of the target.
      * @param targetIsGuarded whether the target is guarded.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        StatsChange[] statsChanges = new StatsChange[1];
         if (attackerStats != null && targetStats != null) {
             logger.info("{} used a special move.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY");
@@ -83,9 +93,11 @@ public abstract class SpecialMove extends CombatMove {
 
             applyBuffs(attackerStats);
             attackerStats.addHunger(-getHungerCost());
+            statsChanges[0] = new StatsChange(0, -getHungerCost());
         } else {
             logger.error("Either attacker or target does not have CombatStatsComponent.");
         }
+        return statsChanges;
     }
 
     /**

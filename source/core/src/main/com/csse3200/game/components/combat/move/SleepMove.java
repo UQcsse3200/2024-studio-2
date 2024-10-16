@@ -26,21 +26,30 @@ public class SleepMove extends CombatMove {
      * Health will not be restored if the Poisoned status effect is applied.
      *
      * @param attackerStats the combat stats of the entity performing the sleep move.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
+        StatsChange[] statsChanges = new StatsChange[1];
         if (attackerStats != null) {
-            attackerStats.addHunger((int) (0.25 * attackerStats.getMaxHunger()));
-            if (!attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) {
-                attackerStats.addHealth((int) (0.1 * attackerStats.getMaxHealth()));
-            }
+            int initialHunger = attackerStats.getHunger();
+            int initialHealth = attackerStats.getHealth();
+            attackerStats.addHunger((int) (Math.max(0.25 * attackerStats.getMaxHunger(), 1)));
+            // Healing from Sleep is disabled when Poisoned
+            int healthChange = (attackerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)) ?
+                    0 : (int) (0.1 * attackerStats.getMaxHealth());
+            attackerStats.addHealth(healthChange);
             logger.info("{} sleeps: increased hunger to {} and health to {}.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                     attackerStats.getHunger(),
                     attackerStats.getHealth());
+            statsChanges[0] = new StatsChange(Math.min(healthChange, attackerStats.getMaxHealth() - initialHealth),
+                    attackerStats.getHunger() - initialHunger);
         } else {
             logger.error("Entity does not have CombatStatsComponent");
         }
+        return statsChanges;
     }
 
     /**
@@ -48,10 +57,12 @@ public class SleepMove extends CombatMove {
      *
      * @param attackerStats the combat stats of the entity performing the sleep move.
      * @param targetStats   the combat stats of the target (ignored for sleep moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats);
     }
 
     /**
@@ -60,10 +71,12 @@ public class SleepMove extends CombatMove {
      * @param attackerStats   the combat stats of the entity performing the sleep move.
      * @param targetStats     the combat stats of the target (ignored for sleep moves).
      * @param targetIsGuarded whether the target is guarding (ignored for sleep moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats);
     }
 
     /**
@@ -73,10 +86,12 @@ public class SleepMove extends CombatMove {
      * @param targetStats     the combat stats of the target (ignored for sleep moves).
      * @param targetIsGuarded whether the target is guarding (ignored for sleep moves).
      * @param numHitsLanded   the number of hits landed (ignored for sleep moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats);
+        return execute(attackerStats);
     }
 }
