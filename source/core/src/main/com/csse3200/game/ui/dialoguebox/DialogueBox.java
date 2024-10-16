@@ -54,7 +54,7 @@ public class DialogueBox {
     public DialogueBox(Stage stage) {
         this.stage = stage;
         dialogueBoxInitialisation(true);
-        
+
     }
 
     /**
@@ -684,6 +684,6 @@ public class DialogueBox {
      * @return boolean representing if the dialogue box is visible.
      */
     public boolean getIsVisible() {
-       return isVisible;
+        return isVisible;
     }
 }

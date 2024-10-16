@@ -1,5 +1,6 @@
 package com.csse3200.game.components.inventory;
 
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
@@ -18,8 +19,8 @@ public class CombatInventoryDisplay extends InventoryDisplay {
      * @param hotBarCapacity The number of slots allocated to the hotBar
      * @throws IllegalArgumentException if numCols is less than 1 or if capacity is not divisible by numCols.
      */
-    public CombatInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
-        super(inventory, numCols, hotBarCapacity, false);
+    public CombatInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity, GdxGame game) {
+        super(inventory, numCols, hotBarCapacity, false, game);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class AttackMove extends CombatMove {
     /**
      * Constructor for the AttackMove.
      *
-     * @param moveName    the name of the move.
+     * @param moveName   the name of the move.
      * @param hungerCost the amount of hunger required to perform the move.
      */
     public AttackMove(String moveName, int hungerCost) {
@@ -26,10 +26,12 @@ public class AttackMove extends CombatMove {
      * for this method to be functional.
      *
      * @param attackerStats combat stats of the attacker.
+     * @return an empty array of {@link StatsChange} since this method cannot perform a valid attack.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
         logger.error("Attack move needs more arguments.");
+        return new StatsChange[0];
     }
 
     /**
@@ -37,10 +39,12 @@ public class AttackMove extends CombatMove {
      *
      * @param attackerStats combat stats of the attacker.
      * @param targetStats   combat stats of the target.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats, targetStats, false);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -50,10 +54,12 @@ public class AttackMove extends CombatMove {
      * @param attackerStats   combat stats of the attacker.
      * @param targetStats     combat stats of the target.
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats, targetStats, targetIsGuarded, 1);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats, targetStats, targetIsGuarded, 1);
     }
 
     /**
@@ -64,10 +70,13 @@ public class AttackMove extends CombatMove {
      * @param targetStats     combat stats of the target.
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
      * @param numHitsLanded   the number of hits that successfully land during a multi-hit attack.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
+        StatsChange[] statsChanges = new StatsChange[numHitsLanded];
         for (int hitNumber = 0; hitNumber < numHitsLanded; hitNumber++) {
             if (attackerStats != null && targetStats != null) {
                 int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded, hitNumber);
@@ -75,11 +84,15 @@ public class AttackMove extends CombatMove {
                         attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                         damage);
                 targetStats.setHealth(targetStats.getHealth() - damage);
-                attackerStats.addHunger(-(this.getHungerCost()));
+                // For multi-hit attacks, only consume hunger once
+                int hungerChange = (hitNumber == 0) ? -this.getHungerCost() : 0;
+                attackerStats.addHunger(hungerChange);
+                statsChanges[hitNumber] = new StatsChange(-damage, hungerChange);
             } else {
                 logger.error("Either attacker or target does not have CombatStatsComponent.");
             }
         }
+        return statsChanges;
     }
 
     /**

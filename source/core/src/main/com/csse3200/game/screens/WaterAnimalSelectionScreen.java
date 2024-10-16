@@ -4,16 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 
 public class WaterAnimalSelectionScreen extends ScreenAdapter {
@@ -37,12 +33,12 @@ public class WaterAnimalSelectionScreen extends ScreenAdapter {
     private PopUpHelper popUpHelper;
 
     // UI elements
-    private TextButton leftButton;
-    private TextButton rightButton;
-    private TextButton continueButton;
-    private TextButton backButton;
-    private TextButton landAnimalsButton;
-    private TextButton airAnimalsButton;
+    private CustomButton leftButton;
+    private CustomButton rightButton;
+    private CustomButton continueButton;
+    private CustomButton backButton;
+    private CustomButton landAnimalsButton;
+    private CustomButton airAnimalsButton;
 
     public WaterAnimalSelectionScreen(GdxGame game) {
         this.game = game;
@@ -71,12 +67,12 @@ public class WaterAnimalSelectionScreen extends ScreenAdapter {
         stage.addActor(animalImage);
 
         // Create buttons
-        leftButton = new TextButton("<", skin);
-        rightButton = new TextButton(">", skin);
-        continueButton = new TextButton("Continue", skin);
-        backButton = new TextButton("Go Back", skin);
-        landAnimalsButton = new TextButton("Land Animals", skin);
-        airAnimalsButton = new TextButton("Air Animals", skin);
+        leftButton = new CustomButton("<", skin);
+        rightButton = new CustomButton(">", skin);
+        continueButton = new CustomButton("Continue", skin);
+        backButton = new CustomButton("Go Back", skin);
+        landAnimalsButton = new CustomButton("Land Animals", skin);
+        airAnimalsButton = new CustomButton("Air Animals", skin);
 
         // Add actors to stage
         stage.addActor(leftButton);
@@ -94,50 +90,37 @@ public class WaterAnimalSelectionScreen extends ScreenAdapter {
     }
 
     private void addListeners() {
-        leftButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                currentAnimalIndex = (currentAnimalIndex - 1 + waterAnimalImages.length) % waterAnimalImages.length;
-                updateAnimalImage();
-            }
+        leftButton.addClickListener(() -> {
+            currentAnimalIndex = (currentAnimalIndex - 1 + waterAnimalImages.length) % waterAnimalImages.length;
+            updateAnimalImage();
         });
 
-        rightButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                currentAnimalIndex = (currentAnimalIndex + 1) % waterAnimalImages.length;
-                updateAnimalImage();
-            }
+        rightButton.addClickListener(() -> {
+            currentAnimalIndex = (currentAnimalIndex + 1) % waterAnimalImages.length;
+            updateAnimalImage();
+
         });
 
-        continueButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showAnimalStats();
-            }
+        continueButton.addClickListener(() -> {
+            showAnimalStats();
+
         });
 
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-            }
+        backButton.addClickListener(() -> {
+            game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+
         });
 
-        landAnimalsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // System.out.println("Land Animals button clicked!"); // Log statement
-                game.setScreen(new AnimalRouletteScreen(game));
-            }
+        landAnimalsButton.addClickListener(() -> {
+            // System.out.println("Land Animals button clicked!"); // Log statement
+            game.setScreen(new AnimalRouletteScreen(game));
+
         });
 
 
-        airAnimalsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AirAnimalSelectionScreen(game));
-            }
+        airAnimalsButton.addClickListener(() -> {
+            game.setScreen(new AirAnimalSelectionScreen(game));
+
         });
     }
 

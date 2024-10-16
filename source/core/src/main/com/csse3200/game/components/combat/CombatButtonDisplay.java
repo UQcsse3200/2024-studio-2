@@ -136,7 +136,7 @@ public class CombatButtonDisplay extends UIComponent {
         backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
         backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
                 , Gdx.graphics.getHeight() * 0.2f -
-                combatHintBackgroundHeight * 0.5f);
+                        combatHintBackgroundHeight * 0.5f);
         backgroundImage.setVisible(true); // Show the background for combat hints
         hoverTextTable.setVisible(true);  // Show the combat hint text
     }

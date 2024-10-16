@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,26 +75,20 @@ public class QuickTimeEventDisplay extends UIComponent {
         table.setBackground(new TextureRegionDrawable(tableTexture));
         table.setFillParent(true);
 
-        TextButton startButton = new TextButton("Start", skin);
-        TextButton exitButton = new TextButton("Exit", skin);
+        CustomButton startButton = new CustomButton("Start", skin);
+        CustomButton exitButton = new CustomButton("Exit", skin);
 
         // Add start button listener
-        startButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
+        startButton.addClickListener(() -> {
                 logger.debug("start button clicked");
                 resetDisplay();
                 entity.getEvents().trigger("start");
-            }
         });
 
         // Add exit button listener
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
+        exitButton.addClickListener(() -> {
                 logger.debug("exit button clicked");
                 entity.getEvents().trigger("exit");
-            }
         });
 
         // first row (quick-time event images)
@@ -151,7 +146,7 @@ public class QuickTimeEventDisplay extends UIComponent {
      * @return a reference to the cell occupied by the button
      *         in the table
      */
-    private Cell addButtonToTable(TextButton button) {
+    private Cell addButtonToTable(CustomButton button) {
         return table.add(button).width(BTN_WIDTH).height(BTN_HEIGHT).padBottom(60f);
     }
 
