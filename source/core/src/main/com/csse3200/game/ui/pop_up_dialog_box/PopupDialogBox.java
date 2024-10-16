@@ -57,8 +57,8 @@ public class PopupDialogBox extends Dialog {
         this.getContentTable().setBackground(backgroundImage.getDrawable());
         this.titles = titles;
         this.content = content;
-        this.dialogWidth = dialogWidth;
-        this.dialogHeight = dialogHeight;
+        this.dialogWidth = dialogWidth + 200;
+        this.dialogHeight = dialogHeight + 150;
 
         // Load the animal image
         Texture animalTexture = new Texture(Gdx.files.internal(animalImagePath));
@@ -116,14 +116,12 @@ public class PopupDialogBox extends Dialog {
         Table contentTable = new Table();
         contentTable.pad(20);
 
-        //  Image on the left, text and stats table on the right
+        // Image on the left, text and stats table on the right
         Table rightTable = new Table();
 
         // Text on top 1/3 of the right side
         Table textTable = new Table();
-        textTable.add(contentLabel).width(dialogWidth * 0.5f)
-                .padTop(30)
-                .top().expandY();
+        textTable.add(contentLabel).width(dialogWidth * 0.5f).padTop(30).top().expandY();
         rightTable.add(textTable).width(dialogWidth * 0.5f).expandX().row();
 
         // Stats table under text
@@ -138,11 +136,18 @@ public class PopupDialogBox extends Dialog {
         innerTable.add(animalImage).width(dialogWidth * 0.4f).height(dialogHeight * 0.8f).padRight(20);
         innerTable.add(rightTable).width(dialogWidth * 0.6f).expandY().top();
 
-        // Add inner table and next button to contentTable
+        // Add innerTable to contentTable
         contentTable.add(innerTable).expandX().center().row();
-        contentTable.add(nextButton).padTop(20).width(200).height(50);
-        contentTable.add(backButton).padTop(10).width(200).height(50);
 
+        // Create a new table for buttons and align them horizontally
+        Table buttonTable = new Table();
+        buttonTable.add(backButton).width(200).height(50).padRight(10); // Add back button first
+        buttonTable.add(nextButton).width(200).height(50); // Add next button
+
+        // Add buttonTable to contentTable at the bottom
+        contentTable.add(buttonTable).padTop(20).colspan(2).center().expandX();
+
+        // Set content table to the dialog box
         getContentTable().add(contentTable).expand().center();
 
         // Set the size and position of the dialog box
@@ -151,6 +156,7 @@ public class PopupDialogBox extends Dialog {
 
         updateStatsTable(); // Update stats table with the current animal's stats
     }
+
 
     /**
      * Updates the stats table with the current animal's stats.
