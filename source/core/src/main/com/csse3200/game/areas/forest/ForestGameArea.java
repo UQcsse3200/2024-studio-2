@@ -440,7 +440,7 @@ public class ForestGameArea extends GameArea {
      *               The spawn position is randomly selected within this radius but is constrained
      *               to be within the current chunk boundaries.
      */
-    private void spawnEntityNearPlayer(Entity entity, int radius) {
+    public void spawnEntityNearPlayer(Entity entity, int radius) {
         // Get the player's current position in the world
         Vector2 playerWorldPos = player.getPosition();
 
