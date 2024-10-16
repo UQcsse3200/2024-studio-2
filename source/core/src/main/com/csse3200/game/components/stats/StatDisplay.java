@@ -20,7 +20,7 @@ import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.csse3200.game.components.stats.StatSaveManager.saveStats;
+//import static com.csse3200.game.components.stats.StatSaveManager.saveStats;
 
 /**
  * Display detailed stats after defeating the final boss of the game.
@@ -293,7 +293,7 @@ public class StatDisplay extends UIComponent {
      * Sets the current game screen back to the main menu.
      */
     void exitMenu() {
-        saveStats(stats);
+//        saveStats(stats);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }
     
@@ -312,7 +312,7 @@ public class StatDisplay extends UIComponent {
      */
     @Override
     public void dispose() {
-        saveStats(stats);
+//        saveStats(stats);
         rootTable.clear();
         ServiceLocator.getResourceService().unloadAssets(StatTextures);
         super.dispose();
