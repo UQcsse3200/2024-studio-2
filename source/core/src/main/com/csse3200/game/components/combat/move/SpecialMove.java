@@ -27,6 +27,8 @@ public abstract class SpecialMove extends CombatMove {
      * a default error message if invoked with insufficient parameters.
      *
      * @param attackerStats the combat stats of the attacker.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats) {
@@ -41,6 +43,8 @@ public abstract class SpecialMove extends CombatMove {
      *
      * @param attackerStats the combat stats of the attacker.
      * @param targetStats   the combat stats of the target.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
@@ -54,6 +58,8 @@ public abstract class SpecialMove extends CombatMove {
      * @param targetStats     the combat stats of the target.
      * @param targetIsGuarded whether the target is guarded.
      * @param numHitsLanded   the number of hits landed (not used in this implementation).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
@@ -68,6 +74,8 @@ public abstract class SpecialMove extends CombatMove {
      * @param attackerStats   the combat stats of the attacker.
      * @param targetStats     the combat stats of the target.
      * @param targetIsGuarded whether the target is guarded.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {

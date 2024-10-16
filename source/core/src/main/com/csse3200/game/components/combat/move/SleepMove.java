@@ -26,6 +26,8 @@ public class SleepMove extends CombatMove {
      * Health will not be restored if the Poisoned status effect is applied.
      *
      * @param attackerStats the combat stats of the entity performing the sleep move.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats) {
@@ -55,6 +57,8 @@ public class SleepMove extends CombatMove {
      *
      * @param attackerStats the combat stats of the entity performing the sleep move.
      * @param targetStats   the combat stats of the target (ignored for sleep moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
@@ -67,6 +71,8 @@ public class SleepMove extends CombatMove {
      * @param attackerStats   the combat stats of the entity performing the sleep move.
      * @param targetStats     the combat stats of the target (ignored for sleep moves).
      * @param targetIsGuarded whether the target is guarding (ignored for sleep moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
@@ -80,6 +86,8 @@ public class SleepMove extends CombatMove {
      * @param targetStats     the combat stats of the target (ignored for sleep moves).
      * @param targetIsGuarded whether the target is guarding (ignored for sleep moves).
      * @param numHitsLanded   the number of hits landed (ignored for sleep moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,

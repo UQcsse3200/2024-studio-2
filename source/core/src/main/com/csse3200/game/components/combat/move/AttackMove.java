@@ -14,7 +14,7 @@ public class AttackMove extends CombatMove {
     /**
      * Constructor for the AttackMove.
      *
-     * @param moveName    the name of the move.
+     * @param moveName   the name of the move.
      * @param hungerCost the amount of hunger required to perform the move.
      */
     public AttackMove(String moveName, int hungerCost) {
@@ -26,6 +26,7 @@ public class AttackMove extends CombatMove {
      * for this method to be functional.
      *
      * @param attackerStats combat stats of the attacker.
+     * @return an empty array of {@link StatsChange} since this method cannot perform a valid attack.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats) {
@@ -38,6 +39,8 @@ public class AttackMove extends CombatMove {
      *
      * @param attackerStats combat stats of the attacker.
      * @param targetStats   combat stats of the target.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
@@ -51,6 +54,8 @@ public class AttackMove extends CombatMove {
      * @param attackerStats   combat stats of the attacker.
      * @param targetStats     combat stats of the target.
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
@@ -65,6 +70,8 @@ public class AttackMove extends CombatMove {
      * @param targetStats     combat stats of the target.
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
      * @param numHitsLanded   the number of hits that successfully land during a multi-hit attack.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
     public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
