@@ -190,6 +190,9 @@ public class ForestTexturesConfig {
             "images/potiontexture/defense.png",
             "images/potiontexture/attack.png",
             "images/wolf.png",
+            "images/chests/ordinary-chest.png",
+            "images/chests/fancy-chest.png",
+            "images/chests/fancy-smancy-chest.png",
     };
 
     public static final String[] FOREST_TEXTURE_ATLASES = {

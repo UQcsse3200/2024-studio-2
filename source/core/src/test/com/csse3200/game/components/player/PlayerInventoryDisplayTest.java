@@ -1,5 +1,6 @@
 package com.csse3200.game.components.player;
 
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.inventory.PlayerInventoryDisplay;
 import com.csse3200.game.extensions.GameExtension;
 import com.csse3200.game.input.InputService;
@@ -40,15 +41,15 @@ class PlayerInventoryDisplayTest {
     void testInitialisation() {
         Inventory inv1 = new Inventory(9);
         Inventory inv2 = new Inventory(10);
-
+        GdxGame game = null;
         // Should throw error since 7 does not divide 9
         assertThrows(IllegalArgumentException.class,
-                () -> new PlayerInventoryDisplay(inv1, 7, 1));
+                () -> new PlayerInventoryDisplay(inv1, 7, 1, game));
         assertThrows(IllegalArgumentException.class, () -> {
-            new PlayerInventoryDisplay(inv2, 0, 1);
+            new PlayerInventoryDisplay(inv2, 0, 1, game);
         });
 
         // Shouldn't throw error since 3 divides 12
-        new PlayerInventoryDisplay(new Inventory(9), 3, 3);
+        new PlayerInventoryDisplay(new Inventory(9), 3, 3, game);
     }
 }

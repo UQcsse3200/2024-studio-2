@@ -155,7 +155,7 @@ public class CombatScreen extends ResizableScreen {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatInventoryDisplay(playerInv, numCols + 1, 0))
+        .addComponent(new CombatInventoryDisplay(playerInv, numCols + 1, 0, game))
         .addComponent(manager)
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))
