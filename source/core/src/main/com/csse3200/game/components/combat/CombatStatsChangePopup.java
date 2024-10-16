@@ -58,7 +58,7 @@ public class CombatStatsChangePopup extends UIComponent {
      * @param isPlayer whether to display the stats changes around the player or enemy
      */
     public void createHealthStatsChangePopup(int statsDiff, boolean isPlayer) {
-        if (statsDiff == 0) return;
+        if (statsDiff == 0 || Math.abs(statsDiff) > 10000) return;
         String statsDiffText = (statsDiff > 0) ? "+" + statsDiff : Integer.toString(statsDiff);
         CharSequence popupText = String.format("HP%s", statsDiffText);
         // Swap health change isPlayer because target applies damage to itself

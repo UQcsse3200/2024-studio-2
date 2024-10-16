@@ -352,8 +352,8 @@ public class CombatStatsDisplay extends UIComponent {
      */
     public void updateStatusEffectUI(CombatStatsComponent.StatusEffect statusEffect) {
         logger.trace("Adding status effect label and bar in CombatStatsDisplay");
-        float tableTopPadding = 200f; // 40f
-        float tableLeftPadding = 450f; // 750f
+        float tableTopPadding = 200f;
+        float tableLeftPadding = 5f;
         String statusFilePath = String.format("images/statuses/%s_stat.png", statusEffect.name().toLowerCase());
         statusEffectImage = new Image (ServiceLocator.getResourceService().getAsset(statusFilePath, Texture.class));
         statusTable = new Table();
@@ -428,15 +428,15 @@ public class CombatStatsDisplay extends UIComponent {
         }
         hoverTextLabel.setText(effectDescription);  // Set hover text
         // set the position of the status effect hint text
-        hoverTextTable.setPosition(Gdx.graphics.getWidth() * 0.5f,
-                Gdx.graphics.getHeight() * 0.70f);
+        hoverTextTable.setPosition(Gdx.graphics.getWidth() * 0.7f,
+                Gdx.graphics.getHeight() * 0.65f);
         // set the position of the background for the status effect hint text
         float combatHintBackgroundHeight = Gdx.graphics.getHeight() * 0.1f;  // 7% of the screen height
         // combat background is proportional to the combatHintTextLength
         float combatHintBackgroundWidth = hoverTextLabel.getWidth() + Gdx.graphics.getWidth() * 0.1f;
         backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
-        backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
-                , Gdx.graphics.getHeight() * 0.7f -
+        backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.7f - backgroundImage.getWidth() * 0.5f
+                , Gdx.graphics.getHeight() * 0.65f -
                         combatHintBackgroundHeight * 0.5f);
         backgroundImage.setVisible(true); // Show the background for status effect hints
         hoverTextTable.setVisible(true);  // Show the status effect hint text
