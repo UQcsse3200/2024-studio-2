@@ -54,11 +54,14 @@ public abstract class AnimalRouletteDisplay1 {
         mainTable.row();
 
         Table buttonTable = new Table();
-        buttonTable.add(selectButton).width(200).height(50).padRight(20);
-        buttonTable.add(backButton).width(200).height(50);
+
+
+        buttonTable.add(backButton).width(200).height(50).padRight(20);
+        buttonTable.add(selectButton).width(200).height(50);
 
         mainTable.add(buttonTable).padBottom(50);
     }
+
 
     public void updateAnimalImage(String imagePath) {
         animalImage.setDrawable(new Image(new Texture(imagePath)).getDrawable());
