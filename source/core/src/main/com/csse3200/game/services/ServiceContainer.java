@@ -2,6 +2,7 @@ package com.csse3200.game.services;
 
 import com.csse3200.game.entities.EntityService;
 import com.csse3200.game.input.InputService;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.LightingService;
 import com.csse3200.game.particles.ParticleService;
 import com.csse3200.game.physics.PhysicsService;
@@ -24,7 +25,8 @@ public class ServiceContainer {
     private LightingService lightingService;
     private ParticleService particleService;
     private DialogueBoxService dialogueBoxService;
-
+    private final InGameTime inGameTime;
+    private final DayNightCycle dayNightCycle;
     public ServiceContainer() {
         this.entityService = ServiceLocator.getEntityService();
         this.renderService = ServiceLocator.getRenderService();
@@ -35,6 +37,8 @@ public class ServiceContainer {
         this.lightingService = ServiceLocator.getLightingService();
         this.particleService = ServiceLocator.getParticleService();
         this.dialogueBoxService = ServiceLocator.getDialogueBoxService();
+        this.inGameTime = ServiceLocator.getInGameTime(); // Store InGameTime
+        this.dayNightCycle = ServiceLocator.getDayNightCycle();
         logger.debug("Services stored");
     }
 
@@ -84,6 +88,14 @@ public class ServiceContainer {
      */
     public DialogueBoxService getDialogueBoxService() {
         return dialogueBoxService;
+    }
+
+    // Add getter for InGameTime
+    public InGameTime getInGameTime() {
+        return inGameTime;
+    }
+    public DayNightCycle getDayNightCycle() {
+        return dayNightCycle;
     }
 
 }

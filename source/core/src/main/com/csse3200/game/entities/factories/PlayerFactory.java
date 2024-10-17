@@ -85,13 +85,14 @@ public class PlayerFactory {
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup())
-
                 .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
         InventoryComponent inventoryComponent = new InventoryComponent(50);
         player.addComponent(inventoryComponent)
-                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9, 5))
+
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 5, 5,game))
+
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 

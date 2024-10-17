@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.ui.CustomButton;
 
 /**
- * CLass for the MiniGame Menu Screen
+ * CLass for the MiniGame Menu Screen. Has an image and button for each minigame
  */
 public class MiniGameMenuScreen implements Screen {
 
@@ -52,10 +52,7 @@ public class MiniGameMenuScreen implements Screen {
         setupMinigameUI("Snake", "images/minigames/snakeicon.png", 0.2f, 1, 0, new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 game.enterSnakeScreen();
-            // helpWindow = new SnakePopup("images/minigames/BirdieDashPopUp.png");
-               // helpWindow.show();
             }
         });
 
@@ -76,13 +73,12 @@ public class MiniGameMenuScreen implements Screen {
         });
 
         // Exit button
-        TextButton exitButton = createButton("Exit", scale, new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-            }
+        CustomButton exitButton = new CustomButton("Exit", skin);
+        exitButton.addClickListener(() -> {
+            game.setScreen(GdxGame.ScreenType.MAIN_MENU);
         });
 
+        exitButton.setButtonSize(150, 50);
         exitButton.setPosition(Gdx.graphics.getWidth() - exitButton.getWidth() - 10 * scale, Gdx.graphics.getHeight() - exitButton.getHeight() - 10 * scale);
         stage.addActor(exitButton);
     }
@@ -103,7 +99,11 @@ public class MiniGameMenuScreen implements Screen {
 
         // Create the image with scaling
         Image image = createImage(texture, imageScale);
-        TextButton button = createButton(buttonText, scale, listener);
+        CustomButton button = new CustomButton(buttonText, skin);
+        button.setButtonSize(150, 50);
+        button.getLabel().setWrap(true);
+        button.getLabel().setWidth(150);
+        button.addListener(listener);
 
         // Calculate screen positions
         float screenWidth = Gdx.graphics.getWidth();
@@ -136,21 +136,6 @@ public class MiniGameMenuScreen implements Screen {
         // Scale the image with the screen
         image.setSize(image.getWidth() * imageScale * scale, image.getHeight() * imageScale * scale);
         return image;
-    }
-
-    /**
-     * Makes all buttons on the screen
-     * @param text text to put on the button
-     * @param scale the scale of the button (with the screen)
-     * @param listener the listener attached to the button (used to boot up the mini-game)
-     * @return the new button
-     */
-    private TextButton createButton(String text, float scale, ClickListener listener) {
-        TextButton button = new TextButton(text, skin);
-        button.getLabel().setFontScale(scale);
-        button.setSize(button.getWidth() * scale, button.getHeight() * scale);
-        button.addListener(listener);
-        return button;
     }
 
     /**
@@ -198,7 +183,9 @@ public class MiniGameMenuScreen implements Screen {
      * Called when the screen is paused
      */
     @Override
-    public void pause() {}
+    public void pause() {
+        // Need as from super class, screen cannot be paused
+    }
 
     /**
      *  Called when the screen is resumed after a pause
@@ -212,7 +199,9 @@ public class MiniGameMenuScreen implements Screen {
      * Called when the screen is hidden
      */
     @Override
-    public void hide() {}
+    public void hide() {
+        // Need as from super class, screen cannot be hidden
+    }
 
     /**
      *  Disposes of stage, skin, textures and batch

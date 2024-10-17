@@ -10,170 +10,86 @@ default
   orig: 276, 285
   offset: 0, 0
   index: 0
-walk
+runRight
   rotate: false
   xy: 0, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 1
-walk
+runRight
   rotate: false
   xy: 289, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 2
-walk
+runRight
   rotate: false
   xy: 615, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 3
-walk
+runRight
   rotate: false
   xy: 898, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 4
-walk
+runRight
   rotate: false
   xy: 1194, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 5
-walk
+runRight
   rotate: false
   xy: 1432, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 6
-spawn
+wait
   rotate: false
   xy: 0, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 1
-spawn
+wait
   rotate: false
   xy: 289, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 2
-spawn
+wait
   rotate: false
   xy: 615, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 3
-spawn
+wait
   rotate: false
   xy: 898, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
   index: 4
-spawn
+wait
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
-spawn
+wait
   rotate: false
-  xy: 1432, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 6
-alert
-  rotate: false
-  xy: 0, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 1
-alert
-  rotate: false
-  xy: 289, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 2
-alert
-  rotate: false
-  xy: 615, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 3
-alert
-  rotate: false
-  xy: 898, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 4
-alert
-  rotate: false
-  xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 5
-alert
-  rotate: false
-  xy: 1432, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 6
-chase
-  rotate: false
-  xy: 0, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 1
-chase
-  rotate: false
-  xy: 289, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 2
-chase
-  rotate: false
-  xy: 615, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 3
-chase
-  rotate: false
-  xy: 898, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 4
-chase
-  rotate: false
-  xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
-  offset: 0, 0
-  index: 5
-chase
-  rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
@@ -209,13 +125,13 @@ combat_idle
 combat_idle
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
 combat_idle
   rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0
@@ -251,13 +167,13 @@ combat_move
 combat_move
   rotate: false
   xy: 1194, 5
-  size: 276, 285
-  orig: 276, 285
+  size: 250, 285
+  orig: 250, 285
   offset: 0, 0
   index: 5
 combat_move
   rotate: false
-  xy: 1432, 5
+  xy: 1440, 5
   size: 276, 285
   orig: 276, 285
   offset: 0, 0

@@ -136,7 +136,7 @@ public class CombatButtonDisplay extends UIComponent {
         backgroundImage.setSize(combatHintBackgroundWidth, combatHintBackgroundHeight);
         backgroundImage.setPosition(Gdx.graphics.getWidth() * 0.5f - backgroundImage.getWidth() * 0.5f
                 , Gdx.graphics.getHeight() * 0.2f -
-                combatHintBackgroundHeight * 0.5f);
+                        combatHintBackgroundHeight * 0.5f);
         backgroundImage.setVisible(true); // Show the background for combat hints
         hoverTextTable.setVisible(true);  // Show the combat hint text
     }
@@ -290,8 +290,7 @@ public class CombatButtonDisplay extends UIComponent {
         if (winStatus) {
             endText = new String[][]{{"You tamed the wild animal. Say hi to your new friend!"}};
         } else {
-            endText = new String[][]{{"You lost to the beast. Try leveling up, and powering up " +
-                    "before battling again."}};
+            endText = new String[][]{{"You lost. Try leveling up, and try again."}};
         }
         ServiceLocator.getDialogueBoxService().updateText(endText, DialogueBoxService.DialoguePriority.BATTLE);
     }

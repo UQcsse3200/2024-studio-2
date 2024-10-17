@@ -15,9 +15,6 @@ import com.csse3200.game.minigames.maze.components.tasks.PatrolTask;
 import com.csse3200.game.minigames.maze.entities.factories.MazeNPCFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazeObstacleFactory;
 import com.csse3200.game.minigames.maze.entities.factories.MazePlayerFactory;
-import com.csse3200.game.minigames.maze.entities.mazenpc.ElectricEel;
-import com.csse3200.game.minigames.maze.entities.mazenpc.FishEgg;
-import com.csse3200.game.rendering.TextureRenderComponent;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -25,10 +22,7 @@ import com.csse3200.game.utils.math.GridPoint2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Forest area for the demo game with trees, a player, and some enemies.
@@ -46,7 +40,7 @@ public class MazeGameArea extends GameArea {
     public static final int NUM_JELLYFISH = 20;
     public static final int NUM_EGGS = 16;
 
-    Map<Entity.EnemyType, List<Entity>> enemies;
+    EnumMap<Entity.EnemyType, List<Entity>> enemies;
 
     // entities textures and music
     private static final String[] mazeEnvironmentTextures = {
@@ -55,7 +49,7 @@ public class MazeGameArea extends GameArea {
             "images/minigames/wall_v.png",
             "images/minigames/fishegg.png",
             "images/PauseOverlay/TitleBG.png",
-            "images/PauseOverlay/Button.png",
+            "images/PauseOverlay/Button2.png",
             "images/QuestsOverlay/Quest_BG.png",
             "images/QuestsOverlay/Quest_SBG.png",
             "images/minigames/inksplat.png"
@@ -87,7 +81,7 @@ public class MazeGameArea extends GameArea {
     private final MazeTerrainFactory terrainFactory;  // Generates the maze tiles
     private Maze maze;  // The maze instance
     private Entity player;  // THe player instance
-    private List<Entity> fishEggs;
+    private final List<Entity> fishEggs;
 
     /**
      * Initialise this ForestGameArea to use the provided TerrainFactory.
@@ -97,7 +91,7 @@ public class MazeGameArea extends GameArea {
     public MazeGameArea(MazeTerrainFactory terrainFactory) {
         super();
         this.terrainFactory = terrainFactory;
-        this.enemies = new HashMap<>();
+        this.enemies = new EnumMap<>(Entity.EnemyType.class);
         this.fishEggs = new ArrayList<>();
     }
 
@@ -407,11 +401,9 @@ public class MazeGameArea extends GameArea {
      * @return the list of enemies
      */
     public List<Entity> getEnemies(Entity.EnemyType enemyType) {
-        if (!enemies.containsKey(enemyType)) {
-            enemies.put(enemyType, new ArrayList<>());
-        }
-        return enemies.get(enemyType);
+        return enemies.computeIfAbsent(enemyType, k -> new ArrayList<>());
     }
+
 
     /**
      * Gets the list of fish eggs

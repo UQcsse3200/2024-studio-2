@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -30,6 +29,7 @@ import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceContainer;
 import com.csse3200.game.services.ServiceLocator;
+import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
  * Displays the stats and add buttons to exit and restart.
  * Gives loot box and achievements to player based on the medal
  */
-//TODO: Change transparency on the medal images, add different backgrounds for each game
 public class EndMiniGameScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(EndMiniGameScreen.class);
 
@@ -72,7 +71,8 @@ public class EndMiniGameScreen extends ScreenAdapter {
             "sounds/minigames/gold.mp3",
     };
 
-    private final String errorMessage = "Unknown Mini-Game";
+    private final static String addItemsEvent = "addItem";
+    private final static String errorMessage = "Unknown Mini-Game";
 
     public EndMiniGameScreen(GdxGame game, int score, MiniGameNames gameName, Screen screen, ServiceContainer container) {
         this.game = game;
@@ -102,13 +102,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
         setBackground();
         renderContents();
 
-        // Rewarding achievement to player
+        // Rewarding achievement to player and increment endgame stat medal count
         if (oldScreen instanceof MainGameScreen) {
             this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
                 logger.info("Achievement trigger {} {}", gameName.name(), medal.name());
                 player.getEvents().trigger("miniGame", gameName, medal);
+                player.getEvents().trigger("miniGameStats", gameName);
             }
         } else {
             this.player = null;
@@ -258,52 +259,39 @@ public class EndMiniGameScreen extends ScreenAdapter {
      */
     private void makeButtons() {
         // Make try again button
-        TextButton tryAgainButton = new TextButton("Try Again", skin);
-        tryAgainButton.getLabel().setFontScale(scale);
-        tryAgainButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setGameScreen();
-            }
+        CustomButton tryAgainButton = new CustomButton("Try Again", skin);
+        tryAgainButton.addClickListener(() -> {
+            setGameScreen();
         });
 
         // Make Mini-Game Menu Button
-        TextButton menuButton = new TextButton("Main Menu", skin);
-        menuButton.getLabel().setFontScale(scale);
-        menuButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
-                game.setScreen(GdxGame.ScreenType.MAIN_MENU);
-            }
+        CustomButton menuButton = new CustomButton("Main Menu", skin);
+        menuButton.addClickListener(() -> {
+            Gdx.gl.glClearColor(248f / 255f, 249f / 255f, 178f / 255f, 1f);
+            game.setScreen(GdxGame.ScreenType.MAIN_MENU);
         });
 
         // Make either "Return to Game" or "Mini_Game Menu" button (where the player came from)
-        TextButton oldScreenButton;
+        CustomButton oldScreenButton;
         if (oldScreen instanceof MainGameScreen) {
-            oldScreenButton = new TextButton("Return to Game", skin);
+            oldScreenButton = new CustomButton("Return to Game", skin);
         } else {
-            oldScreenButton = new TextButton("Mini-Game Menu", skin);
+            oldScreenButton = new CustomButton("Mini-Game Menu", skin);
         }
-
-        oldScreenButton.getLabel().setFontScale(scale);
-        oldScreenButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    giveLootBox();
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                game.setOldScreen(oldScreen, oldScreenServices);
+        oldScreenButton.addClickListener(() -> {
+            try {
+                giveLootBox();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
+            game.setOldScreen(oldScreen, oldScreenServices);
         });
 
         // Align buttons in 1 row
         contentTable.row().expandX().fillX();
-        contentTable.add(tryAgainButton).width(tryAgainButton.getWidth() * scale).height(tryAgainButton.getHeight() * scale).padLeft(500 * scale);
-        contentTable.add(menuButton).width(menuButton.getWidth() * scale).height(menuButton.getHeight() * scale).center();
-        contentTable.add(oldScreenButton).width(oldScreenButton.getWidth() * scale).height(oldScreenButton.getHeight() * scale).padRight(500 * scale);
+        contentTable.add(tryAgainButton).size(250, 50).padLeft(500 * scale);
+        contentTable.add(menuButton).size(250, 50).center();
+        contentTable.add(oldScreenButton).size(250, 50).padRight(500 * scale);
     }
 
     /**
@@ -341,18 +329,19 @@ public class EndMiniGameScreen extends ScreenAdapter {
                 case BRONZE -> {
                     // Create and add EarlyGameLootBox using the factory
                     UniversalLootBox earlyGameLootBox = lootBoxFactory.createLootBox("EarlyGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", earlyGameLootBox);
+                    display.getEntity().getEvents().trigger(addItemsEvent, earlyGameLootBox);
                 }
                 case SILVER -> {
                     // Create and add MediumGameLootBox using the factory
                     UniversalLootBox mediumGameLootBox = lootBoxFactory.createLootBox("MediumGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", mediumGameLootBox);
+                    display.getEntity().getEvents().trigger(addItemsEvent, mediumGameLootBox);
                 }
                 case GOLD -> {
                     // Create and add LateGameLootBox using the factory
                     UniversalLootBox lateGameLootBox = lootBoxFactory.createLootBox("LateGameLootBox", player);
-                    display.getEntity().getEvents().trigger("addItem", lateGameLootBox);
+                    display.getEntity().getEvents().trigger(addItemsEvent, lateGameLootBox);
                 }
+                default -> throw new IllegalArgumentException("Unknown medal");
             }
         }
     }

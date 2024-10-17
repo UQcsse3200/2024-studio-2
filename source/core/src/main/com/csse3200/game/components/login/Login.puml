@@ -1,68 +1,113 @@
 @startuml
 
 
-class PlayFab::Response {
-    - result: String
-    - isSucceed: Boolean
-    + getResult(): String
-    + getIsSucceed(): Boolean
+package com.csse3200.game.components.login {
+    class PlayFab::Response {
+        - result: String
+        - isSucceed: Boolean
+        + getResult(): String
+        + getIsSucceed(): Boolean
+    }
+
+    class PlayFab {
+        + isLogin: boolean
+        + PlayFab(titleId: String)
+        + registerUser(username: String, email: String, password: String): Response
+        + loginUser(username: String, password: String): Response
+        + getLeaderboard(gameName: String)
+        + submitScore(gameName: String, score: int)
+    }
+    class LoginRegisterDisplay {
+        - usernameField: TextField
+        - passwordField: TextField
+        - emailField: TextField
+        - submitButton: TextButton
+        - switchButton: TextButton
+        - closeButton: Button
+        - isLoginMode: boolean
+        - backgroundTexture: Texture
+        - closeButtonTexture: Texture
+        - playFab: PlayFab
+
+        + LoginRegisterDisplay()
+        + makeLoginRegisterTable(): Table
+        - addInputField()
+        - addButtons()
+        - updateUI()
+    }
+}
+
+package com.csse3200.game.services {
+    class NotifManager {
+        - dropDuration: float
+        + addNotificationTable(): Table
+        + displayNotif(contents: String, isSucceed: Boolean)
+        + displayNotif(contents: String)
+        + hideNotif()
+        + update()
+        + draw(batch: SpriteBatch)
+    }
+}
+
+package com.csse3200.game.minigames {
+    class MinigameLeaderboard {
+        - userNames: ArrayList<String>
+        - highScores: ArrayList<String>
+        - userNameLabels: ArrayList<Label>
+        - highScoreLabel: ArrayList<Label>
+        - closeButton: Button
+        - refreshButton: CustomButton
+        - playFab: PlayFab
+        - gameName: ArrayList<String>
+        - currentIdx: int
+        - snakeButton: CustomButton
+        - birdButton: CustomButton
+        - fishButton: CustomButton
+        - mainMenuDisplay: MainMenuDisplay
+
+        + MinigameLeaderboard(mainMenuDisplay: MainMenuDisplay)
+        + makeLeaderboardTable(): Table
+        + updateLeaderboard()
+        + refreshLeaderboard(name: String)
+        + getUsernames(): ArrayList<String>
+        + getHighscores(): ArrayList<String>
+    }
+}
+
+package com.csse3200.game.screens {
+    class BirdieDashScreen {
+        - scale: float
+        - birdPopup: SnakePopup
+        - birdGame: BirdieDashGame
+        - scoreBoard: ScoreBoard
+        + isGameOver()
+    }
 }
 
 
-class PlayFab {
-    + PlayFab(titleId: String)
-    + registerUser(username: String, email: String, password: String): Response
-    + loginUser(username: String, password: String): Response
+package com.csse3200.game.screens {
+    class MazeGameScreen {
+        - scale: float
+        - mazePopup: SnakePopup
+        - mazeGameArea: MazeGameArea
+        - EndScore: int
+        + isGameOver(): boolean
+    }
 }
 
-class LoginRegisterDisplay {
-    - Z_INDEX: float
-    - table: Table
-    - topTable: Table
-    - contentTable: Table
-    - progressBar: ProgressBar
-    - title: Label
-    - usernameField: TextField
-    - passwordField: TextField
-    - emailField: TextField
-    - submitButton: TextButton
-    - switchButton: TextButton
-    - closeButton: Button
-    - isLoginMode: boolean
-    - backgroundTexture: Texture
-    - closeButtonTexture: Texture
-    - playFab: PlayFab
-
-    + LoginRegisterDisplay()
-    - loadTextures()
-    - initializeTable()
-    + makeLoginRegisterTable(): Table
-    - addInputField()
-    - addButtons()
-    - updateUI()
-    + update()
-    + draw(batch: SpriteBatch)
-    + getZIndex(): float
-    + dispose()
+package com.csse3200.game.screens {
+    class SnakeScreen {
+        - scale: float
+        - snakePopup: SnakePopup
+        - snakeRenderer: SnakeGameRenderer
+        - snakeGame: SnakeGame
+        - updateGame(delta: float)
+    }
 }
-
-class NotifManager {
-    - notifNormalBackground: Texture
-    - notifErrorBackground: Texture
-    - notifSuccessBackground: Texture
-    - notifLabel: Label
-    - notifTable: Table
-    - dropDuration: float
-    + addNotificationTable(): Table
-    + displayNotif(contents: String, isSucceed: Boolean)
-    + displayNotif(contents: String)
-    + hideNotif()
-    + update()
-    + draw(batch: SpriteBatch)
-}
-
-LoginRegisterDisplay --|> UIComponent
 LoginRegisterDisplay --> PlayFab
 LoginRegisterDisplay --> NotifManager
-NotifManager --|> UIComponent
+MinigameLeaderboard --> PlayFab
+BirdieDashScreen --> PlayFab
+MazeGameScreen --> PlayFab
+SnakeScreen --> PlayFab
 @enduml

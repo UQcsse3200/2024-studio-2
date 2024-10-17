@@ -2,91 +2,259 @@
   stats: [
     {
       "statName": "Apple Collected",
-      "statDescription": "Apples collected by player",
+      "statDescription": "Apples Collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Candy Collected",
-      "statDescription": "Candy collected by player",
+      "statDescription": "Candy collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Meat Collected",
-      "statDescription": "Meat collected by player",
+      "statDescription": "Meat collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Carrot Collected",
-      "statDescription": "Carrots collected by player",
+      "statDescription": "Carrots collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Chicken_Leg Collected",
-      "statDescription": "Chicken legs collected by player",
+      "statDescription": "Chicken legs",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
       "statName": "Milk Collected",
-      "statDescription": "Milk collected by player",
+      "statDescription": "Milk collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
-      "statName": "Caviar Collected",
-      "statDescription": "Caviar collected by player",
+      "statName": "Sushi Collected",
+      "statDescription": "Sushi collected",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "FOOD_ITEM"
     },
     {
-      "statName": "KANGAROO Boss Defeated",
-      "statDescription": "Kangaroo boss Defeated by player",
-      "statCurrent": 0,
+      "statName": "Attack Potion Collected",
+      "statDescription": "Attack Potion/s",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "POTION_ITEM"
     },
     {
-      "statName": "Water Boss Defeated",
-      "statDescription": "Water boss Defeated by player",
-      "statCurrent": 0,
+      "statName": "Defense Potion Collected",
+      "statDescription": "Defense Potion/s",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "POTION_ITEM"
     },
     {
-      "statName": "Air Boss Defeated",
-      "statDescription": "Air boss Defeated by player",
-      "statCurrent": 0,
+      "statName": "Healing Potion Collected",
+      "statDescription": "Healing Potion/s",
+      "statCurrent": 1,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "POTION_ITEM"
     },
     {
-      "statName": "Chicken Defeated",
-      "statDescription": "Kangaroo boss Defeated by player",
+      "statName": "Speed Potion Collected",
+      "statDescription": "Speed Potions/s",
+      "statCurrent": 1,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "POTION_ITEM"
+    },
+    {
+      "statName": "KANGAROO Defeated",
+      "statDescription": "Kanga Kill",
       "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
-      "type": "ITEM"
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "JOEY Defeated",
+      "statDescription": "Joey Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "MONKEY Defeated",
+      "statDescription": "Monkey Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "BEAR Defeated",
+      "statDescription": "Bear Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "BEE Defeated",
+      "statDescription": "Bee Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "LAND_ENEMY"
+    },
+    {
+      "statName": "WATER_BOSS Defeated",
+      "statDescription": "Abbysdrake Kill",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "FROG Defeated",
+      "statDescription": "Frog Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "OCTOPUS Defeated",
+      "statDescription": "Octopus Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "EEL Defeated",
+      "statDescription": "Eel Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "BIGSAWFISH Defeated",
+      "statDescription": "Big Saw-fish Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "WATER_ENEMY"
+    },
+    {
+      "statName": "AIR_BOSS Defeated",
+      "statDescription": "Skylash Kill",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "AIR_ENEMY"
+    },
+    {
+      "statName": "PIGEON Defeated",
+      "statDescription": "Pigeon Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "AIR_ENEMY"
+    },
+    {
+      "statName": "MACAW Defeated",
+      "statDescription": "Macaw Kill/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "AIR_ENEMY"
+    },
+    {
+      "statName": "SNAKE medal",
+      "statDescription": "Snake Game Medal/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_MINIGAME"
+    },
+    {
+      "statName": "BIRD Medals",
+      "statDescription": "Bird Game Medal/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_MINIGAME"
+    },
+    {
+      "statName": "MAZE Medals",
+      "statDescription": "Maze Game Medal/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_MINIGAME"
+    },
+    {
+      "statName": "Damage Taken",
+      "statDescription": "Damage Taken",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Damage Dealt",
+      "statDescription": "Damage Dealt",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Experience Gained",
+      "statDescription": "Experience Gained",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Items Collected",
+      "statDescription": "% of Items",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Enemies Defeated",
+      "statDescription": "% of Enemies",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
     }
   ]
 }

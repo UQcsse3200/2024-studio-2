@@ -31,17 +31,8 @@ public class StatSave implements Json.Serializable {
     @Override
     public void read(Json json, JsonValue jsonData) {
         JsonValue.JsonIterator iterator = jsonData.child.iterator();
-//        logger.info("iterator made");
         while(iterator.hasNext()) {
-//            logger.info("iterating");
             JsonValue value = iterator.next();
-//            logger.info("children: {}", value.toString());
-//            logger.info("item: {}", value.getString("statName"));
-//            logger.info("item: {}", value.getString("statDescription"));
-//            logger.info("item: {}", value.get("statCurrent").asInt());
-//            logger.info("item: {}", value.get("statMax").asInt());
-//            logger.info("item: {}", value.get("statHasMax").asBoolean());
-//            logger.info("item: {}", Stat.StatType.valueOf(value.get("type").asString()));
             Stat newStat = new Stat(
                     value.get("statName").asString(),
                     value.get("statDescription").asString(),

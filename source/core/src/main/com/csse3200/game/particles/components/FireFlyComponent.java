@@ -4,6 +4,7 @@ import box2dLight.Light;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.lighting.components.LightingComponent;
+import com.csse3200.game.services.ServiceLocator;
 
 /**
  * Component for firefly visual effects. Firefly lighting and particles should only visible during night time.
@@ -34,7 +35,11 @@ public class FireFlyComponent extends Component {
      */
     @Override
     public void update() {
-        float timeOfDay = DayNightCycle.getTimeOfDay();
+        // Get the DayNightCycle instance from ServiceLocator
+        DayNightCycle dayNightCycle = ServiceLocator.getDayNightCycle();
+
+        // Call the getTimeOfDay method from the instance
+        float timeOfDay = dayNightCycle.getTimeOfDay();
         float mid = (fadeInTime + fadeOutTime) / 2;
         float scaleY = 1/fadeDuration;
         float offsetY = - (fadeInTime - mid) * scaleY;

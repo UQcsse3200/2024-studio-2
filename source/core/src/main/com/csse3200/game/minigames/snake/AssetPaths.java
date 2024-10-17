@@ -33,7 +33,7 @@ public class AssetPaths {
             SNAKE_BODY_BENT_IMAGE,
             SNAKE_TAIL_IMAGE,
             "images/PauseOverlay/TitleBG.png",
-            "images/PauseOverlay/Button.png",
+            "images/PauseOverlay/Button2.png",
             "images/QuestsOverlay/Quest_BG.png",
             "images/QuestsOverlay/Quest_SBG.png",
             BIRD

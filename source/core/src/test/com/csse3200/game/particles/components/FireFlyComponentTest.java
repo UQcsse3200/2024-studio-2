@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(GameExtension.class)
 class FireFlyComponentTest {
     Entity firefly;
+    DayNightCycle mockDayNightCycle;
     @BeforeEach
     void setup() throws IllegalAccessException {
         ServiceLocator.registerResourceService(new ResourceService());
@@ -59,18 +60,28 @@ class FireFlyComponentTest {
         ServiceLocator.registerRenderService(mock(RenderService.class));
         ServiceLocator.registerParticleService(new ParticleService());
 
+        // Register a mock DayNightCycle in ServiceLocator
+        mockDayNightCycle = mock(DayNightCycle.class);
+        ServiceLocator.registerDayNightCycle(mockDayNightCycle);
+
+
         firefly = NPCFactory.createFirefly();
         firefly.create();
     }
 
     @Test
     void testFireflyActive() {
+        // Mock time of day to simulate night
+        when(mockDayNightCycle.getTimeOfDay()).thenReturn(0.9f);  // Simulate night time
         firefly.update();
         assertEquals(4f, firefly.getComponent(LightingComponent.class).getLights().getFirst().getDistance(), 0.05f);
     }
 
     @Test
     void testFireflyInActive() {
+        // Mock time of day to simulate day
+        when(mockDayNightCycle.getTimeOfDay()).thenReturn(0.5f);  // Simulate noon time
+
         when(ServiceLocator.getTimeSource().getTime()).thenReturn(DayNightCycle.DAY_LENGTH / 2);
         firefly.update();
         assertEquals(0f, firefly.getComponent(LightingComponent.class).getLights().getFirst().getDistance(), 0.05f);
