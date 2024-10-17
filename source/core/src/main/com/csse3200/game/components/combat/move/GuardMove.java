@@ -25,18 +25,23 @@ public class GuardMove extends CombatMove {
      * Executes the guard move, consuming hunger. This variant is used when there is no target, such as a defensive maneuver.
      *
      * @param attackerStats the combat stats of the entity performing the guard move.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
+        StatsChange[] statsChanges = new StatsChange[1];
         if (attackerStats != null) {
             logger.info("{} guard using {} hunger.",
                     attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                     this.getHungerCost());
-
+            int initialHunger = attackerStats.getHunger();
             attackerStats.addHunger(-(this.getHungerCost()));
+            statsChanges[0] = new StatsChange(0, attackerStats.getHunger() - initialHunger);
         } else {
             logger.error("Entity does not have CombatStatsComponent.");
         }
+        return statsChanges;
     }
 
     /**
@@ -44,10 +49,12 @@ public class GuardMove extends CombatMove {
      *
      * @param attackerStats the combat stats of the entity performing the move.
      * @param targetStats   the combat stats of the target (ignored for guard moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats);
     }
 
     /**
@@ -56,10 +63,12 @@ public class GuardMove extends CombatMove {
      * @param attackerStats   the combat stats of the entity performing the move.
      * @param targetStats     the combat stats of the target (ignored for guard moves).
      * @param targetIsGuarded whether the target is guarding (ignored for guard moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats);
     }
 
     /**
@@ -69,10 +78,12 @@ public class GuardMove extends CombatMove {
      * @param targetStats     the combat stats of the target (ignored for guard moves).
      * @param targetIsGuarded whether the target is guarding (ignored for guard moves).
      * @param numHitsLanded   the number of hits landed (ignored for guard moves).
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
-        execute(attackerStats);
+        return execute(attackerStats);
     }
 }

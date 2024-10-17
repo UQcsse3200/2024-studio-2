@@ -1,4 +1,4 @@
-/*package com.csse3200.game.minigames;
+package com.csse3200.game.minigames;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -46,10 +46,6 @@ public class MinigameLeaderboardTest {
         // Stub the PlayFab methods to return the mock data
         when(mockPlayFab.getUsernames()).thenReturn(mockUsernames);
         when(mockPlayFab.getHighscores()).thenReturn(mockHighscores);
-
-        PlayFab.updateLeaderboard(anyString());
-        
-
     }
 
     // Initialization test
@@ -119,4 +115,3 @@ public class MinigameLeaderboardTest {
         assertEquals(testScore, 68);
     }
 }
-*/

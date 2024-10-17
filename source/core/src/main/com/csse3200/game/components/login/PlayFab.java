@@ -12,9 +12,10 @@ import java.util.List;
 
 
 /**
- * The PlayFab class handles user registration and login via PlayFab's client API.
- * It allows initializing the PlayFab client with a Title ID and provides methods
- * for user registration and login.
+ * The PlayFab class handles user registration, login, and leaderboard management via
+ * PlayFab's client API. It allows for initializing the PlayFab client with a Title ID,
+ * and provides methods for user registration, login, updating leaderboards, and
+ * submitting scores.
  */
 public class PlayFab {
     private static final Logger logger = LoggerFactory.getLogger(PlayFab.class);
@@ -68,7 +69,6 @@ public class PlayFab {
             logger.debug(errorMsg);
             return new Response(errorMsg, false);
         }
-        //
     }
 
     /**
@@ -103,6 +103,11 @@ public class PlayFab {
         }
     }
 
+    /**
+     * Retrieves the name of the currently logged-in player.
+     *
+     * @return The name of the logged-in player, or "Guest" if no user is logged in.
+     */
     public static String getPlayerName() {
         if (isLogin) {
             return playerName;
@@ -111,6 +116,11 @@ public class PlayFab {
         }
     }
 
+    /**
+     * Updates the leaderboard for the specified game by retrieving the top scores.
+     *
+     * @param gameName The name of the game for which the leaderboard is being updated.
+     */
     public static void updateLeaderboard(String gameName){
         GetLeaderboardRequest request = new GetLeaderboardRequest();
         request.StatisticName = gameName;
@@ -133,6 +143,12 @@ public class PlayFab {
         }
     }
 
+    /**
+     * Submits the player's score for the specified game to the leaderboard.
+     *
+     * @param gameName The name of the game.
+     * @param score    The score to be submitted.
+     */
     public static void submitScore(String gameName, int score) {
         if (!isLogin) {
             logger.info("You need to login to put your score to the leaderboard.");
@@ -158,10 +174,20 @@ public class PlayFab {
         }
     }
 
+    /**
+     * Retrieves the list of usernames on the leaderboard.
+     *
+     * @return An {@link ArrayList} of usernames.
+     */
     public ArrayList<String> getUsernames() {
         return minigameUsernames;
     }
 
+    /**
+     * Retrieves the list of high scores on the leaderboard.
+     *
+     * @return An {@link ArrayList} of high scores.
+     */
     public ArrayList<String> getHighscores() {
         return minigameHighscores;
     }

@@ -30,6 +30,11 @@ public class ForestTexturesConfig {
             "images/bird.png",
             "images/Healthpotion.png",
             "images/foodtextures/apple.png",
+            "images/foodtextures/oceanfoodtextures/fried-fish.png",
+            "images/foodtextures/oceanfoodtextures/shrimp.png",
+            "images/foodtextures/airfoodtextures/cloud-cookie.png",
+            "images/foodtextures/airfoodtextures/cloudCupcake.png",
+            "images/foodtextures/airfoodtextures/cotton-cloud.png",
             "images/hive.png",
             "images/effects.png",
             "images/griffinEffects.png",
@@ -185,6 +190,9 @@ public class ForestTexturesConfig {
             "images/potiontexture/defense.png",
             "images/potiontexture/attack.png",
             "images/wolf.png",
+            "images/chests/ordinary-chest.png",
+            "images/chests/fancy-chest.png",
+            "images/chests/fancy-smancy-chest.png",
     };
 
     public static final String[] FOREST_TEXTURE_ATLASES = {

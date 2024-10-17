@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class CombatScreen extends ResizableScreen {
   private static final Logger logger = LoggerFactory.getLogger(CombatScreen.class);
   private static final String[] combatTextures = {
-          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button.png", "images/grass_3.png",
+          "images/heart.png","images/PauseOverlay/TitleBG.png","images/PauseOverlay/Button2.png", "images/grass_3.png",
           "images/combat_background_one.png", "images/hunger_bar.png",
           "images/dog.png", "images/croc.png", "images/bird.png", "images/health_bar_x1.png", "images/xp_bar.png",
           "images/statuses/bleeding_stat.png", "images/statuses/confused_stat.png",
@@ -155,8 +155,11 @@ public class CombatScreen extends ResizableScreen {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new CombatExitDisplay(enemy))
-        .addComponent(new CombatInventoryDisplay(playerInv, numCols + 1, 0))
+
+
+
+        .addComponent(new CombatInventoryDisplay(playerInv, numCols, 0,game))
+
         .addComponent(manager)
         .addComponent(new CombatActions(this.game, manager, oldScreen, oldScreenServices))
         .addComponent(new CombatStatsDisplay(playerCombatStats, enemyCombatStats))

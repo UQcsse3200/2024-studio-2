@@ -1,8 +1,11 @@
 package com.csse3200.game.screens;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.ScreenAdapter;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.lighting.DayNightCycle;
 import com.csse3200.game.overlays.*;
+import com.csse3200.game.services.InGameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,11 +58,16 @@ public class PausableScreen extends ScreenAdapter {
             case PAUSE_OVERLAY -> enabledOverlays.addFirst(new PauseOverlay(this, game));
             case PLAYER_STATS_OVERLAY -> enabledOverlays.addFirst(new PlayerStatsOverlay(this));
             case SETTINGS_OVERLAY -> enabledOverlays.addFirst(new SettingsOverlay(this));
+            case SNAKE_POPUP_OVERLAY -> enabledOverlays.addFirst(new SnakePopupOverlay(game));
             default -> logger.warn("Unknown Overlay type: {}", overlayType);
         }
         logger.info("Added {} Overlay", overlayType);
         activeOverlayTypes.put(overlayType,true);
     }
+    public void addSnakePopupOverlay(String texturePath) {
+        addOverlay(Overlay.OverlayType.SNAKE_POPUP_OVERLAY);
+    }
+
 
     /**
      * Removes the topmost overlay from the screen.

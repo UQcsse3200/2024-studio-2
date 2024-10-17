@@ -238,6 +238,25 @@ public class SettingsMenu extends UIComponent {
         }
         return null;
     }
+    public void updateSettingsUI() {
+        UserSettings.Settings settings = UserSettings.get();
+
+        // Update the fullscreen checkbox
+        fullScreenCheck.setChecked(settings.fullscreen);
+
+        // Update the FPS text field
+        fpsText.setText(Integer.toString(settings.fps));
+
+        // Update the audio and sound scale sliders
+        audioScaleSlider.setValue(settings.audioScale);
+        soundScaleSlider.setValue(settings.soundScale);
+
+        // Update the display mode select box
+        displayModeSelect.setSelected(getActiveMode(displayModeSelect.getItems()));
+
+        // Update any other settings UI elements as needed
+    }
+
 
     private Array<StringDecorator<DisplayMode>> getDisplayModes(Monitor monitor) {
         DisplayMode[] displayModes = Gdx.graphics.getDisplayModes(monitor);
@@ -269,6 +288,8 @@ public class SettingsMenu extends UIComponent {
         AudioManager.setMusicVolume(settings.audioScale / 100f);
         AudioManager.setSoundVolume(settings.soundScale / 100f);
         UserSettings.applyDisplayMode(settings);
+        mainMenuDisplay.updateToggleWindowButtonTexture();  // Update the button texture based on fullscreen state
+
     }
 
     private Integer parseOrNull(String num) {
@@ -280,6 +301,9 @@ public class SettingsMenu extends UIComponent {
     }
 
     public void showSettingsMenu() {
+        // Update the settings UI with the latest values before showing the menu
+        updateSettingsUI();
+
         settingsWindow.setVisible(true);
         settingsWindow.setTouchable(Touchable.enabled);
         settingsWindow.toFront();

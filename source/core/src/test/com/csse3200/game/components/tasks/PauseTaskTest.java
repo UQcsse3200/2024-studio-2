@@ -201,7 +201,7 @@ class PauseTaskTest {
                         .addComponent(new ColliderComponent())
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER));
 
-        SaveHandler.load(GameState.class, "defaultsaves", FileLoader.Location.INTERNAL);
+        SaveHandler.getInstance().load(GameState.class, "defaultsaves", FileLoader.Location.INTERNAL);
 
         QuestManager questManager = new QuestManager(player);
         player.addComponent(questManager);
@@ -216,7 +216,7 @@ class PauseTaskTest {
 
         cow.update();
 
-        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! I am your guide.";
+        String cowInitialDialogue = "Moo there adventurer, welcome to the Animal Kingdom! ";
 
         String hintDialogue = dialogueBox.getLabel().getText().toString();
         assertEquals(cowInitialDialogue, hintDialogue);

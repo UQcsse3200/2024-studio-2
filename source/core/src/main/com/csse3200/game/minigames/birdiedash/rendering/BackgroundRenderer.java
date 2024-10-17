@@ -17,8 +17,8 @@ public class BackgroundRenderer implements MinigameRenderable {
     private Texture backGroundTexture;
     private TextureRegion backgroundRegion;
     private final MinigameRenderer renderer;
-    private final float GAME_WIDTH = 1920;
-    private final float GAME_HEIGHT = 1200;
+    private final static float gameWidth = 1920;
+    private final static float gameHeight = 1200;
     Background background;
 
     public BackgroundRenderer(Background background, MinigameRenderer renderer) {
@@ -32,15 +32,15 @@ public class BackgroundRenderer implements MinigameRenderable {
      */
     public void render() {
         renderer.getSb().draw(backgroundRegion,
-                background.xBG1,
+                Background.xBG1,
                 0,
-                GAME_WIDTH,
-                GAME_HEIGHT);
+                gameWidth,
+                gameHeight);
         renderer.getSb().draw(backgroundRegion,
-                background.xBG2,
+                Background.xBG2,
                 0,
-                GAME_WIDTH,
-                GAME_HEIGHT);
+                gameWidth,
+                gameHeight);
     }
 
     /**

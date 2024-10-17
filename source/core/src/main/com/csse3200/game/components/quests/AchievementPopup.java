@@ -40,7 +40,7 @@ public class AchievementPopup extends UIComponent {
         if (!showing) {
             generate(achievement);
         }
-        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
     }
 
     /**
