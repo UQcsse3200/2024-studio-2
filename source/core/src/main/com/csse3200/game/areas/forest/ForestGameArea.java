@@ -170,9 +170,8 @@ public class ForestGameArea extends GameArea {
         unlockSkyArea();
         airAreaWall.getComponent(ColliderComponent.class).setSensor(true);
     } else if (area.equals("Water")) {
-        waterAreaWall.getComponent(ColliderComponent.class).setSensor(true);
-    } else {
         unlockOceanArea();
+        waterAreaWall.getComponent(ColliderComponent.class).setSensor(true);
     }
 }
 
