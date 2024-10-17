@@ -14,7 +14,6 @@ import com.csse3200.game.components.TouchAttackComponent;
 import com.csse3200.game.components.combat.move.*;
 import com.csse3200.game.components.npc.*;
 import com.csse3200.game.components.tasks.*;
-import com.csse3200.game.components.npc.BigsawfishAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.Entity.EnemyType;
 import com.csse3200.game.entities.configs.BaseEnemyEntityConfig;
@@ -134,16 +133,15 @@ public class EnemyFactory {
         TextureAtlas bigsawfishAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
         AnimationRenderComponent animator = new AnimationRenderComponent(bigsawfishAtlas);
-
-        animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         
-        animator.startAnimation(FLOAT);
-
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
+        
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         bigsawfish
                 .addComponent(animator)
-                .addComponent(new BigsawfishAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
 
         bigsawfish.setScale(2f,1.38f);
@@ -165,16 +163,15 @@ public class EnemyFactory {
         TextureAtlas macawAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
         AnimationRenderComponent animator = new AnimationRenderComponent(macawAtlas);
-
-        animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation(WALK, 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         
-        animator.startAnimation(CHASE);
-
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
+        
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         macaw
                 .addComponent(animator)
-                .addComponent(new MacawAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
 
         macaw.setScale(2f,1.38f);
