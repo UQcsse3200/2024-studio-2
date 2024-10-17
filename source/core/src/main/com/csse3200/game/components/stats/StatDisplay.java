@@ -83,8 +83,7 @@ public StatDisplay(GdxGame game) {
     /**
      * Creates and populates the UI with UI elements.
      */
-    @Override
-    public void create() {
+    @Override public void create() {
         ServiceLocator.getResourceService().loadTextures(StatTextures);
         ServiceLocator.getResourceService().loadSounds(logbookSounds);
         ServiceLocator.getResourceService().loadAll();
@@ -206,24 +205,13 @@ public StatDisplay(GdxGame game) {
         table.add(stack).colspan(4).fillX();
     }
 
-    void updateHoverEffect(Actor newButton) {
-        // Hover effect actions
-        Action hoverIn = Actions.moveBy(0, 5, 0.3f);  // Move up
-        Action hoverOut = Actions.moveBy(0, -5, 0.3f); // Move down
-
-        // Create a repeating action sequence
-        Action repeatHover = Actions.forever(Actions.sequence(hoverIn, hoverOut));
-
-        if (lastPressedButton[0] != null) {
-            lastPressedButton[0].clearActions();
-            lastPressedButton[0].setPosition(lastPressedButton[0].getX(), lastPressedButton[0].getY() - 5); // Reset Y position
-            lastPressedButton[0].setScale(1f);  // Reset scale if applicable
-        }
-
-        newButton.addAction(repeatHover);  // Apply repeating hover effect to the new "button"
-        lastPressedButton[0] = newButton;  // Update the last pressed "button"
-    }
-
+    /**
+     * Create base tabs for the end-game stats logbook
+     * @param itemsTable The items table content
+     * @param enemiesTable The enemt table content
+     * @param playersTable The player table content
+     * @return
+     */
     Table makeTabs(Table itemsTable, Table enemiesTable, Table playersTable) {
         Table tabButtonTable = new Table().padLeft(50);
 
@@ -558,7 +546,6 @@ public StatDisplay(GdxGame game) {
      * Sets the current game screen back to the main menu.
      */
     void exitMenu() {
-//        saveStats(stats);
         SaveHandler.getInstance().save(GameState.class, "saves", FileLoader.Location.LOCAL);
         game.setScreen(GdxGame.ScreenType.MAIN_MENU);
     }

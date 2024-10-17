@@ -59,7 +59,7 @@
     {
       "statName": "Attack Potion Collected",
       "statDescription": "Attack Potion/s",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "POTION_ITEM"
@@ -67,7 +67,7 @@
     {
       "statName": "Defense Potion Collected",
       "statDescription": "Defense Potion/s",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "POTION_ITEM"
@@ -75,7 +75,7 @@
     {
       "statName": "Healing Potion Collected",
       "statDescription": "Healing Potion/s",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "POTION_ITEM"
@@ -83,7 +83,7 @@
     {
       "statName": "Speed Potion Collected",
       "statDescription": "Speed Potions/s",
-      "statCurrent": 1,
+      "statCurrent": 0,
       "statHasMax": false,
       "statMax": 0,
       "type": "POTION_ITEM"
