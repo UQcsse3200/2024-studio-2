@@ -20,8 +20,6 @@ import java.util.ArrayList;
  * Requires an entity with a PhysicsMovementComponent.
  */
 public class HiveTask extends DefaultTask implements PriorityTask {
-    private static final Logger logger = LoggerFactory.getLogger(HiveTask.class);
-
     private final float waitTime; // Time to wait between bee spawns
     private final Entity target;  // The target that bees will chase
     private float elapsedTime = 0; // Tracks elapsed time for spawning
@@ -71,6 +69,14 @@ public class HiveTask extends DefaultTask implements PriorityTask {
         // If the player is close enough to the hive, dispose of the hive and all bees
         if (Vector2.dst2(ownerX, ownerY, playerX, playerY) < 10f) {
             for (Entity e : entities) {
+                boolean skip = true;
+                for (Entity entity : owner.getEntity().getEnemies()) {
+                    if (e.equals(entity)) {
+                        skip = false;
+                        break;
+                    }
+                }
+                if (skip) continue;
                 e.setEnabled(false);
                 AnimationRenderComponent animationRenderComponent = e.getComponent(AnimationRenderComponent.class);
                 animationRenderComponent.stopAnimation();

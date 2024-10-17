@@ -26,6 +26,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -54,10 +57,14 @@ class ProjectileFactoryTest {
             "images/griffinEffects.atlas",
             "images/hive.atlas"
     };
+    
+    private Entity Bee = new Entity();
+    private List<Entity> enemies = new ArrayList<>();
 
 
     @BeforeEach
     void setup() {
+        enemies.add(Bee);
         GameTime gameTime = mock(GameTime.class);
         when(gameTime.getDeltaTime()).thenReturn(0.02f);
         ServiceLocator.registerTimeSource(gameTime);
@@ -269,7 +276,7 @@ class ProjectileFactoryTest {
     @Test
     void TestHiveHasComponents() {
         // Create the Hive entity
-        Entity hive = ProjectileFactory.createHive(new Entity());
+        Entity hive = ProjectileFactory.createHive(new Entity(), enemies);
 
         // Verify that all required components are present
         assertNotNull(hive.getComponent(PhysicsComponent.class));
@@ -284,7 +291,7 @@ class ProjectileFactoryTest {
     @Test
     void TestHiveAnimationLoaded() {
         // Create the Hive entity
-        Entity hive = ProjectileFactory.createHive(new Entity());
+        Entity hive = ProjectileFactory.createHive(new Entity(), enemies);
 
         // Get the AnimationRenderComponent
         AnimationRenderComponent animationComponent = hive.getComponent(AnimationRenderComponent.class);
@@ -296,7 +303,7 @@ class ProjectileFactoryTest {
 
     @Test
     void TestHiveAITask() {
-        Entity hive = ProjectileFactory.createHive(new Entity());
+        Entity hive = ProjectileFactory.createHive(new Entity(), enemies);
 
         AITaskComponent aiTaskComponent = hive.getComponent(AITaskComponent.class);
 
