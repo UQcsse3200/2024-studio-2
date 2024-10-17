@@ -3,10 +3,7 @@ package com.csse3200.game.entities.factories;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.CombatStatsComponent;
-import com.csse3200.game.components.npc.BearAnimationController;
-import com.csse3200.game.components.npc.ChickenAnimationController;
-import com.csse3200.game.components.npc.FrogAnimationController;
-import com.csse3200.game.components.npc.MonkeyAnimationController;
+import com.csse3200.game.components.npc.*;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
@@ -41,6 +38,7 @@ class EnemyFactoryTest {
     private static Entity frog;
     private static Entity monkey;
     private static Entity bear;
+    private static Entity joey;
     private static Entity pigeon;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
@@ -53,7 +51,8 @@ class EnemyFactoryTest {
             "images/pigeon2.png",
 		    "images/frog.png",
 		    "images/chicken.png",
-		    "images/bear.png"
+		    "images/bear.png",
+            "images/joey.png"
     };
 
     private static String[] atlas = {
@@ -66,7 +65,8 @@ class EnemyFactoryTest {
             "images/bear.atlas",
             "images/pigeon.atlas",
             "images/enemy-bear.atlas",
-            "images/final_boss_kangaroo.atlas"
+            "images/final_boss_kangaroo.atlas",
+            "images/joey.atlas"
     };
 
 
@@ -97,6 +97,7 @@ class EnemyFactoryTest {
         frog = EnemyFactory.createFrog(player);
         monkey = EnemyFactory.createMonkey(player);
         bear = EnemyFactory.createBear(player);
+        joey = EnemyFactory.createJoey(player);
         //pigeon = EnemyFactory.createPigeon(player); needs its own testing class, too much to test here and doesn't
         //                                            behave like other enemies
     }
@@ -402,5 +403,77 @@ class EnemyFactoryTest {
         Vector2 pos = new Vector2(0f, 0f);
         bear.setPosition(pos);
         assertEquals(pos, bear.getPosition());
+    }
+
+    /**
+     * Tests Creation of a joey.
+     */
+    @Test
+    void TestJoeyCreation() {
+        assertNotNull(joey, "Joey should not be null.");
+    }
+
+    /**
+     * Tests that the joey is an Entity.
+     */
+    @Test
+    void TestJoeyIsEntity() {
+        assertEquals(joey.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the joey has the correct components.
+     */
+    @Test
+    void TestJoeyHasComponents() {
+        assertNotNull(joey.getComponent(PhysicsComponent.class));
+        assertNotNull(joey.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(joey.getComponent(JoeyAnimationController.class));
+        assertNotNull(joey.getComponent(CombatStatsComponent.class));
+        assertNotNull(joey.getComponent(HitboxComponent.class));
+        assertNotNull(joey.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the joey has the correct stats.
+     */
+    @Test
+    void TestJoeyStats() {
+        assertTrue((joey.getComponent(CombatStatsComponent.class).getHealth() > 45)
+                        && (joey.getComponent(CombatStatsComponent.class).getHealth() < 55),
+                "joey should have between 45 and 55 HP.");
+        assertTrue((joey.getComponent(CombatStatsComponent.class).getStrength() > 20)
+                        && (joey.getComponent(CombatStatsComponent.class).getStrength() < 30),
+                "joey should have between 20 and 30 Attack.");
+        assertTrue((joey.getComponent(CombatStatsComponent.class).getDefense() > 20)
+                        && (joey.getComponent(CombatStatsComponent.class).getDefense() < 30),
+                "joey should have between 20 and 30 defense.");
+        assertEquals(400,
+                joey.getComponent(CombatStatsComponent.class).getSpeed(),
+                "joey should have 400 speed.");
+        assertEquals(85,
+                joey.getComponent(CombatStatsComponent.class).getExperience(),
+                "joey should have 85 experience.");
+    }
+
+    /**
+     * Tests that the joey has correct animations.
+     */
+    @Test
+    void TestJoeyAnimation() {
+        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("wander") ,
+                "Joey should have wander animation.");
+        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "Joey should have chase animation.");
+    }
+
+    /**
+     * Tests that the joey is in the correct spot when placed.
+     */
+    @Test
+    void TestJoeySetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        joey.setPosition(pos);
+        assertEquals(pos, joey.getPosition());
     }
 }
