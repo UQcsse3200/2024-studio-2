@@ -114,12 +114,12 @@ public class CombatStatsComponent extends Component {
       this.health = 0;
       if (isPlayer) {
         int playerLevel = getLevel();
-        int lvlDiff = 1 + (playerLevel / 2) ;
-        addStrength(-lvlDiff);
-        addDefense(-lvlDiff);
-        addSpeed(-lvlDiff);
+        int lvlDiff = ((int) Math.ceil(playerLevel / 2.0));
+        addStrength(3 * -lvlDiff);
+        addDefense(3 * -lvlDiff);
+        addSpeed(3 * -lvlDiff);
         setLevel(lvlDiff);
-        addMaxHealth(-lvlDiff);
+        addMaxHealth(3 * -lvlDiff);
         setExperience(0);
       }
     }
@@ -284,11 +284,11 @@ public class CombatStatsComponent extends Component {
       setExperience(experienceDiff);
 
 
-      this.maxHealth += 1;
-      addHealth(1);
-      addStrength(1);
-      addDefense(1);
-      addSpeed(1);
+      this.maxHealth += 3;
+      addHealth(3);
+      addStrength(3);
+      addDefense(3);
+      addSpeed(3);
       addLevel(1);
       this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     }
@@ -334,7 +334,7 @@ public class CombatStatsComponent extends Component {
     }
 
     else{
-      this.maxHealth = this.maxHealth - health;
+      this.maxHealth = this.maxHealth + health;
     }
   }
 
