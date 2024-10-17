@@ -93,16 +93,11 @@ public class EnemyAnimationController extends Component {
         } catch (NullPointerException e) {
             throw new NullPointerException(entity.getEnemyType().toString() + "animation has not been started fro this type");
         }
-        
-        if (entity.getEnemyType() == Entity.EnemyType.BEE) System.out.println(" Animation: " + animator.getCurrentAnimation() + " Direction: " + direction + " FlipX: " + animator.getFlipX());
     }
     
     private boolean isCurrentAnimation(String animationName) {
         return animator.getCurrentAnimation().equals(animationName) && !animator.getFlipX() && !animator.getFlipY();
     }
-    
-    //The following methods will be updated with new animations in future sprints,
-    //so are currently placeholders
     
     private void animateRunDown() {
         if (isCurrentAnimation(RUNDOWN)) return;

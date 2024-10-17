@@ -129,6 +129,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
             movementTask.start();
         }
         
+        //handle animation, doesn't work as intended but I dont know how to fix it.
         if (targetPos.x - currentPos.x < 0 && chaseDir) {
             if (owner.getEntity().isNormalEnemy()) {
                 owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);

@@ -53,12 +53,6 @@ public class EnemyFactory {
                     new SleepMove("Enemy Sleep", 0)
             )
     );
-    private static final String SPAWN = "spawn";
-    private static final String FLOAT = "float";
-    private static final String CHASE = "chase";
-    private static final String WALK = "walk";
-    private static final String WANDER = "wander";
-
     /**
      * Creates a chicken enemy.
      *
@@ -71,18 +65,18 @@ public class EnemyFactory {
         chicken.setEnemyType(Entity.EnemyType.CHICKEN);
 
         TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-
-        AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
-
-        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
-        animator.addAnimation(WALK, 0.25f, Animation.PlayMode.LOOP);
         
-        animator.startAnimation(SPAWN);
-
+        AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
+        
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
+        
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         chicken
                 .addComponent(animator)
-                .addComponent(new ChickenAnimationController());
-
+                .addComponent(new EnemyAnimationController(false));
+        
         chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
 
         return chicken;
@@ -102,16 +96,15 @@ public class EnemyFactory {
         TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
         AnimationRenderComponent animator = new AnimationRenderComponent(bearAtlas);
-
-        animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         
-        animator.startAnimation(FLOAT);
-
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
+        
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         bear
                 .addComponent(animator)
-                .addComponent(new BearAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
 
         bear.setScale(2f,1.38f);
@@ -378,15 +371,15 @@ public class EnemyFactory {
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-        animator.addAnimation(WANDER, 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation(CHASE, 0.1f, Animation.PlayMode.LOOP);
-        animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
         
-        animator.startAnimation(SPAWN);
-
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
+        
+        animator.startAnimation(EnemyAnimationController.WAIT);
+        
         joey
                 .addComponent(animator)
-                .addComponent(new JoeyAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
         joey.getComponent(AnimationRenderComponent.class).scaleEntity();
         joey.getComponent(PhysicsMovementComponent.class).changeMaxSpeed(new Vector2(config.getSpeed(), config.getSpeed()));

@@ -206,7 +206,7 @@ class EnemyFactoryTest {
     void TestChickenHasComponents() {
         assertNotNull(chicken.getComponent(PhysicsComponent.class));
         assertNotNull(chicken.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(chicken.getComponent(ChickenAnimationController.class));
+        assertNotNull(chicken.getComponent(EnemyAnimationController.class));
         assertNotNull(chicken.getComponent(CombatStatsComponent.class));
         assertNotNull(chicken.getComponent(HitboxComponent.class));
         assertNotNull(chicken.getComponent(ColliderComponent.class));
@@ -239,10 +239,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestChickenAnimation() {
-        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("walk") ,
-                "Chicken should have walk animation.");
-        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
-                "Chicken should have spawn animation.");
+        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("wait") ,
+                "Chicken should have wait animation.");
+        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
+                "Chicken should have runRight animation.");
     }
 
     /**
@@ -350,7 +350,7 @@ class EnemyFactoryTest {
     void TestBearHasComponents() {
         assertNotNull(bear.getComponent(PhysicsComponent.class));
         assertNotNull(bear.getComponent(PhysicsMovementComponent.class));
-        assertNotNull(bear.getComponent(BearAnimationController.class));
+        assertNotNull(bear.getComponent(EnemyAnimationController.class));
         assertNotNull(bear.getComponent(CombatStatsComponent.class));
         assertNotNull(bear.getComponent(HitboxComponent.class));
         assertNotNull(bear.getComponent(ColliderComponent.class));
@@ -383,12 +383,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestBearAnimation() {
-        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
-                "bear should have chase animation.");
-        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
-                "bear should have float animation.");
-        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
-                "bear should have spawn animation.");
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
+                "bear should have runRight animation.");
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("wait") ,
+                "bear should have wait animation.");
     }
 
     /**
