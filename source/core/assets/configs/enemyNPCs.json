@@ -47,7 +47,7 @@
   "octopus": {
     "spritePath": "images/octopus.atlas",
     "health": 25,
-    "baseAttack": 2,
+    "baseAttack": 3,
     "defense": 30,
     "speed": 170,
     "experience": 120,

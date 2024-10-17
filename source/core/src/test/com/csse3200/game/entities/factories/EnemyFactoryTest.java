@@ -7,6 +7,10 @@ import com.csse3200.game.components.npc.BearAnimationController;
 import com.csse3200.game.components.npc.ChickenAnimationController;
 import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.npc.MonkeyAnimationController;
+import com.csse3200.game.components.npc.EelAnimationController;
+import com.csse3200.game.components.npc.BeeAnimationController;
+import com.csse3200.game.components.npc.OctopusAnimationController;
+//import com.csse3200.game.components.npc.PigeonAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
@@ -42,6 +46,10 @@ class EnemyFactoryTest {
     private static Entity monkey;
     private static Entity bear;
     private static Entity pigeon;
+    private static Entity eel;
+    private static Entity octopus;
+    private static Entity bee;
+    //private static Entity bigsawfish;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
@@ -53,7 +61,10 @@ class EnemyFactoryTest {
             "images/pigeon2.png",
 		    "images/frog.png",
 		    "images/chicken.png",
-		    "images/bear.png"
+		    "images/bear.png",
+            "images/eel.png",
+            "images/octopus.png",
+            "images/bee.png"
     };
 
     private static String[] atlas = {
@@ -64,9 +75,12 @@ class EnemyFactoryTest {
             "images/frog.atlas",
             "images/enemy-frog.atlas",
             "images/bear.atlas",
-            "images/pigeon.atlas",
+            //"images/pigeon.atlas",
             "images/enemy-bear.atlas",
-            "images/final_boss_kangaroo.atlas"
+            "images/final_boss_kangaroo.atlas",
+            "images/eel.atlas",
+            "images/octopus.atlas",
+            "images/bee.atlas"
     };
 
 
@@ -97,8 +111,11 @@ class EnemyFactoryTest {
         frog = EnemyFactory.createFrog(player);
         monkey = EnemyFactory.createMonkey(player);
         bear = EnemyFactory.createBear(player);
-        //pigeon = EnemyFactory.createPigeon(player); needs its own testing class, too much to test here and doesn't
-        //                                            behave like other enemies
+        eel = EnemyFactory.createEel(player);
+        octopus = EnemyFactory.createOctopus(player);
+        bee = EnemyFactory.createBee(player);
+        //pigeon = EnemyFactory.createPigeon(player);
+        //bigsawfish = EnemyFactory.createBigsawfish(player);
     }
 
     /**
@@ -403,4 +420,228 @@ class EnemyFactoryTest {
         bear.setPosition(pos);
         assertEquals(pos, bear.getPosition());
     }
+
+    /**
+     * Tests Creation of a octopus.
+     */
+    @Test
+    void TestOctopusCreation() {
+        assertNotNull(octopus, "octopus should not be null.");
+    }
+
+    /**
+     * Tests that the octopus is an Entity.
+     */
+    @Test
+    void TestOctopusIsEntity() {
+        assertEquals(octopus.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the octopus has the correct components.
+     */
+    @Test
+    void TestOctopusHasComponents() {
+        assertNotNull(octopus.getComponent(PhysicsComponent.class));
+        assertNotNull(octopus.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(octopus.getComponent(OctopusAnimationController.class));
+        assertNotNull(octopus.getComponent(CombatStatsComponent.class));
+        assertNotNull(octopus.getComponent(HitboxComponent.class));
+        assertNotNull(octopus.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the octopus has the correct stats.
+     */
+    @Test
+    void TestOctopusStats() {
+        assertTrue((octopus.getComponent(CombatStatsComponent.class).getHealth() > 22)
+                        && (octopus.getComponent(CombatStatsComponent.class).getHealth() < 28),
+                "octopus should have between 23 and 27 HP.");
+        assertTrue((octopus.getComponent(CombatStatsComponent.class).getStrength() > 0)
+                        && (octopus.getComponent(CombatStatsComponent.class).getStrength() < 6),
+                "octopus should have between 1 and 3 Attack.");
+        assertTrue((octopus.getComponent(CombatStatsComponent.class).getDefense() > 27)
+                        && (octopus.getComponent(CombatStatsComponent.class).getDefense() < 33),
+                "octopus should have between 27 and 33 defense.");
+        assertEquals(85,
+                octopus.getComponent(CombatStatsComponent.class).getSpeed(),
+                "octopus should have 85 speed.");
+        assertEquals(120,
+                octopus.getComponent(CombatStatsComponent.class).getExperience(),
+                "octopus should have 120 experience.");
+    }
+
+    /**
+     * Tests that the octopus has correct animations.
+     */
+    @Test
+    void TestOctopusAnimation() {
+        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "octopus should have chase animation.");
+        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "octopus should have float animation.");
+    }
+
+    /**
+     * Tests that the octopus is in the correct spot when placed.
+     */
+    @Test
+    void TestOctopusSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        octopus.setPosition(pos);
+        assertEquals(pos, octopus.getPosition());
+    }
+
+
+    /**
+     * Tests Creation of a eel.
+     */
+    @Test
+    void TestEelCreation() {
+        assertNotNull(eel, "eel should not be null.");
+    }
+
+    /**
+     * Tests that the eel is an Entity.
+     */
+    @Test
+    void TestEelIsEntity() {
+        assertEquals(eel.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the eel has the correct components.
+     */
+    @Test
+    void TestEelHasComponents() {
+        assertNotNull(eel.getComponent(PhysicsComponent.class));
+        assertNotNull(eel.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(eel.getComponent(EelAnimationController.class));
+        assertNotNull(eel.getComponent(CombatStatsComponent.class));
+        assertNotNull(eel.getComponent(HitboxComponent.class));
+        assertNotNull(eel.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the eel has the correct stats.
+     */
+    @Test
+    void TestEelStats() {
+        assertTrue((eel.getComponent(CombatStatsComponent.class).getHealth() > 17)
+                        && (eel.getComponent(CombatStatsComponent.class).getHealth() < 23),
+                "eel should have between 18 and 22 HP.");
+        assertTrue((eel.getComponent(CombatStatsComponent.class).getStrength() > 17)
+                        && (eel.getComponent(CombatStatsComponent.class).getStrength() < 23),
+                "eel should have between 18 and 22 Attack.");
+        assertTrue((eel.getComponent(CombatStatsComponent.class).getDefense() > 12)
+                        && (eel.getComponent(CombatStatsComponent.class).getDefense() < 18),
+                "eel should have between 13 and 17 defense.");
+        assertEquals(100,
+                eel.getComponent(CombatStatsComponent.class).getSpeed(),
+                "eel should have 100 speed.");
+        assertEquals(100,
+                eel.getComponent(CombatStatsComponent.class).getExperience(),
+                "eel should have 100 experience.");
+    }
+
+    /**
+     * Tests that the eel has correct animations.
+     */
+    @Test
+    void TestEelAnimation() {
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_down") ,
+                "eel should have swim down animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_down_right") ,
+                "eel should have swim down right animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_right") ,
+                "eel should have swim right animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_up_right") ,
+                "eel should have swim up right animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_up") ,
+                "eel should have swim up animation.");
+    }
+
+    /**
+     * Tests that the eel is in the correct spot when placed.
+     */
+    @Test
+    void TestEelSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        eel.setPosition(pos);
+        assertEquals(pos, eel.getPosition());
+    }
+
+    /**
+     * Tests Creation of a bee.
+     */
+    @Test
+    void TestBeeCreation() {
+        assertNotNull(bee, "bee should not be null.");
+    }
+
+    /**
+     * Tests that the bee is an Entity.
+     */
+    @Test
+    void TestBeeIsEntity() {
+        assertEquals(bee.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the bee has the correct components.
+     */
+    @Test
+    void TestBeeHasComponents() {
+        assertNotNull(bee.getComponent(PhysicsComponent.class));
+        assertNotNull(bee.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(bee.getComponent(BeeAnimationController.class));
+        assertNotNull(bee.getComponent(CombatStatsComponent.class));
+        assertNotNull(bee.getComponent(HitboxComponent.class));
+        assertNotNull(bee.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the bee has the correct stats.
+     */
+    @Test
+    void TestBeeStats() {
+        assertTrue((bee.getComponent(CombatStatsComponent.class).getHealth() > 2)
+                        && (bee.getComponent(CombatStatsComponent.class).getHealth() < 8),
+                "bee should have between 3 and 7 HP.");
+        assertTrue((bee.getComponent(CombatStatsComponent.class).getStrength() > 22)
+                        && (bee.getComponent(CombatStatsComponent.class).getStrength() < 28),
+                "bee should have between 23 and 27 Attack.");
+        assertTrue((bee.getComponent(CombatStatsComponent.class).getDefense() > 2)
+                        && (bee.getComponent(CombatStatsComponent.class).getDefense() < 8),
+                "bee should have between 3 and 7 defense.");
+        assertEquals(135,
+                bee.getComponent(CombatStatsComponent.class).getSpeed(),
+                "bee should have 135 speed.");
+        assertEquals(60,
+                bee.getComponent(CombatStatsComponent.class).getExperience(),
+                "bee should have 60 experience.");
+    }
+
+    /**
+     * Tests that the bee has correct animations.
+     */
+    @Test
+    void TestBeeAnimation() {
+        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("alert") ,
+                "bee should have alert animation.");
+        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "bee should have float animation.");
+    }
+
+    /**
+     * Tests that the bee is in the correct spot when placed.
+     */
+    @Test
+    void TestBeeSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        bee.setPosition(pos);
+        assertEquals(pos, bee.getPosition());
+    }
+
 }
