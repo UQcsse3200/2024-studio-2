@@ -385,8 +385,7 @@ public class ForestGameArea extends GameArea {
         if (!airBossSpawned) {
             Entity airBoss = BossFactory.createAirBossEntity(player);
             airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
-            //spawnBossOnMap(airBoss);
-            spawnEntityNearPlayer(airBoss, 10);
+            spawnBossOnMap(airBoss);
             bosses.add(airBoss);
             airBossSpawned = true;
         }
