@@ -311,10 +311,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestFrogAnimation() {
-        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("jump") ,
-                "Frog should have jump animation.");
-        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("still") ,
-                "Frog should have still animation.");
+        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("wait") ,
+                "Frog should have wait animation.");
+        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
+                "Frog should have runRight animation.");
     }
 
     /**

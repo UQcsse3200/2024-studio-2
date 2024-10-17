@@ -59,36 +59,39 @@ public class EnemyAnimationController extends Component {
     private void animate(Vector2 targetPos, Vector2 startPos) {
         float deltaX = targetPos.x - startPos.x;
         float deltaY = targetPos.y - startPos.y;
-        
-        double angle = atan2(deltaX, deltaY);
-        if (angle < -7 * Math.PI / 8) {
-            animateRunDown();
-        } else if (angle < -5 * Math.PI / 8) {
-            direction = false;
-            if (hasAngledAnimation) animateRunLeftDown();
-            else animateRunLeft();
-        } else if (angle < -3 * Math.PI / 8) {
-            direction = false;
-            animateRunLeft();
-        } else if (angle < -1 * Math.PI / 8) {
-            direction = false;
-            if (hasAngledAnimation) animateRunLeftUp();
-            else animateRunLeft();
-        } else if (angle < 1 * Math.PI / 8) {
-            animateRunUp();
-        } else if (angle < 3 * Math.PI / 8) {
-            direction = true;
-            if (hasAngledAnimation) animateRunRightUp();
-            else animateRunRight();
-        } else if (angle < 5 * Math.PI / 8) {
-            direction = true;
-            animateRunRight();
-        } else if (angle < 7 * Math.PI / 8) {
-            direction = true;
-            if (hasAngledAnimation) animateRunRightDown();
-            else animateRunRight();
-        } else {
-            animateRunDown();
+        try {
+            double angle = atan2(deltaX, deltaY);
+            if (angle < -7 * Math.PI / 8) {
+                animateRunDown();
+            } else if (angle < -5 * Math.PI / 8) {
+                direction = false;
+                if (hasAngledAnimation) animateRunLeftDown();
+                else animateRunLeft();
+            } else if (angle < -3 * Math.PI / 8) {
+                direction = false;
+                animateRunLeft();
+            } else if (angle < -1 * Math.PI / 8) {
+                direction = false;
+                if (hasAngledAnimation) animateRunLeftUp();
+                else animateRunLeft();
+            } else if (angle < 1 * Math.PI / 8) {
+                animateRunUp();
+            } else if (angle < 3 * Math.PI / 8) {
+                direction = true;
+                if (hasAngledAnimation) animateRunRightUp();
+                else animateRunRight();
+            } else if (angle < 5 * Math.PI / 8) {
+                direction = true;
+                animateRunRight();
+            } else if (angle < 7 * Math.PI / 8) {
+                direction = true;
+                if (hasAngledAnimation) animateRunRightDown();
+                else animateRunRight();
+            } else {
+                animateRunDown();
+            }
+        } catch (NullPointerException e) {
+            throw new NullPointerException(entity.getEnemyType().toString() + "animation has not been started fro this type");
         }
         
         if (entity.getEnemyType() == Entity.EnemyType.BEE) System.out.println(" Animation: " + animator.getCurrentAnimation() + " Direction: " + direction + " FlipX: " + animator.getFlipX());
