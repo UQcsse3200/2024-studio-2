@@ -129,17 +129,20 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
             movementTask.start();
         }
         
-        if (owner.getEntity().isNormalEnemy()) {
-            owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
-            return;
-        }
-        
         if (targetPos.x - currentPos.x < 0 && chaseDir) {
+            if (owner.getEntity().isNormalEnemy()) {
+                owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+            } else {
+                owner.getEntity().getEvents().trigger("chaseLeft");
+            }
             chaseDir = false;
-            this.owner.getEntity().getEvents().trigger("chaseLeft");
-        } else if (targetPos.x - currentPos.x > 0 && !chaseDir){
+        } else if (targetPos.x - currentPos.x >= 0 && !chaseDir){
+            if (owner.getEntity().isNormalEnemy()) {
+                owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+            } else {
+                owner.getEntity().getEvents().trigger("chaseRight");
+            }
             chaseDir = true;
-            this.owner.getEntity().getEvents().trigger("chaseRight");
         }
     }
     

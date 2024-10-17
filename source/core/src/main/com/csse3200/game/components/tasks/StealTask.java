@@ -49,7 +49,6 @@ public class StealTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
-        System.out.println(items);
         origin = owner.getEntity().getPosition();
         if(!isSpawned) {
             logger.debug("Triggering spawn event");

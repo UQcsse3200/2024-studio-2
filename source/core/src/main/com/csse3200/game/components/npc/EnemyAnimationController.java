@@ -1,7 +1,9 @@
 package com.csse3200.game.components.npc;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.entities.Entity;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 
 import static java.lang.Math.atan2;
@@ -62,26 +64,34 @@ public class EnemyAnimationController extends Component {
         if (angle < -7 * Math.PI / 8) {
             animateRunDown();
         } else if (angle < -5 * Math.PI / 8) {
+            direction = false;
             if (hasAngledAnimation) animateRunLeftDown();
             else animateRunLeft();
         } else if (angle < -3 * Math.PI / 8) {
+            direction = false;
             animateRunLeft();
         } else if (angle < -1 * Math.PI / 8) {
+            direction = false;
             if (hasAngledAnimation) animateRunLeftUp();
             else animateRunLeft();
         } else if (angle < 1 * Math.PI / 8) {
             animateRunUp();
         } else if (angle < 3 * Math.PI / 8) {
+            direction = true;
             if (hasAngledAnimation) animateRunRightUp();
             else animateRunRight();
         } else if (angle < 5 * Math.PI / 8) {
+            direction = true;
             animateRunRight();
         } else if (angle < 7 * Math.PI / 8) {
+            direction = true;
             if (hasAngledAnimation) animateRunRightDown();
             else animateRunRight();
         } else {
             animateRunDown();
         }
+        
+        if (entity.getEnemyType() == Entity.EnemyType.BEE) System.out.println(" Animation: " + animator.getCurrentAnimation() + " Direction: " + direction + " FlipX: " + animator.getFlipX());
     }
     
     private boolean isCurrentAnimation(String animationName) {
@@ -118,38 +128,46 @@ public class EnemyAnimationController extends Component {
     }
     
     private void animateRunLeft() {
-        direction = false;
+        //prevent restarting the animation
         if (isCurrentAnimation(RUNLEFT)) return;
+        if (animator.getFlipX() && animator.getCurrentAnimation().equals(RUNRIGHT)) return;
+        
         resetFlip();
         
         if (animator.hasAnimation(RUNLEFT)) {
+           
             animator.startAnimation(RUNLEFT);
         } else if (animator.hasAnimation(RUNRIGHT)) {
             //doesn't have animation but has opposite direction animation, start playing it if it isn't already playing
             animator.startAnimation(RUNRIGHT);
             animator.setFlipX(true);
+        } else {
+            throw new GdxRuntimeException("Does not have at least one directional animation");
         }
     }
     
     private void animateRunRight() {
-        direction = true;
+        //prevent restarting the animation
         if (isCurrentAnimation(RUNRIGHT)) return;
+        if (animator.getFlipX() && animator.getCurrentAnimation().equals(RUNLEFT)) return;
+        
         resetFlip();
         
         if (animator.hasAnimation(RUNRIGHT)) {
+            
             animator.startAnimation(RUNRIGHT);
         } else if (animator.hasAnimation(RUNLEFT)) {
             //doesn't have animation but has opposite direction animation, start playing it if it isn't already playing
             animator.startAnimation(RUNLEFT);
             animator.setFlipX(true);
+        } else {
+            throw new GdxRuntimeException("Does not have at least one directional animation");
         }
     }
+
     
-    //is down
-    //is left
-    //assume already tried
-    //terrible names and kinda wack implementation, but needed as some sprite sheets dont have all directions
-    //(maybe have 1 or 2, some have all 4)
+    //terrible names and kinda ugly implementation, but needed as some sprite sheets dont have all directions
+    //(maybe have 1 or 2, only some have all 4)
     private void animateDiagonal(String first, String second, String third) {
         if (animator.hasAnimation(first)) {
             animator.startAnimation(first);

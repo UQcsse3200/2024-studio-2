@@ -66,9 +66,13 @@ public class WanderTask extends DefaultTask implements PriorityTask {
             currentTask = movementTask;
         } else if(!isSpawned) {
             logger.debug("Triggering spawn event");
-            this.owner.getEntity().getEvents().trigger("spawnStart");
-            isSpawned = true;
-            
+            if (owner.getEntity().isNormalEnemy()) {
+                owner.getEntity().getEvents().trigger("animate", newPos, startPos);
+                isSpawned = true;
+            } else {
+                this.owner.getEntity().getEvents().trigger("spawnStart");
+                isSpawned = true;
+            }
             // Wait for the spawn event to complete or for a specified duration before starting to wander
             waitTask = new WanderIdleTask(2.0f); // Adjust the wait time if needed
             waitTask.create(owner);
@@ -145,8 +149,7 @@ public class WanderTask extends DefaultTask implements PriorityTask {
         swapTask(movementTask);
         return;
     }
-
-    if (newPos.x - startPos.x < 0) {
+    else if (newPos.x - startPos.x < 0) {
       this.owner.getEntity().getEvents().trigger(LEFT);
     } else {
       this.owner.getEntity().getEvents().trigger(RIGHT);

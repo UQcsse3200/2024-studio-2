@@ -197,14 +197,14 @@ public class EnemyFactory {
 
         AnimationRenderComponent animator = new AnimationRenderComponent(octopusAtlas);
 
-        animator.addAnimation(CHASE, 0.5f, Animation.PlayMode.LOOP);
-        animator.addAnimation(FLOAT, 0.5f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
         
-        animator.startAnimation(FLOAT);
+        animator.startAnimation(EnemyAnimationController.WAIT);
 
         octopus
                 .addComponent(animator)
-                .addComponent(new OctopusAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
 
         octopus.setScale(1.3f,1.0f);
@@ -226,15 +226,14 @@ public class EnemyFactory {
 
         AnimationRenderComponent animator = new AnimationRenderComponent(beeAtlas);
 
-        animator.addAnimation(FLOAT, 1.0f, Animation.PlayMode.LOOP);
-        animator.addAnimation(CHASE, 1.0f,Animation.PlayMode.LOOP);
-        animator.addAnimation("alert", 1.0f, Animation.PlayMode.NORMAL);
+        animator.addAnimation(EnemyAnimationController.RUNLEFT, 0.2f, Animation.PlayMode.LOOP);
+        animator.addAnimation(EnemyAnimationController.WAIT, 0.2f,Animation.PlayMode.LOOP);
         
-        animator.startAnimation("alert");
+        animator.startAnimation(EnemyAnimationController.WAIT);
 
         bee
                 .addComponent(animator)
-                .addComponent(new BeeAnimationController());
+                .addComponent(new EnemyAnimationController(false));
 
         bee.setScale(0.542f,0.35f);
 
