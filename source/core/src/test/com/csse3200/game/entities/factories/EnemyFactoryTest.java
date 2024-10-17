@@ -304,7 +304,7 @@ class EnemyFactoryTest {
         assertEquals(25,
                 (frog.getComponent(CombatStatsComponent.class).getSpeed()),
                 "frog should have 25 speed.");
-        assertEquals(85,
+        assertEquals(100,
                 (frog.getComponent(CombatStatsComponent.class).getExperience()),
                 "frog should have 85 experience.");
     }
@@ -376,7 +376,7 @@ class EnemyFactoryTest {
         assertEquals(37,
                 bear.getComponent(CombatStatsComponent.class).getSpeed(),
                 "bear should have 37 speed.");
-        assertEquals(85,
+        assertEquals(200,
                 bear.getComponent(CombatStatsComponent.class).getExperience(),
                 "bear should have 85 experience.");
     }
