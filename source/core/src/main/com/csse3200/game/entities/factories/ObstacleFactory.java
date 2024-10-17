@@ -24,15 +24,25 @@ public class ObstacleFactory {
    */
   public static Entity createTree() {
     Entity tree =
-        new Entity()
-            .addComponent(new TextureRenderComponent("images/tree.png"))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/tree.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+                    .addComponent(new LightingComponent().attach(LightingComponent.createConeLight(2.4f, -90, 45, Color.YELLOW)))
+                    .addComponent(new FadeLightsDayTimeComponent());
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();
-    tree.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(tree, 0.5f, 0.2f);
+    tree.scaleHeight(5.0f);
+
+    ColliderComponent bottomCollider = new ColliderComponent()
+            .setLayer(PhysicsLayer.OBSTACLE);
+    PhysicsUtils.setScaledCollider(tree, 0.5f, 0.3f);
+
+
+    ColliderComponent topCollider = new ColliderComponent()
+            .setLayer(PhysicsLayer.OBSTACLE);
+    PhysicsUtils.setScaledCollider(tree, 0.5f, 0.4f);
     return tree;
   }
 
@@ -50,7 +60,7 @@ public class ObstacleFactory {
     cloud.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     cloud.getComponent(TextureRenderComponent.class).scaleEntity();
     cloud.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(cloud, 0.5f, 0.2f);
+    PhysicsUtils.setScaledCollider(cloud, 0.5f, 0.4f);
     return cloud;
   }
 
@@ -68,7 +78,7 @@ public class ObstacleFactory {
     seaweed.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     seaweed.getComponent(TextureRenderComponent.class).scaleEntity();
     seaweed.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(seaweed, 0.5f, 0.2f);
+    PhysicsUtils.setScaledCollider(seaweed, 0.6f, 0.6f);
     return seaweed;
   }
 
@@ -86,7 +96,7 @@ public class ObstacleFactory {
     starfish.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     starfish.getComponent(TextureRenderComponent.class).scaleEntity();
     starfish.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(starfish, 0.5f, 0.2f);
+    PhysicsUtils.setScaledCollider(starfish, 0.6f, 0.6f);
     return starfish;
   }
 
@@ -98,8 +108,8 @@ public class ObstacleFactory {
    */
   public static Entity createWall(float width, float height) {
     Entity wall = new Entity()
-        .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
     wall.setScale(width, height);
     return wall;
   }
@@ -116,9 +126,9 @@ public class ObstacleFactory {
    */
   public static Entity createVisibleWall(float width, float height) {
     Entity wall = new Entity()
-        .addComponent(new TextureRenderComponent("images/water_tile_2_around_grass/middle_water_2_around_grass.jpg"))
-        .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new TextureRenderComponent("images/water_tile_2_around_grass/middle_water_2_around_grass.jpg"))
+            .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
     wall.setScale(width, height);
     return wall;
   }
