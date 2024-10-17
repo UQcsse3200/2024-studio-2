@@ -30,7 +30,7 @@ class AchievementManagerTest {
         assertNotNull(loadedAchievements);
         assertFalse(loadedAchievements.isEmpty());
 
-        assertTrue(containsAchievement(loadedAchievements, "MONKEY"));
+        assertTrue(achievementManager.containsAchievement(loadedAchievements, "MONKEY"));
     }
 
     @Test
@@ -55,17 +55,8 @@ class AchievementManagerTest {
         List<Achievement> loadedAchievements = newAchievementManager.getAchievements();
 
         // Verify that the new achievement is in the loaded achievements
-        assertTrue(containsAchievement(loadedAchievements, newAchievement.getQuestName()));
+        assertTrue(achievementManager.containsAchievement(loadedAchievements, newAchievement.getQuestName()));
 
         SaveHandler.getInstance().delete(Achievements.class, "test/saves/achievement", FileLoader.Location.LOCAL);
-    }
-
-    private boolean containsAchievement(List<Achievement> achievements, String name) {
-        for (Achievement achievement : achievements) {
-            if (achievement.getQuestName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
