@@ -749,6 +749,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/components/tasks/BlindBearTask.html#%3Cinit%3E(com.badlogic.gdx.math.Vector2,float,int,com.csse3200.game.entities.Entity,float)" class="member-name-link">BlindBearTask(Vector2, float, int, Entity, float)</a> - Constructor for class com.csse3200.game.components.tasks.<a href="com/csse3200/game/components/tasks/BlindBearTask.html" title="class in com.csse3200.game.components.tasks">BlindBearTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#blurOcean" class="member-name-link">blurOcean</a> - Static variable in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#blurSky" class="member-name-link">blurSky</a> - Static variable in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/physics/BodyUserData.html" class="type-name-link" title="class in com.csse3200.game.physics">BodyUserData</a> - Class in <a href="com/csse3200/game/physics/package-summary.html">com.csse3200.game.physics</a></dt>
 <dd>
 <div class="block">POJO which contains the custom data attached to each box2D entity.</div>
@@ -1469,6 +1473,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/gamearea/GameAreaDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/GameAreaDisplay.html" title="class in com.csse3200.game.components.gamearea">GameAreaDisplay</a></dt>
 <dd>
 <div class="block">Initializes the GameAreaDisplay component and calls addActors() to add actors to the stage.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>
+<div class="block">Initialises the component, loading textures, fonts, and setting up initial data.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/gamearea/PerformanceDisplay.html#create()" class="member-name-link">create()</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/PerformanceDisplay.html" title="class in com.csse3200.game.components.gamearea">PerformanceDisplay</a></dt>
 <dd>&nbsp;</dd>
@@ -2397,6 +2405,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Disposes of assets used by this component, including the player icon texture and the title label.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>
+<div class="block">Disposes of all resources used by this component, including textures, batch, and fonts.</div>
+</dd>
 <dt><a href="com/csse3200/game/components/gamearea/PerformanceDisplay.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/PerformanceDisplay.html" title="class in com.csse3200.game.components.gamearea">PerformanceDisplay</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/gameover/GameOverLoseDisplay.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.csse3200.game.components.gameover.<a href="com/csse3200/game/components/gameover/GameOverLoseDisplay.html" title="class in com.csse3200.game.components.gameover">GameOverLoseDisplay</a></dt>
@@ -2772,6 +2784,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/rendering/DebugRenderer.html#drawLine(com.badlogic.gdx.math.Vector2,com.badlogic.gdx.math.Vector2,com.badlogic.gdx.graphics.Color,float)" class="member-name-link">drawLine(Vector2, Vector2, Color, float)</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/DebugRenderer.html" title="class in com.csse3200.game.rendering">DebugRenderer</a></dt>
 <dd>
 <div class="block">Draw a line between two positions</div>
+</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#drawMap()" class="member-name-link">drawMap()</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>
+<div class="block">Renders the map on the screen, including:
+ - The map texture.</div>
 </dd>
 <dt><a href="com/csse3200/game/rendering/DebugRenderer.html#drawRectangle(com.badlogic.gdx.math.Vector2,com.badlogic.gdx.math.Vector2)" class="member-name-link">drawRectangle(Vector2, Vector2)</a> - Method in class com.csse3200.game.rendering.<a href="com/csse3200/game/rendering/DebugRenderer.html" title="class in com.csse3200.game.rendering">DebugRenderer</a></dt>
 <dd>
@@ -5497,6 +5514,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Checks if the current screen is an instance of MainGameScreen.</div>
 </dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#isMapVisible" class="member-name-link">isMapVisible</a> - Variable in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/csse3200/game/components/player/PlayerActions.html#isMoving()" class="member-name-link">isMoving()</a> - Method in class com.csse3200.game.components.player.<a href="com/csse3200/game/components/player/PlayerActions.html" title="class in com.csse3200.game.components.player">PlayerActions</a></dt>
 <dd>
 <div class="block">Gets if the player is moving or not</div>
@@ -6093,6 +6112,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/areas/MapHandler.MapType.html" class="type-name-link" title="enum class in com.csse3200.game.areas">MapHandler.MapType</a> - Enum Class in <a href="com/csse3200/game/areas/package-summary.html">com.csse3200.game.areas</a></dt>
 <dd>
 <div class="block">Map types</div>
+</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html" class="type-name-link" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a> - Class in <a href="com/csse3200/game/components/gamearea/package-summary.html">com.csse3200.game.components.gamearea</a></dt>
+<dd>
+<div class="block">Component responsible for displaying and handling the game map when the player presses 'M'.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#%3Cinit%3E(com.csse3200.game.areas.GameArea)" class="member-name-link">MapTabComponent(GameArea)</a> - Constructor for class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>
+<div class="block">Constructs a MapTabComponent associated with a specific GameArea.</div>
 </dd>
 <dt><a href="com/csse3200/game/utils/math/Vector2Utils.html#MAX" class="member-name-link">MAX</a> - Static variable in class com.csse3200.game.utils.math.<a href="com/csse3200/game/utils/math/Vector2Utils.html" title="class in com.csse3200.game.utils.math">Vector2Utils</a></dt>
 <dd>&nbsp;</dd>
@@ -7963,6 +7990,14 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/csse3200/game/areas/terrain/TerrainTile.html#setBlendMode(com.badlogic.gdx.maps.tiled.TiledMapTile.BlendMode)" class="member-name-link">setBlendMode(TiledMapTile.BlendMode)</a> - Method in class com.csse3200.game.areas.terrain.<a href="com/csse3200/game/areas/terrain/TerrainTile.html" title="class in com.csse3200.game.areas.terrain">TerrainTile</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#setBlurOcean(boolean)" class="member-name-link">setBlurOcean(boolean)</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>
+<div class="block">Sets whether to apply a blur effect on the ocean area of the map.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#setBlurSky(boolean)" class="member-name-link">setBlurSky(boolean)</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>
+<div class="block">Sets whether to apply a blur effect on the sky area of the map.</div>
+</dd>
 <dt><a href="com/csse3200/game/physics/components/PhysicsComponent.html#setBodyType(com.badlogic.gdx.physics.box2d.BodyDef.BodyType)" class="member-name-link">setBodyType(BodyDef.BodyType)</a> - Method in class com.csse3200.game.physics.components.<a href="com/csse3200/game/physics/components/PhysicsComponent.html" title="class in com.csse3200.game.physics.components">PhysicsComponent</a></dt>
 <dd>
 <div class="block">Set body type</div>
@@ -9652,6 +9687,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/csse3200/game/components/Component.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.<a href="com/csse3200/game/components/Component.html" title="class in com.csse3200.game.components">Component</a></dt>
 <dd>
 <div class="block">Called once per frame of the game, and should be used for most component logic.</div>
+</dd>
+<dt><a href="com/csse3200/game/components/gamearea/MapTabComponent.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.gamearea.<a href="com/csse3200/game/components/gamearea/MapTabComponent.html" title="class in com.csse3200.game.components.gamearea">MapTabComponent</a></dt>
+<dd>
+<div class="block">Handles input to toggle map visibility and close the map.</div>
 </dd>
 <dt><a href="com/csse3200/game/components/loading/LoadingDisplay.html#update()" class="member-name-link">update()</a> - Method in class com.csse3200.game.components.loading.<a href="com/csse3200/game/components/loading/LoadingDisplay.html" title="class in com.csse3200.game.components.loading">LoadingDisplay</a></dt>
 <dd>&nbsp;</dd>
