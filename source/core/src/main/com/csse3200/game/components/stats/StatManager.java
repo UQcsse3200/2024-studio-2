@@ -7,6 +7,8 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.inventory.items.AbstractItem;
+import com.csse3200.game.minigames.MiniGameMedals;
+import com.csse3200.game.minigames.MiniGameNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +39,7 @@ public class StatManager extends Component {
         // Event for defeating an enemy
         player.getEvents().addListener("addItem", this::handleCollection);
         player.getEvents().addListener("defeatedEnemy", this::handleCombatWin);
+        player.getEvents().addListener("miniGameStats", this::handleMiniGameScore);
         for (Stat stat : stats) {
             subscribeToStatEvents(stat);
         }
@@ -54,8 +57,13 @@ public class StatManager extends Component {
      */
     void handleCombatWin(Entity enemy){
         player.getEvents().trigger(enemy.getEnemyType().toString() + " Defeated");
-        logger.info("enemy type {}", enemy.getEnemyType().toString());
+    }
 
+    /**
+     * Subscribes to mini-game triggers and sends it as a specific achievement completion trigger.
+     */
+    private void handleMiniGameScore(MiniGameNames minigame){
+        player.getEvents().trigger(minigame.name() + " Medal");
     }
 
     /**
@@ -63,7 +71,7 @@ public class StatManager extends Component {
      * Currently only tracks item collection.
      * @param stat The stat being listened to.
      */
-    private void subscribeToStatEvents(Stat  stat) {
+    private void subscribeToStatEvents(Stat stat) {
         player.getEvents().addListener(stat.getStatName(), () -> this.incrementStat(stat.getStatName(), "add", 1));
     }
 
@@ -85,7 +93,6 @@ public class StatManager extends Component {
             if (stat.getStatName().equals(statName)) {
                 logger.info("Updating {} with {} by {}", stat.getStatName(), operation, value);
                 stat.update(operation, value);
-                logger.info("Total {}: {}", stat.getStatName(), stat.getCurrent());
             } else {
                 logger.info("stat not found in stats");
             }

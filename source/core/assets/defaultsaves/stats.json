@@ -57,6 +57,38 @@
       "type": "FOOD_ITEM"
     },
     {
+      "statName": "Attack Potion Collected",
+      "statDescription": "Attack Potion/s",
+      "statCurrent": 1,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "POTION_ITEM"
+    },
+    {
+      "statName": "Defense Potion Collected",
+      "statDescription": "Defense Potion/s",
+      "statCurrent": 1,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "POTION_ITEM"
+    },
+    {
+      "statName": "Healing Potion Collected",
+      "statDescription": "Healing Potion/s",
+      "statCurrent": 1,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "POTION_ITEM"
+    },
+    {
+      "statName": "Speed Potion Collected",
+      "statDescription": "Speed Potions/s",
+      "statCurrent": 1,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "POTION_ITEM"
+    },
+    {
       "statName": "KANGAROO Defeated",
       "statDescription": "Kanga Kill",
       "statCurrent": 0,
@@ -159,6 +191,70 @@
       "statHasMax": false,
       "statMax": 0,
       "type": "AIR_ENEMY"
+    },
+    {
+      "statName": "SNAKE medal",
+      "statDescription": "Snake Game Medal/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_MINIGAME"
+    },
+    {
+      "statName": "BIRD Medals",
+      "statDescription": "Bird Game Medal/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_MINIGAME"
+    },
+    {
+      "statName": "MAZE Medals",
+      "statDescription": "Maze Game Medal/s",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_MINIGAME"
+    },
+    {
+      "statName": "Damage Taken",
+      "statDescription": "Damage Taken",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Damage Dealt",
+      "statDescription": "Damage Dealt",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Experience Gained",
+      "statDescription": "Experience Gained",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Items Collected",
+      "statDescription": "% of Items",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
+    },
+    {
+      "statName": "Enemies Defeated",
+      "statDescription": "% of Enemies",
+      "statCurrent": 0,
+      "statHasMax": false,
+      "statMax": 0,
+      "type": "PLAYER_COMBAT"
     }
   ]
 }

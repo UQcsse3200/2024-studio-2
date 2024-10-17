@@ -117,8 +117,6 @@ public StatDisplay(GdxGame game) {
         Stack enemyTypeStack = new Stack();
         Stack playerTypeStack = new Stack();
 
-        Stack subTabStack = new Stack();
-
         // Populate tables with stat data
         Table itemsTable = makeLogbookTable(Stat.StatType.ITEM);
         Table enemiesTable = makeLogbookTable(Stat.StatType.ENEMY);
