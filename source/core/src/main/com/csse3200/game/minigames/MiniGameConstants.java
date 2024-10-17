@@ -16,15 +16,15 @@ public final class MiniGameConstants {
      * Snake game GOLD, SILVER and BRONZE score thresholds
      */
     public static final int SNAKE_BRONZE_THRESHOLD = 15;
-    public static final int SNAKE_SILVER_THRESHOLD = 35;
-    public static final int SNAKE_GOLD_THRESHOLD = 80;
+    public static final int SNAKE_SILVER_THRESHOLD = 30;
+    public static final int SNAKE_GOLD_THRESHOLD = 45;
 
     /**
      * Birdie Dash game GOLD, SILVER and BRONZE score thresholds
      */
-    public static final int BIRDIE_DASH_GOLD_THRESHOLD = 35;
-    public static final int BIRDIE_DASH_SILVER_THRESHOLD = 20;
-    public static final int BIRDIE_DASH_BRONZE_THRESHOLD = 10;
+    public static final int BIRDIE_DASH_GOLD_THRESHOLD = 45;
+    public static final int BIRDIE_DASH_SILVER_THRESHOLD = 30;
+    public static final int BIRDIE_DASH_BRONZE_THRESHOLD = 15;
 
     /**
      * Maze game GOLD, SILVER and BRONZE score thresholds
