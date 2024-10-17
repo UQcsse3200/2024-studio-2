@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.ai.tasks.Task;
-import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
@@ -46,7 +45,7 @@ public class PullTask extends DefaultTask implements PriorityTask {
     }
 
     /**
-     * @param pullDistance Distance within which the frog will be pulled toward the player.
+     * @param pullDistance Distance within which the player will be pulled
      */
     public PullTask(int priority, Entity target, float viewDistance, float pullDistance) {
         this.priority = priority;
@@ -75,7 +74,7 @@ public class PullTask extends DefaultTask implements PriorityTask {
     }
 
     /**
-     * Starts the frog behavior. If not spawned, triggers the spawn event.
+     * Starts the spawn behavior of enemy. If not spawned, triggers the spawn event.
      */
     @Override
     public void start() {
@@ -96,32 +95,32 @@ public class PullTask extends DefaultTask implements PriorityTask {
 
     private void pullToPlayer() {
         if (getDistanceToTarget() <= pullDistance) {
-            logger.info("Pulling player to frog");
+            logger.info("Pulling player");
 
-            // Get the positions of the frog and the player
-            Vector2 frogPos = owner.getEntity().getPosition();
+            // Get the positions of the enemy and the player
+            Vector2 enemyPos = owner.getEntity().getPosition();
             Vector2 playerPos = target.getPosition();
 
             AnimationRenderComponent anim = owner.getEntity().getComponent(AnimationRenderComponent.class);
 
             // Determine the direction of the pull and trigger appropriate animations
             if(anim.isFinished()){
-                if (playerPos.x > frogPos.x) {
-                    // Player is to the left of the frog
-                    owner.getEntity().getEvents().trigger("pullRight");  // Player is being pulled right towards frog
+                if (playerPos.x > enemyPos.x) {
+                    // Player is to the left of enemy
+                    owner.getEntity().getEvents().trigger("pullRight");  // Player is being pulled right
                 } else {
-                    // Player is to the right of the frog
-                    owner.getEntity().getEvents().trigger("pullLeft");   // Player is being pulled left towards frog
+                    // Player is to the right of enemy
+                    owner.getEntity().getEvents().trigger("pullLeft");   // Player is being pulled left
                 }
             }
 
-            // Calculate the direction vector from player to frog
-            Vector2 pullDirection = frogPos.cpy().sub(playerPos).nor(); // Normalized direction vector
+            // Calculate the direction vector from player to enemy
+            Vector2 pullDirection = enemyPos.cpy().sub(playerPos).nor(); // Normalized direction vector
 
             // Set the strength of the pull (you can adjust this value to control the pull speed)
             float pullStrength = 4.0f;
 
-            // Apply movement to the player towards the frog
+            // Apply movement to the player towards the enemy
             Vector2 newPlayerPos = playerPos.add(pullDirection.scl(pullStrength * ServiceLocator.getTimeSource().getDeltaTime()));
             target.setPosition(newPlayerPos);
         }
