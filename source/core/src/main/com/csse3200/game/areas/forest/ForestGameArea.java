@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.components.gamearea.MapTabComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,13 +165,24 @@ public class ForestGameArea extends GameArea {
     @Override
     public void unlockArea(String area) {
         terrain.getMap().getLayers().get(area).setVisible(false);
-        if (area.equals("Water")) {
-          waterAreaWall.getComponent(ColliderComponent.class).setSensor(true);
-        } else if (area.equals("Air")) {
-          airAreaWall.getComponent(ColliderComponent.class).setSensor(true);
 
-        }
+    if (area.equals("Air")) {
+        unlockSkyArea();
+        airAreaWall.getComponent(ColliderComponent.class).setSensor(true);
+    } else if (area.equals("Water")) {
+        waterAreaWall.getComponent(ColliderComponent.class).setSensor(true);
+    } else {
+        unlockOceanArea();
     }
+}
+
+private void unlockSkyArea() {
+    MapTabComponent.blurSky = false;
+}
+
+private void unlockOceanArea() {
+    MapTabComponent.blurOcean = false;
+}
 
     /**
      * Spawn the world barrier

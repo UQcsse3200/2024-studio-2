@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.Component;
+import com.csse3200.game.components.gamearea.MapTabComponent;
+import com.csse3200.game.components.maingame.TimeDisplay;
+import com.csse3200.game.components.player.KeyboardPlayerInputComponent;
 import com.csse3200.game.areas.GameArea;
 import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.areas.MiniMap.MiniMapDisplay;
@@ -84,6 +88,12 @@ public class MainGameScreen extends PausableScreen {
    */
   private GameArea gameArea;
 
+
+ /**
+  * Added this field to manage the map component.
+  */
+  private MapTabComponent mapTab;
+
   /**
    * Constructs a MainGameScreen instance.
    * 
@@ -160,8 +170,15 @@ public class MainGameScreen extends PausableScreen {
           dayNightCycle.update();
           renderer.render();
       }
+
+
+      // Render the map if visible.
+      if (mapTab != null && mapTab.isMapVisible) {
+          mapTab.drawMap();
+      }
+
   }
-  
+
   /**
    * Resizes the renderer to fit dimensions.
    * @param width  width of the screen.
@@ -249,7 +266,10 @@ public class MainGameScreen extends PausableScreen {
       
       Entity ui = new Entity();
       
-      Component mainGameActions = new MainGameActions(this.game);
+      Component mainGameActions = new MainGameActions(this.game); // Initialise map tab component.
+
+      mapTab = new MapTabComponent(gameArea);
+
       ui.addComponent(new InputDecorator(stage, 10))
               .addComponent(new PerformanceDisplay())
               .addComponent(mainGameActions)
@@ -257,9 +277,11 @@ public class MainGameScreen extends PausableScreen {
               .addComponent(new Terminal())
               .addComponent(inputComponent)
               .addComponent(new TerminalDisplay())
+              .addComponent(mapTab)
               .addComponent(miniMapDisplay)
               .addComponent(new TimeDisplay());
       
+
       ServiceLocator.getEntityService().register(ui);
   }
   
