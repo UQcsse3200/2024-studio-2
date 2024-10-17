@@ -509,4 +509,30 @@ class EnemyFactoryTest {
         assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("runRight"),
                 "macaw should have runRight animation.");
     }
+
+    /**
+     * Tests Creation of a joey.
+     */
+    @Test
+    void TestJoeyCreation() {
+        assertNotNull(joey, "Joey should not be null.");
+    }
+
+    /**
+     * Tests that the joey is an Entity.
+     */
+    @Test
+    void TestJoeyIsEntity() {
+        assertEquals(joey.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the joey is in the correct spot when placed.
+     */
+    @Test
+    void TestJoeySetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        joey.setPosition(pos);
+        assertEquals(pos, joey.getPosition());
+    }
 }
