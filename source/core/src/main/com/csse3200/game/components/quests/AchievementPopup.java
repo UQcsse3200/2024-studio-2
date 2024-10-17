@@ -1,6 +1,5 @@
 package com.csse3200.game.components.quests;
 
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -12,23 +11,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
-
-
 /**
  * AchievementPopup is an UIComponent that displays whenever the player completes a new achievement and then disappears.
  */
 public class AchievementPopup extends UIComponent {
     // Flag to see if popup is displaying.
     private boolean showing;
-    // Image for achievement completion. */
-    private Image popup;
-
-
-
+    // Container for the popup
+    private Table popup;
 
     public AchievementPopup() {
         this.showing = false;
-
     }
 
     /**
@@ -41,11 +34,11 @@ public class AchievementPopup extends UIComponent {
     }
 
     /**
-     * Displays the popup on the current screen and save the completed achievement.
+     * Display the popup on the current screen and save the completed achievement.
      */
-    private void showPopup() {
+    private void showPopup(Achievement achievement) {
         if (!showing) {
-            generate();
+            generate(achievement);
         }
         SaveHandler.getInstance().save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
     }
@@ -60,29 +53,43 @@ public class AchievementPopup extends UIComponent {
     }
 
     /**
-     * Creates the popup and adds it to the stage.
+     * Creates and animates the popup, adds it to the stage.
+     * @param achievement the achievement being completed.
      */
-    public void generate() {
+    public void generate(Achievement achievement) {
+        this.popup = new Table();
+        showing = true;
+        // Create the relevant image for the achievement and the book image
+        Image book = new Image(new Texture(Gdx.files.internal("images/logbook-popup.png")));
+        Image popupImage = new Image(new Texture(Gdx.files.internal(achievement.getPath())));
+        book.setSize(100, 100);
+        popupImage.setSize(50,50);
 
-            showing = true;
-            // Create the popup image
-            popup = new Image(new Texture(Gdx.files.internal("images/logbook-popup.png")));
-            // Calculate and position the popup
-            float screenHeight = Gdx.graphics.getHeight();
-            float screenWidth = Gdx.graphics.getWidth();
-            float displayX = screenWidth * 0.8f;
-            float displayY = screenHeight * 0.8f;
-            popup.setPosition(displayX, displayY);
+        popup.addActor(book);
+        popup.addActor(popupImage);
 
+        // Calculate and position the popup
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float displayX = screenWidth * 0.65f;
+        float displayY = screenHeight * 0.85f;
+        popup.setPosition(displayX, displayY);
+        popup.setSize(200, 100);
 
-            // Add actions to the popup
-            SequenceAction sequence = new SequenceAction();
-            sequence.addAction(Actions.delay(2f));
-            sequence.addAction(Actions.run(this::dispose));
-            popup.addAction(sequence);
-            stage.addActor(popup);
-
-        }
+        // Animate the popup.
+        SequenceAction sequence = new SequenceAction();
+        sequence.addAction(Actions.delay(2f));
+        sequence.addAction(Actions.fadeOut(1f));
+        sequence.addAction(Actions.run(this::dispose));
+        // Animate the images on the popup.
+        SequenceAction sequence2 = new SequenceAction();
+        sequence2.addAction(Actions.moveBy(-50, book.getHeight() / 4));
+        sequence2.addAction(Actions.moveBy(50 + book.getWidth() / 4, 0, 0.5f));
+        sequence2.addAction(Actions.fadeOut(1f));
+        popupImage.addAction(sequence2);
+        popup.addAction(sequence);
+        stage.addActor(popup);
+    }
 
 
     /**
