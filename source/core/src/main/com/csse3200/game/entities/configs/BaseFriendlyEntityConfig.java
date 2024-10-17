@@ -237,7 +237,7 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     /**
      * Sets the item drop probability of an entity.
      *
-     * @return void.
+     * @param newProbability the new item probability
      */
     public void setItemProbability(float newProbability) {
         itemProbability = newProbability;
