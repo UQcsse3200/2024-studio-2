@@ -6,10 +6,13 @@ import com.badlogic.gdx.utils.IntMap;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ComponentType;
 import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Core entity class. Entities exist in the game and are updated each frame. All entities have a
@@ -38,7 +41,9 @@ public class Entity {
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
   private boolean isPlayer = false;
+  private boolean isNormalEnemy = false;
   private EnemyType enemyType;
+  private List<Entity> enemies; //used for the hive
   public enum EnemyType {
     KANGAROO,
     WATER_BOSS,
@@ -60,7 +65,7 @@ public class Entity {
     JOEY,
     MAZE_ANGLER,
     MAZE_EEL,
-    MAZE_JELLYFISH
+      MAZE_OCTOPUS, MAZE_JELLYFISH
   }
 
 
@@ -245,34 +250,6 @@ public class Entity {
     return this;
   }
   
-  /**
-   * Remove a component from the entity.
-   *
-   * @param type The component class to be removed, e.g., RenderComponent.class
-   */
-  public boolean removeComponent(Class<? extends Component> type) {
-    ComponentType componentType = ComponentType.getFrom(type);
-    Component component = components.remove(componentType.getId());
-    
-    if (component != null) {
-      logger.info("Removing {} from entity {}", component, this);
-      
-      // Dispose the component to clean up resources
-      component.dispose();
-      component.setEntity(null); // Clear the reference to the entity
-      
-      // Remove the component from createdComponents if the entity was already created
-      if (created) {
-        createdComponents.removeValue(component, true);
-      }
-      
-      return true;
-    }
-    
-    logger.warn("Attempted to remove non-existent component {} from entity {}", type, this);
-    return false;
-  }
-  
   /** Dispose of the entity. This will dispose of all components on this entity. */
   public void dispose() {
     for (Component component : createdComponents) {
@@ -377,4 +354,16 @@ public class Entity {
   public Boolean isEnabled(){
     return this.enabled;
   }
+  
+  /**
+   * @return if this entity is a normal entity
+   */
+  public boolean isNormalEnemy() {return isNormalEnemy;}
+  
+  public void setIsNormalEnemy(boolean isNormalEnemy) {this.isNormalEnemy = isNormalEnemy;}
+  
+  public List<Entity> getEnemies() {
+    return enemies;
+  }
+  public void setEnemies(List<Entity> enemies) {this.enemies = enemies;}
 }

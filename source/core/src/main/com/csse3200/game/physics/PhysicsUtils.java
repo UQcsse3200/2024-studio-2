@@ -13,7 +13,7 @@ public class PhysicsUtils {
     entity
         .getComponent(ColliderComponent.class)
         .setAsBoxAligned(
-            boundingBox, PhysicsComponent.AlignX.CENTER, PhysicsComponent.AlignY.CENTER);
+            boundingBox, PhysicsComponent.AlignX.CENTER, PhysicsComponent.AlignY.TOP);
   }
 
   private PhysicsUtils() {

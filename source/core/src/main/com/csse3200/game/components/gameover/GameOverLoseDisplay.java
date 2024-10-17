@@ -13,12 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.components.settingsmenu.SettingsMenuDisplay;
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ public class GameOverLoseDisplay extends UIComponent {
     private Table table;
     private Table settingMenu;
     private SettingsMenuDisplay settingsMenuDisplay;
-    private TextButton toggleWindowBtn;
+    private CustomButton toggleWindowBtn;
     private Texture backgroundTexture;
 
     /**
@@ -67,32 +67,20 @@ public class GameOverLoseDisplay extends UIComponent {
         settingMenu = new Table();
 
         // Initialises buttons
-        TextButton achievementsBtn = new TextButton("Achievements", skin);
-        TextButton replayBtn = new TextButton("Replay", skin);
-        TextButton exitBtn = new TextButton("Exit", skin);
+        CustomButton achievementsBtn = new CustomButton("Achievements", skin);
+        CustomButton replayBtn = new CustomButton("Replay", skin);
+        CustomButton exitBtn = new CustomButton("Exit", skin);
         Label versionLabel = new Label("Version 1.0", skin);
 
-
-        // Adds UI component (hover over buttons)
-        addButtonElevationEffect(achievementsBtn);
-        addButtonElevationEffect(replayBtn);
-        addButtonElevationEffect(exitBtn);
-
         // Added handles for when clicked
-        achievementsBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Achievements button clicked");
-                entity.getEvents().trigger("achievements");
-            }
+        achievementsBtn.addClickListener(() -> {
+            logger.debug("Achievements button clicked");
+            entity.getEvents().trigger("achievements");
         });
         // Added handles for when replay clicked
-        replayBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Replay button clicked");
-                entity.getEvents().trigger("replay");
-            }
+        replayBtn.addClickListener(() -> {
+            logger.debug("Replay button clicked");
+            entity.getEvents().trigger("replay");
         });
 
         // Added the pop up when user trys to exit game
@@ -142,9 +130,9 @@ public class GameOverLoseDisplay extends UIComponent {
      */
     private void addMinimizeButton() {
         if (Gdx.graphics.isFullscreen()) {
-            toggleWindowBtn = new TextButton("-", skin); // Start with the minus (minimize) icon
+            toggleWindowBtn = new CustomButton("-", skin); // Start with the minus (minimize) icon
         } else {
-            toggleWindowBtn = new TextButton("+", skin);
+            toggleWindowBtn = new CustomButton("+", skin);
         }
 
         toggleWindowBtn.addListener(new ChangeListener() {
@@ -168,7 +156,7 @@ public class GameOverLoseDisplay extends UIComponent {
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
-        topRightTable.add(toggleWindowBtn).size(40, 40).padTop(10).padRight(10);
+        topRightTable.add(toggleWindowBtn).size(60, 60).padTop(10).padRight(10);
 
         stage.addActor(topRightTable);
     }
@@ -179,9 +167,9 @@ public class GameOverLoseDisplay extends UIComponent {
     private void updateToggleWindowButtonText() {
         boolean isFullscreen = Gdx.graphics.isFullscreen();
         if (isFullscreen) {
-            toggleWindowBtn.setText("-"); // Show minus for minimizing
+            toggleWindowBtn.setLabelText("-"); // Show minus for minimizing
         } else {
-            toggleWindowBtn.setText("+"); // Show plus for maximizing
+            toggleWindowBtn.setLabelText("+"); // Show plus for maximizing
         }
     }
 
@@ -214,7 +202,7 @@ public class GameOverLoseDisplay extends UIComponent {
         topTable.add(title).expandX().center();
         topTable.row();
 
-        TextButton closeButton = new TextButton("X", skin);
+        CustomButton closeButton = new CustomButton("X", skin);
         topTable.add(closeButton).size(40, 40).right().padRight(10).padTop(-40);
 
         settingsMenuDisplay = new SettingsMenuDisplay();
@@ -224,7 +212,7 @@ public class GameOverLoseDisplay extends UIComponent {
         Table bottomRightTable = new Table();
         bottomRightTable.bottom(); // Align contents to bottom-right
 
-        TextButton applyButton = new TextButton("Apply", skin);
+        CustomButton applyButton = new CustomButton("Apply", skin);
         bottomRightTable.add(applyButton).size(80, 40).padBottom(10f).padRight(10f);
 
         settingMenu.add(topTable).expandX().fillX(); // Top-right table
@@ -245,14 +233,10 @@ public class GameOverLoseDisplay extends UIComponent {
 
         stage.addActor(settingMenu);
 
-        closeButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        settingMenu.setVisible(false);
-                        table.setTouchable(Touchable.enabled);
-                    }
-                });
+        closeButton.addClickListener(() -> {
+            settingMenu.setVisible(false);
+            table.setTouchable(Touchable.enabled);
+        });
 
         // Add event listener for the "Apply" button
         applyButton.addListener(
@@ -281,87 +265,50 @@ public class GameOverLoseDisplay extends UIComponent {
             );
         }
     }
-
-    /**
-     * Adds an elevation effect to buttons when hovered.
-     */
-    private void addButtonElevationEffect(TextButton button) {
-        button.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, 5, 0.1f),
-                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
-                ));
-                //logger.info("Hover feature activated"); uncomment this if you want to check hover feature
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, -5, 0.1f),
-                        Actions.scaleTo(1f, 1f, 0.1f)
-                ));
-            }
-        });
-    }
-
     /**
      * Adds an exit confirmation dialog with an enhanced UI when the exit button is clicked.
      */
-    private void addExitConfirmation(TextButton exitBtn) {
-        exitBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-                pixmap.setColor(Color.WHITE);
-                pixmap.fill();
+    private void addExitConfirmation(CustomButton exitBtn) {
+        exitBtn.addClickListener(() -> {
+            Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+            pixmap.setColor(Color.WHITE);
+            pixmap.fill();
 
-                Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-                pixmap.dispose();
+            Drawable dialogBackground = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+            pixmap.dispose();
 
-                final Dialog dialog = new Dialog("", skin);
-                dialog.setBackground(dialogBackground);
-                dialog.pad(40f);
-                dialog.setSize(500f, 300f);
-                dialog.setModal(true);
+            final Dialog dialog = new Dialog("", skin);
+            dialog.setBackground(dialogBackground);
+            dialog.pad(40f);
+            dialog.setSize(500f, 300f);
+            dialog.setModal(true);
 
-                Label confirmLabel = new Label("Leave the game?", skin);
-                confirmLabel.setColor(Color.WHITE);
-                confirmLabel.setFontScale(1.5f);
+            Label confirmLabel = new Label("Leave the game?", skin);
+            confirmLabel.setColor(Color.WHITE);
+            confirmLabel.setFontScale(1.5f);
 
-                TextButton yesBtn = new TextButton("Yes", skin);
-                TextButton noBtn = new TextButton("No", skin);
+            CustomButton yesBtn = new CustomButton("Yes", skin);
+            CustomButton noBtn = new CustomButton("No", skin);
 
-                yesBtn.getLabel().setFontScale(1.2f);
-                noBtn.getLabel().setFontScale(1.2f);
+            yesBtn.addClickListener(() -> {
+                logger.info("Exit confirmed, closing game");
+                Gdx.app.exit();
+            });
 
-                yesBtn.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        logger.info("Exit confirmed, closing game");
-                        Gdx.app.exit();
-                    }
-                });
+            noBtn.addClickListener(() -> {
+                logger.info("Exit canceled");
+                dialog.hide();
+            });
 
-                noBtn.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        logger.info("Exit canceled");
-                        dialog.hide();
-                    }
-                });
+            dialog.getContentTable().add(confirmLabel).padBottom(40f).center();
+            dialog.getButtonTable().add(yesBtn).padRight(30f).width(150f).height(60f);
+            dialog.getButtonTable().add(noBtn).width(150f).height(60f);
 
-                dialog.getContentTable().add(confirmLabel).padBottom(40f).center();
-                dialog.getButtonTable().add(yesBtn).padRight(30f).width(150f).height(60f);
-                dialog.getButtonTable().add(noBtn).width(150f).height(60f);
-
-                dialog.setPosition(
-                        (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
-                        (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
-                );
-                dialog.show(stage);
-            }
+            dialog.setPosition(
+                    (Gdx.graphics.getWidth() - dialog.getWidth()) / 2,
+                    (Gdx.graphics.getHeight() - dialog.getHeight()) / 2
+            );
+            dialog.show(stage);
         });
     }
 

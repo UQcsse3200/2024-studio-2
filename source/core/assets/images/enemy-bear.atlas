@@ -3,125 +3,202 @@ size: 621, 380
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-float
+wait
   rotate: false
   xy: 20, 11
   size: 77, 53
   orig: 77, 53
   offset: 0, 0
   index: 0
-float
+wait
   rotate: false
   xy: 104, 11
   size: 78, 53
   orig: 78, 53
   offset: 0, 0
   index: 1
-float
+wait
   rotate: false
   xy: 187, 11
   size: 79, 53
   orig: 79, 53
   offset: 0, 0
   index: 2
-float
+wait
   rotate: false
   xy: 272, 12
   size: 79, 52
   orig: 79, 52
   offset: 0, 0
   index: 3
-float
+wait
   rotate: false
   xy: 355, 12
   size: 79, 52
   orig: 79, 52
   offset: 0, 0
   index: 4
-float
+wait
   rotate: false
   xy: 440, 12
   size: 79, 52
   orig: 79, 52
   offset: 0, 0
   index: 5
-float
+wait
   rotate: false
   xy: 355, 12
   size: 79, 52
   orig: 79, 52
   offset: 0, 0
   index: 6
-float
+wait
   rotate: false
   xy: 272, 12
   size: 79, 52
   orig: 79, 52
   offset: 0, 0
   index: 7
-float
+wait
   rotate: false
   xy: 187, 11
   size: 79, 53
   orig: 79, 53
   offset: 0, 0
   index: 8
-float
+wait
   rotate: false
   xy: 104, 11
   size: 78, 53
   orig: 78, 53
   offset: 0, 0
   index: 9
-chase
+runRight
   rotate: false
   xy: 20, 81
   size: 77, 52
   orig: 77, 52
   offset: 0, 0
   index: 0
-chase
+runRight
   rotate: false
   xy: 103, 82
   size: 79, 51
   orig: 79, 51
   offset: 0, 0
   index: 1
-chase
+runRight
   rotate: false
   xy: 187, 80
   size: 78, 53
   orig: 78, 53
   offset: 0, 0
   index: 2
-chase
+runRight
   rotate: false
   xy: 272, 80
   size: 81, 52
   orig: 81, 52
   offset: 0, 0
   index: 3
-chase
+runRight
   rotate: false
   xy: 359, 82
   size: 83, 51
   orig: 83, 51
   offset: 0, 0
   index: 4
-chase
+runRight
   rotate: false
   xy: 449, 81
   size: 78, 52
   orig: 78, 52
   offset: 0, 0
   index: 5
-spawn
+combat_idle
   rotate: false
-  xy: 20, 11
-  size: 77, 53
-  orig: 77, 53
+  xy: 18, 11
+  size: 83, 57
+  orig: 83, 57
   offset: 0, 0
   index: 0
+combat_idle
+  rotate: false
+  xy: 100, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 1
+combat_idle
+  rotate: false
+  xy: 184, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 2
+combat_idle
+  rotate: false
+  xy: 269, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 3
+combat_idle
+  rotate: false
+  xy: 353, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 4
+combat_idle
+  rotate: false
+  xy: 438, 11
+  size: 83, 57
+  orig: 83, 57
+  offset: 0, 0
+  index: 5
+combat_move
+  rotate: false
+  xy: 20, 211
+  size: 70, 83
+  orig: 70, 83
+  offset: 0, 0
+  index: 0
+combat_move
+  rotate: false
+  xy: 93, 211
+  size: 70, 83
+  orig: 70, 83
+  offset: 0, 0
+  index: 1
+combat_move
+  rotate: false
+  xy: 164, 211
+  size: 90, 83
+  orig: 90, 83
+  offset: 0, 0
+  index: 2
+combat_move
+  rotate: false
+  xy: 255, 211
+  size: 70, 83
+  orig: 70, 83
+  offset: 0, 0
+  index: 3
+combat_move
+  rotate: false
+  xy: 324, 211
+  size: 75, 83
+  orig: 75, 83
+  offset: 0, 0
+  index: 4
+combat_move
+  rotate: false
+  xy: 400, 211
+  size: 80, 83
+  orig: 80, 83
+  offset: 0, 0
+  index: 5
 default
   rotate: false
   xy: 20, 11

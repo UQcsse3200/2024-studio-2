@@ -13,6 +13,16 @@
     "health": 100,
     "baseAttack": 5,
     "speed": 0.8
+  },
+  "octopus": {
+    "health": 100,
+    "baseAttack": 15,
+    "speed": 0.8
+  },
+  "turtle": {
+    "health": 100,
+    "baseAttack": 0,
+    "speed": 0.35
   }
 }
 

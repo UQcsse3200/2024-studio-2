@@ -1,18 +1,20 @@
 package com.csse3200.game.components.tasks;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
-import com.csse3200.game.areas.forest.ForestGameArea;
+import com.csse3200.game.components.settingsmenu.UserSettings;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.minigames.maze.entities.mazenpc.MazeEntity;
 import com.csse3200.game.physics.PhysicsEngine;
 import com.csse3200.game.physics.PhysicsLayer;
 import com.csse3200.game.physics.raycast.RaycastHit;
 import com.csse3200.game.rendering.DebugRenderer;
+import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.Vector2Utils;
+
+import java.util.Objects;
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ChaseTask extends DefaultTask implements PriorityTask {
@@ -24,9 +26,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     protected final DebugRenderer debugRenderer;
     protected final RaycastHit hit = new RaycastHit();
     protected MovementTask movementTask;
-    private Music heartbeatSound;
     private final boolean isBoss;
-    private static final String HEARTBEAT = "sounds/heartbeat.mp3";
     private final Vector2 bossSpeed;
     private boolean chaseDir = false; // 0 left, 1 right
     private Vector2 speed;
@@ -74,35 +74,43 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         movementTask.start();
         
         if (this.isBoss) {
-            playTensionSound();
+            playTensionMusic();
             this.target.getEvents().trigger("startHealthBarBeating");
         }
 
-        if (this.owner.getEntity().getEnemyType() == Entity.EnemyType.EEL) {
-            eelChase(targetPos, currentPos);
+        if (owner.getEntity().isNormalEnemy()) {
+            owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
         } else if (targetPos.x - currentPos.x < 0) {
             this.owner.getEntity().getEvents().trigger("chaseLeft");
         } else {
             this.owner.getEntity().getEvents().trigger("chaseRight");
         }
     }
-    
-    void playTensionSound() {
-        if (heartbeatSound == null && ServiceLocator.getResourceService() != null) {
-            heartbeatSound = ServiceLocator.getResourceService().getAsset(HEARTBEAT, Music.class);
-            heartbeatSound.setLooping(true);
-            heartbeatSound.setVolume(1.0f);
-        }
-        if (heartbeatSound != null) {
-            ForestGameArea.puMusic();
-            heartbeatSound.play();
-        }
+
+    /**
+     * Plays the tension music to enhance the experience during the chase.
+     */
+    void playTensionMusic() {
+        // Play the music using AudioManager
+        AudioManager.stopMusic();
+        AudioManager.playMusic("sounds/tension-land-boss.mp3", true);
     }
-    
-    void stopTensionSound() {
-        if (heartbeatSound != null) {
-            ForestGameArea.pMusic();
-            heartbeatSound.stop();
+
+    /**
+     * Stops playing the tension music and play the background music.
+     */
+    void stopTensionMusic() {
+        // Stop the music using AudioManager
+        AudioManager.stopMusic();
+
+        // Get the selected music track from the user settings
+        UserSettings.Settings settings = UserSettings.get();
+        String selectedTrack = settings.selectedMusicTrack; // This will be "Track 1" or "Track 2"
+
+        if (Objects.equals(selectedTrack, "Track 1")) {
+            AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
+        } else if (Objects.equals(selectedTrack, "Track 2")) {
+            AudioManager.playMusic("sounds/track_2.mp3", true);
         }
     }
     
@@ -121,12 +129,21 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
             movementTask.start();
         }
         
+        //handle animation, doesn't work as intended but I dont know how to fix it.
         if (targetPos.x - currentPos.x < 0 && chaseDir) {
+            if (owner.getEntity().isNormalEnemy()) {
+                owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+            } else {
+                owner.getEntity().getEvents().trigger("chaseLeft");
+            }
             chaseDir = false;
-            this.owner.getEntity().getEvents().trigger("chaseLeft");
-        } else if (targetPos.x - currentPos.x > 0 && !chaseDir){
+        } else if (targetPos.x - currentPos.x >= 0 && !chaseDir){
+            if (owner.getEntity().isNormalEnemy()) {
+                owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+            } else {
+                owner.getEntity().getEvents().trigger("chaseRight");
+            }
             chaseDir = true;
-            this.owner.getEntity().getEvents().trigger("chaseRight");
         }
     }
     
@@ -140,7 +157,7 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         movementTask.stop();
         
         if (this.isBoss) {
-            stopTensionSound();
+            stopTensionMusic();
             this.target.getEvents().trigger("stopHealthBarBeating");
         }
     }
@@ -168,35 +185,5 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         }
         debugRenderer.drawLine(from, to);
         return true;
-    }
-
-    //targetPos.x - currentPos.x < 0
-
-    public void eelChase(Vector2 targetPos, Vector2 currentPos) {
-        float deltaX = targetPos.x - currentPos.x;
-        float deltaY = targetPos.y - currentPos.y;
-        if (deltaY*2 > Math.abs(deltaX)) { // Moving Up
-            if (deltaY/2 > Math.abs(deltaX)) {
-                this.owner.getEntity().getEvents().trigger("runUp");
-            } else if (deltaX > 0) {
-                this.owner.getEntity().getEvents().trigger("runRightUp");
-            } else if (deltaX < 0) {
-                this.owner.getEntity().getEvents().trigger("runLeftUp");
-            }
-        } else if (deltaY*-2 > Math.abs(deltaX)) { // Moving Down
-            if (deltaY/-2 > Math.abs(deltaX)) {
-                this.owner.getEntity().getEvents().trigger("runDown");
-            } else if (deltaX > 0) {
-                this.owner.getEntity().getEvents().trigger("runRightDown");
-            } else if (deltaX < 0) {
-                this.owner.getEntity().getEvents().trigger("runLeftDown");
-            }
-        } else { // Horizontal Movement
-            if (deltaX > 0) {
-                this.owner.getEntity().getEvents().trigger("runRight");
-            } else {
-                this.owner.getEntity().getEvents().trigger("runLeft");
-            }
-        }
     }
 }

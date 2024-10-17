@@ -16,8 +16,9 @@ Saves and loads specified files.
 public class SaveHandler {
 
     private SaveHandler() {}
-    private static final Logger logger = LoggerFactory.getLogger(SaveHandler.class);
-    private static final String FILE_EXTENSION = ".json";
+    private final Logger logger = LoggerFactory.getLogger(SaveHandler.class);
+
+    private static SaveHandler instance;
 
     /**
      * Save all fields in the specified class to JSON files.
@@ -31,7 +32,7 @@ public class SaveHandler {
      * @param location Libgdx location to save to.
      * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
-    public static void save(Class<?> className, String dir, FileLoader.Location location) {
+    public void save(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             try {
@@ -55,7 +56,7 @@ public class SaveHandler {
      * @param location Libgdx location to load from.
      * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
-    public static void load(Class<?> className, String dir, FileLoader.Location location) {
+    public void load(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             try {
@@ -84,7 +85,7 @@ public class SaveHandler {
      * @param location Libgdx location to delete from.
      * @see <a href="http://google.com">https://libgdx.com/wiki/file-handling</a>
      */
-    public static void delete(Class<?> className, String dir, FileLoader.Location location) {
+    public void delete(Class<?> className, String dir, FileLoader.Location location) {
         Field[] members = className.getDeclaredFields();
         for (Field member : members) {
             FileLoader.deleteJson(toPath(member.getName(), dir),
@@ -101,7 +102,19 @@ public class SaveHandler {
      * @param dir the directory from assets for the path to be toward
      * @return String the converted path
      */
-    private static String toPath(String append, String dir) {
-        return dir + File.separator + append + FILE_EXTENSION;
+    private String toPath(String append, String dir) {
+        return dir + File.separator + append + ".json";
+    }
+
+    /**
+     * Gets the single instance of the SaveHandler singleton if it exists
+     * or creates one if it doesn't.
+     * @return the SaveHandler instance.
+     */
+    public static SaveHandler getInstance() {
+        if(instance == null) {
+            instance = new SaveHandler();
+        }
+        return instance;
     }
 }

@@ -195,10 +195,10 @@ class CombatStatsComponentTest {
     assertEquals(20, combat.getExperience());
 
     assertEquals(maxExperience, combat.getMaxExperience());
-    assertEquals(initialHealth + 1, combat.getMaxHealth());
-    assertEquals(initialStrength + 1, combat.getStrength());
-    assertEquals(initialDefense + 1, combat.getDefense());
-    assertEquals(initialSpeed + 1, combat.getSpeed());
+    assertEquals(initialHealth + 3, combat.getMaxHealth());
+    assertEquals(initialStrength + 3, combat.getStrength());
+    assertEquals(initialDefense + 3, combat.getDefense());
+    assertEquals(initialSpeed + 3, combat.getSpeed());
   }
 
   @Test
@@ -217,10 +217,10 @@ class CombatStatsComponentTest {
     assertEquals(20, combat.getExperience());
 
     assertEquals(maxExperience, combat.getMaxExperience());
-    assertEquals(initialHealth + 1, combat.getMaxHealth());
-    assertEquals(initialStrength + 1, combat.getStrength());
-    assertEquals(initialDefense + 1, combat.getDefense());
-    assertEquals(initialSpeed + 1, combat.getSpeed());
+    assertEquals(initialHealth + 3, combat.getMaxHealth());
+    assertEquals(initialStrength + 3, combat.getStrength());
+    assertEquals(initialDefense + 3, combat.getDefense());
+    assertEquals(initialSpeed + 3, combat.getSpeed());
   }
 
   @Test
@@ -342,4 +342,30 @@ class CombatStatsComponentTest {
     combatStats.addExperience(9999);
     assertEquals(10, combatStats.getLevel());
   }
+
+  @Test
+  void shouldDecreaseStatsAndLevelWhenHealthIsZero() {
+    CombatStatsComponent combat = new CombatStatsComponent(50, 50, 50, 50, 50, 4, true, false, 4);
+    combat.setLevel(4);
+    combat.setHealth(0);
+    assertEquals(44, combat.getStrength());
+    assertEquals(44, combat.getDefense());
+    assertEquals(44, combat.getSpeed());
+    assertEquals(44, combat.getMaxHealth());
+    assertEquals(2, combat.getLevel());
+    assertEquals(0, combat.getExperience());
+  }
+  @Test
+  void shouldNotDecreaseStatsWhenNotPlayer() {
+    CombatStatsComponent combat = new CombatStatsComponent(50, 50, 50, 50, 50, 50, false, false, 4);
+    combat.setLevel(4);
+    combat.setHealth(0);
+    assertEquals(50, combat.getStrength());
+    assertEquals(50, combat.getDefense());
+    assertEquals(50, combat.getSpeed());
+    assertEquals(50, combat.getMaxHealth());
+    assertEquals(4, combat.getLevel());
+    assertEquals(50, combat.getExperience());
+  }
+
 }

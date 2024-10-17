@@ -5,7 +5,6 @@ package com.csse3200.game.areas.forest;
  */
 public class ForestTexturesConfig {
     public static final String[] FOREST_TEXTURES = {
-            "images/box_boy_leaf.png",
             "images/tree.png",
             "images/cloud.png",
             "images/seaweed.png",
@@ -30,6 +29,11 @@ public class ForestTexturesConfig {
             "images/bird.png",
             "images/Healthpotion.png",
             "images/foodtextures/apple.png",
+            "images/foodtextures/oceanfoodtextures/fried-fish.png",
+            "images/foodtextures/oceanfoodtextures/shrimp.png",
+            "images/foodtextures/airfoodtextures/cloud-cookie.png",
+            "images/foodtextures/airfoodtextures/cloudCupcake.png",
+            "images/foodtextures/airfoodtextures/cotton-cloud.png",
             "images/hive.png",
             "images/effects.png",
             "images/griffinEffects.png",
@@ -160,6 +164,39 @@ public class ForestTexturesConfig {
             "images/tiles_with_corners/Grass_tile_with_water_corner.png",
             "images/tiles_with_corners/Sand_tile_with_grass_corner.png",
 
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_lower_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_lower_right.jpg",
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_upper_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_1/sloping_grass_edge_in_sand_tile_1_upper_right.jpg",
+            
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_lower_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_lower_right.jpg",
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_upper_left.jpg",
+            "images/sloping_grass_edge_in_sand_tile_2/sloping_grass_edge_in_sand_tile_2_upper_right.jpg",
+
+            "images/sloping_grass_edge_in_water_tile_1/sloping_grass_edge_in_water_tile_1_lower_left.jpg",
+
+            "images/sky_tile_with_cloud_1/sky_cloud_upper_left_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_upper_middle_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_upper_right_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_middle_left_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_middle_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_middle_right_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_lower_left_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_lower_middle_1.jpg",
+            "images/sky_tile_with_cloud_1/sky_cloud_lower_right_1.jpg",
+
+            "images/sky_tile_with_cloud_2/sky_cloud_upper_left_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_upper_middle_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_upper_right_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_middle_left_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_middle_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_middle_right_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_lower_left_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_lower_middle_2.jpg",
+            "images/sky_tile_with_cloud_2/sky_cloud_lower_right_2.jpg",
+
+
             "images/top_left_grass.png",
             "images/top_middle_grass.png",
             "images/top_right_grass.png",
@@ -184,7 +221,10 @@ public class ForestTexturesConfig {
             "images/potiontexture/speed.png",
             "images/potiontexture/defense.png",
             "images/potiontexture/attack.png",
-            "images/wolf.png"
+            "images/wolf.png",
+            "images/chests/ordinary-chest.png",
+            "images/chests/fancy-chest.png",
+            "images/chests/fancy-smancy-chest.png",
     };
 
     public static final String[] FOREST_TEXTURE_ATLASES = {
@@ -197,9 +237,12 @@ public class ForestTexturesConfig {
             "images/griffinEffects.atlas",
             "images/bear.atlas",
             "images/eel.atlas",
+            "images/friendly-eel.atlas",
             "images/octopus.atlas",
             "images/pigeon.atlas",
+            "images/friendly-pigeon.atlas",
             "images/bee.atlas",
+            "images/friendly-bee.atlas",
             "images/bigsawfish.atlas",
             "images/macaw.atlas",
             "images/banana.atlas",
@@ -222,7 +265,9 @@ public class ForestTexturesConfig {
             "images/enemy-bear.atlas",
             "images/enemy-chicken.atlas",
             "images/wolf.atlas",
-            "images/hive.atlas"
+            "images/hive.atlas",
+            "images/friendly-octopus.atlas",
+            "images/friendly-macaw.atlas"
     };
 
     private ForestTexturesConfig() {

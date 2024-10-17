@@ -6,7 +6,6 @@ package com.csse3200.game.components.stats;
 //public class Stat implements Json.Serializable {
 public class Stat {
 
-
     /** The name of the stat, used as the string within the events system
      */
     private String statName;
@@ -142,47 +141,17 @@ public class Stat {
      * Define types for end game stats
      * */
     public enum StatType{
-        ITEM,ENEMY,PLAYER
-    }
-
-    public Stat.StatType getType() {
-        return this.type;
+        ITEM,ENEMY,PLAYER,LAND_ENEMY,WATER_ENEMY,AIR_ENEMY,FOOD_ITEM,POTION_ITEM,
+        PLAYER_MINIGAME,PLAYER_COMBAT
     }
 
     /**
-     * Perform json write actions on the end game stats config file
-     *
-     * @param json The config containing stats to be tracked
+     * Get the type of stat
+     * @return the stat type
      */
-//    @Override
-//    public void write(Json json) {
-//        json.writeValue("statName", statName);
-//        json.writeValue("statDescription", statDescription);
-//        json.writeValue("statCurrent", current);
-//        json.writeValue("statMax", max);
-//        json.writeValue("statHasMax", hasMax);
-//        json.writeValue("type", type.name());
-//    }
-//
-//    /**
-//     * Perform json read actions on the end game stats config file
-//     *
-//     * @param json The config containing stats to be tracked
-//     */
-//    @Override
-//    public void read(Json json, JsonValue jsonData) {
-//        this.statName = jsonData.getString("statName");
-//        this.statDescription = jsonData.getString("statDescription");
-//        this.current = jsonData.getInt("statCurrent");
-//        this.hasMax = jsonData.getBoolean("statHasMax");
-//        // Check if json statMax is null
-//        if (this.hasMax) {
-//            this.max = jsonData.getInt("statMax");
-//        } else {
-//            this.max = null;
-//        }
-//        this.type = Stat.StatType.valueOf(jsonData.getString("type"));
-//    }
+    public Stat.StatType getType() {
+        return this.type;
+    }
 
     /**
      * Convert stats json to a human-readable string

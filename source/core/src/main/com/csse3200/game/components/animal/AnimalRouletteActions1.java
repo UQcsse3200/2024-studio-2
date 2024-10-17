@@ -4,9 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.StoryScreen;
-import com.csse3200.game.ui.AlertBox;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +15,11 @@ public class AnimalRouletteActions1 {
     private static final Logger logger = LoggerFactory.getLogger(AnimalRouletteActions1.class);
     private final AnimalRouletteDisplay1 display;
     private final PopUpHelper dialogHelper;
-    private static Image selectedAnimalImage;
     private final GdxGame game;
     private static String selectedAnimalImagePath;
     private int currentAnimalIndex = 0;
     private final String[] animalImagePaths;
+    private int lastViewedAnimalIndex = -1;
 
     public AnimalRouletteActions1(AnimalRouletteDisplay1 display, PopUpHelper dialogHelper, GdxGame game) {
         this.display = display;
@@ -34,19 +34,6 @@ public class AnimalRouletteActions1 {
     }
 
     private void addListeners() {
-        display.getSelectButton().addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (selectedAnimalImage != null) {
-                    logger.debug("Select button clicked with animal selected");
-                    switchToStoryScreen();
-                } else {
-                    logger.debug("No animal selected");
-                    showSelectionAlert();
-                }
-            }
-        });
-
         display.getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -75,7 +62,7 @@ public class AnimalRouletteActions1 {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.debug("Animal image clicked");
-                selectCurrentAnimal();
+                viewCurrentAnimal();
                 showAnimalDialog();
             }
         });
@@ -84,54 +71,87 @@ public class AnimalRouletteActions1 {
     private void showPreviousAnimal() {
         currentAnimalIndex = (currentAnimalIndex - 1 + animalImagePaths.length) % animalImagePaths.length;
         updateDisplayedAnimal();
+        updateBackground();
     }
 
     private void showNextAnimal() {
         currentAnimalIndex = (currentAnimalIndex + 1) % animalImagePaths.length;
         updateDisplayedAnimal();
+        updateBackground();
     }
 
     private void updateDisplayedAnimal() {
         display.updateAnimalImage(animalImagePaths[currentAnimalIndex]);
     }
 
-    private void selectCurrentAnimal() {
-        selectedAnimalImage = display.getAnimalImage();
+    private void updateBackground() {
+        display.updateBackground(currentAnimalIndex);
+    }
+
+    private void viewCurrentAnimal() {
+        // Reset color of previously viewed animal if exists
+        if (lastViewedAnimalIndex != -1) {
+            display.getAnimalImage().setColor(1, 1, 1, 1);
+        }
+
+        lastViewedAnimalIndex = currentAnimalIndex;
         selectedAnimalImagePath = animalImagePaths[currentAnimalIndex];
         GameState.player.selectedAnimalPath = selectedAnimalImagePath;
-        logger.debug("Animal selected: {}", selectedAnimalImagePath);
-    }
 
-    private void showSelectionAlert() {
-        AlertBox alertBox = new AlertBox("Please select an animal first.", display.getSkin(), 400f, 200f);
-        alertBox.display(display.getStage());
-    }
+        switch (selectedAnimalImagePath) {
+            case "images/dog.png":
+                GameState.player.health = 70;
+                GameState.player.hunger = 100;
+                GameState.player.strength = 70;
+                GameState.player.defense = 50;
+                GameState.player.speed = 50;
+                break;
+            case "images/croc.png":
+                GameState.player.health = 100;
+                GameState.player.hunger = 100;
+                GameState.player.strength = 90;
+                GameState.player.defense = 70;
+                GameState.player.speed = 30;
+                break;
+            case "images/bird.png":
+                GameState.player.health = 60;
+                GameState.player.hunger = 100;
+                GameState.player.strength = 40;
+                GameState.player.defense = 60;
+                GameState.player.speed = 100;
+                break;
+            default:
+                //Do nothing
+        }
 
-    void showAnimalDialog(int animalIndex, String animalImagePath) {
-        String title = "Animal " + (animalIndex + 1);
-        String content = display.getAnimalDescription(animalIndex);
-        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f, animalIndex);
-    }
+        GameState.player.level = 1;
+        GameState.player.exp = 0;
 
-    private void showAnimalDialog() {
-        showAnimalDialog(currentAnimalIndex, selectedAnimalImagePath);
+        logger.debug("Animal viewed: {}", selectedAnimalImagePath);
+
+        // Highlight the viewed animal
+        display.getAnimalImage().setColor(1, 0, 0, 1);
     }
 
     private void switchToStoryScreen() {
         game.setScreen(new StoryScreen(game, display.getAnimalType(currentAnimalIndex)));
     }
 
-    public void resetSelection() {
-        selectedAnimalImage = null;
-        selectedAnimalImagePath = null;
-        currentAnimalIndex = 0;
-        updateDisplayedAnimal();
+    void showAnimalDialog(int animalIndex, String animalImagePath) {
+        String title = "Animal " + (animalIndex + 1);
+        String content = display.getAnimalDescription(animalIndex);
+        dialogHelper.displayDialog(title, content, animalImagePath, 900f, 500f, animalIndex, () -> switchToStoryScreen());
     }
 
-    void selectAnimal(Image animalImage, String animalImagePath) {
-        selectedAnimalImage = animalImage;
-        selectedAnimalImagePath = animalImagePath;
-        GameState.player.selectedAnimalPath = animalImagePath;
-        logger.debug("Animal selected: {}", animalImage.getName());
+    private void showAnimalDialog() {
+        showAnimalDialog(currentAnimalIndex, selectedAnimalImagePath);
+    }
+
+    public void resetSelection() {
+        selectedAnimalImagePath = null;
+        currentAnimalIndex = 0;
+        lastViewedAnimalIndex = -1;
+        updateDisplayedAnimal();
+        updateBackground();
     }
 }

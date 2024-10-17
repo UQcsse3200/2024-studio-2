@@ -1,0 +1,96 @@
+friendly-octopus.png
+size: 288, 100
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+default
+  rotate: false
+  xy: 8, 7
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:0
+float
+  rotate: false
+  xy: 8, 7
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:0
+float
+  rotate: false
+  xy: 51, 7
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:1
+float
+  rotate: false
+  xy: 100, 7
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:2
+float
+  rotate: false
+  xy: 148, 5
+  size: 33, 37
+  orig: 0, 0
+  offset: 0, 0
+  index:3
+float
+  rotate: false
+  xy: 196, 4
+  size: 33, 37
+  orig: 0, 0
+  offset: 0, 0
+  index:4
+float
+  rotate: false
+  xy: 248, 6
+  size: 36, 36
+  orig: 0, 0
+  offset: 0, 0
+  index:5
+chase
+  rotate: false
+  xy: 7, 53
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:0
+chase
+  rotate: false
+  xy: 52, 53
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:1
+chase
+  rotate: false
+  xy: 98, 53
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:2
+chase
+  rotate: false
+  xy: 146, 51
+  size: 40, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:3
+chase
+  rotate: false
+  xy: 193, 51
+  size: 40, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:4
+chase
+  rotate: false
+  xy: 249, 53
+  size: 36, 34
+  orig: 0, 0
+  offset: 0, 0
+  index:5

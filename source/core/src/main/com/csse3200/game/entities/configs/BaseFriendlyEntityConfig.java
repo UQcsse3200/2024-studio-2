@@ -20,26 +20,6 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private float itemProbability = 0;
     protected BaseFriendlyEntityConfig() {}
 
-    /**
-     * Retrieves the hints associated with the current hint level.
-     *
-     * @return an array of Strings containing hints for the current level.
-     */
-    public String[] getStringHintLevel() {
-        return hints.get(hintLevel);
-    }
-
-    /**
-     * Increments the current hint level if more levels are available.
-     * Resets the current hint index after incrementing.
-     */
-    public void incrementHintLevel() {
-        if (hints != null && hintLevel < (hints.size() - 1)) {
-            hintLevel = hintLevel + 1;
-            restartCurrentHint();
-        }
-    }
-
 
     /**
      * Returns the path to the sprite image for this entity.
@@ -120,6 +100,12 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
      */
     public String[][] getBaseHint() {
         return baseHint;
+    }
+
+    public Map<Integer, String[]> getHints() { return hints; }
+
+    public void setHints(Map<Integer, String[]> newHints) {
+        hints = newHints;
     }
 
     /**
@@ -249,6 +235,15 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     }
 
     /**
+     * Sets the item drop probability of an entity.
+     *
+     * @param newProbability the new item probability
+     */
+    public void setItemProbability(float newProbability) {
+        itemProbability = newProbability;
+    }
+
+    /**
      * Determines if the entity is a boss.
      *
      * @return {@code true} if the entity is a boss, {@code false} otherwise.
@@ -256,6 +251,16 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     public Boolean isBoss() {
         return isBoss;
     }
+
+
+    /**
+     * Sets an entity to be identified as a boss.
+     *
+     */
+    public void setIsBoss(Boolean isBossStatus) {
+        isBoss = isBossStatus;
+    }
+
 
     /**
      * Retrieves the current level of the entity.

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.DefaultTask;
 import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.ai.tasks.Task;
-import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.components.player.PlayerActions;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.physics.PhysicsEngine;
@@ -136,9 +135,9 @@ public class BlindBearTask extends DefaultTask implements PriorityTask {
     
     private void startWaiting() {
         logger.debug("Starting waiting");
-        if (owner.getEntity().getComponent(FrogAnimationController.class) != null) {
-            owner.getEntity().getEvents().trigger("spawnStart"); //plays still animation
-        }
+        
+        owner.getEntity().getEvents().trigger("wait");
+        
         waitTask = new WaitTask(waitTime);
         waitTask.create(owner);
         swapTask(waitTask);

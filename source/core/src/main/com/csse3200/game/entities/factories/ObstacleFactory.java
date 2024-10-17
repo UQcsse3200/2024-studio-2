@@ -24,16 +24,16 @@ public class ObstacleFactory {
    */
   public static Entity createTree() {
     Entity tree =
-        new Entity()
-            .addComponent(new TextureRenderComponent("images/tree.png"))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-            .addComponent(new LightingComponent().attach(LightingComponent.createConeLight(2.4f, -90, 45, Color.YELLOW)))
-            .addComponent(new FadeLightsDayTimeComponent());
+            new Entity()
+                    .addComponent(new TextureRenderComponent("images/tree.png"))
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+                    .addComponent(new LightingComponent().attach(LightingComponent.createConeLight(2.4f, -90, 45, Color.YELLOW)))
+                    .addComponent(new FadeLightsDayTimeComponent());
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();
-    tree.scaleHeight(2.0f);
+    tree.scaleHeight(5.0f);
 
     ColliderComponent bottomCollider = new ColliderComponent()
             .setLayer(PhysicsLayer.OBSTACLE);
@@ -108,8 +108,8 @@ public class ObstacleFactory {
    */
   public static Entity createWall(float width, float height) {
     Entity wall = new Entity()
-        .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
     wall.setScale(width, height);
     return wall;
   }
@@ -126,9 +126,9 @@ public class ObstacleFactory {
    */
   public static Entity createVisibleWall(float width, float height) {
     Entity wall = new Entity()
-        .addComponent(new TextureRenderComponent("images/water_tile_2_around_grass/middle_water_2_around_grass.jpg"))
-        .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new TextureRenderComponent("images/water_tile_2_around_grass/middle_water_2_around_grass.jpg"))
+            .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
     wall.setScale(width, height);
     return wall;
   }

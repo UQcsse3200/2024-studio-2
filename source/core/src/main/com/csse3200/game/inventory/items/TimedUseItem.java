@@ -83,7 +83,7 @@ public abstract class TimedUseItem extends ConsumableItem {
     }
 
     /**
-     * Updates the potion state, checking if the effect duration has elapsed.
+     * Updates the potion state.
      * this function is to be defined in other functionality
      * @param context the context in which the item is used (contains a Player to use on)
      */

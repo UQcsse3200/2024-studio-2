@@ -12,7 +12,9 @@
   ],
   "gameMusic" : [
     "sounds/BGM_03_mp3.mp3",
-    "sounds/heartbeat.mp3"
+    "sounds/tension-land-boss.mp3",
+    "sounds/tension-water-boss.mp3",
+    "sounds/tension-air-boss.mp3"
   ],
   "backgroundMusic" : "sounds/BGM_03_mp3.mp3",
 

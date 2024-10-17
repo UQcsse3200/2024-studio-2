@@ -88,17 +88,17 @@ class StatTest {
 
         GameState.stats.stats.add(stat);
 
-        SaveHandler.save(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
 
         GameState.stats.stats = new Array<>();
 
-        SaveHandler.load(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().load(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
 
         assertEquals("ApplesCollected", GameState.stats.stats.get(0).getStatName());
         assertEquals(10, GameState.stats.stats.get(0).getStatMax());
         assertEquals(Stat.StatType.ITEM, GameState.stats.stats.get(0).getType());
 
-        SaveHandler.delete(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().delete(GameState.class, "test/saves/stat", FileLoader.Location.LOCAL);
     }
 
     @Test
@@ -107,4 +107,47 @@ class StatTest {
         String expectedString = "Stat{statName='ApplesCollected', statDescription='Number of apples collected', statCurrent=0, statMax=10, statHasMax=true, type=ITEM}";
         assertEquals(expectedString, stat.toString());
     }
+
+    @Test
+    void testInitializationWithoutMax() {
+        Stat statNoMax = new Stat("StepsTaken", "Number of steps taken", 5, null, false, Stat.StatType.PLAYER);
+        assertEquals("StepsTaken", statNoMax.getStatName());
+        assertEquals("Number of steps taken", statNoMax.getStatDescription());
+        assertEquals(5, statNoMax.getCurrent());
+        assertEquals(-1, statNoMax.getStatMax());
+        assertFalse(statNoMax.hasMax());
+        assertEquals(Stat.StatType.PLAYER, statNoMax.getType());
+    }
+
+    @Test
+    void testUpdateWithInvalidOperation() {
+        // Assuming default behavior is to do nothing on invalid operation
+        stat.update("invalid_operation", 5);
+        assertEquals(0, stat.getCurrent(), "Stat should not change on invalid operation.");
+    }
+
+    @Test
+    void testAddValueAtBoundary() {
+        // Setting the current value to one less than max then adding 1
+        stat.update("set", 9);
+        stat.update("add", 1);
+        assertEquals(10, stat.getCurrent(), "Stat should cap at max value.");
+
+        // Adding 1 more should still cap at max
+        stat.update("add", 1);
+        assertEquals(10, stat.getCurrent(), "Stat should remain at max value.");
+    }
+
+    @Test
+    void testSubtractValueAtBoundary() {
+        // Setting the current value then subtracting down to 0
+        stat.update("set", 2);
+        stat.update("subtract", 2);
+        assertEquals(0, stat.getCurrent(), "Stat should floor at 0.");
+
+        // Subtracting more should still floor at 0
+        stat.update("subtract", 1);
+        assertEquals(0, stat.getCurrent(), "Stat should remain at 0.");
+    }
+
 }
