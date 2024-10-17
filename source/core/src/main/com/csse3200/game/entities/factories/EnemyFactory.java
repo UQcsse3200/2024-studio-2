@@ -65,18 +65,18 @@ public class EnemyFactory {
         chicken.setEnemyType(Entity.EnemyType.CHICKEN);
 
         TextureAtlas chickenAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
-
+        
         AnimationRenderComponent animator = new AnimationRenderComponent(chickenAtlas);
-
+        
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         chicken
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(false));
-
+        
         chicken.getComponent(AnimationRenderComponent.class).scaleEntity();
 
         return chicken;
@@ -96,12 +96,12 @@ public class EnemyFactory {
         TextureAtlas bearAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
         AnimationRenderComponent animator = new AnimationRenderComponent(bearAtlas);
-
+        
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         bear
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(false));
@@ -126,12 +126,12 @@ public class EnemyFactory {
         TextureAtlas bigsawfishAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
         AnimationRenderComponent animator = new AnimationRenderComponent(bigsawfishAtlas);
-
+        
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         bigsawfish
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(false));
@@ -156,12 +156,12 @@ public class EnemyFactory {
         TextureAtlas macawAtlas = ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class);
 
         AnimationRenderComponent animator = new AnimationRenderComponent(macawAtlas);
-
+        
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         macaw
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(false));
@@ -190,7 +190,7 @@ public class EnemyFactory {
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.PULL, 0.7f, Animation.PlayMode.NORMAL);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
 
         octopus
@@ -219,7 +219,7 @@ public class EnemyFactory {
 
         animator.addAnimation(EnemyAnimationController.RUNLEFT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.2f,Animation.PlayMode.LOOP);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
 
         bee
@@ -248,7 +248,7 @@ public class EnemyFactory {
 
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.06f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 1.0f, Animation.PlayMode.NORMAL);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
 
         pigeon
@@ -277,10 +277,10 @@ public class EnemyFactory {
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.PULL, 0.7f, Animation.PlayMode.NORMAL);
-
+        
         //to prevent null pointer
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         frog
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(false));
@@ -310,10 +310,10 @@ public class EnemyFactory {
         animator.addAnimation(EnemyAnimationController.RUNRIGHTDOWN, 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.RUNRIGHTUP, 0.25f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.25f, Animation.PlayMode.LOOP);
-
+        
         //to prevent null pointer
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         eel
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(true));
@@ -346,10 +346,10 @@ public class EnemyFactory {
         animator.addAnimation(EnemyAnimationController.RUNLEFTUP, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.RUNRIGHTUP, 0.1f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.1f, Animation.PlayMode.LOOP);
-
+        
         //to prevent null pointer
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         monkey
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(true));
@@ -373,12 +373,12 @@ public class EnemyFactory {
         AnimationRenderComponent animator =
                 new AnimationRenderComponent(
                         ServiceLocator.getResourceService().getAsset(config.getSpritePath(), TextureAtlas.class));
-
+        
         animator.addAnimation(EnemyAnimationController.RUNRIGHT, 0.2f, Animation.PlayMode.LOOP);
         animator.addAnimation(EnemyAnimationController.WAIT, 0.2f, Animation.PlayMode.LOOP);
-
+        
         animator.startAnimation(EnemyAnimationController.WAIT);
-
+        
         joey
                 .addComponent(animator)
                 .addComponent(new EnemyAnimationController(false));
@@ -485,9 +485,9 @@ public class EnemyFactory {
                         .addComponent(new FadeLightsDayTimeComponent());
 
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-
+        
         npc.setIsNormalEnemy(true);
-
+        
         return npc;
     }
 

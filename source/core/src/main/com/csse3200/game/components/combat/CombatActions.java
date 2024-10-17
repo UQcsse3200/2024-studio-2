@@ -2,7 +2,6 @@ package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.Screen;
 import com.csse3200.game.GdxGame;
-import com.csse3200.game.areas.MapHandler;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.inventory.CombatInventoryDisplay;
@@ -104,16 +103,16 @@ public class CombatActions extends Component {
    * Disposes of Boss entity after post combat dialogue.
    *
    * @param bossEnemy The boss entity defeated by the player
+   * TODO: open up new area depending on bossEnemy type. Unable to do at
+   *                 this stage, map team has not completed functionality
    */
   private void onBossCombatWin(Entity bossEnemy) {
     logger.info("Boss combat complete.");
 
     if (bossEnemy.getEnemyType() == Entity.EnemyType.KANGAROO) {
       entity.getEvents().trigger("landBossDefeated");
-      MapHandler.unlockNextArea();
     } else if (bossEnemy.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
       entity.getEvents().trigger("waterBossDefeated");
-      MapHandler.unlockNextArea();
     } else if (bossEnemy.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
       entity.getEvents().trigger("airBossDefeated");
     }
