@@ -102,13 +102,14 @@ public class EndMiniGameScreen extends ScreenAdapter {
         setBackground();
         renderContents();
 
-        // Rewarding achievement to player
+        // Rewarding achievement to player and increment endgame stat medal count
         if (oldScreen instanceof MainGameScreen) {
             this.player = MapHandler.getCurrentMap().getPlayer();
             if (player != null) {
                 this.display = player.getComponent(PlayerInventoryDisplay.class);
                 logger.info("Achievement trigger {} {}", gameName.name(), medal.name());
                 player.getEvents().trigger("miniGame", gameName, medal);
+                player.getEvents().trigger("miniGameStats", gameName);
             }
         } else {
             this.player = null;
