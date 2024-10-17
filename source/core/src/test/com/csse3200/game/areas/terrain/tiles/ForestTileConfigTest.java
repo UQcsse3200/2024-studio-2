@@ -9,11 +9,11 @@ class ForestTileConfigTest {
 
     @Test
     void testForestMapTilesInitialization() {
-        // 确保forestMapTiles数组不为null且长度大于0
+        // ensure the number of forestMapTiles is not null and greater than 0
         assertNotNull(ForestTileConfig.getForestMapTiles(), "forestMapTiles should not be null");
         assertTrue(ForestTileConfig.getForestMapTiles().length > 0, "forestMapTiles should contain at least one tile configuration");
 
-        // 检查每个瓦片的基本属性
+        // check the property of each tile
         for (TileConfig tile : ForestTileConfig.getForestMapTiles()) {
             assertNotNull(tile.id, "Tile ID should not be null");
             assertNotNull(tile.fp, "File path should not be null");
