@@ -6,7 +6,6 @@ package com.csse3200.game.components.stats;
 //public class Stat implements Json.Serializable {
 public class Stat {
 
-
     /** The name of the stat, used as the string within the events system
      */
     private String statName;

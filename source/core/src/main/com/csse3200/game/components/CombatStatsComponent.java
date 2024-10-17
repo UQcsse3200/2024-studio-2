@@ -1,5 +1,6 @@
 package com.csse3200.game.components;
 
+import com.csse3200.game.gamestate.GameState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.HashSet;
@@ -47,6 +48,21 @@ public class CombatStatsComponent extends Component {
    * @param experience Initial experience value
    * @param isPlayer Boolean indicating if this entity is the player
    */
+  public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer, boolean isBoss, int level, int curHealth, int curHunger) {
+    this.maxHealth = health;
+    this.maxHunger = hunger;
+    this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
+    this.isPlayer = isPlayer;
+    this.isBoss = isBoss;
+    this.maxLevel = 10;
+    setHealth(curHealth);
+    setHunger(curHunger);
+    setStrength(strength);
+    setDefense(defense);
+    setSpeed(speed);
+    setExperience(experience);
+  }
+
   public CombatStatsComponent(int health, int hunger, int strength, int defense, int speed, int experience, boolean isPlayer, boolean isBoss, int level) {
     this.maxHealth = health;
     this.maxHunger = hunger;
@@ -126,6 +142,10 @@ public class CombatStatsComponent extends Component {
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
     }
+
+    if(isPlayer) {
+      GameState.player.currentHealth = this.health;
+    }
   }
 
   /**
@@ -166,6 +186,9 @@ public class CombatStatsComponent extends Component {
     if (entity != null) {
       entity.getEvents().trigger("updateHunger", this.hunger);
     }
+    if(isPlayer) {
+      GameState.player.currentHunger = this.hunger;
+    }
   }
 
   /**
@@ -195,6 +218,9 @@ public class CombatStatsComponent extends Component {
    */
   public void setStrength(int strength) {
     this.strength = Math.max(0, strength);
+    if(isPlayer) {
+      GameState.player.strength = this.strength;
+    }
   }
 
   /**
@@ -222,6 +248,9 @@ public class CombatStatsComponent extends Component {
    */
   public void setDefense(int defense) {
     this.defense = Math.max(0, defense);
+    if(isPlayer) {
+      GameState.player.defense = this.defense;
+    }
   }
 
   /**
@@ -249,6 +278,9 @@ public class CombatStatsComponent extends Component {
    */
   public void setSpeed(int speed) {
     this.speed = Math.max(0, speed);
+    if(isPlayer) {
+      GameState.player.speed = this.speed;
+    }
   }
 
   /**
@@ -297,6 +329,9 @@ public class CombatStatsComponent extends Component {
     if (this.experience >= this.maxExperience && !isPlayer) {
       this.experience = experience;
     }
+    if(isPlayer) {
+      GameState.player.exp = this.experience;
+    }
   }
 
   /**
@@ -337,6 +372,9 @@ public class CombatStatsComponent extends Component {
     else{
       this.maxHealth = this.maxHealth + health;
     }
+    if(isPlayer) {
+      GameState.player.health = this.maxHealth;
+    }
   }
 
   /**
@@ -374,6 +412,9 @@ public class CombatStatsComponent extends Component {
     this.level = Math.max(0, level);
     if (this.level > 10) {
       this.level = 10;
+    }
+    if(isPlayer) {
+      GameState.player.level = this.level;
     }
   }
 
