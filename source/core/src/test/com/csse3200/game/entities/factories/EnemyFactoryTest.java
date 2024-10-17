@@ -10,7 +10,7 @@ import com.csse3200.game.components.npc.MonkeyAnimationController;
 import com.csse3200.game.components.npc.EelAnimationController;
 import com.csse3200.game.components.npc.BeeAnimationController;
 import com.csse3200.game.components.npc.OctopusAnimationController;
-//import com.csse3200.game.components.npc.PigeonAnimationController;
+import com.csse3200.game.components.npc.BigsawfishAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
@@ -45,11 +45,10 @@ class EnemyFactoryTest {
     private static Entity frog;
     private static Entity monkey;
     private static Entity bear;
-    private static Entity pigeon;
     private static Entity eel;
     private static Entity octopus;
     private static Entity bee;
-    //private static Entity bigsawfish;
+    private static Entity bigsawfish;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
@@ -58,13 +57,13 @@ class EnemyFactoryTest {
             "images/monkey.png",
             "images/frog2.png",
             "images/bear2.png",
-            "images/pigeon2.png",
 		    "images/frog.png",
 		    "images/chicken.png",
 		    "images/bear.png",
             "images/eel.png",
             "images/octopus.png",
-            "images/bee.png"
+            "images/bee.png",
+            "images/bigsawfish.png"
     };
 
     private static String[] atlas = {
@@ -75,12 +74,12 @@ class EnemyFactoryTest {
             "images/frog.atlas",
             "images/enemy-frog.atlas",
             "images/bear.atlas",
-            //"images/pigeon.atlas",
             "images/enemy-bear.atlas",
             "images/final_boss_kangaroo.atlas",
             "images/eel.atlas",
             "images/octopus.atlas",
-            "images/bee.atlas"
+            "images/bee.atlas",
+            "images/bigsawfish.atlas"
     };
 
 
@@ -114,8 +113,7 @@ class EnemyFactoryTest {
         eel = EnemyFactory.createEel(player);
         octopus = EnemyFactory.createOctopus(player);
         bee = EnemyFactory.createBee(player);
-        //pigeon = EnemyFactory.createPigeon(player);
-        //bigsawfish = EnemyFactory.createBigsawfish(player);
+        bigsawfish = EnemyFactory.createBigsawfish(player);
     }
 
     /**
@@ -643,5 +641,81 @@ class EnemyFactoryTest {
         bee.setPosition(pos);
         assertEquals(pos, bee.getPosition());
     }
+
+    /**
+     * Tests Creation of a bigsawfish.
+     */
+    @Test
+    void TestBigsawfishCreation() {
+        assertNotNull(bigsawfish, "bigsawfish should not be null.");
+    }
+
+    /**
+     * Tests that the bigsawfish is an Entity.
+     */
+    @Test
+    void TestBigsawfishIsEntity() {
+        assertEquals(bigsawfish.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the bigsawfish has the correct components.
+     */
+    @Test
+    void TestBigsawfishHasComponents() {
+        assertNotNull(bigsawfish.getComponent(PhysicsComponent.class));
+        assertNotNull(bigsawfish.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(bigsawfish.getComponent(BigsawfishAnimationController.class));
+        assertNotNull(bigsawfish.getComponent(CombatStatsComponent.class));
+        assertNotNull(bigsawfish.getComponent(HitboxComponent.class));
+        assertNotNull(bigsawfish.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the bigsawfish has the correct stats.
+     */
+    @Test
+    void TestBigsawfishStats() {
+        assertTrue((bigsawfish.getComponent(CombatStatsComponent.class).getHealth() > 27)
+                        && (bigsawfish.getComponent(CombatStatsComponent.class).getHealth() < 33),
+                "bigsawfish should have between 28 and 32 HP.");
+        assertTrue((bigsawfish.getComponent(CombatStatsComponent.class).getStrength() > 42)
+                        && (bigsawfish.getComponent(CombatStatsComponent.class).getStrength() < 48),
+                "bigsawfish should have between 43 and 47 Attack.");
+        assertTrue((bigsawfish.getComponent(CombatStatsComponent.class).getDefense() > 27)
+                        && (bigsawfish.getComponent(CombatStatsComponent.class).getDefense() < 33),
+                "bigsawfish should have between 28 and 32 defense.");
+        assertEquals(37,
+                bigsawfish.getComponent(CombatStatsComponent.class).getSpeed(),
+                "bigsawfish should have 37 speed.");
+        assertEquals(140,
+                bigsawfish.getComponent(CombatStatsComponent.class).getExperience(),
+                "bigsawfish should have 140 experience.");
+    }
+
+    /**
+     * Tests that the bigsawfish has correct animations.
+     */
+    @Test
+    void TestBigsawfishAnimation() {
+        assertTrue(bigsawfish.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
+                "bigsawfish should have spawn animation.");
+        assertTrue(bigsawfish.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "bigsawfish should have chase animation.");
+        assertTrue(bigsawfish.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
+                "bigsawfish should have float animation.");
+    }
+
+    /**
+     * Tests that the bigsawfish is in the correct spot when placed.
+     */
+    @Test
+    void TestBigsawfishSetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        bigsawfish.setPosition(pos);
+        assertEquals(pos, bigsawfish.getPosition());
+    }
+
+
 
 }
