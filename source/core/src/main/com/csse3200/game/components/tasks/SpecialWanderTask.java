@@ -22,6 +22,7 @@ public class SpecialWanderTask extends DefaultTask implements PriorityTask {
     private WaitTask waitTask;
     private Task currentTask;
     private boolean isSpawned = false;
+    private static final String ANIMATE = "animate";
     
     /**
      * @param wanderRange Distance in X and Y the entity can move from its position when start() is
@@ -55,7 +56,7 @@ public class SpecialWanderTask extends DefaultTask implements PriorityTask {
             swapTask(waitTask);
         }
         
-        owner.getEntity().getEvents().trigger("animate", newPos, startPos);
+        owner.getEntity().getEvents().trigger(ANIMATE, newPos, startPos);
     }
     
     @Override
@@ -75,7 +76,7 @@ public class SpecialWanderTask extends DefaultTask implements PriorityTask {
     private void startWandering() {
         Vector2 targetPos = getRandomPosInRange();
         Vector2 currentPos = owner.getEntity().getPosition();
-        owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+        owner.getEntity().getEvents().trigger(ANIMATE, targetPos, currentPos);
         
         logger.debug("Starting wandering");
         movementTask = new MovementTask(targetPos, wanderRange);
@@ -95,7 +96,7 @@ public class SpecialWanderTask extends DefaultTask implements PriorityTask {
         Vector2 targetPos = getRandomPosInRange();
         Vector2 currentPos = owner.getEntity().getPosition();
         
-        owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+        owner.getEntity().getEvents().trigger(ANIMATE, targetPos, currentPos);
         
         movementTask.setTarget(targetPos);
         swapTask(movementTask);

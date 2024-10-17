@@ -26,8 +26,6 @@ public class StealTask extends DefaultTask implements PriorityTask {
     private WaitTask waitTask;
     private Task currentTask;
     private boolean isSpawned = false;
-    private static final String LEFT = "wanderLeft";
-    private static final String RIGHT = "wanderRight";
     private Map<Integer, Entity> items = null;
     protected final RaycastHit hit = new RaycastHit();
     Entity currentitem = null;
@@ -66,13 +64,10 @@ public class StealTask extends DefaultTask implements PriorityTask {
     public void update() {
         if (currentTask.getStatus() != Status.ACTIVE ) {
             if (currentTask == waitTask && isSpawned) {
-                System.out.println("wandering");
                 startWandering();
             } else if (currentTask == movementTask) {
-                System.out.println("returning");
                 startReturning();
             } else if (currentTask == returnTask) {
-                System.out.println("waiting");
                 startWaiting();
             }
         }
