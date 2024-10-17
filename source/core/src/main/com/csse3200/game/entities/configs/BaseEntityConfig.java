@@ -15,6 +15,12 @@ public class BaseEntityConfig {
     protected float animationSpeed = 0.1f;
     protected String[] soundPath;
     protected BaseEntityConfig() {}
+    public BaseEntityConfig(boolean isEnemy, String spritePath, String[] soundPath) {
+        this.isEnemy = isEnemy;
+        this.spritePath = spritePath;
+        this.soundPath = soundPath;
+        
+    }
 
     /**
      * Returns the path to the sprite image for this entity.
