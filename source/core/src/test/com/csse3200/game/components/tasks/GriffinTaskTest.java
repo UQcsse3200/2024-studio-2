@@ -103,27 +103,4 @@ public class GriffinTaskTest {
         // The target is within the spawn range, so priority should be the defined PRIORITY
         assertEquals(10, griffinTask.getPriority());
     }
-/*
-    @Test
-    public void shouldReturnNegativePriorityWhenOutOfRange() {
-        // Set target's position out of range
-        when(targetEntity.getCenterPosition()).thenReturn(new Vector2(50, 50));
-
-        griffinTask.start();
-
-        // Simulate task is inactive and far from the target
-        assertEquals(-1, griffinTask.getPriority());
-    }
-*/
-    @Test
-    public void shouldReturnCorrectViewDistanceWhenActiveAndInRange() {}
-
-    @Test
-    public void shouldReturnCorrectWaitTimeWhenActiveAndInRange() {}
-
-    @Test
-    public void shouldReturnCorrectViewDistanceWhenOutOfRange() {}
-
-    @Test
-    public void shouldNotShootWhenOutOfRange() {}
 }
