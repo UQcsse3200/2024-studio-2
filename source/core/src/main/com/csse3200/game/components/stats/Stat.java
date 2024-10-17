@@ -146,10 +146,13 @@ public class Stat {
         PLAYER_MINIGAME,PLAYER_COMBAT
     }
 
+    /**
+     * Get the type of stat
+     * @return the stat type
+     */
     public Stat.StatType getType() {
         return this.type;
     }
-
 
     /**
      * Convert stats json to a human-readable string

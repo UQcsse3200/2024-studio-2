@@ -62,7 +62,7 @@ public class StatManager extends Component {
     /**
      * Subscribes to mini-game triggers and sends it as a specific achievement completion trigger.
      */
-    private void handleMiniGameScore(MiniGameNames minigame){
+    void handleMiniGameScore(MiniGameNames minigame){
         player.getEvents().trigger(minigame.name() + " Medal");
     }
 
