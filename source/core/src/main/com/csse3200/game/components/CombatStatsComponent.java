@@ -294,7 +294,7 @@ public class CombatStatsComponent extends Component {
     }
 
     if (this.experience >= this.maxExperience && !isPlayer) {
-      this.experience = this.maxExperience;
+      this.experience = experience;
     }
   }
 
