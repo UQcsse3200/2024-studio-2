@@ -8,7 +8,6 @@ import java.util.Map;
 public class BaseFriendlyEntityConfig extends BaseEntityConfig {
     private int baseAttack = 0;
     private int strength = 0;
-    private int stamina = 100;
     private int level = 1;
     private Boolean isBoss = false;
     private Map<Integer, String[]> hints;
@@ -256,24 +255,6 @@ public class BaseFriendlyEntityConfig extends BaseEntityConfig {
      */
     public Boolean isBoss() {
         return isBoss;
-    }
-
-    /**
-     * Retrieves the stamina attribute of the entity.
-     *
-     * @return the current stamina value.
-     */
-    public int getStamina() {
-        return stamina;
-    }
-
-    /**
-     * Sets the stamina attribute of the entity.
-     *
-     * @param stamina the new stamina value to set.
-     */
-    public void setStamina(int stamina) {
-        this.stamina = stamina;
     }
 
     /**

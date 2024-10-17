@@ -107,14 +107,14 @@ public class Slides {
                    
                    Attack: Deal damage to your opponent
                    Guard: Reduce damage taken by 50%
-                   Sleep: Restore 25% stamina and 10% health. It is the only way to regain stamina
+                   Sleep: Restore 25% hunger and 10% health.
                    Item: Use items each turn for various effects:
                    
                    HP Potions: Restore health
                    
                    Status Potions: Boost stats for the battle
                    
-                   Remedies: Cure status ailments or confusion
+                   Food: Restore hunger
                    """
                     ,skin);
 
@@ -241,7 +241,7 @@ public class Slides {
                     Strength: Indicates how much damage they are capable of dealing
                     Defense: Reflects their resistance to enemy attacks
                     Speed: Measures how quickly they move and strike in combat
-                    Stamina: Determines how long they can keep fighting
+                    Hunger: Determines how long they can keep fighting
                     
                     Every animal has unique levels, so choose them carefully
                     

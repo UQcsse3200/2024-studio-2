@@ -1,14 +1,12 @@
 package com.csse3200.game.components.combat;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.csse3200.game.components.Component;
+import com.csse3200.game.components.combat.move.CombatMove;
 import com.csse3200.game.components.combat.move.CombatMoveComponent;
+import com.csse3200.game.components.combat.quicktimeevent.CombatMoveAudio;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.inventory.items.AbstractItem;
@@ -19,10 +17,11 @@ import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.overlays.CombatAnimationDisplay;
+import com.csse3200.game.ui.CustomButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,11 +38,10 @@ public class CombatManager extends Component {
      */
     public enum Action { ATTACK, GUARD, SLEEP, SPECIAL, ITEM }
     private final CombatAnimationDisplay combatAnimationDisplay = new CombatAnimationDisplay();
+    private final CombatMoveAudio combatMoveAudio = new CombatMoveAudio();
 
     private final Entity player;
     private final Entity enemy;
-    private CombatStatsComponent copyPlayerStats;
-    private CombatStatsComponent copyEnemyStats;
     private final CombatStatsComponent playerStats;
     private final CombatStatsComponent enemyStats;
     private Action playerAction;
@@ -51,16 +49,14 @@ public class CombatManager extends Component {
     private final CombatMoveComponent playerMove;
     private final CombatMoveComponent enemyMove;
     private InputListener dialogueBoxCombatListener;
-    private TextButton contButton;
+    private CustomButton contButton;
+
     private AbstractItem playerItem;
     private int playerItemIndex;
     private ItemUsageContext playerItemContext;
 
     private int statusEffectDuration;
     private boolean moveChangedByConfusion;
-
-    // HashMap stores information on enemies when attack
-    private static final Map<String,ArrayList<Action>> enemyMoveStore = new LinkedHashMap<>();
 
     /**
      * Creates a CombatManager that handles the combat sequence between the player and enemy.
@@ -75,8 +71,6 @@ public class CombatManager extends Component {
 
         this.playerStats = player.getComponent(CombatStatsComponent.class);
         this.enemyStats = enemy.getComponent(CombatStatsComponent.class);
-
-        initStatsCopies();
 
         this.playerAction = null;
         this.enemyAction = null;
@@ -93,6 +87,8 @@ public class CombatManager extends Component {
     @Override
     public void create() {
         entity.getEvents().addListener("itemConfirmed", this::usePlayerItem);
+        entity.addComponent(new CombatStatsChangePopup());
+        entity.getComponent(CombatStatsChangePopup.class).create();
     }
 
     /**
@@ -109,31 +105,6 @@ public class CombatManager extends Component {
         this.playerItemContext = context;
 
         onPlayerActionSelected("ITEM");
-    }
-
-    /**
-     * Initialises copies of the CombatStatsComponents of the player and enemy for DialogueBox use
-     */
-    private void initStatsCopies() {
-        this.copyPlayerStats = new CombatStatsComponent(playerStats.getMaxHealth(), playerStats.getMaxHunger(),
-                playerStats.getStrength(), playerStats.getDefense(), playerStats.getSpeed(),
-                playerStats.getMaxExperience(), playerStats.getMaxStamina(), playerStats.isPlayer(),
-                playerStats.isBoss(), playerStats.getLevel());
-        copyPlayerStats.setHealth(playerStats.getHealth());
-        copyPlayerStats.setExperience(playerStats.getExperience());
-        copyPlayerStats.setHunger(playerStats.getHunger());
-        copyPlayerStats.setStamina(playerStats.getStamina());
-        copyPlayerStats.setLevel(playerStats.getLevel());
-
-        this.copyEnemyStats = new CombatStatsComponent(enemyStats.getMaxHealth(), enemyStats.getMaxHunger(),
-                enemyStats.getStrength(), enemyStats.getDefense(), enemyStats.getSpeed(),
-                enemyStats.getMaxExperience(), enemyStats.getMaxStamina(), enemyStats.isPlayer(), enemyStats.isBoss(), enemyStats.getLevel());
-        copyEnemyStats.setHealth(enemyStats.getHealth());
-        copyEnemyStats.setExperience(enemyStats.getExperience());
-        copyEnemyStats.setHunger(enemyStats.getHunger());
-        copyEnemyStats.setStamina(enemyStats.getStamina());
-        copyEnemyStats.setLevel(enemyStats.getLevel());
-
     }
 
     /**
@@ -154,8 +125,8 @@ public class CombatManager extends Component {
 
         handlePlayerConfusion();
 
-        logger.info("(BEFORE) PLAYER {}: health {}, stamina {}", playerAction, playerStats.getHealth(), playerStats.getStamina());
-        logger.info("(BEFORE) ENEMY {}: health {}, stamina {}", enemyAction, enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(BEFORE) PLAYER {}: health {}, hunger {}", playerAction, playerStats.getHealth(), playerStats.getHunger());
+        logger.info("(BEFORE) ENEMY {}: health {}, hunger {}", enemyAction, enemyStats.getHealth(), enemyStats.getHunger());
 
         // Execute the selected moves for both player and enemy.
         executeMoveCombination(playerAction, enemyAction);
@@ -179,7 +150,7 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Process Special Move status effects on the Player by reducing Player health and/or stamina.
+     * Process Special Move status effects on the Player by reducing Player health and/or hunger.
      * Updates the statusEffectDuration and removes expired effects. Confusion only lasts 1 round and is always removed.
      */
     public void handleStatusEffects() {
@@ -207,10 +178,17 @@ public class CombatManager extends Component {
         if (statusEffectDuration == 0) {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.BLEEDING);
         } else {
-            // Bleeding reduces health and stamina by 9%, 6%, and 3% respectively each round.
-            double reductionMultiplier = (double) (-3 * statusEffectDuration) / 100;
-            playerStats.addHealth((int) (reductionMultiplier * playerStats.getMaxHealth()));
-            playerStats.addStamina((int) (reductionMultiplier * playerStats.getMaxStamina()));
+            // Bleeding reduces health and hunger by 9%, 6%, and 3% respectively each round.
+            double reductionMultiplier = (double) (3 * statusEffectDuration) / 100;
+
+            int healthReduction = (int) Math.min(reductionMultiplier * playerStats.getMaxHealth(), playerStats.getHealth());
+            int hungerReduction = (int) Math.min(reductionMultiplier * playerStats.getMaxHunger(), playerStats.getHunger());
+
+            playerStats.addHealth(-healthReduction);
+            playerStats.addHunger(-hungerReduction);
+
+            entity.getEvents().trigger("statusEffectStatsChangePopup", -healthReduction, -hungerReduction, playerStats);
+
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING);
             }
@@ -221,8 +199,12 @@ public class CombatManager extends Component {
         if (statusEffectDuration == 0) {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.POISONED);
         } else {
-            // Poison reduces stamina by 30% each round.
-            playerStats.addStamina((int) (-0.3 * playerStats.getMaxStamina()));
+            // Poison reduces hunger by 30% each round.
+            int hungerReduction = (int) Math.min(0.3 * playerStats.getMaxHunger(), playerStats.getHunger());
+            playerStats.addHunger(-hungerReduction);
+
+            entity.getEvents().trigger("statusEffectStatsChangePopup", 0, -hungerReduction, playerStats);
+
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.POISONED);
             }
@@ -234,7 +216,11 @@ public class CombatManager extends Component {
             statusEffectDuration = playerStats.getStatusEffectDuration(CombatStatsComponent.StatusEffect.SHOCKED);
         } else {
             // Shock reduces health by 15% each round.
-            playerStats.addHealth((int) (-0.15 * playerStats.getMaxHealth()));
+            int healthReduction = (int) Math.min(0.15 * playerStats.getMaxHealth(), playerStats.getHealth());
+            playerStats.addHealth(-healthReduction);
+
+            entity.getEvents().trigger("statusEffectStatsChangePopup", -healthReduction, 0, playerStats);
+
             if (--statusEffectDuration <= 0) {
                 playerStats.removeStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED);
             }
@@ -242,132 +228,63 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Randomly selects an enemy move from ATTACK, GUARD, SLEEP, or SPECIAL.
+     * Selects an enemy move based on stats and randomisation.
      *
      * @return the selected action for the enemy.
      */
     private Action selectEnemyMove() {
-        Action action;
+        // Initialise moves with default probabilities
+        HashMap<Action, Double> actionProbabilities = new HashMap<>();
+        actionProbabilities.put(Action.ATTACK, 0.3);
+        actionProbabilities.put(Action.GUARD, 0.2);
+        actionProbabilities.put(Action.SLEEP, 0.1);
 
-        if (enemyStats.getStamina() < 25) {
-            updateEnemyMoveStore(Action.SLEEP);
-            return Action.SLEEP;
+        // Add special move if available, if the player does not have an active status effect, and if the player did not use an item
+        if (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect() && playerAction != Action.ITEM) {
+            actionProbabilities.put(Action.SPECIAL, 0.2); // Default probability
         }
 
-        int rand = (enemyMove.hasSpecialMove() && !playerStats.hasStatusEffect()) ?
-                (int) (MathUtils.random() * 4) : (int) (MathUtils.random() * 3);
-        action = switch (rand) {
-            case 0 -> Action.ATTACK;
-            case 1 -> Action.GUARD;
-            case 2 -> Action.SLEEP;
-            case 3 -> Action.SPECIAL;
-            default -> null;
-        };
-
-        //stores enemyAction
-        updateEnemyMoveStore(action);
-        return action;
-    }
-    /**
-     * Updates the stored sequence of enemy moves for a specific enemy type.
-     * This is used to determine if a special move can be executed after a certain move combination.
-     *
-     * @param value The enemy action to store.
-     */
-
-    private void updateEnemyMoveStore(Action value) {
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-
-        if (itemsList == null)
-        {
-            itemsList = new ArrayList<>();
-            logger.info("empty hashmap :: Updating special move list");
-        }
-        else
-        //particular enemy has already made a move
-        {
-            logger.info("removing existing record in hashmap");
-            itemsList = enemyMoveStore.remove(enemy.getEnemyType().toString());
+        // Don't sleep if both health and hunger are maxed out
+        if (enemyStats.getHunger() == enemyStats.getMaxHunger() && enemyStats.getHealth() == enemyStats.getMaxHealth()) {
+            actionProbabilities.remove(Action.SLEEP);
         }
 
-
-        itemsList.add(value);
-        enemyMoveStore.put(enemy.getEnemyType().toString(), itemsList);
-        if(itemsList.size()>2)
-        {
-            logger.info("1- item list size: {}", itemsList.size());
-            checkSpecialMoveCombination();
-        }
-
-    }
-    /**
-     * Verifies if the last three moves in the enemy's sequence match a predefined special move combination.
-     * Triggers special effects if the combination is achieved, otherwise removes outdated moves.
-     */
-
-    private void checkSpecialMoveCombination()
-    {
-        boolean noSpecialMoveComboFlag = false;
-        ArrayList<Action> itemsList = enemyMoveStore.get(enemy.getEnemyType().toString());
-        logger.info("Checking special move combination");
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet())
-        {
-            logger.info("Map<String,ArrayList> :: {} :: {}", entry.getKey(), entry.getValue());
-        }
-        
-        StringBuilder enemyMoves = new StringBuilder("");
-
-        // compare enemy move seq to last 3 enemy moves)
-        switch (enemy.getEnemyType().toString())
-        {
-            case "FROG" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                logger.info("enemy move combination {}", enemyMoves);
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, ATTACK, ]")){
-                    logger.info("special move combination achieved");
-                    //special effect
-                }
+        // Adjust probabilities based on stats:
+        // Higher chance of sleeping or guarding when health is low
+        if (enemyStats.getHealth() < enemyStats.getMaxHealth() * 0.3 ||
+                enemyStats.getHunger() < enemyStats.getMaxHunger() * 0.3) {
+            actionProbabilities.put(Action.GUARD, 0.4);
+            if (actionProbabilities.containsKey(Action.SLEEP)) {
+                actionProbabilities.put(Action.SLEEP, 0.6);
             }
-            case "CHICKEN" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, ATTACK, GUARD, ]")){
-                }
-
-            }
-            case "MONKEY" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[ATTACK, GUARD, ATTACK, ]")){
-                }
-
-            }
-            case "BEAR" -> {
-                enemyMoves.append(moveHelper(enemyMoves));
-                if (enemyMoves.toString().equals("[GUARD, ATTACK, ATTACK, ]")){
-                }
-
-            }
-            default -> noSpecialMoveComboFlag = true;
+        }
+        // Higher chance to attack when player health is low
+        if (playerStats.getHealth() < playerStats.getMaxHealth() * 0.3) {
+            actionProbabilities.put(Action.ATTACK, 0.7);
         }
 
-        if(noSpecialMoveComboFlag)
-        {
-            //remove outdated enemy action
-            itemsList.removeFirst();
-        } else {
-            //reset enemy move for next special move set
-            itemsList.clear();
-            //call special effect
+        // Normalize probabilities to sum up to 1
+        double totalProbability = actionProbabilities.values().stream().mapToDouble(Double::doubleValue).sum();
+        HashMap<Action, Double> normalizedProbabilities = new HashMap<>();
+        for (Action action : actionProbabilities.keySet()) {
+            normalizedProbabilities.put(action, actionProbabilities.get(action) / totalProbability);
         }
+
+        // Select an action based on weighted probabilities
+        double rand = MathUtils.random();
+        double cumulativeProbability = 0.0;
+        for (Action action : normalizedProbabilities.keySet()) {
+            cumulativeProbability += normalizedProbabilities.get(action);
+            if (rand <= cumulativeProbability) {
+                return action;
+            }
+        }
+
+        // Fallback to random action if no choice was made
+        List<Action> availableActions = new ArrayList<>(normalizedProbabilities.keySet());
+        int randomIndex = (int) (MathUtils.random() * availableActions.size());
+        return availableActions.get(randomIndex);
     }
-    
-    private StringBuilder moveHelper(StringBuilder enemyMoves) {
-        for (Map.Entry<String, ArrayList<Action>> entry : enemyMoveStore.entrySet()){
-            enemyMoves.append(entry.getValue().toString()).append(", ");
-        }
-        enemyMoves.append("");
-        return enemyMoves;
-    }
-    
 
     /**
      * Executes the player's and enemy's selected moves in combination based on their respective actions.
@@ -389,78 +306,96 @@ public class CombatManager extends Component {
             logger.error("Enemy does not have a CombatMoveComponent.");
             return;
         }
+
+        combatMoveAudio.playCombatSound(playerAction, enemyAction);
+        combatAnimationDisplay.animateCombat(playerAction, enemyAction, getFasterEntity() == player);
+
+        CombatMove.StatsChange[] playerStatsChanges;
+        CombatMove.StatsChange[] enemyStatsChanges;
+
         switch (playerAction) {
             case ATTACK -> {
-                combatAnimationDisplay.initiateAnimation(Action.ATTACK);
                 switch (enemyAction) {
                     case ATTACK -> {
                         if (getFasterEntity() == player) {
-                            playerMove.executeMove(playerAction, enemyStats);
-                            enemyMove.executeMove(enemyAction, playerStats);
+                            playerStatsChanges = playerMove.executeMove(playerAction, enemyStats);
+                            enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats);
                         } else {
-                            enemyMove.executeMove(enemyAction, playerStats);
-                            playerMove.executeMove(playerAction, enemyStats);
+                            enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats);
+                            playerStatsChanges = playerMove.executeMove(playerAction, enemyStats);
                         }
                     }
                     case GUARD -> {
-                        enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, true);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats, true);
                     }
                     case SLEEP -> {
-                        enemyMove.executeMove(enemyAction);
-                        playerMove.executeMove(playerAction, enemyStats, false, getEnemyMultiHitsLanded());
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats, false, getMultiHitsLanded());
                     }
                     case SPECIAL -> {
-                        enemyMove.executeMove(enemyAction, playerStats, false);
-                        playerMove.executeMove(playerAction, enemyStats);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false);
+                        playerStatsChanges = playerMove.executeMove(playerAction, enemyStats);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
             }
             case GUARD -> {
-                combatAnimationDisplay.initiateAnimation(Action.GUARD);
                 switch(enemyAction) {
                     case ATTACK, SPECIAL -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction, playerStats, true);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, true);
                     }
                     case GUARD, SLEEP -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
             }
             case SLEEP -> {
-                combatAnimationDisplay.initiateAnimation(Action.SLEEP);
                 switch(enemyAction) {
                     case ATTACK -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction, playerStats, false, getEnemyMultiHitsLanded());
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false, getMultiHitsLanded());
                     }
                     case GUARD, SLEEP -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction);
                     }
                     case SPECIAL -> {
-                        playerMove.executeMove(playerAction);
-                        enemyMove.executeMove(enemyAction, playerStats, false);
+                        playerStatsChanges = playerMove.executeMove(playerAction);
+                        enemyStatsChanges = enemyMove.executeMove(enemyAction, playerStats, false);
                     }
                     default -> throw new GdxRuntimeException("Unknown enemy action: " + enemyAction);
                 }
             }
             case ITEM -> {
+                int initialHealth = playerStats.getHealth();
+                int initialHunger = playerStats.getHunger();
                 // Player's move is using an item in the CombatInventoryDisplay.
                 entity.getEvents().trigger("itemUsedInCombat", playerItem, playerItemContext, playerItemIndex);
-                enemyMove.executeMove(enemyAction);
+                enemyStatsChanges = enemyMove.executeMove(enemyAction);
+                entity.getEvents().trigger("useItem", playerStats, enemyStats);
+                playerStatsChanges = new CombatMove.StatsChange[]{new CombatMove.StatsChange(playerStats.getHealth()
+                        - initialHealth, playerStats.getHunger() - initialHunger)};
             }
             default -> throw new GdxRuntimeException("Unknown player action: " + playerAction);
         }
 
-        logger.info("(AFTER) PLAYER: health {}, stamina {}", playerStats.getHealth(), playerStats.getStamina());
-        logger.info("(AFTER) ENEMY: health {}, stamina {}", enemyStats.getHealth(), enemyStats.getStamina());
+        logger.info("(AFTER) PLAYER: health {}, hunger {}", playerStats.getHealth(), playerStats.getHunger());
+        logger.info("(AFTER) ENEMY: health {}, hunger {}", enemyStats.getHealth(), enemyStats.getHunger());
         displayCombatResults();
-        initStatsCopies();
+
+        // Trigger stats change popup animations
+        for (CombatMove.StatsChange statsChange : enemyStatsChanges) {
+            entity.getEvents().trigger("enemyHungerStatsChangePopup", statsChange.getHungerChange());
+            entity.getEvents().trigger("enemyHealthStatsChangePopup", statsChange.getHealthChange());
+        }
+        for (CombatMove.StatsChange statsChange : playerStatsChanges) {
+            entity.getEvents().trigger("playerHungerStatsChangePopup", statsChange.getHungerChange());
+            entity.getEvents().trigger("playerHealthStatsChangePopup", statsChange.getHealthChange());
+        }
     }
 
     /**
@@ -481,9 +416,9 @@ public class CombatManager extends Component {
             if (enemy.getComponent(CombatStatsComponent.class).isBoss()) {
                 this.getEntity().getEvents().trigger("bossCombatLoss", enemy);
                 GameState.resetState();
-                SaveHandler.delete(GameState.class, "saves", FileLoader.Location.LOCAL);
+                SaveHandler.getInstance().delete(GameState.class, "saves", FileLoader.Location.LOCAL);
             } else {
-                this.getEntity().getEvents().trigger("combatLoss");
+                this.getEntity().getEvents().trigger("combatLoss", enemy);
                 //Clear inventory/other normal death events
             }
             // nullifyCombatDialogueListener(); // remove the listener added for animation syncing
@@ -498,12 +433,12 @@ public class CombatManager extends Component {
     }
 
     /**
-     * Simulates a multi-hit attack by the enemy.
-     * The number of hits is based on the enemy's speed and is calculated using a Bernoulli distribution.
+     * Simulates a multi-hit attack.
+     * The number of hits is based on the entity's speed and is calculated using a Bernoulli distribution.
      *
-     * @return the number of successful hits landed by the enemy in a multi-hit attack.
+     * @return the number of successful hits landed in a multi-hit attack.
      */
-    private int getEnemyMultiHitsLanded() {
+    private int getMultiHitsLanded() {
         double successProbability = Math.exp(enemyStats.getSpeed() / 250.0) - 0.5;
         int successfulHits = 0;
         for (int i = 0; i < 4; i++) {
@@ -541,67 +476,20 @@ public class CombatManager extends Component {
     }
 
     /**
-     * A function used to calculate and construct the strings describing player and enemy changes
-     * @return A string array containing the stat change details of the player and enemy
-     */
-    private String[] calculateStatChanges () {
-        int arraySize = 2;
-        String[] statChanges = new String[arraySize];
-        String playerStatsDetails = "";
-        String enemyStatsDetails = "";
-
-        if (playerStats.getHealth() > copyPlayerStats.getHealth()) {
-            playerStatsDetails += String.format("You gained %dHP. ", playerStats.getHealth() - copyPlayerStats.getHealth());
-        } else if (playerStats.getHealth() < copyPlayerStats.getHealth()) {
-            playerStatsDetails += String.format("You lost %dHP. ", copyPlayerStats.getHealth() - playerStats.getHealth());
-        }
-
-        if (playerStats.getStamina() > copyPlayerStats.getStamina()) {
-            playerStatsDetails += String.format("You gained %d stamina. ", playerStats.getStamina() -
-                    copyPlayerStats.getStamina());
-        } else if (playerStats.getStamina() < copyPlayerStats.getStamina()) {
-            playerStatsDetails += String.format("You lost %d stamina. ", copyPlayerStats.getStamina() -
-                    playerStats.getStamina());
-        }
-
-        if (playerStats.getStrength() > copyPlayerStats.getStrength()) {
-            playerStatsDetails += String.format("You gained %d strength. ", playerStats.getStrength() -
-                    copyPlayerStats.getStrength());
-        }
-
-        if (playerStats.getDefense() > copyPlayerStats.getDefense()) {
-            playerStatsDetails += String.format("You gained %d defense. ", playerStats.getDefense() -
-                    copyPlayerStats.getDefense());
-        }
-
-        if (enemyStats.getHealth() > copyEnemyStats.getHealth()) {
-            enemyStatsDetails += String.format("The enemy gained %dHP. ", enemyStats.getHealth() - copyEnemyStats.getHealth());
-        } else if (enemyStats.getHealth() < copyEnemyStats.getHealth()) {
-            enemyStatsDetails += String.format("The enemy lost %dHP. ", copyEnemyStats.getHealth() - enemyStats.getHealth());
-        }
-
-        statChanges[0] = playerStatsDetails;
-        statChanges[1] = enemyStatsDetails;
-
-        return statChanges;
-    }
-
-    /**
      * A function used to construct the strings describing Status Effects applied to the Player
      * @return A string array containing the details of status effects (Bleeding, Shocked, or Poisoned).
      */
     private String playerStatusEffects() {
         String effectDetails = "";
         if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING) && statusEffectDuration == 0) {
-            effectDetails += "You're bleeding! Your GUARDs will be less effective.";
+            effectDetails += "The Kanga's claws have left their mark. Watch your step...";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.POISONED)
                 && statusEffectDuration == 0) {
-            effectDetails += "You've been poisoned! SLEEPing won't heal you.";
+            effectDetails += "The Leviathan's venom runs deep. Rest offers no reprieve.";
         } else if (playerStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED)
                 && statusEffectDuration == 0) {
-            effectDetails += "You've been shocked! Your ATTACKs will be weakened.";
+            effectDetails += "A jolt from the Griffin lingers, sparking faint tremors within.";
         }
-
         return effectDetails;
     }
 
@@ -612,23 +500,9 @@ public class CombatManager extends Component {
         List<String> moveTextList = new ArrayList<>();
         String playerMoveDetails = playerAction.name();
         String enemyMoveDetails = enemyAction.name();
-        boolean playerStatChange = false;
-        boolean enemyStatChange = false;
-
-        String[] entityStatChanges = calculateStatChanges();
-
-        if (!entityStatChanges[0].isEmpty()) {
-            playerStatChange = true;
-        }
-        if (!entityStatChanges[1].isEmpty()) {
-            enemyStatChange = true;
-        }
-        logger.info(entityStatChanges[1]);
-        logger.info("The enemyStat change value is {}", enemyStatChange);
-
 
         if (moveChangedByConfusion) {
-            moveTextList.add(String.format("The enemy confused you into %sing!", playerMoveDetails));
+            moveTextList.add(String.format("Your mind is foggy, and you find yourself %sing.", playerMoveDetails));
         } else if (playerMoveDetails.equals("ITEM")) {
             moveTextList.add(String.format("You decided to use an %s.", playerMoveDetails));
         } else {
@@ -638,13 +512,6 @@ public class CombatManager extends Component {
             moveTextList.add(String.format("The enemy decided to %s!", enemyMoveDetails));
         } else {
             moveTextList.add(String.format("The enemy used their %s!", enemyMoveDetails));
-        }
-
-        if (playerStatChange) {
-            moveTextList.add(entityStatChanges[0]);
-        }
-        if (enemyStatChange) {
-            moveTextList.add(entityStatChanges[1]);
         }
 
         String statusEffects = playerStatusEffects();
@@ -659,60 +526,6 @@ public class CombatManager extends Component {
 
         ServiceLocator.getDialogueBoxService().updateText(moveText, DialogueBoxService.DialoguePriority.BATTLE);
 
-        // Add the listener to initiate enemy animations when enemy move indicated on dialogue box:
-        addDialogueBoxListener();
-
         entity.getEvents().trigger("displayCombatResults");
-    }
-
-    /**
-     * Add listener to continue button in dialogue box in combat to allow syncing of
-     * enemy animations after player animations and when continue button is pressed as enemy attack is
-     * described in dialogue box
-     */
-    public void addDialogueBoxListener() {
-
-        // Get the continue button for the dialogue box
-        contButton = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getForwardButton();
-
-        dialogueBoxCombatListener = new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                combatAnimationDisplay.dispose();
-
-                Label db = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getLabel();
-                String currentText = String.valueOf(db.getText());
-
-                //            TODO: replace Label code with code below due in next PR
-                //            int index = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHint();
-                //            int index2 = ServiceLocator.getDialogueBoxService().getCurrentOverlay().getCurrentHintLine();
-                //            String[][] fullText = (ServiceLocator.getDialogueBoxService().getHints());
-                //            String currentText = String.valueOf(fullText[index][index2]);
-
-                if (currentText.equals("The enemy decided to ATTACK")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.ATTACK);
-                } else if (currentText.equals("The enemy decided to SLEEP")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.SLEEP);
-                } else if (currentText.equals("The enemy decided to GUARD")){
-                    combatAnimationDisplay.initiateEnemyAnimation(Action.GUARD);
-                }
-
-                return true;
-            }
-        };
-
-        contButton.addListener(dialogueBoxCombatListener); // add the listener to the button for the duration of combat
-    }
-
-    /**
-     * Remove the input listener for the continue button of the dialogue box used to
-     * sync the animations of enemy players with when continue button was clicked
-     */
-    private void nullifyCombatDialogueListener(){
-        if (dialogueBoxCombatListener != null) {
-            contButton.removeListener(dialogueBoxCombatListener);
-            dialogueBoxCombatListener = null;
-        }
     }
 }

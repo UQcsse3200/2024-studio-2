@@ -365,7 +365,7 @@ public class EnemyFactory {
         animator.addAnimation(SPAWN, 1.0f, Animation.PlayMode.NORMAL);
 
         joey
-                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), 100, false, false, 1))
+                .addComponent(new CombatStatsComponent(config.getHealth(), config.getHunger(), config.getBaseAttack(), config.getDefense(), config.getSpeed(), config.getExperience(), false, false, 1))
                 .addComponent(new CombatMoveComponent(moveSet))
                 .addComponent(animator)
                 .addComponent(new JoeyAnimationController());
@@ -453,7 +453,7 @@ public class EnemyFactory {
                                 config.getHunger(), Math.max(0,
                                 config.getBaseAttack() + (int)(MathUtils.random() * 5) - 2),
                                 config.getDefense() + (int)(MathUtils.random() * 2), config.getSpeed(),
-                                config.getExperience(), 100, false, false, 1))
+                                config.getExperience(), false, false, 1))
                         .addComponent(new CombatMoveComponent(moveSet))
                         .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))
                         .addComponent(new FadeLightsDayTimeComponent());

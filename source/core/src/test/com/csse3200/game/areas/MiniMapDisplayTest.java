@@ -2,6 +2,8 @@ package com.csse3200.game.areas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
+
+import com.csse3200.game.areas.MiniMap.MiniMapDisplay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

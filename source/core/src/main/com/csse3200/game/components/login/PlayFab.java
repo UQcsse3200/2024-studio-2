@@ -7,16 +7,22 @@ import com.playfab.PlayFabSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
- * The PlayFab class handles user registration and login via PlayFab's client API.
- * It allows initializing the PlayFab client with a Title ID and provides methods
- * for user registration and login.
+ * The PlayFab class handles user registration, login, and leaderboard management via
+ * PlayFab's client API. It allows for initializing the PlayFab client with a Title ID,
+ * and provides methods for user registration, login, updating leaderboards, and
+ * submitting scores.
  */
 public class PlayFab {
     private static final Logger logger = LoggerFactory.getLogger(PlayFab.class);
+    private static ArrayList<String> minigameUsernames;
+    private static ArrayList<String> minigameHighscores;
+    private static String playerName;
+    public static boolean isLogin = false;
 
     /**
      * Constructor to initialize PlayFab with the given Title ID.
@@ -25,35 +31,32 @@ public class PlayFab {
      */
     public PlayFab(String titleId) {
         PlayFabSettings.TitleId = titleId; // Set your PlayFab Title ID here
+
+        minigameUsernames = new ArrayList<>();
+        minigameHighscores = new ArrayList<>();
+        playerName = "";
     }
 
-    /**
-     * Main method to test user registration functionality.
-     *
-     * @param args Command line arguments (not used).
-     */
     public static void main(String[] args) {
-        // Initialize PlayFab with your Title ID
-        PlayFab playFab = new PlayFab("DBB26");
-
-        // Call the registration method
-        playFab.registerUser("test12345", "long","123456");
-
+        new PlayFab("DBB26");
+        registerUser("test123", "000");
+        //loginUser("GameMaster", "123456");
+        //submitScore("Bird", 100000);
     }
+
     /**
      * Registers a new user in PlayFab with the provided credentials.
      *
      * @param username The desired username for the user.
-     * @param email The email address associated with the user.
      * @param password The desired password for the user.
      * @return A {@link Response} object containing a success or failure message.
      */
-    public static Response registerUser(String username, String email, String password) {
+    public static Response registerUser(String username, String password) {
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest();
         request.Username = username;
-        request.Email = email;
         request.Password = password;
         request.DisplayName = username;
+        request.RequireBothUsernameAndEmail = false;
 
 
         PlayFabResult<RegisterPlayFabUserResult> result = PlayFabClientAPI.RegisterPlayFabUser(request);
@@ -66,7 +69,6 @@ public class PlayFab {
             logger.debug(errorMsg);
             return new Response(errorMsg, false);
         }
-        //
     }
 
     /**
@@ -85,6 +87,13 @@ public class PlayFab {
 
         if (result.Result != null) {
             String succeedMsg = "Welcome " + request.Username + ".";
+            playerName = username;
+            isLogin = true;
+
+            if (!minigameUsernames.contains(username)) {
+                minigameUsernames.add(username);
+            }
+
             logger.debug(succeedMsg);
             return new Response(succeedMsg, true);
         } else {
@@ -94,37 +103,95 @@ public class PlayFab {
         }
     }
 
-    public static Response saveData(Map<String, String> data) {
-        UpdateUserDataRequest request = new UpdateUserDataRequest();
-        request.Data = data;
-        PlayFabResult<UpdateUserDataResult> result = PlayFabClientAPI.UpdateUserData(request);
+    /**
+     * Retrieves the name of the currently logged-in player.
+     *
+     * @return The name of the logged-in player, or "Guest" if no user is logged in.
+     */
+    public static String getPlayerName() {
+        if (isLogin) {
+            return playerName;
+        } else {
+            return "Guest"; // Return "Guest" if no user is logged in or list is empty
+        }
+    }
+
+    /**
+     * Updates the leaderboard for the specified game by retrieving the top scores.
+     *
+     * @param gameName The name of the game for which the leaderboard is being updated.
+     */
+    public static void updateLeaderboard(String gameName){
+        GetLeaderboardRequest request = new GetLeaderboardRequest();
+        request.StatisticName = gameName;
+        request.MaxResultsCount = 10;
+        PlayFabResult<GetLeaderboardResult> result = PlayFabClientAPI.GetLeaderboard(request);
+        // Clean the arrays before updating them
+        minigameUsernames.clear();
+        minigameHighscores.clear();
 
         if (result.Result != null) {
-            String succeedMsg = "Data is successfully saved.";
-            System.out.println(succeedMsg);
-            return new Response(succeedMsg, true);
+            // Update UI with leaderboard data
+            List<PlayerLeaderboardEntry> leaderboard = result.Result.Leaderboard;
+            for (int i = 0; i < leaderboard.size(); i++) {
+                minigameUsernames.add(leaderboard.get(i).DisplayName);
+                minigameHighscores.add(String.valueOf(leaderboard.get(i).StatValue));
+                System.out.println("User " + i + ": " + minigameUsernames.get(i) + " - " + minigameHighscores.get(i));
+            }
         } else {
-            String errorMsg = result.Error.errorMessage;
-            System.out.println(errorMsg);
-            return new Response(errorMsg, false);
+            logger.error("Failed to retrieve leaderboard: " + result.Error.errorMessage);
         }
     }
 
-    public static Response loadData() {
-        GetUserDataRequest request = new GetUserDataRequest();
-        PlayFabResult<GetUserDataResult> result = PlayFabClientAPI.GetUserData(request);
+    /**
+     * Submits the player's score for the specified game to the leaderboard.
+     *
+     * @param gameName The name of the game.
+     * @param score    The score to be submitted.
+     */
+    public static void submitScore(String gameName, int score) {
+        if (!isLogin) {
+            logger.info("You need to login to put your score to the leaderboard.");
+            return;
+        }
+        UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest();
 
-        if (result.Result != null && result.Result.Data != null) {
-            Map<String, UserDataRecord> userData = result.Result.Data;
-            String succeedMsg = "Data is successfully loaded.";
-            System.out.println(succeedMsg);
-            return new Response(userData.toString(), true);
+        StatisticUpdate statUpdate = new StatisticUpdate();
+        statUpdate.StatisticName = gameName;
+        statUpdate.Value = score;
+
+        ArrayList<StatisticUpdate> statisticUpdates = new ArrayList<>();
+        statisticUpdates.add(statUpdate);
+
+        request.Statistics = statisticUpdates;
+
+        PlayFabResult<UpdatePlayerStatisticsResult> result = PlayFabClientAPI.UpdatePlayerStatistics(request);
+
+        if (result.Result != null) {
+            logger.info("Player score submitted successfully.");
         } else {
-            String errorMsg = result.Error.errorMessage;
-            System.out.println(errorMsg);
-            return new Response(errorMsg, false);
+            logger.error("Failed to submit score: " + result.Error.errorMessage);
         }
     }
+
+    /**
+     * Retrieves the list of usernames on the leaderboard.
+     *
+     * @return An {@link ArrayList} of usernames.
+     */
+    public ArrayList<String> getUsernames() {
+        return minigameUsernames;
+    }
+
+    /**
+     * Retrieves the list of high scores on the leaderboard.
+     *
+     * @return An {@link ArrayList} of high scores.
+     */
+    public ArrayList<String> getHighscores() {
+        return minigameHighscores;
+    }
+
 
     /**
      * A class used to return the result of a user action (registration/login).

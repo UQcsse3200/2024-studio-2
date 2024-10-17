@@ -14,13 +14,13 @@ public class SpecialKangaMove extends SpecialMove {
     private static final Logger logger = LoggerFactory.getLogger(SpecialKangaMove.class);
 
     /**
-     * Constructs the SpecialKangaMove with the given move name and stamina cost.
+     * Constructs the SpecialKangaMove with the given move name and hunger cost.
      *
      * @param moveName    the name of the special Kanga move.
-     * @param staminaCost the stamina cost required to perform the special Kanga move.
+     * @param hungerCost the hunger cost required to perform the special Kanga move.
      */
-    public SpecialKangaMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public SpecialKangaMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**

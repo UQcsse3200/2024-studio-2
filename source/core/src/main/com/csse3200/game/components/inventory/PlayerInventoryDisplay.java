@@ -1,5 +1,6 @@
 package com.csse3200.game.components.inventory;
 
+import com.csse3200.game.GdxGame;
 import com.csse3200.game.inventory.Inventory;
 import com.csse3200.game.inventory.items.AbstractItem;
 import com.csse3200.game.inventory.items.ItemUsageContext;
@@ -19,15 +20,16 @@ import java.util.Deque;
 public class PlayerInventoryDisplay extends InventoryDisplay {
     private final ArrayList<TimedUseItem> potions = new ArrayList<>();
 
-    public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity) {
-        super(inventory, numCols,hotBarCapacity, true);
+    public PlayerInventoryDisplay(Inventory inventory, int numCols, int hotBarCapacity, GdxGame game) {
+        super(inventory, numCols,hotBarCapacity, true, game);
     }
 
     /**
      * updates the potions effects if in or out of combat
      */
     public void updatePotions(ItemUsageContext context) {
-        if (this.potions == null) { return;}
+        //unsure if this is intended behaviour but previous behaviour could only be false.
+        if (potions.isEmpty()) { return;}
 
         Deque<Integer> removals = new ArrayDeque<>();
 
@@ -104,5 +106,13 @@ public class PlayerInventoryDisplay extends InventoryDisplay {
             return;
         }
         super.consumeItem(item, context, index);
+    }
+
+    /**
+     * Clears the inventory of the player (used to empty inventory when loss condition satisfied in combat)
+     */
+    public void clearInventory() {
+        this.inventory.clearInventory();
+        potions.clear();
     }
 }

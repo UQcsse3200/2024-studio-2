@@ -6,7 +6,6 @@ package com.csse3200.game.entities.configs;
 public class BaseEnemyEntityConfig extends BaseEntityConfig {
     private int baseAttack;
     private int strength;
-    private int stamina;
     private int level;
 
     /**
@@ -134,20 +133,6 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
     public void setExperience(int experience) {
         this.experience = experience;
     }
-
-    /**
-     * Returns the stamina value for this entity.
-     *
-     * @return the stamina value as an int.
-     */
-    public int getStamina() { return stamina; }
-
-    /**
-     * Sets the stamina value for this entity.
-     *
-     * @param stamina the new stamina value.
-     */
-    public void setStamina(int stamina) { this.stamina = stamina; }
 
     /**
      * Returns the level value for this entity.

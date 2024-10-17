@@ -42,6 +42,9 @@ import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.utils.math.GridPoint2Utils;
 import com.csse3200.game.utils.math.RandomUtils;
+import com.csse3200.game.areas.terrain.enums.TileLocation;
+
+import static com.badlogic.gdx.math.MathUtils.random;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -65,7 +68,9 @@ public class ForestGameArea extends GameArea {
 
     private final List<Entity> minigameNPCs;
     private final Map<Integer, Entity> dynamicItems = new HashMap<>();
-    private int totalItems = 0;
+    private int totalForestItems = 0;
+    private int totalOceanItems = 0;
+    private int totalAirItems = 0;
     private Entity player;
 
     private final GdxGame game;
@@ -125,11 +130,11 @@ public class ForestGameArea extends GameArea {
         spawnFirstBarrier();
         spawnSecondBarrier();
 
-        //Enemies
-        spawnEnemies();
-
         // items
         handleItems();
+
+        //Enemies
+        spawnEnemies();
 
         //Friendlies
         spawnFriendlyNPCs();
@@ -139,7 +144,7 @@ public class ForestGameArea extends GameArea {
         player.getEvents().addListener("spawnLandBoss", this::spawnKangarooBoss);
         player.getEvents().addListener("spawnWaterBoss", this::spawnWaterBoss);
         player.getEvents().addListener("spawnAirBoss", this::spawnAirBoss);
-        player.getEvents().addListener("unlockArea", this::unlockArea);
+        player.getEvents().addListener(UNLOCK_AREA_EVENT, this::unlockArea);
         kangarooBossSpawned = false;
         waterBossSpawned = false;
         airBossSpawned = false;
@@ -241,11 +246,15 @@ public class ForestGameArea extends GameArea {
         }
     }
 
+    /**
+     * Handles the spawn of the three region items
+     */
     private void handleItems() {
-        // Spawn items on new chunks
-        for (GridPoint2 pos : terrain.getNewChunks()) {
-            spawnItems(TerrainLoader.chunktoWorldPos(pos));
-        }
+
+        spawnForestItems();
+        spawnOceanItems();
+
+        spawnAirItems();
 
         // TODO: De-spawn items on old chunks:
         List<Integer> removals = new ArrayList<>();
@@ -356,7 +365,7 @@ public class ForestGameArea extends GameArea {
         if (!kangarooBossSpawned) {
             Entity kangarooBoss = BossFactory.createKangaBossEntity(player);
             kangarooBoss.getEvents().addListener("spawnJoey", this::spawnJoeyEnemy);
-            spawnEntityOnMap(kangarooBoss);
+            spawnBossOnMap(kangarooBoss);
             bosses.add(kangarooBoss);
             kangarooBossSpawned = true;
         }
@@ -366,7 +375,7 @@ public class ForestGameArea extends GameArea {
         if (!waterBossSpawned) {
             Entity waterBoss = BossFactory.createWaterBossEntity(player);
             waterBoss.getEvents().addListener("spawnWaterSpiral", this::spawnWaterSpiral);
-            spawnEntityOnMap(waterBoss);
+            spawnBossOnMap(waterBoss);
             bosses.add(waterBoss);
             waterBossSpawned = true;
         }
@@ -376,23 +385,44 @@ public class ForestGameArea extends GameArea {
         if (!airBossSpawned) {
             Entity airBoss = BossFactory.createAirBossEntity(player);
             airBoss.getEvents().addListener("spawnWindGust", this::spawnWindGust);
-            spawnEntityOnMap(airBoss);
+            spawnBossOnMap(airBoss);
             bosses.add(airBoss);
             airBossSpawned = true;
         }
     }
 
-    private void spawnEntityOnMap(Entity entity) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 15, PLAYER_SPAWN.y - 15);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 15, PLAYER_SPAWN.y + 15);
+    private void spawnBossOnMap(Entity entity) {
+        GridPoint2 minPos = null;
+        GridPoint2 maxPos = null;
 
-        GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-        // Prevent spawn camping
-        while (Math.abs(randomPos.x - PLAYER_SPAWN.x) <= 5 && Math.abs(randomPos.y - PLAYER_SPAWN.y) <= 5) {
-            randomPos = RandomUtils.random(minPos, maxPos);
+        float tileSize = terrain.getTileSize();
+        GridPoint2 tileBounds = terrain.getMapBounds(0);
+        Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+
+        int minGateX = (int) (worldBounds.x / 2) - 5;
+        int maxGateX = (int) (worldBounds.x / 2) + 5;
+
+        // Define spawn areas based on the boss type
+        if (entity.getEnemyType() == Entity.EnemyType.KANGAROO) {
+            // Spawn near the first barrier
+            minPos = new GridPoint2(minGateX, (MAP_SIZE.y / 3 )- 10);
+            maxPos = new GridPoint2(maxGateX, (MAP_SIZE.y / 3) - 5);
+        } else if (entity.getEnemyType() == Entity.EnemyType.WATER_BOSS) {
+            // Spawn near the second barrier
+            minPos = new GridPoint2(minGateX, (MAP_SIZE.y / 3 * 2) - 10);
+            maxPos = new GridPoint2(maxGateX, (MAP_SIZE.y / 3 * 2) - 5);
+        } else if (entity.getEnemyType() == Entity.EnemyType.AIR_BOSS) {
+            // Spawn at the top of the map
+            minPos = new GridPoint2(minGateX, MAP_SIZE.y - 20);
+            maxPos = new GridPoint2(maxGateX, MAP_SIZE.y - 15);
         }
 
-        spawnEntityAt(entity, randomPos, true, true);
+        if (minPos != null) {
+            // Generate a random position within the range
+            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+            // Spawn the entity at the calculated random position
+            spawnEntityAt(entity, randomPos, true, true);
+        }
     }
 
     /**
@@ -408,7 +438,7 @@ public class ForestGameArea extends GameArea {
      *               The spawn position is randomly selected within this radius but is constrained
      *               to be within the current chunk boundaries.
      */
-    private void spawnEntityNearPlayer(Entity entity, int radius) {
+    public void spawnEntityNearPlayer(Entity entity, int radius) {
         // Get the player's current position in the world
         Vector2 playerWorldPos = player.getPosition();
 
@@ -435,44 +465,172 @@ public class ForestGameArea extends GameArea {
                 entity, playerChunk.x, playerChunk.y, spawnPos.x, spawnPos.y);
     }
 
-    private void spawnItems(GridPoint2 pos) {
+    /**
+     * Spawns the air items on the map. Each item will have different spawning rate depending on
+     * how useful their effects are.
+     */
+    private void spawnAirItems() {
+        Supplier<Entity> generator;
+        // Health Potions
+        if (random.nextFloat() <= 0.40) { // Spawn rate is 40%
+            generator = () -> ItemFactory.createHealthPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_HEALTH_POTIONS, 3);
+        }
+
+        // Defense Potions
+        if (random.nextFloat() <= 0.15) {
+            generator = () -> ItemFactory.createDefensePotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 3);
+        }
+
+        // Attack Potions
+        if (random.nextFloat() <= 0.15) {
+            generator = () -> ItemFactory.createAttackPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_ATTACK_POTIONS, 3);
+        }
+
+        // Speed Potions
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createSpeedPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_SPEED_POTIONS, 3);
+        }
+
+        // Apples
+        if (random.nextFloat() <= 0.50) {
+            generator = () -> ItemFactory.createApple(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_APPLES, 3);
+        }
+
+        // Cloud Cookies
+        if (random.nextFloat() <= 0.50) {
+            generator = () -> ItemFactory.createCloudCookie(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CLOUD_COOKIES, 3);
+        }
+
+        // Cloud Cupcake
+        if (random.nextFloat() <= 0.35) {
+            generator = () -> ItemFactory.createCloudCupcakes(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CLOUD_CUPCAKES, 3);
+        }
+
+        // Cotton Cloud
+        if (random.nextFloat() <= 0.25) {
+            generator = () -> ItemFactory.createCottonCLoud(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_COTTON_CLOUD, 3);
+        }
+    }
+
+
+    /**
+     * Spawns the ocean items on the map. Each item will have different spawning rate depending on
+     * how effective their effects are. M
+     */
+    private void spawnOceanItems() {
         Supplier<Entity> generator;
 
         // Health Potions
-        generator = () -> ItemFactory.createHealthPotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_HEALTH_POTIONS);
+        if (random.nextFloat() <= 0.40) { // Spawn rate is 40%
+            generator = () -> ItemFactory.createHealthPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_HEALTH_POTIONS, 2);
+        }
 
         // Defense Potions
-        generator = () -> ItemFactory.createDefensePotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS);
+        if (random.nextFloat() <= 0.15) {
+            generator = () -> ItemFactory.createDefensePotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 2);
+        }
 
-        // Attack potions
-        generator = () -> ItemFactory.createAttackPotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_ATTACK_POTIONS);
+        // Attack Potions
+        if (random.nextFloat() <= 0.15) {
+            generator = () -> ItemFactory.createAttackPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_ATTACK_POTIONS, 2);
+        }
 
-        // Speed potions
-        generator = () -> ItemFactory.createSpeedPotion(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_SPEED_POTIONS);
+        // Speed Potions
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createSpeedPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_SPEED_POTIONS, 2);
+        }
 
         // Apples
-        generator = () -> ItemFactory.createApple(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_APPLES);
+        if (random.nextFloat() <= 0.50) {
+            generator = () -> ItemFactory.createApple(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_APPLES, 2);
+        }
+
+        // Fried Fish
+        if (random.nextFloat() <= 0.40) {
+            generator = () -> ItemFactory.createFriedFish(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_FRIED_FISH, 2);
+        }
+
+        // Shrimp
+        if (random.nextFloat() <= 0.40) {
+            generator = () -> ItemFactory.createShrimp(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_SHRIMP, 2);
+        }
+    }
+
+    /**
+     * Spawns the forest items on the map. Each item will have different spawning rate depending on
+     * how effective their effects are.
+     */
+    private void spawnForestItems() {
+        Supplier<Entity> generator;
+
+        // Health Potions
+        if (random.nextFloat() <= 0.30) {
+            generator = () -> ItemFactory.createHealthPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_HEALTH_POTIONS, 1);
+        }
+
+        // Defense Potions
+        if (random.nextFloat() <= 0.10) {
+            generator = () -> ItemFactory.createDefensePotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_DEFENSE_POTIONS, 1);
+        }
+
+        // Attack Potions
+        if (random.nextFloat() <= 0.10) {
+            generator = () -> ItemFactory.createAttackPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_ATTACK_POTIONS, 1);
+        }
+
+        // Speed Potions
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createSpeedPotion(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_SPEED_POTIONS, 1);
+        }
+
+        // Apples
+        if (random.nextFloat() <= 0.40) {
+            generator = () -> ItemFactory.createApple(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_APPLES, 1);
+        }
 
         // Carrots
-        generator = () -> ItemFactory.createCarrot(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CARROTS);
+        if (random.nextFloat() <= 0.25) {
+            generator = () -> ItemFactory.createCarrot(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CARROTS, 1);
+        }
 
         // Meat
-        generator = () -> ItemFactory.createMeat(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_MEAT);
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createMeat(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_MEAT, 1);
+        }
 
-        // Chicken legs
-        generator = () -> ItemFactory.createChickenLeg(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CHICKEN_LEGS);
+        // Chicken Legs
+        if (random.nextFloat() <= 0.20) {
+            generator = () -> ItemFactory.createChickenLeg(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CHICKEN_LEGS, 1);
+        }
 
         // Candy
-        generator = () -> ItemFactory.createCandy(player);
-        spawnRandomItem(pos, generator, ForestSpawnConfig.NUM_CANDY);
+        if (random.nextFloat() <= 0.10) {
+            generator = () -> ItemFactory.createCandy(player);
+            spawnFixedItems(generator, ForestSpawnConfig.NUM_CANDY, 1);
+        }
     }
 
     private void spawnEnemies() {
@@ -489,6 +647,7 @@ public class ForestGameArea extends GameArea {
         // Pigeon
         generator = () -> EnemyFactory.createPigeon(player);
         spawnRandomEnemy(generator, ForestSpawnConfig.NUM_PIGEONS, 0.06, 3);
+
 
         // Frog
         generator = () -> EnemyFactory.createFrog(player);
@@ -509,6 +668,7 @@ public class ForestGameArea extends GameArea {
         //Octopus
         generator = () -> EnemyFactory.createOctopus(player);
         spawnRandomEnemy(generator, ForestSpawnConfig.NUM_OCTOPUS, 0.06, 2);
+        //   }
 
         //Big saw fish
         generator = () -> EnemyFactory.createBigsawfish(player);
@@ -531,31 +691,34 @@ public class ForestGameArea extends GameArea {
 
         // Cow
         generator = () -> NPCFactory.createCow(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_COWS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_COWS, TileLocation.FOREST);
 
         // Fish
         generator = () -> NPCFactory.createFish(player, this.enemies);
-        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_FISH);
+        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_FISH,TileLocation.WATER);
 
         // Lion
         generator = () -> NPCFactory.createLion(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_LIONS);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_LIONS, TileLocation.FOREST);
 
         // Turtle
         generator = () -> NPCFactory.createTurtle(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_TURTLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_TURTLES, TileLocation.WATER);
 
         // Eagle
         generator = () -> NPCFactory.createEagle(player, this.enemies);
-        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES);
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_EAGLES, TileLocation.AIR);
 
         // Snake
         generator = () -> NPCFactory.createSnake(player, this.enemies);
-        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_SNAKES);
+        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_SNAKES, TileLocation.FOREST);
 
         // Magpie
         generator = () -> NPCFactory.createMagpie(player, this.enemies);
-        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_MAGPIES);
+        spawnMinigameNPC(generator, ForestSpawnConfig.NUM_MAGPIES, TileLocation.AIR);
+
+        generator = NPCFactory::createFirefly;
+        spawnRandomNPC(generator, ForestSpawnConfig.NUM_FIREFLIES, TileLocation.FOREST);
     }
 
     /**
@@ -563,32 +726,49 @@ public class ForestGameArea extends GameArea {
      *
      * @param defeatedEnemy the entity that has been defeated in combat
      */
-    @Override
-    public void spawnConvertedNPCs(Entity defeatedEnemy) {
-        loadAssets();
-        if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
-            logger.warn("Attempted to convert null entity or entity with null enemy type");
-            return;
-        }
-
-        Vector2 pos = calculateSpawnPosition(defeatedEnemy);
-        Entity convertedNPC; // defaults to null
-
-        switch (defeatedEnemy.getEnemyType()) {
-            case CHICKEN:
-                convertedNPC = NPCFactory.createChicken(player, this.enemies);
+	@Override
+	public void spawnConvertedNPCs(Entity defeatedEnemy) {
+		loadAssets();
+		if (defeatedEnemy == null || defeatedEnemy.getEnemyType() == null) {
+			logger.warn("Attempted to convert null entity or entity with null enemy type");
+			return;
+		}
+		
+		Vector2 pos = calculateSpawnPosition(defeatedEnemy);
+		Entity convertedNPC; // defaults to null
+		
+		switch (defeatedEnemy.getEnemyType()) {
+			case CHICKEN:
+				convertedNPC = NPCFactory.createChicken(player, this.enemies);
+				break;
+			case FROG:
+				convertedNPC = NPCFactory.createFrog(player, this.enemies);
+				break;
+			case MONKEY:
+				convertedNPC = NPCFactory.createMonkey(player, this.enemies);
+				break;
+			case BEAR:
+				convertedNPC = NPCFactory.createBear(player, this.enemies);
+				break;
+            case EEL:
+                convertedNPC = NPCFactory.createEel(player, this.enemies);
                 break;
-            case FROG:
-                convertedNPC = NPCFactory.createFrog(player, this.enemies);
+            case OCTOPUS:
+                convertedNPC = NPCFactory.createOctopus(player, this.enemies);
                 break;
-            case MONKEY:
-                convertedNPC = NPCFactory.createMonkey(player, this.enemies);
+            case BEE:
+                convertedNPC = NPCFactory.createBee(player, this.enemies);
                 break;
-            case BEAR:
-                convertedNPC = NPCFactory.createBear(player, this.enemies);
+            case PIGEON:
+                convertedNPC = NPCFactory.createPigeon(player, this.enemies);
                 break;
-            // Add other enemy types as needed
-            default:
+            case BIGSAWFISH:
+                convertedNPC = NPCFactory.createBigsawfish(player, this.enemies);
+                break;
+            case MACAW:
+                convertedNPC = NPCFactory.createMacaw(player, this.enemies);
+                break;
+			default:
                 return;
         }
 
@@ -619,22 +799,76 @@ public class ForestGameArea extends GameArea {
         return pos;
     }
 
-    private void spawnRandomItem(GridPoint2 pos, Supplier<Entity> creator, int numItems) {
-        GridPoint2 minPos = new GridPoint2(pos.x - 20, pos.y - 20);
-        GridPoint2 maxPos = new GridPoint2(pos.x + 20, pos.y + 20);
+    /**
+     * Spawns the items randomly at a fixed position across the map. This function ensures the items from specific
+     * regions are seperated by their given zone. Zone 1 is the forest, Zone 2 is the ocean and Zone 3 is the AIR
+     * The maximum amount of spawns in each region are
+     * 50 items
+     * @param creator the supplier entity to spawn the items
+     * @param numItems number of items to spawn
+     * @param zone the area region of the map
+     */
+    private void spawnFixedItems(Supplier<Entity> creator, int numItems, int zone) {
+        if (zone == 1 && totalForestItems < 100) {
+            int forestItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
+            GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+            GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
-        for (int i = 0; i < numItems; i++) {
-            GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-            Entity item = creator.get();
-            spawnEntityAt(item, randomPos, true, false);
-            dynamicItems.put(totalItems, item);
-            totalItems++;
+            for (int i = 0; i < forestItemsToSpawn; i++) {
+                GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+                Entity item = creator.get();
+                spawnEntityAt(item, randomPos, true, false);
+                dynamicItems.put(totalForestItems, item);
+                totalForestItems++;
+            }
+        } else if (zone == 2 && totalForestItems < 100) {
+            int oceamItemsToSpawn = Math.min(numItems, 100 - totalForestItems);
+            GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+            GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
+
+            for (int i = 0; i < oceamItemsToSpawn; i++) {
+                GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+                Entity item = creator.get();
+                spawnEntityAt(item, randomPos, true, false);
+                dynamicItems.put(totalOceanItems, item);
+                totalOceanItems++;
+            }
+        } else if (zone == 3 && totalAirItems < 100) {
+            int airItemsToSpawn = Math.min(numItems, 100 - totalAirItems);
+            GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+            GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
+
+            for (int i = 0; i < airItemsToSpawn; i++) {
+                GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+                Entity item = creator.get();
+                spawnEntityAt(item, randomPos, true, false);
+                dynamicItems.put(totalAirItems, item);
+                totalAirItems++;
+            }
         }
     }
 
-    private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    /**
+     * Spawns a specified number of NPCs at random positions within a designated zone.
+     * The NPCs are created using the provided entity supplier and spawned at a random location
+     * within the defined area for the zone.
+     *
+     * @param creator  A supplier function that creates new NPC entities.
+     * @param numNPCs  The number of NPCs to spawn.
+     * @param loc     The zone within which to spawn the NPCs. The zone enum determines the vertical position range.
+     */
+    private void spawnRandomNPC(Supplier<Entity> creator, int numNPCs, TileLocation loc) {
+        int zone = 0;
+        if (loc == TileLocation.FOREST) {
+            zone = 1;
+        } else if (loc == TileLocation.AIR) {
+            zone = 3;
+        } else {
+            zone = 2;
+        }
+
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < numNPCs; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -644,11 +878,18 @@ public class ForestGameArea extends GameArea {
         }
     }
 
+    private void spawnMinigameNPC(Supplier<Entity> creator, int numNPCs, TileLocation loc) {
+        int zone = 0;
+        if (loc == TileLocation.FOREST) {
+            zone = 1;
+        } else if (loc == TileLocation.AIR) {
+            zone = 3;
+        } else {
+            zone = 2;
+        }
 
-
-    private void spawnMinigameNPC(Supplier<Entity> creator, int numNPCs) {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < numNPCs; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -660,9 +901,10 @@ public class ForestGameArea extends GameArea {
 
     public void playMusic() {
         // Get the selected music track from the user settings
+
         UserSettings.Settings settings = UserSettings.get();
         String selectedTrack = settings.selectedMusicTrack;  // This will be "Track 1" or "Track 2"
-
+        AudioManager.stopMusic();
         if (Objects.equals(selectedTrack, "Track 1")) {
             loadAssets(); // Music was not loading after resuming combat
             AudioManager.playMusic("sounds/BGM_03_mp3.mp3", true);
@@ -755,7 +997,7 @@ public class ForestGameArea extends GameArea {
 
             GridPoint2 spawnPos = RandomUtils.random(minPos, maxPos);
 
-            spawnEntityAt(joey, spawnPos, true, false);
+            spawnEntityAt(joey, spawnPos, true, true);
             enemies.add(joey);
         }
     }
@@ -784,25 +1026,6 @@ public class ForestGameArea extends GameArea {
 
             spawnEntityAtVector(windGust, pos);
         }
-    }
-
-    /**
-     * Static method to play the background music
-     */
-    public static void pMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC,
-                Music.class);
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
-    }
-
-    /**
-     * Static method to pause the background music
-     */
-    public static void puMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(ForestSoundsConfig.BACKGROUND_MUSIC, Music.class);
-        music.pause();
     }
 
     public void loadAssets() {

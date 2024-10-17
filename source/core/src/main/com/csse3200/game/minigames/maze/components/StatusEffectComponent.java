@@ -4,9 +4,7 @@ import com.csse3200.game.components.Component;
 import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Component that allows status effects to be applied to an entity and trigger effects for a
@@ -44,14 +42,16 @@ public class StatusEffectComponent extends Component {
      */
     @Override
     public void update() {
+        List<String> toRemove = new ArrayList<>();
         for (String status : statusExpiry.keySet()) {
             if (statusExpiry.get(status) <= timeSource.getTime()) {
-                removeStatus(status);
-            } else {
-                if (hasEffect(status)) {
-                    statusEffect.get(status).update();
-                }
+                toRemove.add(status);
+            } else if (hasEffect(status)) {
+                statusEffect.get(status).update();
             }
+        }
+        for (String status : toRemove) {
+            removeStatus(status);
         }
     }
 
@@ -138,14 +138,15 @@ public class StatusEffectComponent extends Component {
 
     /**
      * Remove a status from being applied to the entity.
+     *
      * @param status the status
      */
     // could be used to clear a status effect by some external event
-    public Long removeStatus(String status) {
+    public void removeStatus(String status) {
         if (hasStatus(status) && hasEffect(status)) {
             statusEffect.get(status).stop();
         }
-        return statusExpiry.remove(status);
+        statusExpiry.remove(status);
     }
 
     /**

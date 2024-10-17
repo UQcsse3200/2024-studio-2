@@ -15,7 +15,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.areas.MapHandler.MapType;
 import com.csse3200.game.rendering.RenderComponent;
 
-
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
  * map of tiles that
@@ -41,8 +40,6 @@ public class TerrainComponent extends RenderComponent {
   private Set<GridPoint2> oldChunks = new HashSet<>();
   private Map<GridPoint2, TerrainChunk> loadedChunks = new HashMap<>();
   private TerrainResource terrainResource;
-
-  private int unlockedArea = 1;
 
   private TiledMapRenderer renderer;
 
@@ -141,7 +138,6 @@ public class TerrainComponent extends RenderComponent {
         activeChunks.add(pos);
       }
     }
-    //fillChunk(chunkPos);
 
     updateChunkStatus();
   }

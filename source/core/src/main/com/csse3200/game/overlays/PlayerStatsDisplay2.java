@@ -1,5 +1,6 @@
 package com.csse3200.game.overlays;
 
+import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.screens.PausableScreen;
 import com.csse3200.game.components.CombatStatsComponent;
@@ -7,13 +8,10 @@ import com.csse3200.game.services.ServiceLocator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+/****/
 public class PlayerStatsDisplay2 extends UIComponent {
     private Table backgroundTable;
     private Table rootTable;
@@ -69,27 +67,16 @@ public class PlayerStatsDisplay2 extends UIComponent {
         table.row().padTop(5f);
     }
 
-    private void addStatRow(Table table, String name, float value) {
-        Label nameLabel = new Label(name, skin, DEFAULT_TEXT);
-        Label valueLabel = new Label(String.valueOf(value), skin, DEFAULT_TEXT);
-        table.add(nameLabel).expandX().left();
-        table.add(valueLabel).expandX().right().padLeft(25f);
-        table.row().padTop(5f);
-    }
-
     private Table makeMenuBtns() {
-        TextButton exitBtn = new TextButton("Leave Menu", skin);
-        exitBtn.getLabel().setFontScale(0.8f);
+        CustomButton exitBtn = new CustomButton("Leave Menu", skin);
+        //exitBtn.getLabel().setFontScale(0.8f);
 
-        exitBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
+        exitBtn.addClickListener(() -> {
                 exitMenu();
-            }
         });
 
         Table table = new Table();
-        table.add(exitBtn).expandX().center().padTop(10f);
+        table.add(exitBtn).size(250, 50).expandX().center().padTop(10f);
         return table;
     }
 

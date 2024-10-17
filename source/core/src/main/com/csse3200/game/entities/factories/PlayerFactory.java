@@ -69,13 +69,13 @@ public class PlayerFactory {
         // Set different stats for each animal type
         switch (imagePath) {
             case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, 100, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, true, false, 1));
             case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, 100, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, true, false, 1));
             case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, 100, true, false, 1));
+                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, true, false, 1));
             default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.getStamina(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
+                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
 
         }
         InputComponent inputComponent =
@@ -91,7 +91,9 @@ public class PlayerFactory {
         // Add inventory from player (in future this will provide shared interface for memory
         InventoryComponent inventoryComponent = new InventoryComponent(50);
         player.addComponent(inventoryComponent)
-                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 9, 5))
+
+                .addComponent(new PlayerInventoryDisplay(inventoryComponent.getInventory(), 5, 5,game))
+
                 .addComponent(new LootBoxOverlayComponent());
         player.addComponent(new AchievementPopup());
 
@@ -122,7 +124,7 @@ public class PlayerFactory {
 
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, 100, true, false, 1));
+                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, true, false, 1));
 
         combatPlayer.scaleHeight(90.0f);
 

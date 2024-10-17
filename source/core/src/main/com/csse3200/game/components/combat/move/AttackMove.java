@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Represents an attack move in combat. This class handles the execution of the attack and the
- * damage calculation based on various factors such as stamina, status effects, and the target's defense.
+ * damage calculation based on various factors such as hunger, status effects, and the target's defense.
  */
 public class AttackMove extends CombatMove {
     private static final Logger logger = LoggerFactory.getLogger(AttackMove.class);
@@ -14,11 +14,11 @@ public class AttackMove extends CombatMove {
     /**
      * Constructor for the AttackMove.
      *
-     * @param moveName    the name of the move.
-     * @param staminaCost the amount of stamina required to perform the move.
+     * @param moveName   the name of the move.
+     * @param hungerCost the amount of hunger required to perform the move.
      */
-    public AttackMove(String moveName, int staminaCost) {
-        super(moveName, staminaCost);
+    public AttackMove(String moveName, int hungerCost) {
+        super(moveName, hungerCost);
     }
 
     /**
@@ -26,10 +26,12 @@ public class AttackMove extends CombatMove {
      * for this method to be functional.
      *
      * @param attackerStats combat stats of the attacker.
+     * @return an empty array of {@link StatsChange} since this method cannot perform a valid attack.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats) {
+    public StatsChange[] execute(CombatStatsComponent attackerStats) {
         logger.error("Attack move needs more arguments.");
+        return new StatsChange[0];
     }
 
     /**
@@ -37,10 +39,12 @@ public class AttackMove extends CombatMove {
      *
      * @param attackerStats combat stats of the attacker.
      * @param targetStats   combat stats of the target.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
-        execute(attackerStats, targetStats, false);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats) {
+        return execute(attackerStats, targetStats, false);
     }
 
     /**
@@ -50,10 +54,12 @@ public class AttackMove extends CombatMove {
      * @param attackerStats   combat stats of the attacker.
      * @param targetStats     combat stats of the target.
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
-        execute(attackerStats, targetStats, targetIsGuarded, 1);
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded) {
+        return execute(attackerStats, targetStats, targetIsGuarded, 1);
     }
 
     /**
@@ -64,10 +70,13 @@ public class AttackMove extends CombatMove {
      * @param targetStats     combat stats of the target.
      * @param targetIsGuarded true if the target is guarding, reducing the damage inflicted.
      * @param numHitsLanded   the number of hits that successfully land during a multi-hit attack.
+     * @return an array of {@link StatsChange} representing the changes to combat stats
+     *         resulting from the move, such as health or hunger adjustments.
      */
     @Override
-    public void execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
+    public StatsChange[] execute(CombatStatsComponent attackerStats, CombatStatsComponent targetStats, boolean targetIsGuarded,
                         int numHitsLanded) {
+        StatsChange[] statsChanges = new StatsChange[numHitsLanded];
         for (int hitNumber = 0; hitNumber < numHitsLanded; hitNumber++) {
             if (attackerStats != null && targetStats != null) {
                 int damage = calculateDamage(attackerStats, targetStats, targetIsGuarded, hitNumber);
@@ -75,11 +84,15 @@ public class AttackMove extends CombatMove {
                         attackerStats.isPlayer() ? "PLAYER" : "ENEMY",
                         damage);
                 targetStats.setHealth(targetStats.getHealth() - damage);
-                attackerStats.addStamina(-(this.getStaminaCost()));
+                // For multi-hit attacks, only consume hunger once
+                int hungerChange = (hitNumber == 0) ? -this.getHungerCost() : 0;
+                attackerStats.addHunger(hungerChange);
+                statsChanges[hitNumber] = new StatsChange(-damage, hungerChange);
             } else {
                 logger.error("Either attacker or target does not have CombatStatsComponent.");
             }
         }
+        return statsChanges;
     }
 
     /**
@@ -98,7 +111,7 @@ public class AttackMove extends CombatMove {
         int damage;
 
         double m1 = calculateStatusMultiplier(targetStats.hasStatusEffect(CombatStatsComponent.StatusEffect.SHOCKED));
-        double m2 = calculateStaminaMultiplier(attackerStats.getStamina());
+        double m2 = calculateHungerMultiplier(attackerStats.getHunger());
         double m3 = calculateGuardMultiplier(targetIsGuarded,
                 targetStats.hasStatusEffect(CombatStatsComponent.StatusEffect.BLEEDING));
         double m4 = calculateMultiHitMultiplier(hitNumber);
@@ -126,16 +139,16 @@ public class AttackMove extends CombatMove {
     }
 
     /**
-     * Calculates the stamina multiplier based on the user's current stamina.
+     * Calculates the hunger multiplier based on the user's current hunger.
      *
-     * @param userStamina current stamina level (0 - 100).
-     * @return stamina multiplier.
+     * @param userHunger current hunger level (0 - 100).
+     * @return hunger multiplier.
      */
-    private double calculateStaminaMultiplier(int userStamina) {
-        if (userStamina >= 50) {
+    private double calculateHungerMultiplier(int userHunger) {
+        if (userHunger >= 50) {
             return 1;
         } else {
-            return Math.exp(((double) userStamina / 50) - 1);
+            return Math.exp(((double) userHunger / 50) - 1);
         }
     }
 

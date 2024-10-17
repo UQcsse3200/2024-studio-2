@@ -1,8 +1,8 @@
 package com.csse3200.game.lighting;
 
 import box2dLight.*;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.extensions.GameExtension;
@@ -31,7 +31,7 @@ class LightingEngineTest {
     RayHandler rayHandler;
 
     @Mock
-    Camera camera;
+    OrthographicCamera camera;
 
     private static final double EPS = 1e-3;
 
@@ -61,7 +61,7 @@ class LightingEngineTest {
         engine.render(sb);
         verify(sb).end();
         verify(sb).begin();
-        verify(rayHandler).setCombinedMatrix(camera.combined);
+        verify(rayHandler).setCombinedMatrix(camera);
         verify(rayHandler).updateAndRender();
     }
 
