@@ -1,9 +1,9 @@
 {
   "chicken": {
     "spritePath": "images/enemy-chicken.atlas",
-    "health": 10,
-    "baseAttack": 20,
-    "defense": 15,
+    "health": 5,
+    "baseAttack": 10,
+    "defense": 10,
     "speed": 200,
     "experience": 40,
     "isEnemy": 1
@@ -11,16 +11,16 @@
   "frog": {
     "spritePath": "images/enemy-frog.atlas",
     "health": 10,
-    "baseAttack": 70,
+    "baseAttack": 60,
     "defense": 10,
     "speed": 50,
-    "experience": 100,
+    "experience": 60,
     "isEnemy": 1
   },
   "monkey": {
     "spritePath": "images/enemy-monkey.atlas",
     "health": 15,
-    "baseAttack": 35,
+    "baseAttack": 30,
     "defense": 20,
     "speed": 150,
     "experience": 80,
@@ -29,7 +29,7 @@
   "bear": {
     "spritePath": "images/enemy-bear.atlas",
     "health": 25,
-    "baseAttack": 75,
+    "baseAttack": 55,
     "defense": 30,
     "speed": 75,
     "experience": 200,
@@ -37,36 +37,36 @@
   },
   "eel" : {
     "spritePath": "images/eel.atlas",
-    "health": 25,
-    "baseAttack": 30,
-    "defense": 20,
+    "health": 20,
+    "baseAttack": 20,
+    "defense": 15,
     "speed": 200,
-    "experience": 125,
+    "experience": 100,
     "isEnemy": 1
   },
   "octopus": {
     "spritePath": "images/octopus.atlas",
-    "health": 8,
+    "health": 25,
     "baseAttack": 2,
-    "defense": 5,
+    "defense": 30,
     "speed": 170,
-    "experience": 15,
+    "experience": 120,
     "isEnemy": 1
   },
   "bee": {
     "spritePath": "images/bee.atlas",
     "health": 5,
-    "baseAttack": 40,
-    "defense": 10,
+    "baseAttack": 25,
+    "defense": 5,
     "speed": 270,
     "experience": 60,
     "isEnemy": 1
   },
   "pigeon": {
     "spritePath": "images/pigeon.atlas",
-    "health": 25,
-    "baseAttack": 35,
-    "defense": 20,
+    "health": 20,
+    "baseAttack": 25,
+    "defense": 25,
     "speed": 200,
     "experience": 100,
     "isEnemy": 1
@@ -74,7 +74,7 @@
   "bigsawfish": {
     "spritePath": "images/bigsawfish.atlas",
     "health": 30,
-    "baseAttack": 55,
+    "baseAttack": 45,
     "defense": 30,
     "speed": 75,
     "experience": 140,
@@ -83,7 +83,7 @@
   "macaw": {
     "spritePath": "images/macaw.atlas",
     "health": 30,
-    "baseAttack": 60,
+    "baseAttack": 40,
     "defense": 29,
     "speed": 100,
     "experience": 160,
