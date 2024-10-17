@@ -6,10 +6,13 @@ import com.badlogic.gdx.utils.IntMap;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.components.ComponentType;
 import com.csse3200.game.events.EventHandler;
+import com.csse3200.game.lighting.components.LightingComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Core entity class. Entities exist in the game and are updated each frame. All entities have a
@@ -40,6 +43,7 @@ public class Entity {
   private boolean isPlayer = false;
   private boolean isNormalEnemy = false;
   private EnemyType enemyType;
+  private List<Entity> enemies; //used for the hive
   public enum EnemyType {
     KANGAROO,
     WATER_BOSS,
@@ -357,4 +361,9 @@ public class Entity {
   public boolean isNormalEnemy() {return isNormalEnemy;}
   
   public void setIsNormalEnemy(boolean isNormalEnemy) {this.isNormalEnemy = isNormalEnemy;}
+  
+  public List<Entity> getEnemies() {
+    return enemies;
+  }
+  public void setEnemies(List<Entity> enemies) {this.enemies = enemies;}
 }

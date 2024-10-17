@@ -684,7 +684,7 @@ public class ForestGameArea extends GameArea {
         spawnShooterEnemy(generator, ForestSpawnConfig.NUM_MACAW, 0.1, 3);
 
         //Hive
-        generator = () -> ProjectileFactory.createHive(player);
+        generator = () -> ProjectileFactory.createHive(player, enemies);
         spawnHive(generator, 5, 0.1, 1);
     }
 

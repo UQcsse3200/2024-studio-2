@@ -22,6 +22,8 @@ import com.csse3200.game.physics.components.PhysicsMovementComponent;
 import com.csse3200.game.rendering.AnimationRenderComponent;
 import com.csse3200.game.services.ServiceLocator;
 
+import java.util.List;
+
 /**
  * Factory to create non-playable projectile entities with predefined components.
  *
@@ -144,7 +146,7 @@ public class ProjectileFactory {
    * @param target entity which the spawned bees will chase
    * @return enemy hive entity
    */
-  public static Entity createHive(Entity target) {
+  public static Entity createHive(Entity target, List<Entity> enemies) {
     BaseEnemyEntityConfig config = configs.hive;
 
     AnimationRenderComponent animator =
@@ -157,6 +159,8 @@ public class ProjectileFactory {
     hive.getComponent(AITaskComponent.class).addTask(new HiveTask(target));
     hive.setEnemyType(Entity.EnemyType.HIVE);
 
+    hive.setEnemies(enemies);
+    
     return hive;
   }
   
