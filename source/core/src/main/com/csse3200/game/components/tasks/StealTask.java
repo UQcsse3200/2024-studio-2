@@ -6,7 +6,6 @@ import com.csse3200.game.ai.tasks.PriorityTask;
 import com.csse3200.game.ai.tasks.Task;
 import com.csse3200.game.areas.forest.ForestGameArea;
 import com.csse3200.game.areas.MapHandler;
-import com.csse3200.game.components.npc.FrogAnimationController;
 import com.csse3200.game.entities.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +21,11 @@ public class StealTask extends DefaultTask implements PriorityTask {
     private static final Logger logger = LoggerFactory.getLogger(StealTask.class);
 
     private final float waitTime;
-    private Vector2 startPos;
     private MovementTask movementTask;
     private MovementTask returnTask;
     private WaitTask waitTask;
     private Task currentTask;
     private boolean isSpawned = false;
-    private static final String LEFT = "wanderLeft";
-    private static final String RIGHT = "wanderRight";
     private Map<Integer, Entity> items = null;
     protected final RaycastHit hit = new RaycastHit();
     Entity currentitem = null;
@@ -52,10 +48,9 @@ public class StealTask extends DefaultTask implements PriorityTask {
     public void start() {
         super.start();
         origin = owner.getEntity().getPosition();
-        startPos = owner.getEntity().getPosition();
         if(!isSpawned) {
             logger.debug("Triggering spawn event");
-            this.owner.getEntity().getEvents().trigger("spawnStart");
+            this.owner.getEntity().getEvents().trigger("wait");
             isSpawned = true;
 
             // Wait for the spawn event to complete or for a specified duration before starting to wander
@@ -110,18 +105,11 @@ public class StealTask extends DefaultTask implements PriorityTask {
     }
     
     private void moveHelper (Vector2 pos, String task) {
-        startPos = owner.getEntity().getPosition();
         MovementTask moveTask = new MovementTask(pos, 0.5f);
         moveTask.create(owner);
         moveTask.start();
         currentTask = moveTask;
-        if (origin.x - startPos.x < 0) {
-            logger.debug("wandering right");
-            this.owner.getEntity().getEvents().trigger(LEFT);
-        } else {
-            logger.debug("wandering left");
-            this.owner.getEntity().getEvents().trigger(RIGHT);
-        }
+        owner.getEntity().getEvents().trigger("animate", pos, owner.getEntity().getPosition());
         switch (task) {
             case "wander" -> movementTask = moveTask;
             case "return" -> returnTask = moveTask;
@@ -181,9 +169,9 @@ public class StealTask extends DefaultTask implements PriorityTask {
      */
     private void startWaiting() {
         logger.debug("Starting waiting");
-        if (owner.getEntity().getComponent(FrogAnimationController.class) != null) {
-            owner.getEntity().getEvents().trigger("spawnStart"); // plays still animation
-        }
+        
+        owner.getEntity().getEvents().trigger("wait");
+        
         waitTask = new WaitTask(waitTime);
         waitTask.create(owner);
         swapTask(waitTask);

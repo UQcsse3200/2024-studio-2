@@ -107,10 +107,10 @@ public class PullTask extends DefaultTask implements PriorityTask {
             if(anim.isFinished()){
                 if (playerPos.x > enemyPos.x) {
                     // Player is to the left of enemy
-                    owner.getEntity().getEvents().trigger("pullRight");  // Player is being pulled right
+                    owner.getEntity().getEvents().trigger("pull", false);  // Player is being pulled right
                 } else {
                     // Player is to the right of enemy
-                    owner.getEntity().getEvents().trigger("pullLeft");   // Player is being pulled left
+                    owner.getEntity().getEvents().trigger("pull", true);   // Player is being pulled left
                 }
             }
 

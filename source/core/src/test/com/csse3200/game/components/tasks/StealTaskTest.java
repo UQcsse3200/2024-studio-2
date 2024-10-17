@@ -2,9 +2,7 @@ package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.tasks.StealTask;
-import com.csse3200.game.components.tasks.WaitTask;
-import com.csse3200.game.components.npc.FrogAnimationController;
+import com.csse3200.game.components.npc.EnemyAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
 import com.csse3200.game.physics.PhysicsService;
@@ -14,7 +12,7 @@ import com.csse3200.game.services.GameTime;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -29,7 +27,7 @@ public class StealTaskTest {
     private AITaskComponent ownerEntity;
 
     @Mock
-    private FrogAnimationController animationController;
+    private EnemyAnimationController animationController;
 
     @Mock
     private Entity mockEntity;
@@ -67,7 +65,7 @@ public class StealTaskTest {
 
         // Set up the ownerEntity to return the mocked Entity
         when(ownerEntity.getEntity()).thenReturn(mockEntity);
-        when(mockEntity.getComponent(FrogAnimationController.class)).thenReturn(animationController);
+        when(mockEntity.getComponent(EnemyAnimationController.class)).thenReturn(animationController);
         when(mockEntity.getPosition()).thenReturn(new Vector2(0, 0));
 
         // Mock the events
@@ -87,7 +85,7 @@ public class StealTaskTest {
         stealTask.start();
 
         // Verify that the spawn event is triggered
-        verify(mockEntity.getEvents()).trigger("spawnStart");
+        verify(mockEntity.getEvents()).trigger("wait");
 
         // Verify that the task is swapped to waitTask
         assertInstanceOf(WaitTask.class, stealTask.getCurrentTask());

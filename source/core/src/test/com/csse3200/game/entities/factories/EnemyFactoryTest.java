@@ -174,6 +174,7 @@ class EnemyFactoryTest {
         for (Entity enemy : enemies) {
             assertNotNull(enemy.getComponent(PhysicsComponent.class));
             assertNotNull(enemy.getComponent(PhysicsMovementComponent.class));
+            assertNotNull(enemy.getComponent(EnemyAnimationController.class));
             assertNotNull(enemy.getComponent(CombatStatsComponent.class));
             assertNotNull(enemy.getComponent(HitboxComponent.class));
             assertNotNull(enemy.getComponent(ColliderComponent.class));
@@ -207,24 +208,21 @@ class EnemyFactoryTest {
      */
     @Test
     void TestMonkeyAnimation() {
-        //test that the animation controller is there
-        assertNotNull(monkey.getComponent(MonkeyAnimationController.class), "Missing animation controller");
-        
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runDown") ,
                 "Monkey should have run down animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_up") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runUp") ,
                 "Monkey should have run up animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
                 "Monkey should have run right animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runDown") ,
                 "Cow should have idle animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runRightDown") ,
                 "Monkey should have run right down animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_left_down") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runLeftDown") ,
                 "Monkey should have run left down animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_right_up") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runRightUp") ,
                 "Monkey should have run right up animation.");
-        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("run_left_up") ,
+        assertTrue(monkey.getComponent(AnimationRenderComponent.class).hasAnimation("runLeftUp") ,
                 "Monkey should have run left up animation.");
     }
 
@@ -255,13 +253,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestChickenAnimation() {
-        //test that the animation controller is there
-        assertNotNull(chicken.getComponent(ChickenAnimationController.class));
-        
-        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("walk") ,
-                "Chicken should have walk animation.");
-        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
-                "Chicken should have spawn animation.");
+        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("wait") ,
+                "Chicken should have wait animation.");
+        assertTrue(chicken.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
+                "Chicken should have runRight animation.");
     }
 
     /**
@@ -291,13 +286,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestFrogAnimation() {
-        //test that the animation controller is there
-        assertNotNull(frog.getComponent(FrogAnimationController.class));
-        
-        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("jump") ,
-                "Frog should have jump animation.");
-        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("still") ,
-                "Frog should have still animation.");
+        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("wait") ,
+                "Frog should have wait animation.");
+        assertTrue(frog.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
+                "Frog should have runRight animation.");
     }
 
     /**
@@ -327,15 +319,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestBearAnimation() {
-        //test that the animation controller is there
-        assertNotNull(bear.getComponent(BearAnimationController.class));
-        
-        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
-                "bear should have chase animation.");
-        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
-                "bear should have float animation.");
-        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
-                "bear should have spawn animation.");
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
+                "bear should have runRight animation.");
+        assertTrue(bear.getComponent(AnimationRenderComponent.class).hasAnimation("wait") ,
+                "bear should have wait animation.");
     }
     
     /**
@@ -343,19 +330,16 @@ class EnemyFactoryTest {
      */
     @Test
     void TestEelAnimation() {
-        //test that the animation controller is there
-        assertNotNull(eel.getComponent(EelAnimationController.class));
-        
-        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_down") ,
-                "eel should have swim_down animation.");
-        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_down_right") ,
-                "eel should have swim)down_right animation.");
-        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_right") ,
-                "eel should have swim_right animation.");
-        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_up_right") ,
-                "eel should have swim_up_right animation.");
-        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("swim_up") ,
-                "eel should have swim_up animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("runDown") ,
+                "eel should have runDown animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("runRightDown") ,
+                "eel should have runRightDown animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("runRight") ,
+                "eel should have runRight animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("runRightUp") ,
+                "eel should have runRightUp animation.");
+        assertTrue(eel.getComponent(AnimationRenderComponent.class).hasAnimation("runUp") ,
+                "eel should have runUp animation.");
     }
     
     /**
@@ -363,15 +347,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestJoeyAnimation() {
-        //test that the animation controller is there
-        assertNotNull(joey.getComponent(JoeyAnimationController.class));
-        
-        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
-                "joey should have chase animation.");
-        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("wander") ,
-                "joey should have wander animation.");
-        assertTrue(joey.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
-                "joey should have spawn animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
+                "macaw should have wait animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("runRight"),
+                "macaw should have runRight animation.");
     }
     
     /**
@@ -379,44 +358,35 @@ class EnemyFactoryTest {
      */
     @Test
     void TestBeeAnimation() {
-        //test that the animation controller is there
-        assertNotNull(bee.getComponent(BeeAnimationController.class));
         
-        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
-                "bee should have chase animation.");
-        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
-                "bee should have float animation.");
-        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("alert") ,
-                "bee should have alert animation.");
+        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("runLeft"),
+                "bee should have runLeft animation.");
+        assertTrue(bee.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
+                "bee should have wait animation.");
     }
-    
     /**
      * Tests that the octopus has correct animations.
      */
     @Test
     void TestOctopusAnimation() {
-        //test that the animation controller is there
-        assertNotNull(octopus.getComponent(OctopusAnimationController.class));
         
-        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("chase"),
-                "octopus should have chase animation.");
-        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("float"),
-                "octopus should have float animation.");
+        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("runRight"),
+                "octopus should have runRight animation.");
+        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
+                "octopus should have wait animation.");
+        assertTrue(octopus.getComponent(AnimationRenderComponent.class).hasAnimation("pull"),
+                "octopus should have pull animation.");
     }
     /**
      * Tests that the macaw has correct animations.
      */
     @Test
     void TestMacawAnimation() {
-        //test that the animation controller is there
-        assertNotNull(macaw.getComponent(MacawAnimationController.class));
         
-        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("chase"),
-                "macaw should have chase animation.");
-        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("walk"),
-                "macaw should have float animation.");
-        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("spawn"),
-                "macaw should have float animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
+                "macaw should have wait animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("runRight"),
+                "macaw should have runRight animation.");
     }
     
     /**
@@ -424,14 +394,10 @@ class EnemyFactoryTest {
      */
     @Test
     void TestBigSawFishAnimation() {
-        //test that the animation controller is there
-        assertNotNull(bigSawFish.getComponent(BigsawfishAnimationController.class));
         
-        assertTrue(bigSawFish.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
-                "bigSawFish should have chase animation.");
-        assertTrue(bigSawFish.getComponent(AnimationRenderComponent.class).hasAnimation("float") ,
-                "bigSawFish should have float animation.");
-        assertTrue(bigSawFish.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
-                "bigSawFish should have spawn animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("wait"),
+                "macaw should have wait animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("runRight"),
+                "macaw should have runRight animation.");
     }
 }

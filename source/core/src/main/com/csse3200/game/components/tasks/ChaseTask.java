@@ -78,8 +78,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
             this.target.getEvents().trigger("startHealthBarBeating");
         }
 
-        if (this.owner.getEntity().getEnemyType() == Entity.EnemyType.EEL) {
-            eelChase(targetPos, currentPos);
+        if (owner.getEntity().isNormalEnemy()) {
+            owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
         } else if (targetPos.x - currentPos.x < 0) {
             this.owner.getEntity().getEvents().trigger("chaseLeft");
         } else {
@@ -129,12 +129,21 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
             movementTask.start();
         }
         
+        //handle animation, doesn't work as intended but I dont know how to fix it.
         if (targetPos.x - currentPos.x < 0 && chaseDir) {
+            if (owner.getEntity().isNormalEnemy()) {
+                owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+            } else {
+                owner.getEntity().getEvents().trigger("chaseLeft");
+            }
             chaseDir = false;
-            this.owner.getEntity().getEvents().trigger("chaseLeft");
-        } else if (targetPos.x - currentPos.x > 0 && !chaseDir){
+        } else if (targetPos.x - currentPos.x >= 0 && !chaseDir){
+            if (owner.getEntity().isNormalEnemy()) {
+                owner.getEntity().getEvents().trigger("animate", targetPos, currentPos);
+            } else {
+                owner.getEntity().getEvents().trigger("chaseRight");
+            }
             chaseDir = true;
-            this.owner.getEntity().getEvents().trigger("chaseRight");
         }
     }
     
@@ -176,33 +185,5 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
         }
         debugRenderer.drawLine(from, to);
         return true;
-    }
-
-    public void eelChase(Vector2 targetPos, Vector2 currentPos) {
-        float deltaX = targetPos.x - currentPos.x;
-        float deltaY = targetPos.y - currentPos.y;
-        if (deltaY*2 > Math.abs(deltaX)) { // Moving Up
-            if (deltaY/2 > Math.abs(deltaX)) {
-                this.owner.getEntity().getEvents().trigger("runUp");
-            } else if (deltaX > 0) {
-                this.owner.getEntity().getEvents().trigger("runRightUp");
-            } else if (deltaX < 0) {
-                this.owner.getEntity().getEvents().trigger("runLeftUp");
-            }
-        } else if (deltaY*-2 > Math.abs(deltaX)) { // Moving Down
-            if (deltaY/-2 > Math.abs(deltaX)) {
-                this.owner.getEntity().getEvents().trigger("runDown");
-            } else if (deltaX > 0) {
-                this.owner.getEntity().getEvents().trigger("runRightDown");
-            } else if (deltaX < 0) {
-                this.owner.getEntity().getEvents().trigger("runLeftDown");
-            }
-        } else { // Horizontal Movement
-            if (deltaX > 0) {
-                this.owner.getEntity().getEvents().trigger("runRight");
-            } else {
-                this.owner.getEntity().getEvents().trigger("runLeft");
-            }
-        }
     }
 }

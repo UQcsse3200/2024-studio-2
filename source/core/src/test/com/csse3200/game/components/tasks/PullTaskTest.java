@@ -2,10 +2,9 @@ package com.csse3200.game.components.tasks;
 
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.ai.tasks.AITaskComponent;
-import com.csse3200.game.components.npc.FrogAnimationController;
+import com.csse3200.game.components.npc.EnemyAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.events.EventHandler;
-import com.csse3200.game.minigames.snake.controller.Events;
 import com.csse3200.game.physics.PhysicsService;
 import com.csse3200.game.rendering.DebugRenderer;
 import com.csse3200.game.rendering.RenderService;
@@ -26,7 +25,7 @@ public class PullTaskTest {
     private AITaskComponent ownerEntity;
 
     @Mock
-    private FrogAnimationController animationController;
+    private EnemyAnimationController animationController;
 
     @Mock
     private Entity frogEntity;
@@ -59,7 +58,7 @@ public class PullTaskTest {
 
         // Set up frog
         when(ownerEntity.getEntity()).thenReturn(frogEntity);
-        when(frogEntity.getComponent(FrogAnimationController.class)).thenReturn(animationController);
+        when(frogEntity.getComponent(EnemyAnimationController.class)).thenReturn(animationController);
         when(frogEntity.getEvents()).thenReturn(eventHandler); // Ensure eventHandler is set up
 
         // Set up player

@@ -10,70 +10,70 @@ default
   orig: 0, 0
   offset: 0, 0
   index:0
-float
+wait
   rotate: false
   xy: 3, 6
   size: 36, 34
   orig: 0, 0
   offset: 0, 0
   index:0
-float
+wait
   rotate: false
   xy: 47, 7
   size: 36, 34
   orig: 0, 0
   offset: 0, 0
   index:1
-float
+wait
   rotate: false
   xy: 95, 7
   size: 36, 34
   orig: 0, 0
   offset: 0, 0
   index:2
-float
+wait
   rotate: false
   xy: 243, 5
   size: 36, 36
   orig: 0, 0
   offset: 0, 0
   index:3
-chase
+runRight
   rotate: false
   xy: 3, 6
   size: 36, 34
   orig: 0, 0
   offset: 0, 0
   index:0
-chase
+runRight
   rotate: false
   xy: 47, 7
   size: 36, 34
   orig: 0, 0
   offset: 0, 0
   index:1
-chase
+runRight
   rotate: false
   xy: 95, 7
   size: 36, 34
   orig: 0, 0
   offset: 0, 0
   index:2
-chase
+runRight
   rotate: false
   xy: 143, 4
   size: 33, 37
   orig: 0, 0
   offset: 0, 0
   index:3
-chase
+runRight
   rotate: false
   xy: 192, 3
   size: 33, 37
   orig: 0, 0
   offset: 0, 0
   index:4
-chase
+runRight
   rotate: false
   xy: 243, 5
   size: 36, 36

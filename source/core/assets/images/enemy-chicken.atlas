@@ -10,51 +10,58 @@ default
   orig: 16, 16
   offset: 0, 0
   index: 0
-walk
+wait
+  rotate: false
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+wait
   rotate: false
   xy: 16, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
-walk
+wait
   rotate: false
   xy: 32, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 2
-walk
+wait
   rotate: false
   xy: 48, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 3
-spawn
+runRight
   rotate: false
-  xy: 0, 16
+  xy: 0, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 0
-spawn
+runRight
   rotate: false
-  xy: 16, 16
+  xy: 16, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
-spawn
+runRight
   rotate: false
-  xy: 32, 16
+  xy: 32, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 2
-spawn
+runRight
   rotate: false
-  xy: 48, 16
+  xy: 48, 0
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
