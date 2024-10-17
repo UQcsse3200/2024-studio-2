@@ -1,5 +1,5 @@
 {
-selectedAnimalPath: images/croc.png,
+selectedAnimalPath: null,
 "health": 100,
 "currentHealth": 100,
 "hunger": 100,

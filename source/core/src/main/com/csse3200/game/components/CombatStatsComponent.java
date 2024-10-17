@@ -143,8 +143,6 @@ public class CombatStatsComponent extends Component {
       entity.getEvents().trigger("updateHealth", this.health, this.maxHealth, this.isPlayer);
     }
 
-    Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
-    logger.info("health: {}", this.health);
     if(isPlayer) {
       GameState.player.currentHealth = this.health;
     }
@@ -219,9 +217,7 @@ public class CombatStatsComponent extends Component {
    * @param strength Strength value to set
    */
   public void setStrength(int strength) {
-    Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
     this.strength = Math.max(0, strength);
-    logger.info("Strength: {}", strength);
     if(isPlayer) {
       GameState.player.strength = this.strength;
     }
