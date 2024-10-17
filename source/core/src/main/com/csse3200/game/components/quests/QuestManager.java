@@ -45,14 +45,6 @@ public class QuestManager extends Component {
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
         player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
-        player.getEvents().addListener("landBossDefeated",
-              () ->  player.getEvents().trigger("defeatLandBoss"));
-        player.getEvents().addListener("waterBossDefeated",
-                () ->  player.getEvents().trigger("defeatWaterBoss"));
-        player.getEvents().addListener("airBossDefeated",
-                () ->  player.getEvents().trigger("defeatAirBoss"));
-
-
     }
 
 
