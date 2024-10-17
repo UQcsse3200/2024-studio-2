@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.services.AudioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,11 +119,11 @@ public class CombatArea extends GameArea {
          * The following entity is the real entity of the player to be used for combat,
          * with health, stats, etc.
          */
-        String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
+        String imagePath = GameState.player.selectedAnimalPath;
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         if (imagePath.equals("images/croc.png")){
             if (kingdomType == KINGDOM.WATER) {
-                playerSpawn = new GridPoint2(330, 337);
+                playerSpawn = new GridPoint2(330, 200);
             } else if (kingdomType == KINGDOM.AIR) {
                 playerSpawn = new GridPoint2(370, 240);
                 newPlayer.scaleHeight(130f);
@@ -133,7 +134,7 @@ public class CombatArea extends GameArea {
             // newPlayer.scaleHeight(60f);
         } else if (imagePath.equals("images/dog.png")){
             if(kingdomType == KINGDOM.WATER) {
-                playerSpawn = new GridPoint2(360, 330);
+                playerSpawn = new GridPoint2(360, 200);
             } else if  (kingdomType == KINGDOM.AIR) {
                 playerSpawn = new GridPoint2(337, 215);
             } else {
@@ -142,7 +143,7 @@ public class CombatArea extends GameArea {
         } else { //animal is bird
             if(kingdomType == KINGDOM.WATER) {
                 // newPlayer.setScale(5f, 5f); // 2.5f, 2.5f
-                playerSpawn = new GridPoint2(380, 340);
+                playerSpawn = new GridPoint2(380, 210);
                 newPlayer.scaleHeight(180f);
             } else if (kingdomType == KINGDOM.AIR) {
                 playerSpawn = new GridPoint2(337, 220);
@@ -165,7 +166,7 @@ public class CombatArea extends GameArea {
          * ensure the camera component stays stagnant in the centre of the combat background.
          * The entity serves no other purpose and is not visible
          */
-        String iP = AnimalRouletteActions1.getSelectedAnimalImagePath();
+        String iP = GameState.player.selectedAnimalPath;
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
         if (kingdomType == KINGDOM.WATER) {
@@ -191,7 +192,7 @@ public class CombatArea extends GameArea {
     /** Spawn a combat enemy. Different to a regular enemy npc */
     private void spawnWaterBoss() {
         Entity newEnemy = CombatAnimalFactory.createWaterBossCombatEntity();
-        spawnEntityAt(newEnemy, new GridPoint2(800, 390), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(800, 220), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -215,7 +216,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnFrog() {
         Entity newEnemy = CombatAnimalFactory.createFrogCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 320), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 170), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -260,7 +261,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnOctopus() {
         Entity newEnemy = CombatAnimalFactory.createOctopusCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 167), true, true);
         this.enemyDisplay = newEnemy;
     }
     
@@ -278,7 +279,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnEel() {
         Entity newEnemy = CombatAnimalFactory.createEelCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(780, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(780, 167), true, true);
         this.enemyDisplay = newEnemy;
     }
 
@@ -287,7 +288,7 @@ public class CombatArea extends GameArea {
      */
     private void spawnBigSawfish() {
         Entity newEnemy = CombatAnimalFactory.createBigsawfishCombatEnemy();
-        spawnEntityAt(newEnemy, new GridPoint2(785, 337), true, true);
+        spawnEntityAt(newEnemy, new GridPoint2(785, 167), true, true);
         this.enemyDisplay = newEnemy;
     }
 

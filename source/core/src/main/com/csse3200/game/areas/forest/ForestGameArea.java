@@ -36,6 +36,7 @@ import com.csse3200.game.entities.factories.NPCFactory;
 import com.csse3200.game.entities.factories.ObstacleFactory;
 import com.csse3200.game.entities.factories.PlayerFactory;
 import com.csse3200.game.entities.factories.ProjectileFactory;
+import com.csse3200.game.physics.components.ColliderComponent;
 import com.csse3200.game.services.AudioManager;
 import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
@@ -73,6 +74,10 @@ public class ForestGameArea extends GameArea {
     private Entity player;
 
     private final GdxGame game;
+
+    private Entity waterAreaWall;
+    private Entity airAreaWall;
+
 
     // Boolean to ensure that only a single boss entity is spawned when a trigger happens
     private boolean kangarooBossSpawned = false;
@@ -116,9 +121,9 @@ public class ForestGameArea extends GameArea {
 
         // Obstacles
         spawnTrees();
-        spawnClouds();
-        spawnSeaweed();
-        spawnStarfish();
+        spawnClouds(3);
+        spawnSeaweed(2);
+        spawnStarfish(2);
 
         // spawn area barriers
         spawnWorldBarrier();
@@ -159,6 +164,12 @@ public class ForestGameArea extends GameArea {
     @Override
     public void unlockArea(String area) {
         terrain.getMap().getLayers().get(area).setVisible(false);
+        if (area.equals("Water")) {
+          waterAreaWall.getComponent(ColliderComponent.class).setSensor(true);
+        } else if (area.equals("Air")) {
+          airAreaWall.getComponent(ColliderComponent.class).setSensor(true);
+
+        }
     }
 
     /**
@@ -203,21 +214,13 @@ public class ForestGameArea extends GameArea {
         GridPoint2 tileBounds = terrain.getMapBounds(0);
         Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-        Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_LENGTH);
-        Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_LENGTH);
+        waterAreaWall = ObstacleFactory.createVisibleWall(worldBounds.x, WALL_LENGTH);
         spawnEntityAt(
-                leftWall,
+                waterAreaWall,
                 new GridPoint2(0, MAP_SIZE.y / 3),
                 false,
                 false);
-
-        spawnEntityAt(
-                rightWall,
-                new GridPoint2((int) (worldBounds.x / 2), MAP_SIZE.y / 3),
-                false,
-                false);
-        area1To2.add(leftWall);
-        area1To2.add(rightWall);
+        area1To2.add(waterAreaWall);
     }
 
     /**
@@ -228,17 +231,10 @@ public class ForestGameArea extends GameArea {
         GridPoint2 tileBounds = terrain.getMapBounds(0);
         Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-        Entity leftWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2 - 2, WALL_LENGTH);
-        Entity rightWall = ObstacleFactory.createVisibleWall(worldBounds.x / 2, WALL_LENGTH);
+        airAreaWall = ObstacleFactory.createVisibleWall(worldBounds.x, WALL_LENGTH);
         spawnEntityAt(
-                leftWall,
+                airAreaWall,
                 new GridPoint2(0, MAP_SIZE.y / 3 * 2),
-                false,
-                false);
-
-        spawnEntityAt(
-                rightWall,
-                new GridPoint2((int) (worldBounds.x / 2), MAP_SIZE.y / 3 * 2),
                 false,
                 false);
     }
@@ -250,6 +246,9 @@ public class ForestGameArea extends GameArea {
         }
     }
 
+    /**
+     * Handles the spawn of the three region items
+     */
     private void handleItems() {
 
         spawnForestItems();
@@ -315,9 +314,9 @@ public class ForestGameArea extends GameArea {
     }
 
     // Spawn Cloud Obstacles
-    private void spawnClouds() {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    private void spawnClouds(int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < ForestSpawnConfig.NUM_CLOUDS; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -327,9 +326,9 @@ public class ForestGameArea extends GameArea {
     }
 
     // Spawn Seaweed Obstacles
-    private void spawnSeaweed() {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    private void spawnSeaweed(int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < ForestSpawnConfig.NUM_SEAWEED; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -339,9 +338,9 @@ public class ForestGameArea extends GameArea {
     }
 
     //Spawn Starfish Obstacle
-    private void spawnStarfish() {
-        GridPoint2 minPos = new GridPoint2(PLAYER_SPAWN.x - 10, PLAYER_SPAWN.y - 10);
-        GridPoint2 maxPos = new GridPoint2(PLAYER_SPAWN.x + 10, PLAYER_SPAWN.y + 10);
+    private void spawnStarfish(int zone) {
+        GridPoint2 minPos = new GridPoint2(0, AREA_SIZE.y * 16 * (zone - 1));
+        GridPoint2 maxPos = new GridPoint2(AREA_SIZE.x * 16, AREA_SIZE.y * 16 * zone);
 
         for (int i = 0; i < ForestSpawnConfig.NUM_STARFISH; i++) {
             GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);

@@ -80,8 +80,7 @@ public class TerrainChunk {
     } else if (chunkPos.y < (ForestGameArea.MAP_SIZE.y / 16) / 3 * 2) {
         return MapType.WATER;
     } else {
-      // TODO: change to air 
-      return MapType.WATER;
+      return MapType.AIR;
     }
   }
 

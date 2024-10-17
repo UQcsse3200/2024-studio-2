@@ -5,17 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.components.settingsmenu.UserSettings;
-import com.csse3200.game.services.DialogueBoxService;
 import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.UIComponent;
 import com.csse3200.game.ui.dialoguebox.DialogueBox;
@@ -178,30 +171,6 @@ public class StoryDisplay extends UIComponent {
             // Small screen sizing
             table.setBounds(0,-350,200,1000);
         }
-    }
-
-    /**
-     * Adds an elevation effect to buttons when hovered.
-     */
-    private void addButtonElevationEffect(TextButton button) {
-        button.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, 5, 0.1f),
-                        Actions.scaleTo(1.05f, 1.05f, 0.1f)
-                ));
-                //logger.info("Hover feature activated"); uncomment this if you want to check hover feature
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                button.addAction(Actions.parallel(
-                        Actions.moveBy(0, -5, 0.1f),
-                        Actions.scaleTo(1f, 1f, 0.1f)
-                ));
-            }
-        });
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.csse3200.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -20,10 +21,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csse3200.game.components.login.LoginRegisterDisplay;
 import com.csse3200.game.components.settingsmenu.SettingsMenu;
+import com.csse3200.game.input.InputService;
 import com.csse3200.game.minigames.MinigameLeaderboard;
 import com.csse3200.game.services.NotifManager;
+import com.csse3200.game.services.ResourceService;
+import com.csse3200.game.services.ServiceLocator;
 import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.csse3200.game.components.settingsmenu.UserSettings;
@@ -37,6 +42,11 @@ public class MainMenuDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
+    private ImageButton toggleWindowBtn;
+    private Texture minimizeTexture;
+    private Texture maximizeTexture;
+    private Drawable minimizeDrawable;
+    private Drawable maximizeDrawable;
     private Table menuButtonTable;
     private Table loginRegisterTable;
     private Table leaderboardTable;
@@ -53,7 +63,6 @@ public class MainMenuDisplay extends UIComponent {
     private Texture crocTexture;
     private Texture cursorTexture;
     private ChatbotUI chatbotUI;
-    private Sound owlSound;
     private Label factLabel;
     private String[] owlFacts;
     private boolean isNightMode = false; // A flag to track whether night mode is enabled
@@ -67,6 +76,8 @@ public class MainMenuDisplay extends UIComponent {
     private CustomButton minigamesBtn;
     private CustomButton settingsBtn;
     private CustomButton achievementsBtn;
+    private CustomButton statsBtn;
+
     private CustomButton helpBtn;
     private CustomButton exitBtn;
     private Image birdAniImage;
@@ -95,6 +106,9 @@ public class MainMenuDisplay extends UIComponent {
     private Button profileBtn;
     private Button trophyBtn;
 
+    public static final String[] MUSIC = {
+            "sounds/mainmenu/mainmenusound.wav"
+    };
     /**
      * Called when the component is created. Initializes the main menu UI.
      */
@@ -104,6 +118,7 @@ public class MainMenuDisplay extends UIComponent {
         logger.info("Creating MainMenuDisplay");
         this.loadTextures();  // Load textures for the mute button
         logger.info("Background texture loaded");
+
         this.setupCustomCursor();
         this.addDog();
         this.addMonkey();
@@ -134,8 +149,19 @@ public class MainMenuDisplay extends UIComponent {
         nightBackgroundTexture = new Texture("images/SplashScreen/SplashEmptyNight.png"); // Night background
         dayBackgroundTexture = new Texture("images/SplashScreen/MainSplash.png"); // Day Background Texture
         clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.mp3")); // Click sound for buttons
-        owlSound = Gdx.audio.newSound(Gdx.files.internal("sounds/owlhoot1.mp3")); // Owl sound file
+        maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png"));
+        minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png"));
+        minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
+        maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
+
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadMusic(MUSIC);
+        resourceService.loadSounds(new String[]{"sounds/owlhoot1.mp3"});
+        ServiceLocator.getResourceService().loadAll();
+        AudioManager.playMusic("sounds/mainmenu/mainmenusound.wav", true);  // Play and loop the music
     }
+
+
 
 
     /**
@@ -194,6 +220,8 @@ public class MainMenuDisplay extends UIComponent {
         // Create all main menu buttons
         startBtn = createMenuButton("Start", () -> {
             logger.info("Start button clicked");
+            AudioManager.stopMusic();  // Stop the music
+
             entity.getEvents().trigger("start");
         });
 
@@ -204,6 +232,7 @@ public class MainMenuDisplay extends UIComponent {
 
         minigamesBtn = createMenuButton("Minigame", () -> {
             logger.info("Minigames button clicked");
+            AudioManager.stopMusic();  // Stop the music
             entity.getEvents().trigger("SnakeGame");
         });
         //minigamesBtn.setButtonStyle(CustomButton.Style.NORMAL, skin);
@@ -216,7 +245,14 @@ public class MainMenuDisplay extends UIComponent {
 
         achievementsBtn = createMenuButton("Achievements", () -> {
             logger.info("Achievements button clicked");
+            AudioManager.stopMusic();
             entity.getEvents().trigger("achievements");
+        });
+
+        statsBtn = createMenuButton("Stats", () -> {
+            logger.info("Achievements button clicked");
+            AudioManager.stopMusic();
+            entity.getEvents().trigger("stats");
         });
 
         entity.getEvents().addListener("help", this::showHelpWindow);
@@ -261,22 +297,23 @@ public class MainMenuDisplay extends UIComponent {
         monkeyAniImage.setSize(Gdx.graphics.getWidth() / 5f, Gdx.graphics.getHeight() / 4.8f);
         monkeyAniImage.setPosition(Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 6.8f);
 
-        // Add the click listener to open/close the chatbot
+        // Add the click listener to open/close the chatbot window
         monkeyAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Chatbot", "Monkey icon clicked!"); // Log to verify the click
                 clickSound.play(); // Play the click sound
-                if (chatbotUI.isChatbotDialogVisible()) {
-                    chatbotUI.closeChatbotDialog(); // Close the chatbot if it's visible
+                if (chatbotUI.ischatbotTableVisible()) {
+                    chatbotUI.closechatbotTable(); // Close the chatbot window if it's visible
                 } else {
-                    chatbotUI.openChatbotDialog(); // Open the chatbot if it's not visible
+                    chatbotUI.openchatbotTable(); // Open the chatbot window if it's not visible
                 }
             }
         });
 
         stage.addActor(monkeyAniImage);
     }
+
     private void addDog() {
         // Add dog animation -> before buttons so the buttons are over top
         dogAniImage = new Image();
@@ -357,20 +394,30 @@ public class MainMenuDisplay extends UIComponent {
         // Add owl
         this.addOwl();
 
+        Table factTable = new Table();
+        factTable.setBackground(new TextureRegionDrawable(
+                new TextureRegion(new Texture("images/mainmenu/ChatBox.png"))));
+        factTable.setVisible(false);
+        factTable.setSize(200, 200);
+        factTable.setPosition(owlAniImage.getX() * 0.9f, owlAniImage.getY() * 0.6f); // Position it near the owl
+
         // Create label for displaying facts
-        factLabel = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Set fact label style
-        factLabel.setPosition(owlAniImage.getX() * 0.8f, owlAniImage.getY()); // Position it near the owl
-        factLabel.setFontScale(1f);
-        stage.addActor(factLabel);
+        factLabel = new Label("", skin, "default"); // Set fact label style
+        factLabel.setWrap(true);
+
+        factTable.add(factLabel).size(180, 180).padLeft(20).padTop(10).center();
+        stage.addActor(factTable);
 
         // Add click listener for the owl
         owlAniImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                owlSound.play(); // Play owl sound
+                AudioManager.playSound("sounds/owlhoot1.mp3");
+                //owlSound.play(); // Play owl sound
                 String randomFact = owlFacts[MathUtils.random(0, owlFacts.length - 1)]; // Get random fact
+                factTable.setVisible(true);
                 factLabel.setText(randomFact); // Set fact text
-                factLabel.addAction(Actions.sequence(
+                factTable.addAction(Actions.sequence(
                         Actions.alpha(1), // Ensure it's visible
                         Actions.delay(3), // Keep it visible for 3 seconds
                         Actions.alpha(0, 1) // Fade out after
@@ -415,6 +462,7 @@ public class MainMenuDisplay extends UIComponent {
         loadBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         minigamesBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         achievementsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
+        statsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         settingsBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         helpBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
         exitBtn.resize(screenWidth, screenHeight, scaleFactorWidth);
@@ -430,6 +478,8 @@ public class MainMenuDisplay extends UIComponent {
         menuButtonTable.add(minigamesBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(achievementsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
+        menuButtonTable.row();
+        menuButtonTable.add(statsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
         menuButtonTable.row();
         menuButtonTable.add(settingsBtn).size(buttonWidth, buttonHeight).padBottom(buttonSpacing);
         menuButtonTable.row();
@@ -651,50 +701,50 @@ public class MainMenuDisplay extends UIComponent {
         helpWindow.show();
     }
 
+
     /**
      * Adds a minimize button and mute button to the top-right corner of the screen.
      */
     private void addTopRightButtons() {
-
-        Texture minimizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Minimise.png")); // Replace with your minimize icon
-        Texture maximizeTexture = new Texture(Gdx.files.internal("images/ButtonsMain/Maxamise.png")); // Replace with your maximize icon
-
-        Drawable minimizeDrawable = new TextureRegionDrawable(new TextureRegion(minimizeTexture));
-        Drawable maximizeDrawable = new TextureRegionDrawable(new TextureRegion(maximizeTexture));
-
         Table topRightTable = new Table();
         topRightTable.top().right();
         topRightTable.setFillParent(true);
 
         // Adding Icon for the minimax button
-        ImageButton toggleWindowBtn;
+
         if (Gdx.graphics.isFullscreen()) {
             toggleWindowBtn = new ImageButton(minimizeDrawable);
         } else {
             toggleWindowBtn = new ImageButton(maximizeDrawable);
         }
 
-        // Listener for minimizing/maximizing window
         toggleWindowBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 boolean isFullscreen = Gdx.graphics.isFullscreen();
+                UserSettings.Settings settings = UserSettings.get();
+
                 if (isFullscreen) {
-                    // Mini-screen mode
-                    UserSettings.Settings settings = UserSettings.get();
+                    // Switch to windowed mode
                     settings.fullscreen = false;
                     UserSettings.applyDisplayMode(settings);
-                    toggleWindowBtn.getStyle().imageUp = maximizeDrawable; // Set to maximize icon
                 } else {
-                    // Fullscreen mode
-                    UserSettings.Settings settings = UserSettings.get();
+                    // Switch to fullscreen mode
                     settings.fullscreen = true;
                     UserSettings.applyDisplayMode(settings);
-                    toggleWindowBtn.getStyle().imageUp = minimizeDrawable; // Set to minimize icon
                 }
+
+                // After toggling fullscreen, update the settings UI to reflect the change
+                if (settingsMenu != null) {
+                    settingsMenu.updateSettingsUI();
+                }
+
+                // Update the toggle button texture
+                updateToggleWindowButtonTexture();
                 logger.info("Fullscreen toggled: {}", !isFullscreen);
             }
         });
+
 
         Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
         buttonStyle.up = new TextureRegionDrawable(new TextureRegion(unmuteTexture));
@@ -721,6 +771,14 @@ public class MainMenuDisplay extends UIComponent {
         // Add the table to the stage
         stage.addActor(topRightTable);
     }
+    public void updateToggleWindowButtonTexture() {
+        if (Gdx.graphics.isFullscreen()) {
+            toggleWindowBtn.getStyle().imageUp = minimizeDrawable;  // Set to minimize icon in fullscreen mode
+        } else {
+            toggleWindowBtn.getStyle().imageUp = maximizeDrawable;  // Set to maximize icon in windowed mode
+        }
+    }
+
 
 
     /**

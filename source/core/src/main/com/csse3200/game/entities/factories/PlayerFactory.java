@@ -1,6 +1,7 @@
 package com.csse3200.game.entities.factories;
 
 import box2dLight.PositionalLight;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.CameraZoomComponent;
@@ -44,7 +45,6 @@ import java.util.List;
  */
 
 public class PlayerFactory {
-    private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
     public static Entity createPlayer(GdxGame game) {
         String imagePath = GameState.player.selectedAnimalPath;
@@ -66,18 +66,23 @@ public class PlayerFactory {
         player.addComponent(new CombatMoveComponent(moveSet));
         player.addComponent(new PlayerActions(game, player, imagePath));
 
-        // Set different stats for each animal type
-        switch (imagePath) {
-            case "images/dog.png" ->
-                    player.addComponent(new CombatStatsComponent(70, 100, 70, 50, 50, 0, true, false, 1));
-            case "images/croc.png" ->
-                    player.addComponent(new CombatStatsComponent(100, 100, 90, 70, 30, 0, true, false, 1));
-            case "images/bird.png" ->
-                    player.addComponent(new CombatStatsComponent(60, 100, 40, 60, 100, 0, true, false, 1));
-            default ->
-                    player.addComponent(new CombatStatsComponent(stats.getHealth(), stats.getHunger(), stats.getStrength(), stats.getDefense(), stats.getSpeed(), stats.getExperience(), stats.isPlayer(), stats.isBoss(), stats.getLevel()));
+        CombatStatsComponent combatComponent = new CombatStatsComponent(
+                GameState.player.health,
+                GameState.player.hunger,
+                GameState.player.strength,
+                GameState.player.defense,
+                GameState.player.speed,
+                GameState.player.exp,
+                true,
+                false,
+                GameState.player.level,
+                GameState.player.currentHealth,
+                GameState.player.currentHunger);
 
-        }
+        player.addComponent(combatComponent);
+
+
+
         InputComponent inputComponent =
                 ServiceLocator.getInputService().getInputFactory().createForPlayer();
         
@@ -85,7 +90,6 @@ public class PlayerFactory {
                 .addComponent(new PlayerStatsDisplay())
                 .addComponent(new QuestManager(player))
                 .addComponent(new QuestPopup())
-
                 .addComponent((new StatManager(player)));
 
         // Add inventory from player (in future this will provide shared interface for memory
@@ -122,9 +126,22 @@ public class PlayerFactory {
     public static Entity createCombatPlayer(String imagePath) {
         Entity combatPlayer = createCombatPlayerStatic();
 
+        CombatStatsComponent combatComponent = new CombatStatsComponent(
+                GameState.player.health,
+                GameState.player.hunger,
+                GameState.player.strength,
+                GameState.player.defense,
+                GameState.player.speed,
+                GameState.player.exp,
+                true,
+                false,
+                GameState.player.level,
+                GameState.player.currentHealth,
+                GameState.player.currentHunger);
+
         combatPlayer
                 .addComponent(new TextureRenderComponent(imagePath))
-                .addComponent(new CombatStatsComponent(100, 100, 100, 100, 100, 100, true, false, 1));
+                .addComponent(combatComponent);
 
         combatPlayer.scaleHeight(90.0f);
 

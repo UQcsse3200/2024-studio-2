@@ -1,69 +1,62 @@
 @startuml
 package com.csse3200.game.screens {
     class MainGameScreen {
-        - static Logger logger
-        - static String[] mainGameTextures
-        - static Vector2 CAMERA_POSITION
-        - boolean isPaused
-        - Renderer renderer
-        - PhysicsEngine physicsEngine
-        - LightingEngine lightingEngine
-        - DayNightCycle dayNightCycle
-        - GameArea gameArea
+        - gameArea: GameArea
+        - miniMapDisplay: MiniMapDisplay
 
-        + MainGameScreen(GdxGame game)
-        + void setMap(MapHandler.MapType mapType)
-        + void render(float delta)
-        + void resize(int width, int height)
-        + void pause()
-        + void resume()
-        + void dispose()
-        - void loadAssets()
-        - void unloadAssets()
-        - void createUI()
-        + void rest()
-        + void wake()
-        + GameArea getGameArea()
+        + MainGameScreen(game: GdxGame)
+        + pause()
+        + resume()
+        + getGameArea(): GameArea
     }
 
     class Renderer {
-        + void render()
-        + void resize(int width, int height)
-        + void dispose()
+        + render()
+        + resize(width: int, height: int)
+        + dispose()
     }
 
     class PhysicsEngine {
-        + void update()
+        + update()
     }
 
     class GameArea {
-        + void pauseMusic()
-        + void playMusic()
-        + Entity getPlayer()
-        + List<Entity> getEnemies()
+        + pauseMusic()
+        + playMusic()
+        + getPlayer(): Entity
+        + getEnemies(): List<Entity>
     }
 }
 
 package com.csse3200.game.areas {
     class MiniMapDisplay {
-        - Entity player
-        - List<Entity> enemies
-        - Texture miniMapBackground
-        - Image greenDotPointImage
-        - List<Image> redDotPointImages
-        - GameArea gameArea
-        - int scaleFactor
-        - float miniMapX
-        - float miniMapY
-        - int miniMapSize
+        - player: Entity
+        - enemies: List<Entity>
+        - miniMapBackground: Texture
+        - greenDotPointImage: Image
+        - redDotPointImages: List<Image>
+        - blueDotPointImages: List<Image>
+        - purplePointImages: List<Image>
+        - largeRedDotPointImages: List<Image>
+        - gameArea: GameArea
+        - scaleFactor: int
+        - miniMapX: float
+        - miniMapY: float
+        - miniMapSize: int
 
-        + MiniMapDisplay(GameArea gameArea)
-        + void create()
-        - void addActors()
-        - void initializeImages()
-        - Vector2 transferToMiniMapPos(Entity entity)
-        + void update()
-        + void draw(SpriteBatch batch)
+        + MiniMapDisplay(gameArea: GameArea)
+        + initializeAllImages()
+        + initializeGreenPointImages()
+        + initializeBluePointImages()
+        + initializePurplePointImages()
+        + initializeRedPointImages()
+        + initializeLargeRedPointImages()
+
+        + transferToMiniMapPos(entity: Entity): Vector2
+        - updatePoints(pointImages:List<Images>, entities:List<Entity>)
+        + updateAllPoints()
+        + update()
+        + draw(batch: SpriteBatch)
     }
 }
 

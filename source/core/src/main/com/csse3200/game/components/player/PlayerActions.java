@@ -30,13 +30,13 @@ public class PlayerActions extends Component {
 
   private PhysicsComponent physicsComponent;
   private CombatStatsComponent combatStatsComponent;
-  private Vector2 walkDirection = Vector2.Zero.cpy();
-  private boolean moving = false;
+  Vector2 walkDirection = Vector2.Zero.cpy();
+  boolean moving = false;
   private static final Logger logger = LoggerFactory.getLogger(PlayerActions.class);
   private final Entity player;
-  private DogSoundPlayer dogSoundPlayer;
-  private AirAnimalSoundPlayer airAnimalSoundPlayer;
-  private WaterAnimalSoundPlayer waterAnimalSoundPlayer;
+  DogSoundPlayer dogSoundPlayer;
+  AirAnimalSoundPlayer airAnimalSoundPlayer;
+  WaterAnimalSoundPlayer waterAnimalSoundPlayer;
   private final String selectedAnimal;
   private final GdxGame game;
 
@@ -44,6 +44,8 @@ public class PlayerActions extends Component {
   private long lastTimeSoundPlayed = 0;
 
   public PlayerActions(GdxGame game, Entity player, String selectedAnimal) {
+    assert player != null : "Player entity cannot be null";
+    assert game != null : "Game instance cannot be null";
     this.game = game;
     this.player = player;
     this.selectedAnimal = selectedAnimal;
@@ -64,19 +66,20 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("unlockNextArea", this::unlocknextarea);
     entity.getEvents().addListener("stoF", this::stof);
 
-    switch(selectedAnimal) {
+    switch (selectedAnimal) {
       case "images/dog.png":
-        Sound pantingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/panting.mp3", Sound.class);
-        Sound barkingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/bark.mp3", Sound.class);
-        dogSoundPlayer = new DogSoundPlayer(pantingSound, barkingSound);
+        // Updated to use sound paths
+        String pantingSoundPath = "sounds/animal/panting.mp3";
+        String barkingSoundPath = "sounds/animal/bark.mp3";
+        dogSoundPlayer = new DogSoundPlayer(pantingSoundPath, barkingSoundPath);
         break;
       case "images/bird.png":
-        Sound flappingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/flap.mp3", Sound.class);
-        Sound screechSound = ServiceLocator.getResourceService().getAsset("sounds/animal/birdscreech.mp3", Sound.class);
+        String flappingSound = "sounds/animal/flap.mp3";
+        String screechSound = "sounds/animal/birdscreech.mp3";
         airAnimalSoundPlayer = new AirAnimalSoundPlayer(flappingSound, screechSound);
         break;
       case "images/croc.png":
-        Sound swimmingSound = ServiceLocator.getResourceService().getAsset("sounds/animal/waterwhoosh.mp3", Sound.class);
+        String swimmingSound = "sounds/animal/waterwhoosh.mp3";
         waterAnimalSoundPlayer = new WaterAnimalSoundPlayer(swimmingSound);
         break;
       default:
@@ -95,7 +98,7 @@ public class PlayerActions extends Component {
   /**
    * Switches to the water map.
    */
-  private void switchMap() {
+  void switchMap() {
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     if (MapHandler.getUnlockStatus(MapType.WATER)) {
       mainGameScreen.setMap(MapHandler.MapType.WATER);
@@ -138,11 +141,11 @@ public class PlayerActions extends Component {
 
   private void playSound() {
     if (dogSoundPlayer != null) {
-      dogSoundPlayer.playPantingSound(0.5f);
+      dogSoundPlayer.playPantingSound();
     } else if (airAnimalSoundPlayer != null) {
-      airAnimalSoundPlayer.playFlappingSound(0.5f);
+      airAnimalSoundPlayer.playFlappingSound();
     } else {
-      waterAnimalSoundPlayer.playSwimmingSound(0.5f);
+      waterAnimalSoundPlayer.playSwimmingSound();
     }
   }
 
@@ -189,15 +192,15 @@ public class PlayerActions extends Component {
 
   void attack() {
     if (dogSoundPlayer != null) {
-      dogSoundPlayer.playBarkingSound(1.0f);
+      dogSoundPlayer.playBarkingSound();
     }
 
     if (airAnimalSoundPlayer != null) {
-      airAnimalSoundPlayer.playScreechSound(1.0f);
+      airAnimalSoundPlayer.playScreechSound();
     }
 
     if (waterAnimalSoundPlayer != null) {
-      waterAnimalSoundPlayer.playSwimmingSound(1.0f);
+      waterAnimalSoundPlayer.playSwimmingSound();
     }
 
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
@@ -205,13 +208,13 @@ public class PlayerActions extends Component {
     player.getEvents().trigger("attackTask");
   }
 
-  private void restMenu() {
+  void restMenu() {
     logger.info("Sending Pause");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.addOverlay(OverlayType.PAUSE_OVERLAY);
   }
 
-  private void quest() {
+  void quest() {
     logger.debug("Triggering addOverlay for QuestOverlay");
     MainGameScreen mainGameScreen = (MainGameScreen) game.getScreen();
     mainGameScreen.addOverlay(OverlayType.QUEST_OVERLAY);

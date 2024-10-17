@@ -97,7 +97,7 @@ public class CombatMoveComponent extends Component {
      * @param action the action that specifies which move to retrieve.
      * @return the combat move corresponding to the action, or null if none is found.
      */
-    private CombatMove getMoveAction(CombatManager.Action action) {
+    public CombatMove getMoveAction(CombatManager.Action action) {
         for (CombatMove move : moveSet) {
             switch (action) {
                 case ATTACK:

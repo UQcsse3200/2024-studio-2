@@ -3,42 +3,42 @@ size: 314, 123
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-float
+wait
   rotate: false
   xy: 0, 0
   size: 26,30
   orig: 26, 30
   offset: 0, 0
   index: 0
-float
+wait
   rotate: false
   xy: 25, 0
   size: 26, 30
   orig: 26, 30
   offset: 0, 0
   index: 1
-float
+wait
   rotate: false
   xy: 50, 0
   size: 26, 30
   orig: 26, 30
   offset: 0, 0
   index: 2
-float
+wait
   rotate: false
   xy: 75, 0
   size: 26, 30
   orig: 26, 30
   offset: 0, 0
   index: 3
-chase
+runLeft
   rotate: false
   xy: 82, 30
   size: 27, 30
   orig: 27, 30
   offset: 0, 0
   index: 0
-chase
+runLeft
   rotate: false
   xy: 111, 28
   size: 27, 30
@@ -59,20 +59,6 @@ default
   orig: 27, 30
   offset: 0, 0
   index: 0
-alert
-  rotate: false
-  xy: 208, 2
-  size: 27, 45
-  orig: 27, 45
-  offset: 0, 0
-  index: 0
-alert
-  rotate: false
-  xy: 233, 16
-  size: 27, 30
-  orig: 27, 30
-  offset: 0, 0
-  index: 1
 combat_idle
   rotate: false
   xy: 0, 0

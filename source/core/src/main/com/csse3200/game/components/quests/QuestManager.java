@@ -45,14 +45,6 @@ public class QuestManager extends Component {
         this.achievements =  achievementManager.getAchievements();
         setupAchievements();
         player.getEvents().addListener("defeatedEnemy",this::handleEnemyQuest);
-        player.getEvents().addListener("landBossDefeated",
-              () ->  player.getEvents().trigger("defeatLandBoss"));
-        player.getEvents().addListener("waterBossDefeated",
-                () ->  player.getEvents().trigger("defeatWaterBoss"));
-        player.getEvents().addListener("airBossDefeated",
-                () ->  player.getEvents().trigger("defeatAirBoss"));
-
-
     }
 
 
@@ -228,7 +220,7 @@ public class QuestManager extends Component {
      * @param quest The quest to be completed.
      */
     private void completeTask(Quest quest) {
-         //advance quest progression
+        //advance quest progression
         if (quest.progressQuest(player)) {
             handleQuestCompletion(quest);
         } else {
@@ -241,12 +233,10 @@ public class QuestManager extends Component {
      * @param quest The quest that has been completed.
      */
     private void handleQuestCompletion(Quest quest) {
-        if (!quest.isSecret()) {
-            questComplete.play();
-            player.getEvents().trigger("questCompleted");
-            player.getEvents().trigger(quest.getQuestName());
-            logger.info("{} completed!", quest.getQuestName());
-        }
+        questComplete.play();
+        player.getEvents().trigger("questCompleted");
+        player.getEvents().trigger(quest.getQuestName());
+        logger.info("{} completed!", quest.getQuestName());
 
         for(Quest questCheck : quests.values()) {
             boolean newActive = true;
@@ -271,15 +261,15 @@ public class QuestManager extends Component {
         if (achievement != null && !achievement.isCompleted()) {
             achievement.complete();
             achievementComplete.play();
-            player.getEvents().trigger("achievementCompleted");
-            SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+            player.getEvents().trigger("achievementCompleted", achievement);
+            SaveHandler.getInstance().save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
             logger.info("{} Completed!", achievement.getQuestName());
         }
     }
 
     @Override
     public void dispose() {
-        SaveHandler.save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
+        SaveHandler.getInstance().save(Achievements.class, "saves/achievement", FileLoader.Location.LOCAL);
         super.dispose();
     }
 

@@ -1,3 +1,14 @@
 {
-selectedAnimalPath: images/croc.png
+selectedAnimalPath: null,
+"health": 100,
+"currentHealth": 100,
+"hunger": 100,
+"currentHunger": 100,
+"strength": 10,
+"defense": 20,
+"speed": 10,
+"level": 1,
+"gold": 50,
+"favouriteColour": "peach",
+"exp": 0
 }

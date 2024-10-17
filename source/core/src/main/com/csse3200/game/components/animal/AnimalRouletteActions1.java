@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.csse3200.game.GdxGame;
+import com.csse3200.game.components.CombatStatsComponent;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.screens.StoryScreen;
 import com.csse3200.game.ui.pop_up_dialog_box.PopUpHelper;
@@ -96,6 +97,36 @@ public class AnimalRouletteActions1 {
         lastViewedAnimalIndex = currentAnimalIndex;
         selectedAnimalImagePath = animalImagePaths[currentAnimalIndex];
         GameState.player.selectedAnimalPath = selectedAnimalImagePath;
+
+        switch (selectedAnimalImagePath) {
+            case "images/dog.png":
+                GameState.player.health = 70;
+                GameState.player.hunger = 100;
+                GameState.player.strength = 70;
+                GameState.player.defense = 50;
+                GameState.player.speed = 50;
+                break;
+            case "images/croc.png":
+                GameState.player.health = 100;
+                GameState.player.hunger = 100;
+                GameState.player.strength = 90;
+                GameState.player.defense = 70;
+                GameState.player.speed = 30;
+                break;
+            case "images/bird.png":
+                GameState.player.health = 60;
+                GameState.player.hunger = 100;
+                GameState.player.strength = 40;
+                GameState.player.defense = 60;
+                GameState.player.speed = 100;
+                break;
+            default:
+                //Do nothing
+        }
+
+        GameState.player.level = 1;
+        GameState.player.exp = 0;
+
         logger.debug("Animal viewed: {}", selectedAnimalImagePath);
 
         // Highlight the viewed animal

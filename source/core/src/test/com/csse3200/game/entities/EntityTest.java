@@ -3,15 +3,14 @@ package com.csse3200.game.entities;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.badlogic.gdx.math.Vector2;
 import com.csse3200.game.components.Component;
 import com.csse3200.game.extensions.GameExtension;
+import com.csse3200.game.rendering.AnimationRenderComponent;
+import com.csse3200.game.rendering.RenderService;
+import com.csse3200.game.services.ResourceService;
 import com.csse3200.game.services.ServiceLocator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,10 +32,20 @@ class EntityTest {
   void shouldSetAndGetScale() {
     Entity entity = new Entity();
     Vector2 scale = new Vector2(2f, 3f);
+    
+    //scale that sets both x and y
     entity.setScale(scale);
     assertEquals(scale, entity.getScale());
 
     entity.setScale(0.1f, 0.2f);
+    assertEquals(new Vector2(0.1f, 0.2f), entity.getScale());
+    
+    //scale that sets x, y scales with
+    entity.scaleWidth(0.2f);
+    assertEquals(new Vector2(0.2f, 0.4f), entity.getScale());
+    
+    //scale that sets y, x scales with
+    entity.scaleHeight(0.2f);
     assertEquals(new Vector2(0.1f, 0.2f), entity.getScale());
   }
 
@@ -138,6 +147,36 @@ class EntityTest {
     verify(component).dispose();
     verify(entityService).unregister(entity);
   }
+  
+  @Test
+  void shouldNotDisposeAnimationComponent() {
+    RenderService render = new RenderService();
+    ServiceLocator.registerRenderService(render);
+    
+    ResourceService resourceService = new ResourceService();
+    ServiceLocator.registerResourceService(resourceService);
+    resourceService.loadTextureAtlases(new String[] {"images/banana.atlas"});
+    resourceService.loadAll();
+    
+    Entity entity = new Entity();
+    TestComponent1 component = spy(TestComponent1.class);
+    AnimationRenderComponent renderComponent = spy(AnimationRenderComponent.class);
+    
+    entity.addComponent(component);
+    entity.addComponent(renderComponent);
+    entity.create();
+    
+    EntityService entityService = mock(EntityService.class);
+    ServiceLocator.registerEntityService(entityService);
+    
+    clearInvocations(renderComponent);
+    
+    entity.specialDispose();
+    verify(component).dispose();
+    
+    verifyNoInteractions(renderComponent);
+    verify(entityService).unregister(entity);
+  }
 
   @Test
   void shouldHaveUniqueId() {
@@ -155,6 +194,15 @@ class EntityTest {
     when(entity2.getId()).thenReturn(id);
 
     assertEquals(entity1, entity2);
+  }
+  
+  @Test
+  void shouldNotEqualDifferentClass() {
+    //sorta redundant test, but might cover all branches of the equals method to make sonarcloud happy
+    Entity entity1 = new Entity();
+    Component component1 = new TestComponent1();
+    
+    assertNotEquals(entity1, component1);
   }
 
   @Test

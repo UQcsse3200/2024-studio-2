@@ -2,6 +2,7 @@ package com.csse3200.game.components.quests;
 
 import com.csse3200.game.entities.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** A basic Quest class that stores quest and subtask progression (# of
@@ -21,10 +22,6 @@ public class Quest {
      * and each entry consists of the task to be completed during this step.
      */
     private final List<Task> tasks;
-    /**
-     * True if the quest is hidden (possible xp and levels).
-     */
-    private final boolean isSecretQuest;
     /**
      * questDialogue is a dict that relates
      * DialogueKey(String npcName, Integer ProgressionLevel)
@@ -49,14 +46,13 @@ public class Quest {
     private String[] followQuests;
 
     /** Constructor design for implementing subclasses. */
-    public Quest(String questName, String questDescription, List<Task> tasks, boolean isSecretQuest,
+    private Quest(String questName, String questDescription, List<Task> tasks,
                  List<DialogueKey> dialogue, String[] taskCompletionTriggers, boolean active, boolean failed,
                  int currentTaskIndex, String[] followQuests)
     {
         this.questName = questName;
         this.questDescription = questDescription;
         this.tasks = tasks;
-        this.isSecretQuest = isSecretQuest;
         this.isActive = active;
         this.isFailed = failed;
         this.currentTaskIndex = currentTaskIndex;
@@ -111,11 +107,12 @@ public class Quest {
         }
         return tasks.get(currentTaskIndex).getHint();
     }
+
     /** Progress (increments) number of quest subtasks completed. */
     public boolean progressQuest(Entity player) {
         boolean questCompletionTrack = false;
         if (!isQuestCompleted() && !isFailed) {
-            if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
+            if(taskCompletionTriggers.length != 0){
                 player.getEvents().trigger(taskCompletionTriggers[currentTaskIndex]);
             }
             currentTaskIndex++;
@@ -125,7 +122,7 @@ public class Quest {
                 questCompletionTrack = true;
             }
             this.isActive = false;
-            if(taskCompletionTriggers!=null && taskCompletionTriggers.length != 0){
+            if(taskCompletionTriggers.length != 0){
                 player.getEvents().trigger(taskCompletionTriggers[taskCompletionTriggers.length - 1]);
             }
         }
@@ -164,11 +161,6 @@ public class Quest {
         return tasks.size();
     }
 
-    /** Returns true if the quest is secret (e.g. progression, XP, etc). */
-    public boolean isSecret() {
-        return isSecretQuest;
-    }
-
     /** Returns true if the quest is active */
     public boolean isActive() {
         return isActive;
@@ -181,12 +173,131 @@ public class Quest {
     public void setActive(boolean active) { this.isActive = active; }
 
     /**
-     * Retrieves the list of dialogue keys associated with the quest.
+     * Returns a list of DialogueKeys indicating the quest dialogue.
+     * @return the list of quest dialogue
      */
     public List<DialogueKey> getQuestDialogue() { return questDialogue; }
 
     /**
-     * Retrieves the follow-up quests related to this quest.
+     * Returns a list of strings indicating precursor quests.
+     * @return the list of quests that must be completed for this one to become active
      */
     public String[] getFollowQuests() { return followQuests; }
+
+    /**
+     * A builder class for the quest, wrapping the private constructor.
+     */
+    public static class QuestBuilder {
+        String name;
+        String description = "";
+        List<Task> tasks = new ArrayList<>();
+        List<DialogueKey> dialogueKeys = new ArrayList<>();
+        List<String> triggers = new ArrayList<>();
+        boolean active = false;
+        boolean failed = false;
+        int index = 0;
+        List<String> follow = new ArrayList<>();
+
+        public QuestBuilder(String name) {
+            this.name = name;
+        }
+
+        /**
+         * Constructs the final quest instance.
+         * @return the constructed quest instance
+         */
+        public Quest build() {
+            return new Quest(
+                    name,
+                    description,
+                    tasks,
+                    dialogueKeys,
+                    triggers.toArray(new String[]{}),
+                    active,
+                    failed,
+                    index,
+                    follow.toArray(new String[]{})
+            );
+        }
+
+        /**
+         * Sets the description of the quest
+         * @param description the description of the quest
+         * @return this QuestBuilder
+         */
+        public QuestBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * Adds a task to the quest
+         * @param task the task to be added
+         * @return this QuestBuilder
+         */
+        public QuestBuilder addTask(Task task) {
+            this.tasks.add(task);
+            return this;
+        }
+
+        /**
+         * Adds dialogue to the quest
+         * @param dialogueKey the dialogue to be added
+         * @return this QuestBuilder
+         */
+        public QuestBuilder addDialogueKey(DialogueKey dialogueKey) {
+            this.dialogueKeys.add(dialogueKey);
+            return this;
+        }
+
+        /**
+         * Adds a trigger to the quest
+         * @param trigger the trigger to be added
+         * @return this QuestBuilder
+         */
+        public QuestBuilder addTrigger(String trigger) {
+            this.triggers.add(trigger);
+            return this;
+        }
+
+        /**
+         * Sets the active state of the quest
+         * @param active the new active state
+         * @return this QuestBuilder
+         */
+        public QuestBuilder setActive(boolean active) {
+            this.active = active;
+            return this;
+        }
+
+        /**
+         * Sets the task index of the quest
+         * @param index the new task index
+         * @return this QuestBuilder
+         */
+        public QuestBuilder setIndex(int index) {
+            this.index = index;
+            return this;
+        }
+
+        /**
+         * Adds a prerequisite quest to the quest
+         * @param follow the prerequisite quest name to be added
+         * @return this QuestBuilder
+         */
+        public QuestBuilder addFollowQuest(String follow) {
+            this.follow.add(follow);
+            return this;
+        }
+
+        /**
+         * Sets the failed state of the quest
+         * @param failed the new failed state
+         * @return this QuestBuilder
+         */
+        public QuestBuilder setFailed(boolean failed) {
+            this.failed = failed;
+            return this;
+        }
+    }
 }
