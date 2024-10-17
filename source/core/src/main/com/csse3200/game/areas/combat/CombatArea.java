@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.csse3200.game.areas.GameArea;
+import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.services.AudioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,7 +119,7 @@ public class CombatArea extends GameArea {
          * The following entity is the real entity of the player to be used for combat,
          * with health, stats, etc.
          */
-        String imagePath = AnimalRouletteActions1.getSelectedAnimalImagePath();
+        String imagePath = GameState.player.selectedAnimalPath;
         Entity newPlayer = PlayerFactory.createCombatPlayer(imagePath);
         if (imagePath.equals("images/croc.png")){
             if (kingdomType == KINGDOM.WATER) {
@@ -165,7 +166,7 @@ public class CombatArea extends GameArea {
          * ensure the camera component stays stagnant in the centre of the combat background.
          * The entity serves no other purpose and is not visible
          */
-        String iP = AnimalRouletteActions1.getSelectedAnimalImagePath();
+        String iP = GameState.player.selectedAnimalPath;
         Entity nP = PlayerFactory.createCombatPlayer(iP);
         nP.addComponent(combatTerrainFactory.getCameraComponent());
         if (kingdomType == KINGDOM.WATER) {
