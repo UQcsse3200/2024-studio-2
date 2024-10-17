@@ -98,8 +98,9 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">HiveTask</span>
 <span class="extends-implements">extends <a href="../../ai/tasks/DefaultTask.html" title="class in com.csse3200.game.ai.tasks">DefaultTask</a>
 implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.csse3200.game.ai.tasks">PriorityTask</a></span></div>
-<div class="block">Task for a Hive entity to spawn bees and control their behavior.
- The Hive periodically spawns bees after a short waiting period.
+<div class="block">Task for a Hive entity to periodically spawn bees after a specified waiting period.
+ Bees are spawned at random positions near the hive, and the task also handles
+ the disposal of the bees and the hive entity when the player gets close enough.
  Requires an entity with a PhysicsMovementComponent.</div>
 </section>
 <section class="summary">
@@ -132,7 +133,8 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.csse3200.game.entities.Entity)" class="member-name-link">HiveTask</a><wbr>(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new HiveTask for the specified target entity.</div>
+<div class="block">Creates a new HiveTask for the specified target entity and initializes
+ the waiting time for spawning bees.</div>
 </div>
 </div>
 </section>
@@ -154,12 +156,12 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Checks if the entity has spawned yet, if not waits, else it wanders</div>
+<div class="block">Starts the task by triggering the floating animation and initializing the list of bees.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the task, checking if any bees need to be spawned.</div>
+<div class="block">Updates the task every frame.</div>
 </div>
 </div>
 </div>
@@ -188,8 +190,8 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <section class="detail" id="&lt;init&gt;(com.csse3200.game.entities.Entity)">
 <h3>HiveTask</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">HiveTask</span><wbr><span class="parameters">(<a href="../../entities/Entity.html" title="class in com.csse3200.game.entities">Entity</a>&nbsp;target)</span></div>
-<div class="block">Creates a new HiveTask for the specified target entity.
- Initializes the list of bees and the target.</div>
+<div class="block">Creates a new HiveTask for the specified target entity and initializes
+ the waiting time for spawning bees.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>target</code> - The entity that the bees will target.</dd>
@@ -218,7 +220,7 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <section class="detail" id="start()">
 <h3>start</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">start</span>()</div>
-<div class="block">Checks if the entity has spawned yet, if not waits, else it wanders</div>
+<div class="block">Starts the task by triggering the floating animation and initializing the list of bees.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#start()">start</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
@@ -231,9 +233,9 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.cs
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
-<div class="block">Updates the task, checking if any bees need to be spawned.
- If no bees exist and the waiting task is active, it stops the waiting task and spawns a bee.
- Otherwise, it starts a new waiting task.</div>
+<div class="block">Updates the task every frame. It increments elapsed time to track when
+ to spawn a new bee. It also checks if the player is within a certain distance
+ of the hive, and if so, it disposes of the hive and all spawned bees.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#update()">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.csse3200.game.ai.tasks">Task</a></code></dd>
