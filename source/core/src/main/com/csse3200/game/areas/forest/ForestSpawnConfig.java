@@ -24,14 +24,14 @@ public class ForestSpawnConfig {
     public static final int NUM_COTTON_CLOUD = 2;
 
     // Enemies
-    public static final int NUM_CHICKENS = 4;
-    public static final int NUM_FROGS = 3;
-    public static final int NUM_MONKEYS = 4;
+    public static final int NUM_CHICKENS = 10;
+    public static final int NUM_FROGS = 6;
+    public static final int NUM_MONKEYS = 7;
     public static final int NUM_BEARS = 3;
-    public static final int NUM_PIGEONS = 4;
-    public static final int NUM_BEES = 3;
+    public static final int NUM_PIGEONS = 5;
+    public static final int NUM_BEES = 10;
     public static final int NUM_EELS = 4;
-    public static final int NUM_OCTOPUS = 3;
+    public static final int NUM_OCTOPUS = 5;
     public static final int NUM_BIGSAWFISH = 5;
     public static final int NUM_MACAW = 5;
     public static final int NUM_HIVES = 3;
