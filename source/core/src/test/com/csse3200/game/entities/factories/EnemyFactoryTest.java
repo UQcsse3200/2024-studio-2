@@ -11,6 +11,7 @@ import com.csse3200.game.components.npc.EelAnimationController;
 import com.csse3200.game.components.npc.BeeAnimationController;
 import com.csse3200.game.components.npc.OctopusAnimationController;
 import com.csse3200.game.components.npc.BigsawfishAnimationController;
+import com.csse3200.game.components.npc.MacawAnimationController;
 import com.csse3200.game.entities.Entity;
 import com.csse3200.game.entities.configs.NPCConfigs;
 import com.csse3200.game.extensions.GameExtension;
@@ -49,6 +50,7 @@ class EnemyFactoryTest {
     private static Entity octopus;
     private static Entity bee;
     private static Entity bigsawfish;
+    private static Entity macaw;
     private static final NPCConfigs configs =
             FileLoader.readClass(NPCConfigs.class, "configs/NPCs.json");
 
@@ -63,7 +65,8 @@ class EnemyFactoryTest {
             "images/eel.png",
             "images/octopus.png",
             "images/bee.png",
-            "images/bigsawfish.png"
+            "images/bigsawfish.png",
+            "images/macaw.png"
     };
 
     private static String[] atlas = {
@@ -79,7 +82,8 @@ class EnemyFactoryTest {
             "images/eel.atlas",
             "images/octopus.atlas",
             "images/bee.atlas",
-            "images/bigsawfish.atlas"
+            "images/bigsawfish.atlas",
+            "images/macaw.atlas"
     };
 
 
@@ -114,6 +118,7 @@ class EnemyFactoryTest {
         octopus = EnemyFactory.createOctopus(player);
         bee = EnemyFactory.createBee(player);
         bigsawfish = EnemyFactory.createBigsawfish(player);
+        macaw = EnemyFactory.createMacaw(player);
     }
 
     /**
@@ -717,5 +722,78 @@ class EnemyFactoryTest {
     }
 
 
+    /**
+     * Tests Creation of a macaw.
+     */
+    @Test
+    void TestMacawCreation() {
+        assertNotNull(macaw, "macaw should not be null.");
+    }
+
+    /**
+     * Tests that the macaw is an Entity.
+     */
+    @Test
+    void TestMacawIsEntity() {
+        assertEquals(macaw.getClass(), Entity.class);
+    }
+
+    /**
+     * Tests that the macaw has the correct components.
+     */
+    @Test
+    void TestMacawHasComponents() {
+        assertNotNull(macaw.getComponent(PhysicsComponent.class));
+        assertNotNull(macaw.getComponent(PhysicsMovementComponent.class));
+        assertNotNull(macaw.getComponent(MacawAnimationController.class));
+        assertNotNull(macaw.getComponent(CombatStatsComponent.class));
+        assertNotNull(macaw.getComponent(HitboxComponent.class));
+        assertNotNull(macaw.getComponent(ColliderComponent.class));
+    }
+
+    /**
+     * Tests that the macaw has the correct stats.
+     */
+    @Test
+    void TestMacawfishStats() {
+        assertTrue((macaw.getComponent(CombatStatsComponent.class).getHealth() > 27)
+                        && (macaw.getComponent(CombatStatsComponent.class).getHealth() < 33),
+                "macaw should have between 28 and 32 HP.");
+        assertTrue((macaw.getComponent(CombatStatsComponent.class).getStrength() > 37)
+                        && (macaw.getComponent(CombatStatsComponent.class).getStrength() < 43),
+                "macaw should have between 38 and 42 Attack.");
+        assertTrue((macaw.getComponent(CombatStatsComponent.class).getDefense() > 26)
+                        && (macaw.getComponent(CombatStatsComponent.class).getDefense() < 32),
+                "macaw should have between 27 and 31 defense.");
+        assertEquals(50,
+                macaw.getComponent(CombatStatsComponent.class).getSpeed(),
+                "macaw should have 50 speed.");
+        assertEquals(160,
+                macaw.getComponent(CombatStatsComponent.class).getExperience(),
+                "macaw should have 160 experience.");
+    }
+
+    /**
+     * Tests that the macaw has correct animations.
+     */
+    @Test
+    void TestMacawAnimation() {
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("spawn") ,
+                "macaw should have spawn animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("chase") ,
+                "macaw should have chase animation.");
+        assertTrue(macaw.getComponent(AnimationRenderComponent.class).hasAnimation("walk") ,
+                "macaw should have walk animation.");
+    }
+
+    /**
+     * Tests that the macaw is in the correct spot when placed.
+     */
+    @Test
+    void TestMacawetPosition() {
+        Vector2 pos = new Vector2(0f, 0f);
+        macaw.setPosition(pos);
+        assertEquals(pos, macaw.getPosition());
+    }
 
 }
