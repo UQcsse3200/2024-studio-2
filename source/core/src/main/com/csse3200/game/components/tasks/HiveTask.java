@@ -35,7 +35,7 @@ public class HiveTask extends DefaultTask implements PriorityTask {
      */
     public HiveTask(Entity target) {
         this.target = target;
-        waitTime = 7f; // Time between spawning bees (7 seconds)
+        waitTime = 15f; // Time between spawning bees (7 seconds)
     }
 
     @Override
