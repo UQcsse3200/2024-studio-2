@@ -95,8 +95,8 @@ class BossFactoryTest {
      */
     @Test
     void TestKangaStats() {
-        assertEquals(150, kanga.getComponent(CombatStatsComponent.class).getHealth(),
-                "Kanga should have 150 HP.");
+        assertEquals(50, kanga.getComponent(CombatStatsComponent.class).getHealth(),
+                "Kanga should have 50 HP.");
     }
 
     /**
@@ -230,8 +230,8 @@ class BossFactoryTest {
      */
     @Test
     void TestKangaCombatBossStats() {
-        assertEquals(150, kanga.getComponent(CombatStatsComponent.class).getHealth(),
-                "Kanga combat boss should have 150 HP.");
+        assertEquals(50, kanga.getComponent(CombatStatsComponent.class).getHealth(),
+                "Kanga combat boss should have 50 HP.");
     }
 
     /**
