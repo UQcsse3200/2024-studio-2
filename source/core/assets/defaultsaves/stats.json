@@ -201,7 +201,7 @@
       "type": "PLAYER_MINIGAME"
     },
     {
-      "statName": "BIRD Medals",
+      "statName": "BIRD Medal",
       "statDescription": "Bird Game Medal/s",
       "statCurrent": 0,
       "statHasMax": false,
@@ -209,7 +209,7 @@
       "type": "PLAYER_MINIGAME"
     },
     {
-      "statName": "MAZE Medals",
+      "statName": "MAZE Medal",
       "statDescription": "Maze Game Medal/s",
       "statCurrent": 0,
       "statHasMax": false,
