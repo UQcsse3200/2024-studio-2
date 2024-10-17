@@ -1,6 +1,5 @@
 package com.csse3200.game.components.stats;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,11 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.LayoutAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.csse3200.game.GdxGame;
 import com.csse3200.game.components.quests.TabButton;
@@ -22,7 +19,6 @@ import com.csse3200.game.files.FileLoader;
 import com.csse3200.game.gamestate.GameState;
 import com.csse3200.game.gamestate.SaveHandler;
 import com.csse3200.game.services.ServiceLocator;
-import com.csse3200.game.ui.CustomButton;
 import com.csse3200.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +27,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-
 /**
  * Display detailed stats after defeating the final boss of the game.
  */
@@ -39,9 +34,6 @@ public class StatDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(StatDisplay.class);
     private final GdxGame game;
     private Table rootTable;
-    /**
-     * Array to store stats.
-     */
     private final Array<Stat> stats;
     final Actor[] lastPressedButton = {null};
     private Float originalY;
@@ -206,24 +198,13 @@ public StatDisplay(GdxGame game) {
         table.add(stack).colspan(4).fillX();
     }
 
-    void updateHoverEffect(Actor newButton) {
-        // Hover effect actions
-        Action hoverIn = Actions.moveBy(0, 5, 0.3f);  // Move up
-        Action hoverOut = Actions.moveBy(0, -5, 0.3f); // Move down
-
-        // Create a repeating action sequence
-        Action repeatHover = Actions.forever(Actions.sequence(hoverIn, hoverOut));
-
-        if (lastPressedButton[0] != null) {
-            lastPressedButton[0].clearActions();
-            lastPressedButton[0].setPosition(lastPressedButton[0].getX(), lastPressedButton[0].getY() - 5); // Reset Y position
-            lastPressedButton[0].setScale(1f);  // Reset scale if applicable
-        }
-
-        newButton.addAction(repeatHover);  // Apply repeating hover effect to the new "button"
-        lastPressedButton[0] = newButton;  // Update the last pressed "button"
-    }
-
+    /**
+     * Create tabs for the main logbook for Items, Enemy, and Player.
+     * @param itemsTable The content for items tab
+     * @param enemiesTable The content for enemies tab
+     * @param playersTable The content for player tab
+     * @return
+     */
     Table makeTabs(Table itemsTable, Table enemiesTable, Table playersTable) {
         Table tabButtonTable = new Table().padLeft(50);
 

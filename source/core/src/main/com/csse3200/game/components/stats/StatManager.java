@@ -25,7 +25,6 @@ public class StatManager extends Component {
 
     public StatManager(Entity player) {
         this.player = player;
-//        StatSaveManager statSaveManager = new StatSaveManager();
         this.stats = GameState.stats.stats;
         setupStats();
     }
@@ -73,14 +72,6 @@ public class StatManager extends Component {
      */
     private void subscribeToStatEvents(Stat stat) {
         player.getEvents().addListener(stat.getStatName(), () -> this.incrementStat(stat.getStatName(), "add", 1));
-    }
-
-    /**
-     * Get all the stats within the game.
-     * @return stats The array of stats
-     */
-    public Array<Stat> getAllStats() {
-        return stats;
     }
 
     /** Handler for event triggering an update of the a stat
