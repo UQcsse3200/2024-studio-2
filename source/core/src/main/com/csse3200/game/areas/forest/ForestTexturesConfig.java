@@ -5,7 +5,6 @@ package com.csse3200.game.areas.forest;
  */
 public class ForestTexturesConfig {
     public static final String[] FOREST_TEXTURES = {
-            "images/box_boy_leaf.png",
             "images/tree.png",
             "images/cloud.png",
             "images/seaweed.png",

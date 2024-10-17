@@ -114,7 +114,7 @@ public class CombatStatsComponent extends Component {
       this.health = 0;
       if (isPlayer) {
         int playerLevel = getLevel();
-        int lvlDiff = 1 + (playerLevel / 2) ;
+        int lvlDiff = (playerLevel / 2) ;
         addStrength(-lvlDiff);
         addDefense(-lvlDiff);
         addSpeed(-lvlDiff);

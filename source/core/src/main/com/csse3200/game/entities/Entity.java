@@ -38,6 +38,7 @@ public class Entity {
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
   private boolean isPlayer = false;
+  private boolean isNormalEnemy = false;
   private EnemyType enemyType;
   public enum EnemyType {
     KANGAROO,
@@ -245,34 +246,6 @@ public class Entity {
     return this;
   }
   
-  /**
-   * Remove a component from the entity.
-   *
-   * @param type The component class to be removed, e.g., RenderComponent.class
-   */
-  public boolean removeComponent(Class<? extends Component> type) {
-    ComponentType componentType = ComponentType.getFrom(type);
-    Component component = components.remove(componentType.getId());
-    
-    if (component != null) {
-      logger.info("Removing {} from entity {}", component, this);
-      
-      // Dispose the component to clean up resources
-      component.dispose();
-      component.setEntity(null); // Clear the reference to the entity
-      
-      // Remove the component from createdComponents if the entity was already created
-      if (created) {
-        createdComponents.removeValue(component, true);
-      }
-      
-      return true;
-    }
-    
-    logger.warn("Attempted to remove non-existent component {} from entity {}", type, this);
-    return false;
-  }
-  
   /** Dispose of the entity. This will dispose of all components on this entity. */
   public void dispose() {
     for (Component component : createdComponents) {
@@ -377,4 +350,11 @@ public class Entity {
   public Boolean isEnabled(){
     return this.enabled;
   }
+  
+  /**
+   * @return if this entity is a normal entity
+   */
+  public boolean isNormalEnemy() {return isNormalEnemy;}
+  
+  public void setIsNormalEnemy(boolean isNormalEnemy) {this.isNormalEnemy = isNormalEnemy;}
 }

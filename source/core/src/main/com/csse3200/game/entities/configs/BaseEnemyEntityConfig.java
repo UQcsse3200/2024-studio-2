@@ -61,25 +61,7 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
     public void setBaseAttack(int baseAttack) {
         this.baseAttack = baseAttack;
     }
-
-    /**
-     * Returns the strength value of this entity.
-     *
-     * @return the strength value as an int.
-     */
-    public int getStrength() {
-        return this.strength;
-    }
-
-    /**
-     * Sets the strength value for this entity.
-     *
-     * @param strength the new strength value.
-     */
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
+    
     /**
      * Returns the defense value of this entity.
      *
@@ -133,7 +115,7 @@ public class BaseEnemyEntityConfig extends BaseEntityConfig {
     public void setExperience(int experience) {
         this.experience = experience;
     }
-
+    
     /**
      * Returns the level value for this entity.
      *
