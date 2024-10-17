@@ -290,6 +290,7 @@ public class CombatStatsComponent extends Component {
       addDefense(3);
       addSpeed(3);
       addLevel(1);
+      setHunger(100);
       this.maxExperience = (int) Math.ceil(71.7125 * Math.pow(Math.E, 0.191529 * this.level) + 13.1489);
     }
 
