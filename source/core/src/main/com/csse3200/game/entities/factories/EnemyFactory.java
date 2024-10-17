@@ -468,7 +468,7 @@ public class EnemyFactory {
                                 config.getHunger(), Math.max(0,
                                 config.getBaseAttack() + (int)(MathUtils.random() * 5) - 2),
                                 config.getDefense() + (int)(MathUtils.random() * 2), config.getSpeed(),
-                                config.getExperience(), 100, false, false, 1))
+                                config.getExperience(), false, false, 1))
                         .addComponent(new CombatMoveComponent(moveSet))
                         .addComponent(new LightingComponent().attach(LightingComponent.createPointLight(2f, Color.SCARLET)))
                         .addComponent(new FadeLightsDayTimeComponent());

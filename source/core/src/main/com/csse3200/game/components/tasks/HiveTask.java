@@ -60,7 +60,6 @@ public class HiveTask extends DefaultTask implements PriorityTask {
      */
     @Override
     public void update() {
-        System.out.println(elapsedTime);
         elapsedTime += Gdx.graphics.getDeltaTime(); // Increment elapsed time by the frame delta time
 
         float ownerX = owner.getEntity().getPosition().x;
@@ -68,9 +67,7 @@ public class HiveTask extends DefaultTask implements PriorityTask {
 
         float playerX = target.getPosition().x;
         float playerY = target.getPosition().y;
-
-        System.out.println(Vector2.dst2(ownerX, ownerY, playerX, playerY));
-
+        
         // If the player is close enough to the hive, dispose of the hive and all bees
         if (Vector2.dst2(ownerX, ownerY, playerX, playerY) < 10f) {
             for (Entity e : entities) {
