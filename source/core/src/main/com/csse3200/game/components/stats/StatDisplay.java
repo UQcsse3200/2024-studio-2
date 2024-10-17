@@ -64,9 +64,14 @@ public class StatDisplay extends UIComponent {
             "images/logbook/lb-yellow-btn-pressed.png",
             "images/logbook/stats/lb-stats-land-tab.png",
             "images/logbook/stats/lb-stats-water-tab.png",
-            "images/logbook/stats/lb-stats-air-tab.png"};
+            "images/logbook/stats/lb-stats-air-tab.png",
+            "images/logbook/stats/lb-stats-food-tab.png",
+            "images/logbook/stats/lb-stats-potion-tab.png",
+            "images/logbook/stats/lb-stats-minigame-tab.png",
+            "images/logbook/stats/lb-stats-combat-tab.png"};
 
-    private static final String[] logbookSounds = {LOGBOOKSOUND,
+
+private static final String[] logbookSounds = {LOGBOOKSOUND,
             "sounds/logbook/select_004.ogg"};
 
 public StatDisplay(GdxGame game) {
@@ -292,10 +297,10 @@ public StatDisplay(GdxGame game) {
         // Background images for the tabs
         Texture foodBG =
                 ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/stats/lb-stats-land-tab.png", Texture.class);
+                        .getAsset("images/logbook/stats/lb-stats-food-tab.png", Texture.class);
         Texture potionBG =
                 ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/stats/lb-stats-water-tab.png", Texture.class);
+                        .getAsset("images/logbook/stats/lb-stats-potion-tab.png", Texture.class);
 
         // Labels for the tab titles
         TabButton foodTypeButton = new TabButton("Food", skin, foodBG);
@@ -341,20 +346,20 @@ public StatDisplay(GdxGame game) {
         Table tabButtonTable = new Table().padLeft(15);
 
         // Background images for the tabs
-        Texture itemBG =
+        Texture landBG =
                 ServiceLocator.getResourceService()
                         .getAsset("images/logbook/stats/lb-stats-land-tab.png", Texture.class);
-        Texture enemyBG =
+        Texture waterBG =
                 ServiceLocator.getResourceService()
                         .getAsset("images/logbook/stats/lb-stats-water-tab.png", Texture.class);
-        Texture playerBG =
+        Texture airBG =
                 ServiceLocator.getResourceService()
                         .getAsset("images/logbook/stats/lb-stats-air-tab.png", Texture.class);
 
         // Labels for the tab titles
-        TabButton landTypeButton = new TabButton("Land", skin, itemBG);
-        TabButton waterTypeButton = new TabButton("Water", skin, enemyBG);
-        TabButton airTypeButton = new TabButton("Air", skin, playerBG);
+        TabButton landTypeButton = new TabButton("Land", skin, landBG);
+        TabButton waterTypeButton = new TabButton("Water", skin, waterBG);
+        TabButton airTypeButton = new TabButton("Air", skin, airBG);
 
         // Add the button tables to the main table
         addButtonElevationEffect(landTypeButton);
@@ -410,10 +415,10 @@ public StatDisplay(GdxGame game) {
         // Background images for the tabs
         Texture minigameBG =
                 ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/stats/lb-stats-land-tab.png", Texture.class);
+                        .getAsset("images/logbook/stats/lb-stats-minigame-tab.png", Texture.class);
         Texture combatBG =
                 ServiceLocator.getResourceService()
-                        .getAsset("images/logbook/stats/lb-stats-water-tab.png", Texture.class);
+                        .getAsset("images/logbook/stats/lb-stats-combat-tab.png", Texture.class);
 
         // Labels for the tab titles
         TabButton minigameTypeButton = new TabButton("Minigame", skin, minigameBG);
