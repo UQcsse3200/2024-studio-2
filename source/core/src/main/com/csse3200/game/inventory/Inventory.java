@@ -13,8 +13,7 @@ import static java.util.Arrays.fill;
  * The Inventory class manages a collection of items, allowing for storage, retrieval, and
  * manipulation. This class supports adding and removing items, checking inventory status, and
  * using items within the inventory. It is intended as a player inventory - to store items
- * players retrieve from the game.
- */
+
 public class Inventory implements InventoryInterface {
     private int capacity; // The maximum number of items the inventory can hold.
     private int freeSlots; // The current number of available slots in the inventory.
